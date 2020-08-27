@@ -31,7 +31,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -58,12 +57,12 @@ import org.oss.pdfreporter.crosstabs.fill.JRFillCrosstabObjectFactory;
 import org.oss.pdfreporter.crosstabs.fill.JRFillCrosstabParameter;
 import org.oss.pdfreporter.crosstabs.fill.JRFillCrosstabRowGroup;
 import org.oss.pdfreporter.crosstabs.fill.calculation.BucketDefinition;
+import org.oss.pdfreporter.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import org.oss.pdfreporter.crosstabs.fill.calculation.BucketingServiceContext;
 import org.oss.pdfreporter.crosstabs.fill.calculation.CrosstabBucketingService;
 import org.oss.pdfreporter.crosstabs.fill.calculation.CrosstabCell;
 import org.oss.pdfreporter.crosstabs.fill.calculation.HeaderCell;
 import org.oss.pdfreporter.crosstabs.fill.calculation.MeasureDefinition;
-import org.oss.pdfreporter.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import org.oss.pdfreporter.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import org.oss.pdfreporter.crosstabs.type.CrosstabColumnPositionEnum;
 import org.oss.pdfreporter.crosstabs.type.CrosstabPercentageEnum;
@@ -90,6 +89,7 @@ import org.oss.pdfreporter.engine.type.RunDirectionEnum;
 import org.oss.pdfreporter.engine.util.JRStyleResolver;
 import org.oss.pdfreporter.geometry.IColor;
 import org.oss.pdfreporter.jfree.Dataset;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
 
 
 /**
@@ -520,8 +520,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				false//hasFormatFactory
 				);
 
-		// TODO (29.04.2013, Donat, Open Software Solutions): Revisit ResourceBundle, extract platform independent concept for translatable Strings
-		ResourceBundle resBdl = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		ITextBundle resBdl = (ITextBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
 		if (resBdl == null)
 		{
 			IJRFillParameter resourceBundleParam = filler.getParametersMap().get(JRParameter.REPORT_RESOURCE_BUNDLE);

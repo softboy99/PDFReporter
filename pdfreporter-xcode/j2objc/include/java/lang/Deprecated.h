@@ -3,12 +3,36 @@
 //  source: android/libcore/luni/src/main/java/java/lang/Deprecated.java
 //
 
-#ifndef _JavaLangDeprecated_H_
-#define _JavaLangDeprecated_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangDeprecated")
+#ifdef RESTRICT_JavaLangDeprecated
+#define INCLUDE_ALL_JavaLangDeprecated 0
+#else
+#define INCLUDE_ALL_JavaLangDeprecated 1
+#endif
+#undef RESTRICT_JavaLangDeprecated
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangDeprecated_) && (INCLUDE_ALL_JavaLangDeprecated || defined(INCLUDE_JavaLangDeprecated))
+#define JavaLangDeprecated_
+
+#define RESTRICT_JavaLangAnnotationAnnotation 1
+#define INCLUDE_JavaLangAnnotationAnnotation 1
 #include "java/lang/annotation/Annotation.h"
 
+@class IOSClass;
+@class IOSObjectArray;
+
+/*!
+ @brief Annotation type used to mark program elements that should no longer be used
+ by programmers.
+ Compilers produce a warning if a deprecated program element
+ is used.
+ @since 1.5
+ */
 @protocol JavaLangDeprecated < JavaLangAnnotationAnnotation >
 
 @end
@@ -19,6 +43,12 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangDeprecated)
 
+FOUNDATION_EXPORT id<JavaLangDeprecated> create_JavaLangDeprecated();
+
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangDeprecated)
 
-#endif // _JavaLangDeprecated_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangDeprecated")

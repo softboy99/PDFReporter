@@ -3,55 +3,183 @@
 //  source: android/libcore/luni/src/main/java/java/security/KeyPairGenerator.java
 //
 
-#ifndef _JavaSecurityKeyPairGenerator_H_
-#define _JavaSecurityKeyPairGenerator_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityKeyPairGenerator")
+#ifdef RESTRICT_JavaSecurityKeyPairGenerator
+#define INCLUDE_ALL_JavaSecurityKeyPairGenerator 0
+#else
+#define INCLUDE_ALL_JavaSecurityKeyPairGenerator 1
+#endif
+#undef RESTRICT_JavaSecurityKeyPairGenerator
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityKeyPairGenerator_) && (INCLUDE_ALL_JavaSecurityKeyPairGenerator || defined(INCLUDE_JavaSecurityKeyPairGenerator))
+#define JavaSecurityKeyPairGenerator_
+
+#define RESTRICT_JavaSecurityKeyPairGeneratorSpi 1
+#define INCLUDE_JavaSecurityKeyPairGeneratorSpi 1
+#include "java/security/KeyPairGeneratorSpi.h"
 
 @class JavaSecurityKeyPair;
 @class JavaSecurityProvider;
 @class JavaSecuritySecureRandom;
-@class OrgApacheHarmonySecurityFortressEngine;
 @protocol JavaSecuritySpecAlgorithmParameterSpec;
 
-#include "J2ObjC_header.h"
-#include "java/security/KeyPairGeneratorSpi.h"
+/*!
+ @brief <code>KeyPairGenerator</code> is an engine class which is capable of generating a
+ private key and its related public key utilizing the algorithm it was
+ initialized with.
+ - seealso: KeyPairGeneratorSpi
+ */
+@interface JavaSecurityKeyPairGenerator : JavaSecurityKeyPairGeneratorSpi
 
-@interface JavaSecurityKeyPairGenerator : JavaSecurityKeyPairGeneratorSpi {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)algorithm;
+/*!
+ @brief Computes and returns a new unique <code>KeyPair</code> each time this method
+ is called.
+ <p>
+ This does exactly the same as <code>genKeyPair()</code>.
+ @return a new unique <code>KeyPair</code> each time this method is called
+ */
+- (JavaSecurityKeyPair *)generateKeyPair;
 
+/*!
+ @brief Computes and returns a new unique <code>KeyPair</code> each time this method
+ is called.
+ <p>
+ This does exactly the same as <code>generateKeyPair()</code>.
+ @return a new unique <code>KeyPair</code> each time this method is called
+ */
+- (JavaSecurityKeyPair *)genKeyPair;
+
+/*!
+ @brief Returns the name of the algorithm of this <code>KeyPairGenerator</code>.
+ @return the name of the algorithm of this <code>KeyPairGenerator</code>
+ */
 - (NSString *)getAlgorithm;
 
+/*!
+ @brief Returns a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm.
+ @param algorithm
+ the name of the algorithm to use
+ @return a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm
+ @throws NoSuchAlgorithmException if the specified algorithm is not available
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>
+ */
 + (JavaSecurityKeyPairGenerator *)getInstanceWithNSString:(NSString *)algorithm;
 
-+ (JavaSecurityKeyPairGenerator *)getInstanceWithNSString:(NSString *)algorithm
-                                             withNSString:(NSString *)provider;
-
+/*!
+ @brief Returns a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm from the specified provider.
+ The <code>provider</code>
+ supplied does not have to be registered.
+ @param algorithm
+ the name of the algorithm to use
+ @param provider
+ the provider
+ @return a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm from the specified provider
+ @throws NoSuchAlgorithmException if the specified algorithm is not available
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>
+ @throws IllegalArgumentException if <code>provider == null</code>
+ */
 + (JavaSecurityKeyPairGenerator *)getInstanceWithNSString:(NSString *)algorithm
                                  withJavaSecurityProvider:(JavaSecurityProvider *)provider;
 
+/*!
+ @brief Returns a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm from the specified provider.
+ @param algorithm
+ the name of the algorithm to use
+ @param provider
+ the name of the provider
+ @return a new instance of <code>KeyPairGenerator</code> that utilizes the
+ specified algorithm from the specified provider
+ @throws NoSuchAlgorithmException if the specified algorithm is not available
+ @throws NoSuchProviderException if the specified provider is not available
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>
+ @throws IllegalArgumentException if <code>provider == null || provider.isEmpty()</code>
+ */
++ (JavaSecurityKeyPairGenerator *)getInstanceWithNSString:(NSString *)algorithm
+                                             withNSString:(NSString *)provider;
+
+/*!
+ @brief Returns the provider associated with this <code>KeyPairGenerator</code>.
+ @return the provider associated with this <code>KeyPairGenerator</code>
+ */
 - (JavaSecurityProvider *)getProvider;
 
-- (void)initialize__WithInt:(jint)keysize OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Initializes this <code>KeyPairGenerator</code> with the given <code>AlgorithmParameterSpec</code>
+ .
+ A default <code>SecureRandom</code> instance will be
+ used.
+ @param param
+ the parameters to use
+ @throws InvalidAlgorithmParameterException
+ if the specified parameters are not supported
+ */
 - (void)initialize__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)param OBJC_METHOD_FAMILY_NONE;
 
-- (JavaSecurityKeyPair *)genKeyPair;
-
-- (JavaSecurityKeyPair *)generateKeyPair;
-
-- (void)initialize__WithInt:(jint)keysize
-withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Initializes this <code>KeyPairGenerator</code> with the given <code>AlgorithmParameterSpec</code>
+  and the given <code>SecureRandom</code>.
+ @param param
+ the parameters to use
+ @param random
+ the source of randomness
+ @throws InvalidAlgorithmParameterException
+ if the specified parameters are not supported
+ */
 - (void)initialize__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)param
                                   withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Initializes this <code>KeyPairGenerator</code> with the given key size.
+ The
+ default parameter set and a default <code>SecureRandom</code> instance will be
+ used.
+ @param keysize
+ the size of the key (number of bits)
+ */
+- (void)initialize__WithInt:(jint)keysize OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Initializes this <code>KeyPairGenerator</code> with the given key size and the
+ given <code>SecureRandom</code>.
+ The default parameter set will be used.
+ @param keysize
+ the key size
+ @param random
+ the source of randomness
+ */
+- (void)initialize__WithInt:(jint)keysize
+withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new instance of <code>KeyPairGenerator</code> with the name of
+ the algorithm to use.
+ @param algorithm
+ the name of algorithm to use
+ */
+- (instancetype)initWithNSString:(NSString *)algorithm;
+
 @end
 
-FOUNDATION_EXPORT BOOL JavaSecurityKeyPairGenerator_initialized;
 J2OBJC_STATIC_INIT(JavaSecurityKeyPairGenerator)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityKeyPairGenerator_initWithNSString_(JavaSecurityKeyPairGenerator *self, NSString *algorithm);
 
 FOUNDATION_EXPORT JavaSecurityKeyPairGenerator *JavaSecurityKeyPairGenerator_getInstanceWithNSString_(NSString *algorithm);
 
@@ -59,36 +187,10 @@ FOUNDATION_EXPORT JavaSecurityKeyPairGenerator *JavaSecurityKeyPairGenerator_get
 
 FOUNDATION_EXPORT JavaSecurityKeyPairGenerator *JavaSecurityKeyPairGenerator_getInstanceWithNSString_withJavaSecurityProvider_(NSString *algorithm, JavaSecurityProvider *provider);
 
-FOUNDATION_EXPORT NSString *JavaSecurityKeyPairGenerator_SERVICE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKeyPairGenerator, SERVICE_, NSString *)
-
-FOUNDATION_EXPORT OrgApacheHarmonySecurityFortressEngine *JavaSecurityKeyPairGenerator_ENGINE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKeyPairGenerator, ENGINE_, OrgApacheHarmonySecurityFortressEngine *)
-
-FOUNDATION_EXPORT JavaSecuritySecureRandom *JavaSecurityKeyPairGenerator_RANDOM_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKeyPairGenerator, RANDOM_, JavaSecuritySecureRandom *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKeyPairGenerator)
 
-@interface JavaSecurityKeyPairGenerator_KeyPairGeneratorImpl : JavaSecurityKeyPairGenerator {
-}
+#endif
 
-- (void)initialize__WithInt:(jint)keysize
-withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
 
-- (JavaSecurityKeyPair *)generateKeyPair;
-
-- (void)initialize__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)param
-                                  withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaSecurityKeyPairGenerator_KeyPairGeneratorImpl)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKeyPairGenerator_KeyPairGeneratorImpl)
-
-#endif // _JavaSecurityKeyPairGenerator_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityKeyPairGenerator")

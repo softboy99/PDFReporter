@@ -101,6 +101,8 @@ public class ResultMetaData implements IResultMetaData {
 			return SqlType.TINYINT;
 		case Types.VARCHAR:
 			return SqlType.VARCHAR;
+		case Types.BLOB:
+			return SqlType.BLOB;
 		default:
 			throw new SQLException("Type: " + type + " cannot be set to null");
 		}

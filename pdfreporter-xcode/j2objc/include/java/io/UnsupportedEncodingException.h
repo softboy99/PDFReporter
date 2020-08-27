@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/io/UnsupportedEncodingException.java
 //
 
-#ifndef _JavaIoUnsupportedEncodingException_H_
-#define _JavaIoUnsupportedEncodingException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoUnsupportedEncodingException")
+#ifdef RESTRICT_JavaIoUnsupportedEncodingException
+#define INCLUDE_ALL_JavaIoUnsupportedEncodingException 0
+#else
+#define INCLUDE_ALL_JavaIoUnsupportedEncodingException 1
+#endif
+#undef RESTRICT_JavaIoUnsupportedEncodingException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoUnsupportedEncodingException_) && (INCLUDE_ALL_JavaIoUnsupportedEncodingException || defined(INCLUDE_JavaIoUnsupportedEncodingException))
+#define JavaIoUnsupportedEncodingException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaIoUnsupportedEncodingException_serialVersionUID -4274276298326136670LL
+/*!
+ @brief Thrown when a program asks for a particular character converter that is
+ unavailable.
+ */
+@interface JavaIoUnsupportedEncodingException : JavaIoIOException
 
-@interface JavaIoUnsupportedEncodingException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UnsupportedEncodingException</code> with its stack
+ trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>UnsupportedEncodingException</code> with its stack
+ trace and detail message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoUnsupportedEncodingException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoUnsupportedEncodingException_init(JavaIoUnsupportedEncodingException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoUnsupportedEncodingException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoUnsupportedEncodingException *new_JavaIoUnsupportedEncodingException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoUnsupportedEncodingException *create_JavaIoUnsupportedEncodingException_init();
+
+FOUNDATION_EXPORT void JavaIoUnsupportedEncodingException_initWithNSString_(JavaIoUnsupportedEncodingException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoUnsupportedEncodingException *new_JavaIoUnsupportedEncodingException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoUnsupportedEncodingException *create_JavaIoUnsupportedEncodingException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoUnsupportedEncodingException)
 
-#endif // _JavaIoUnsupportedEncodingException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoUnsupportedEncodingException")

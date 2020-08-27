@@ -10,12 +10,47 @@
 
 @interface ReportExporter : NSObject
 
-+(void)exportReportToPdf:(NSString*)reportPath withJrxml:(NSString*)jrxmlPath withResourceFolders:(NSArray*)resourceFolders withParameters:(NSDictionary *)parameters withSubreports:(NSDictionary *)subreports;
-+(void)exportReportToPdf:(NSString*)pdfPath withJrxml:(NSString*)jrxmlPath withResourceFolders:(NSArray*)resourceFolders withXml:(NSString*)xmlFile andXPath:(NSString*)xPath withParameters:(NSDictionary *)parameters withSubreports:(NSDictionary *)subreports;
-+(void)exportReportToPdf:(NSString*)pdfPath withJrxml:(NSString*)jrxmlPath withResourceFolders:(NSArray*)resourceFolders andSqlite3:(NSString*)sqlite3 withParameters:(NSDictionary *)parameters withSubreports:(NSDictionary *)subreports;
++(void)exportReportToPdf:(NSString *)reportPath
+               withJrxml:(NSString *)jrxmlPath
+     withResourceFolders:(NSArray *)resourceFolders
+          withParameters:(NSDictionary *)parameters
+          withSubreports:(NSDictionary *)subreports
+                language:(NSString *)language;
 
-+(void)phaseLoadReportWithJrxml:(NSString*)jrxmlPath withResourceFolders:(NSArray*)resourceFolders;
-+(void)phaseExportReportToPdf:(NSString*)pdfPath;
-+(void)phaseExportReportToPdf:(NSString*)pdfPath withXml:(NSString*)xmlFile andXPath:(NSString*)xPath;
-+(void)phaseExportReportToPdf:(NSString*)pdfPath andSqlite3:(NSString*)sqlite3;
++(void)exportReportToPdf:(NSString *)pdfPath
+               withJrxml:(NSString *)jrxmlPath
+     withResourceFolders:(NSArray *)resourceFolders
+                 withXml:(NSString *)xmlFile
+                andXPath:(NSString *)xPath
+          withParameters:(NSDictionary *)parameters
+          withSubreports:(NSDictionary *)subreports
+                language:(NSString *)language;
+
+
++(void)exportReportToPdf:(NSString *)pdfPath
+               withJrxml:(NSString *)jrxmlPath
+     withResourceFolders:(NSArray *)resourceFolders
+              andSqlite3:(NSString *)sqlite3
+          withParameters:(NSDictionary *)parameters
+          withSubreports:(NSDictionary *)subreports
+                language:(NSString *)language;
+
++(void)phaseLoadReportWithJrxml:(NSString *)jrxmlPath
+            withResourceFolders:(NSArray *)resourceFolders;
+
++(void)phaseExportReportToPdf:(NSString *)pdfPath
+                     language:(NSString *)language;
+
++(void)phaseExportReportToPdf:(NSString *)pdfPath
+           fillWithParameters:(NSDictionary *)parameters
+                     language:(NSString *)language;
+
++(void)phaseExportReportToPdf:(NSString *)pdfPath
+                      withXml:(NSString *)xmlFile
+                     andXPath:(NSString *)xPath
+                     language:(NSString *)language;
+
++(void)phaseExportReportToPdf:(NSString *)pdfPath
+                   andSqlite3:(NSString *)sqlite3
+                     language:(NSString *)language;
 @end

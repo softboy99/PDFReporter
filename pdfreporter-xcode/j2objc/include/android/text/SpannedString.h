@@ -3,21 +3,51 @@
 //  source: android/frameworks/base/core/java/android/text/SpannedString.java
 //
 
-#ifndef _AndroidTextSpannedString_H_
-#define _AndroidTextSpannedString_H_
-
 #include "J2ObjC_header.h"
-#include "android/text/GetChars.h"
+
+#pragma push_macro("INCLUDE_ALL_AndroidTextSpannedString")
+#ifdef RESTRICT_AndroidTextSpannedString
+#define INCLUDE_ALL_AndroidTextSpannedString 0
+#else
+#define INCLUDE_ALL_AndroidTextSpannedString 1
+#endif
+#undef RESTRICT_AndroidTextSpannedString
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (AndroidTextSpannedString_) && (INCLUDE_ALL_AndroidTextSpannedString || defined(INCLUDE_AndroidTextSpannedString))
+#define AndroidTextSpannedString_
+
+#define RESTRICT_AndroidTextSpannableStringInternal 1
+#define INCLUDE_AndroidTextSpannableStringInternal 1
 #include "android/text/SpannableStringInternal.h"
-#include "android/text/Spanned.h"
+
+#define RESTRICT_JavaLangCharSequence 1
+#define INCLUDE_JavaLangCharSequence 1
 #include "java/lang/CharSequence.h"
 
-@interface AndroidTextSpannedString : AndroidTextSpannableStringInternal < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpanned > {
-}
+#define RESTRICT_AndroidTextGetChars 1
+#define INCLUDE_AndroidTextGetChars 1
+#include "android/text/GetChars.h"
+
+#define RESTRICT_AndroidTextSpanned 1
+#define INCLUDE_AndroidTextSpanned 1
+#include "android/text/Spanned.h"
+
+/*!
+ @brief This is the class for text whose content and markup are immutable.
+ For mutable markup, see <code>SpannableString</code>; for mutable text,
+ see <code>SpannableStringBuilder</code>.
+ */
+@interface AndroidTextSpannedString : AndroidTextSpannableStringInternal < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpanned >
+
+#pragma mark Public
 
 - (instancetype)initWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
 
-- (id<JavaLangCharSequence>)subSequenceFrom:(int)start to:(int)end;
+- (id<JavaLangCharSequence>)subSequenceFrom:(jint)start
+                                         to:(jint)end;
 
 + (AndroidTextSpannedString *)valueOfWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
 
@@ -25,11 +55,18 @@
 
 J2OBJC_EMPTY_STATIC_INIT(AndroidTextSpannedString)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void AndroidTextSpannedString_initWithJavaLangCharSequence_(AndroidTextSpannedString *self, id<JavaLangCharSequence> source);
+
+FOUNDATION_EXPORT AndroidTextSpannedString *new_AndroidTextSpannedString_initWithJavaLangCharSequence_(id<JavaLangCharSequence> source) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidTextSpannedString *create_AndroidTextSpannedString_initWithJavaLangCharSequence_(id<JavaLangCharSequence> source);
 
 FOUNDATION_EXPORT AndroidTextSpannedString *AndroidTextSpannedString_valueOfWithJavaLangCharSequence_(id<JavaLangCharSequence> source);
-CF_EXTERN_C_END
 
 J2OBJC_TYPE_LITERAL_HEADER(AndroidTextSpannedString)
 
-#endif // _AndroidTextSpannedString_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_AndroidTextSpannedString")

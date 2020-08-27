@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/OverlappingFileLockException.java
 //
 
-#ifndef _JavaNioChannelsOverlappingFileLockException_H_
-#define _JavaNioChannelsOverlappingFileLockException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsOverlappingFileLockException")
+#ifdef RESTRICT_JavaNioChannelsOverlappingFileLockException
+#define INCLUDE_ALL_JavaNioChannelsOverlappingFileLockException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsOverlappingFileLockException 1
+#endif
+#undef RESTRICT_JavaNioChannelsOverlappingFileLockException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsOverlappingFileLockException_) && (INCLUDE_ALL_JavaNioChannelsOverlappingFileLockException || defined(INCLUDE_JavaNioChannelsOverlappingFileLockException))
+#define JavaNioChannelsOverlappingFileLockException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsOverlappingFileLockException_serialVersionUID 2047812138163068433LL
+/*!
+ @brief An <code>OverlappingFileLockException</code> is thrown when attempting to acquire
+ a lock that overlaps an existing or pending lock held by this process.
+ */
+@interface JavaNioChannelsOverlappingFileLockException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsOverlappingFileLockException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>OverlappingFileLockException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsOverlappingFileLockException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsOverlappingFileLockException_init(JavaNioChannelsOverlappingFileLockException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsOverlappingFileLockException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsOverlappingFileLockException *new_JavaNioChannelsOverlappingFileLockException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsOverlappingFileLockException *create_JavaNioChannelsOverlappingFileLockException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsOverlappingFileLockException)
 
-#endif // _JavaNioChannelsOverlappingFileLockException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsOverlappingFileLockException")

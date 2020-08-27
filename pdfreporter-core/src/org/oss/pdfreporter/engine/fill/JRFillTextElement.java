@@ -88,7 +88,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String textTruncateSuffix;
 	private String rawText;
 	private JRStyledText styledText;
-	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
+	private final Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
@@ -100,9 +100,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	protected JRFillTextElement(
-		JRBaseFiller filler,
-		JRTextElement textElement, 
-		JRFillObjectFactory factory
+		final JRBaseFiller filler,
+		final JRTextElement textElement, 
+		final JRFillObjectFactory factory
 		)
 	{
 		super(filler, textElement, factory);
@@ -116,7 +116,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 	
 
-	protected JRFillTextElement(JRFillTextElement textElement, JRFillCloneFactory factory)
+	protected JRFillTextElement(final JRFillTextElement textElement, final JRFillCloneFactory factory)
 	{
 		super(textElement, factory);
 		
@@ -143,8 +143,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	protected void evaluateStyle(
-		byte evaluation
+		final byte evaluation
 		) throws JRException
 	{
 		super.evaluateStyle(evaluation);
@@ -165,6 +166,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public ModeEnum getModeValue()
 	{
 		return JRStyleResolver.getMode(this, ModeEnum.TRANSPARENT);
@@ -173,11 +175,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return JRStyleResolver.getHorizontalAlignmentValue(this);
 	}
 		
+	@Override
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return providerStyle == null || providerStyle.getOwnHorizontalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnHorizontalAlignmentValue() : providerStyle.getOwnHorizontalAlignmentValue();
@@ -186,7 +190,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
+	@Override
+	public void setHorizontalAlignment(final HorizontalAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -194,11 +199,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public VerticalAlignEnum getVerticalAlignmentValue()
 	{
 		return JRStyleResolver.getVerticalAlignmentValue(this);
 	}
 		
+	@Override
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return providerStyle == null || providerStyle.getOwnVerticalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnVerticalAlignmentValue() : providerStyle.getOwnVerticalAlignmentValue();
@@ -207,7 +214,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
+	@Override
+	public void setVerticalAlignment(final VerticalAlignEnum verticalAlignment)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -215,11 +223,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public RotationEnum getRotationValue()
 	{
 		return JRStyleResolver.getRotationValue(this);
 	}
 		
+	@Override
 	public RotationEnum getOwnRotationValue()
 	{
 		return providerStyle == null || providerStyle.getOwnRotationValue() == null ? ((JRTextElement)this.parent).getOwnRotationValue() : providerStyle.getOwnRotationValue();
@@ -228,7 +238,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setRotation(RotationEnum rotation)
+	@Override
+	public void setRotation(final RotationEnum rotation)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -236,6 +247,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
+	@Deprecated
+	@Override
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -244,6 +257,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
+	@Deprecated
+	@Override
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
@@ -252,7 +267,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
-	public void setLineSpacing(LineSpacingEnum lineSpacing)
+	@Deprecated
+	@Override
+	public void setLineSpacing(final LineSpacingEnum lineSpacing)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -260,6 +277,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getMarkup()
 	{
 		return JRStyleResolver.getMarkup(this);
@@ -268,6 +286,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getOwnMarkup()
 	{
 		return providerStyle == null || providerStyle.getOwnMarkup() == null ? ((JRTextElement)parent).getOwnMarkup() : providerStyle.getOwnMarkup();
@@ -276,7 +295,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setMarkup(String markup)
+	@Override
+	public void setMarkup(final String markup)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -284,6 +304,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public JRLineBox getLineBox()
 	{
 		return lineBox == null ? initLineBox : lineBox;
@@ -292,6 +313,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public JRParagraph getParagraph()
 	{
 		return paragraph == null ? initParagraph : paragraph;
@@ -300,6 +322,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public JRFont getFont()
 	{
 		return this;
@@ -311,7 +334,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	protected Map<Attribute,Object> getStyledTextAttributes()
 	{
-		JRStyle style = getStyle();
+		final JRStyle style = getStyle();
 		Map<Attribute,Object> styledTextAttributes = styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
@@ -340,7 +363,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setLineSpacingFactor(float lineSpacingFactor)
+	protected void setLineSpacingFactor(final float lineSpacingFactor)
 	{
 		this.lineSpacingFactor = lineSpacingFactor;
 	}
@@ -356,7 +379,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setLeadingOffset(float leadingOffset)
+	protected void setLeadingOffset(final float leadingOffset)
 	{
 		this.leadingOffset = leadingOffset;
 	}
@@ -380,7 +403,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setTextHeight(float textHeight)
+	protected void setTextHeight(final float textHeight)
 	{
 		this.textHeight = textHeight;
 	}
@@ -396,7 +419,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setTextStart(int textStart)
+	protected void setTextStart(final int textStart)
 	{
 		this.textStart = textStart;
 	}
@@ -412,7 +435,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setTextEnd(int textEnd)
+	protected void setTextEnd(final int textEnd)
 	{
 		this.textEnd = textEnd;
 	}
@@ -422,7 +445,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return lineBreakOffsets;
 	}
 
-	protected void setLineBreakOffsets(short[] lineBreakOffsets)
+	protected void setLineBreakOffsets(final short[] lineBreakOffsets)
 	{
 		this.lineBreakOffsets = lineBreakOffsets;
 	}
@@ -447,7 +470,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected void setRawText(String rawText)
+	protected void setRawText(final String rawText)
 	{
 		this.rawText = rawText;
 		styledText = null;
@@ -457,6 +480,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	protected void reset()
 	{
 		super.reset();
@@ -472,6 +496,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	protected void rewind()
 	{
 		resetTextChunk();
@@ -485,7 +510,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		if (styledText == null)
 		{
-			String text = getRawText();
+			final String text = getRawText();
 			if (text != null)
 			{
 				styledText = 
@@ -506,7 +531,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getText()
 	{
-		JRStyledText tmpStyledText = getStyledText();
+		final JRStyledText tmpStyledText = getStyledText();
 
 		if (tmpStyledText == null)
 		{
@@ -521,12 +546,12 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	protected void chopTextElement(
-		int availableStretchHeight
+		final int availableStretchHeight
 		)
 	{
 		ensureTextMeasurer();
 		
-		JRStyledText tmpStyledText = getStyledText();
+		final JRStyledText tmpStyledText = getStyledText();
 
 		if (tmpStyledText == null)
 		{
@@ -538,8 +563,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		boolean canOverflow = canOverflow();
-		JRMeasuredText measuredText = textMeasurer.measure(
+		final boolean canOverflow = canOverflow();
+		final JRMeasuredText measuredText = textMeasurer.measure(
 			tmpStyledText,
 			getTextEnd(),
 			availableStretchHeight,
@@ -554,8 +579,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		{
 			//FIXME truncating to int here seems wrong as the text measurer compares 
 			// the exact text height against the available height
-			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
-			boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
+			final int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
+			final boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
 			if (textEnded || !canOverflow || !consumeSpaceOnOverflow)
 			{
 				setStretchHeight(elementTextHeight);
@@ -564,13 +589,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				// occupy all remaining space so that no other element renders there
 				// but do not change the print element height
-				int stretchHeight = getHeight() + availableStretchHeight;
+				final int stretchHeight = getHeight() + availableStretchHeight;
 				setStretchHeight(stretchHeight);
 				
 				// store the difference between the consumed stretch height and the text stretch height.
 				// this will be used in fill() to set the print element height, 
 				// which doesn't take into account the consumed empty space
-				int textStretchHeight = elementTextHeight > getHeight() ? elementTextHeight : getHeight();
+				final int textStretchHeight = elementTextHeight > getHeight() ? elementTextHeight : getHeight();
 				elementStretchHeightDelta = getStretchHeight() - textStretchHeight;
 			}
 		}
@@ -598,6 +623,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getFontName()
 	{
 		return JRStyleResolver.getFontName(this);
@@ -606,6 +632,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getOwnFontName()
 	{
 		return providerStyle == null || providerStyle.getOwnFontName() == null ? ((JRFont)parent).getOwnFontName() : providerStyle.getOwnFontName();
@@ -614,7 +641,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setFontName(String fontName)
+	@Override
+	public void setFontName(final String fontName)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -623,6 +651,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public boolean isBold()
 	{
 		return JRStyleResolver.isBold(this);
@@ -631,6 +660,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnBold()
 	{
 		return providerStyle == null || providerStyle.isOwnBold() == null ? ((JRFont)parent).isOwnBold() : providerStyle.isOwnBold();
@@ -639,7 +669,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setBold(boolean isBold)
+	@Override
+	public void setBold(final boolean isBold)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -648,7 +679,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setBold method which allows also to reset
 	 * the "own" isBold property.
 	 */
-	public void setBold(Boolean isBold)
+	@Override
+	public void setBold(final Boolean isBold)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -657,6 +689,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public boolean isItalic()
 	{
 		return JRStyleResolver.isItalic(this);
@@ -665,6 +698,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnItalic()
 	{
 		return providerStyle == null || providerStyle.isOwnItalic() == null ? ((JRFont)parent).isOwnItalic() : providerStyle.isOwnItalic();
@@ -673,7 +707,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setItalic(boolean isItalic)
+	@Override
+	public void setItalic(final boolean isItalic)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -682,7 +717,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setItalic method which allows also to reset
 	 * the "own" isItalic property.
 	 */
-	public void setItalic(Boolean isItalic)
+	@Override
+	public void setItalic(final Boolean isItalic)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -690,6 +726,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public boolean isUnderline()
 	{
 		return JRStyleResolver.isUnderline(this);
@@ -698,6 +735,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnUnderline()
 	{
 		return providerStyle == null || providerStyle.isOwnUnderline() == null ? ((JRFont)parent).isOwnUnderline() : providerStyle.isOwnUnderline();
@@ -706,7 +744,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setUnderline(boolean isUnderline)
+	@Override
+	public void setUnderline(final boolean isUnderline)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -715,7 +754,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setUnderline method which allows also to reset
 	 * the "own" isUnderline property.
 	 */
-	public void setUnderline(Boolean isUnderline)
+	@Override
+	public void setUnderline(final Boolean isUnderline)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -723,6 +763,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public boolean isStrikeThrough()
 	{
 		return JRStyleResolver.isStrikeThrough(this);
@@ -731,6 +772,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnStrikeThrough()
 	{
 		return providerStyle == null || providerStyle.isOwnStrikeThrough() == null ? ((JRFont)parent).isOwnStrikeThrough() : providerStyle.isOwnStrikeThrough();
@@ -739,7 +781,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setStrikeThrough(boolean isStrikeThrough)
+	@Override
+	public void setStrikeThrough(final boolean isStrikeThrough)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -748,7 +791,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setStrikeThrough method which allows also to reset
 	 * the "own" isStrikeThrough property.
 	 */
-	public void setStrikeThrough(Boolean isStrikeThrough)
+	@Override
+	public void setStrikeThrough(final Boolean isStrikeThrough)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -756,6 +800,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public int getFontSize()
 	{
 		return JRStyleResolver.getFontSize(this);
@@ -764,6 +809,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Integer getOwnFontSize()
 	{
 		return providerStyle == null || providerStyle.getOwnFontSize() == null ? ((JRFont)parent).getOwnFontSize() : providerStyle.getOwnFontSize();
@@ -772,7 +818,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setFontSize(int size)
+	@Override
+	public void setFontSize(final int size)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -781,7 +828,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setSize method which allows also to reset
 	 * the "own" size property.
 	 */
-	public void setFontSize(Integer size)
+	@Override
+	public void setFontSize(final Integer size)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -789,6 +837,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getPdfFontName()
 	{
 		return JRStyleResolver.getPdfFontName(this);
@@ -797,6 +846,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getOwnPdfFontName()
 	{
 		return providerStyle == null || providerStyle.getOwnPdfFontName() == null ? ((JRFont)parent).getOwnPdfFontName() : providerStyle.getOwnPdfFontName();
@@ -805,7 +855,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setPdfFontName(String pdfFontName)
+	@Override
+	public void setPdfFontName(final String pdfFontName)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -814,6 +865,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getPdfEncoding()
 	{
 		return JRStyleResolver.getPdfEncoding(this);
@@ -822,6 +874,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public String getOwnPdfEncoding()
 	{
 		return providerStyle == null || providerStyle.getOwnPdfEncoding() == null ? ((JRFont)parent).getOwnPdfEncoding() : providerStyle.getOwnPdfEncoding();
@@ -830,7 +883,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setPdfEncoding(String pdfEncoding)
+	@Override
+	public void setPdfEncoding(final String pdfEncoding)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -839,6 +893,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public boolean isPdfEmbedded()
 	{
 		return JRStyleResolver.isPdfEmbedded(this);
@@ -847,6 +902,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnPdfEmbedded()
 	{
 		return providerStyle == null || providerStyle.isOwnPdfEmbedded() == null ? ((JRFont)parent).isOwnPdfEmbedded() : providerStyle.isOwnPdfEmbedded();
@@ -855,7 +911,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setPdfEmbedded(boolean isPdfEmbedded)
+	@Override
+	public void setPdfEmbedded(final boolean isPdfEmbedded)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -864,7 +921,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 * Alternative setPdfEmbedded method which allows also to reset
 	 * the "own" isPdfEmbedded property.
 	 */
-	public void setPdfEmbedded(Boolean isPdfEmbedded)
+	@Override
+	public void setPdfEmbedded(final Boolean isPdfEmbedded)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -873,6 +931,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 * 
 	 */
+	@Override
 	public IColor getDefaultLineColor() 
 	{
 		return getForecolor();
@@ -882,7 +941,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	public void setHeight(int height)
+	@Override
+	public void setHeight(final int height)
 	{
 		super.setHeight(height);
 		
@@ -890,7 +950,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 
-	public void setWidth(int width)
+	@Override
+	public void setWidth(final int width)
 	{
 		super.setWidth(width);
 		
@@ -903,7 +964,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		if (text != null)
 		{
-			String markup = getMarkup();
+			final String markup = getMarkup();
 			if (
 				!JRCommonText.MARKUP_NONE.equals(markup)
 				&& !JRCommonText.MARKUP_STYLED_TEXT.equals(markup)
@@ -916,13 +977,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return text;
 	}
 
-	protected MarkupProcessor getMarkupProcessor(String markup)
+	protected MarkupProcessor getMarkupProcessor(final String markup)
 	{
 		MarkupProcessor markupProcessor = markupProcessors.get(markup);
 		
 		if (markupProcessor == null)
 		{
-			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
+			final String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
 			if (factoryClass == null)
 			{
 				throw new JRRuntimeException("No markup processor factory specifyed for '" + markup + "' markup.");
@@ -933,7 +994,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			{
 				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
 			}
-			catch (JRException e)
+			catch (final JRException e)
 			{
 				throw new JRRuntimeException(e);
 			}
@@ -945,14 +1006,16 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return markupProcessor;
 	}
 
-	protected void setPrintText(JRPrintText printText)
+	protected void setPrintText(final JRPrintText printText)
 	{
-		int startIndex = getTextStart();
-		int endIndex = getTextEnd();
-		JRStyledText fullStyledText = getStyledText();
-		String fullText = fullStyledText.getText();
+		final int startIndex = getTextStart();
+		//final int endIndex = getTextEnd();
+		final JRStyledText fullStyledText = getStyledText();
+		final String fullText = fullStyledText.getText();
+		// HACK (#84 quick fix attempt)				
+		final int endIndex = getTextEnd()==0 && fullText.isEmpty() ? 0 : fullText.length();
 		
-		boolean keepAllText = !canOverflow() 
+		final boolean keepAllText = !canOverflow() 
 				&& filler.getPropertiesUtil().getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
 		if (keepAllText)
 		{
@@ -965,7 +1028,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
 			{
 				//rewrite as styled text
-				String styledText = filler.getStyledTextParser().write(
+				final String styledText = filler.getStyledTextParser().write(
 						fullStyledText);
 				printText.setText(styledText);
 			}
@@ -1004,7 +1067,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return textTruncateSuffix;
 	}
 
-	protected void setTextTruncateSuffix(String textTruncateSuffix)
+	protected void setTextTruncateSuffix(final String textTruncateSuffix)
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
 	}

@@ -9,6 +9,7 @@
 #import "PDFReporter.h"
 #import "ReportExporter.h"
 
+
 @implementation PDFReporter
 {
     ReporterConfiguration *_reporterConfiguration;
@@ -28,13 +29,34 @@
     NSAssert(_reporterConfiguration, @"_reporterConfiguration must be set!");
     
     if (_reporterConfiguration.dataSourceType == DATASOURCE_TYPE_XML) {
-        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath withJrxml:_reporterConfiguration.jrxmlFileName withResourceFolders:_reporterConfiguration.resourceFolders withXml:_reporterConfiguration.dataSourceFileName andXPath:_reporterConfiguration.selectExpression withParameters:_reporterConfiguration.exportParameters withSubreports:_reporterConfiguration.subreportsDefinition];
+        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath
+                                withJrxml:_reporterConfiguration.jrxmlFileName
+                      withResourceFolders:_reporterConfiguration.resourceFolders
+                                  withXml:_reporterConfiguration.dataSourceFileName
+                                 andXPath:_reporterConfiguration.selectExpression
+                           withParameters:_reporterConfiguration.exportParameters
+                           withSubreports:_reporterConfiguration.subreportsDefinition
+                                 language:_reporterConfiguration.language
+         ];
         
     } else if (_reporterConfiguration.dataSourceType == DATASOURCE_TYPE_SQL) {
-        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath withJrxml:_reporterConfiguration.jrxmlFileName withResourceFolders:_reporterConfiguration.resourceFolders andSqlite3:_reporterConfiguration.dataSourceFileName withParameters:_reporterConfiguration.exportParameters withSubreports:_reporterConfiguration.subreportsDefinition];
+        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath
+                                withJrxml:_reporterConfiguration.jrxmlFileName
+                      withResourceFolders:_reporterConfiguration.resourceFolders
+                               andSqlite3:_reporterConfiguration.dataSourceFileName
+                           withParameters:_reporterConfiguration.exportParameters
+                           withSubreports:_reporterConfiguration.subreportsDefinition
+                                 language:_reporterConfiguration.language
+         ];
         
     } else if (_reporterConfiguration.dataSourceType == DATASOURCE_TYPE_NONE) {
-        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath withJrxml:_reporterConfiguration.jrxmlFileName withResourceFolders:_reporterConfiguration.resourceFolders withParameters:_reporterConfiguration.exportParameters withSubreports:_reporterConfiguration.subreportsDefinition];
+        [ReportExporter exportReportToPdf:_reporterConfiguration.outputPdfFilePath
+                                withJrxml:_reporterConfiguration.jrxmlFileName
+                      withResourceFolders:_reporterConfiguration.resourceFolders
+                           withParameters:_reporterConfiguration.exportParameters
+                           withSubreports:_reporterConfiguration.subreportsDefinition
+                                 language:_reporterConfiguration.language
+         ];
     } else {
         NSAssert(NO, @"Unsupported datasource type");
     }
@@ -54,6 +76,11 @@
         return configuration.outputPdfFilePath;
     }
     
+}
+
+- (void)selectLanguage:(NSString *)language
+{
+    [_reporterConfiguration setLanguage:language];
 }
 
 @end

@@ -3,37 +3,61 @@
 //  source: android/libcore/luni/src/main/java/java/security/Permission.java
 //
 
-#ifndef _JavaSecurityPermission_H_
-#define _JavaSecurityPermission_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityPermission")
+#ifdef RESTRICT_JavaSecurityPermission
+#define INCLUDE_ALL_JavaSecurityPermission 0
+#else
+#define INCLUDE_ALL_JavaSecurityPermission 1
+#endif
+#undef RESTRICT_JavaSecurityPermission
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityPermission_) && (INCLUDE_ALL_JavaSecurityPermission || defined(INCLUDE_JavaSecurityPermission))
+#define JavaSecurityPermission_
+
+#define RESTRICT_JavaSecurityGuard 1
+#define INCLUDE_JavaSecurityGuard 1
+#include "java/security/Guard.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class JavaSecurityPermissionCollection;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/security/Guard.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityPermission : NSObject < JavaSecurityGuard, JavaIoSerializable >
 
-@interface JavaSecurityPermission : NSObject < JavaSecurityGuard, JavaIoSerializable > {
-}
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)name;
 
-- (NSString *)getName;
-
 - (void)checkGuardWithId:(id)obj;
-
-- (JavaSecurityPermissionCollection *)newPermissionCollection OBJC_METHOD_FAMILY_NONE;
 
 - (NSString *)getActions;
 
+- (NSString *)getName;
+
 - (jboolean)impliesWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
+
+- (JavaSecurityPermissionCollection *)newPermissionCollection OBJC_METHOD_FAMILY_NONE;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityPermission)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityPermission_initWithNSString_(JavaSecurityPermission *self, NSString *name);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityPermission)
 
-#endif // _JavaSecurityPermission_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityPermission")

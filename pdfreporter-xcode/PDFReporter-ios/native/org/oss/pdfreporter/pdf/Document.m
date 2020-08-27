@@ -6,30 +6,37 @@
 //  Copyright (c) 2013 Digireport. All rights reserved.
 //
 
-#import "Document.h"
 #import "Page.h"
-#import "org/oss/pdfreporter/pdf/IEncryption.h"
 #import "HpdfDocBox.h"
-#import "org/oss/pdfreporter/registry/ApiRegistry.h"
-#import "org/oss/pdfreporter/pdf/PdfFactory.h"
+#include "J2ObjC_source.h"
+#import "Document.h"
+#include "org/oss/pdfreporter/pdf/IEncryption.h"
+#include "org/oss/pdfreporter/registry/ApiRegistry.h"
+#include "org/oss/pdfreporter/pdf/PdfFactory.h"
+#include "org/oss/pdfreporter/pdf/IDocument.h"
+
+@interface OrgOssPdfreporterPdfDocument () {
+@public
+    NSString *filename;
+    float document_width;
+    float document_height;
+    bool closed;
+}
+@end
 
 @implementation OrgOssPdfreporterPdfDocument
 
-//constructors
-- (id)initWithNSString:(NSString *)_filename {
-    return [self initWithFileName:_filename width:-1 height:-1];
-}
-
-- (id)initWithFileName:(NSString *)_filename width:(float)_widht height:(float)_height {
-    self = [super init];
-    if(self) {
-        document_width = _widht;
-        document_height = _height;
-        filename = _filename;
-    }
-    
+J2OBJC_IGNORE_DESIGNATED_BEGIN
+- (instancetype)initWithNSString:(NSString *)_filename {
+    OrgOssPdfreporterPdfDocument_initWithNSString_(self, _filename);
     return self;
 }
+
+- (instancetype)initWithFileName:(NSString *)_filename width:(float)_widht height:(float)_height {
+    OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(self, _filename, _widht, _height);
+    return self;
+}
+J2OBJC_IGNORE_DESIGNATED_END
 
 - (HPDF_Doc)hpdfHelper {
     return [[HpdfDocBox GetDocBoxFromSession: [[OrgOssPdfreporterRegistryApiRegistry getPdfFactory] getSession]] getHpdfDoc];
@@ -60,7 +67,7 @@
     HPDF_SetInfoAttr([self hpdfHelper], HPDF_INFO_KEYWORDS, cstring);
 }
 
-- (void)setCompressionWithBoolean:(BOOL)compress {
+- (void)setCompressionWithBoolean:(jboolean)compress {
     HPDF_UINT mode = HPDF_COMP_NONE;
     if(compress) mode = HPDF_COMP_ALL;
     HPDF_SetCompressionMode([self hpdfHelper], mode);
@@ -71,14 +78,14 @@
 }
 
 
-- (void)setEncryptionWithOrgOssPdfreporterPdfIEncryption_KeyLengthEnum:(OrgOssPdfreporterPdfIEncryption_KeyLengthEnum *)keyLength
+- (void)setEncryptionWithOrgOssPdfreporterPdfIEncryption_KeyLength:(OrgOssPdfreporterPdfIEncryption_KeyLength *)keyLength
                                                      withNSString:(NSString *)userPassword withNSString:(NSString *)ownerPasswrod withInt:(int)permission {
     
     const char* cOwnerPass =  [ownerPasswrod UTF8String];
     const char* cUserPass =  [userPassword UTF8String];
     
     HPDF_EncryptMode mode = HPDF_ENCRYPT_R2;
-    if(keyLength == OrgOssPdfreporterPdfIEncryption_KeyLengthEnum_ENCRYPTION_128) mode = HPDF_ENCRYPT_R3;
+    if(keyLength == OrgOssPdfreporterPdfIEncryption_KeyLength_get_ENCRYPTION_128()) mode = HPDF_ENCRYPT_R3;
     
     HPDF_SetPassword([self hpdfHelper], cOwnerPass, cUserPass);
     HPDF_SetEncryptionMode([self hpdfHelper], mode, 16);
@@ -106,9 +113,9 @@
     return result;
 }
 
-- (void)setPdfConformanceWithOrgOssPdfreporterPdfIDocument_ConformanceLevelEnum:(OrgOssPdfreporterPdfIDocument_ConformanceLevelEnum *)level {
+- (void)setPdfConformanceWithOrgOssPdfreporterPdfIDocument_ConformanceLevel:(OrgOssPdfreporterPdfIDocument_ConformanceLevel *)level {
     HPDF_PDFAType type = HPDF_PDFA_1A;
-    if (level == OrgOssPdfreporterPdfIDocument_ConformanceLevelEnum_PDF_1B) type = HPDF_PDFA_1B;
+    if (level == OrgOssPdfreporterPdfIDocument_ConformanceLevel_get_PDF_1B()) type = HPDF_PDFA_1B;
     
     HPDF_PDFA_SetPDFAConformance([self hpdfHelper], type);
 }
@@ -124,7 +131,7 @@
     return page;
 }
 
-- (id<OrgOssPdfreporterPdfIPage>)newPageWithOrgOssPdfreporterPdfIDocument_PageOrientationEnum:(OrgOssPdfreporterPdfIDocument_PageOrientationEnum *)orientation
+- (id<OrgOssPdfreporterPdfIPage>)newPageWithOrgOssPdfreporterPdfIDocument_PageOrientation:(OrgOssPdfreporterPdfIDocument_PageOrientation *)orientation
                                                                             withInt:(int)width withInt:(int)height {
     Page *page = [[Page alloc] initWithWidth:width height:height orientation:orientation document:self];
     return page;
@@ -139,10 +146,47 @@
     }
 }
 
-- (void)registerTrueTypeFontWithNSString:(NSString *)font withBoolean:(BOOL)embed {
+- (void)registerTrueTypeFontWithNSString:(NSString *)font withBoolean:(jboolean)embed {
     
 }
 
-- (void)registerTrueTypeFontsWithNSString:(NSString *)directory withBoolean:(BOOL)embed {
+- (void)registerTrueTypeFontsWithNSString:(NSString *)directory withBoolean:(jboolean)embed {
 }
 @end
+
+void OrgOssPdfreporterPdfDocument_initWithNSString_(OrgOssPdfreporterPdfDocument *self, NSString *_filename)
+{
+    OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(self, _filename, -1.0f, -1.0f);
+}
+
+void OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(OrgOssPdfreporterPdfDocument *self, NSString *_filename, float _width, float _height)
+{
+    OrgOssPdfreporterPdfAbstractDocument_init(self);
+    self->filename = _filename;
+    self->document_width = _width;
+    self->document_height = _height;
+}
+
+OrgOssPdfreporterPdfDocument *new_OrgOssPdfreporterPdfDocument_initWithNSString_(NSString *_filename)
+{
+    OrgOssPdfreporterPdfDocument *self = [OrgOssPdfreporterPdfDocument alloc];
+    OrgOssPdfreporterPdfDocument_initWithNSString_(self, _filename);
+    return self;
+}
+
+OrgOssPdfreporterPdfDocument *new_OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(NSString *_filename, float _width, float _height)
+{
+    OrgOssPdfreporterPdfDocument *self = [OrgOssPdfreporterPdfDocument alloc];
+    OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(self, _filename, _width, _height);
+    return self;
+}
+
+OrgOssPdfreporterPdfDocument *create_OrgOssPdfreporterPdfDocument_initWithNSString_(NSString *_filename)
+{
+    return new_OrgOssPdfreporterPdfDocument_initWithNSString_(_filename);
+}
+
+OrgOssPdfreporterPdfDocument *create_OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(NSString *_filename, float _width, float _height)
+{
+    return new_OrgOssPdfreporterPdfDocument_initWithNSString_withFloat_withFloat_(_filename, _width, _height);
+}

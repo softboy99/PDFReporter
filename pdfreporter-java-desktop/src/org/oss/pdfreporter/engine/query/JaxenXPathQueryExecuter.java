@@ -25,7 +25,6 @@ package org.oss.pdfreporter.engine.query;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -36,12 +35,11 @@ import org.oss.pdfreporter.engine.JRDataSource;
 import org.oss.pdfreporter.engine.JRDataset;
 import org.oss.pdfreporter.engine.JRException;
 import org.oss.pdfreporter.engine.JRPropertiesUtil;
+import org.oss.pdfreporter.engine.JRPropertiesUtil.PropertySuffix;
 import org.oss.pdfreporter.engine.JRValueParameter;
 import org.oss.pdfreporter.engine.JasperReportsContext;
-import org.oss.pdfreporter.engine.JRPropertiesUtil.PropertySuffix;
 import org.oss.pdfreporter.engine.data.JaxenXmlDataSource;
-import org.oss.pdfreporter.engine.query.JRAbstractQueryExecuter;
-import org.oss.pdfreporter.engine.query.JRXPathQueryExecuter;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.org.w3c.dom.Document;
 
 
@@ -124,7 +122,7 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 			datasource.setDetectXmlNamespaces(getBooleanParameterOrProperty(JaxenXPathQueryExecuterFactory.XML_DETECT_NAMESPACES, false));
 			datasource.setDocumentBuilderFactory(documentBuilderFactory);
 			
-			datasource.setLocale((Locale)getParameterValue(JaxenXPathQueryExecuterFactory.XML_LOCALE, true));
+			datasource.setLocale((StringLocale)getParameterValue(JaxenXPathQueryExecuterFactory.XML_LOCALE, true));
 			datasource.setDatePattern((String)getParameterValue(JaxenXPathQueryExecuterFactory.XML_DATE_PATTERN, true));
 			datasource.setNumberPattern((String)getParameterValue(JaxenXPathQueryExecuterFactory.XML_NUMBER_PATTERN, true));
 			datasource.setTimeZone((TimeZone)getParameterValue(JaxenXPathQueryExecuterFactory.XML_TIME_ZONE, true));

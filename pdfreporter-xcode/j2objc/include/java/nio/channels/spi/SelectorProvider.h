@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/spi/SelectorProvider.java
 //
 
-#ifndef _JavaNioChannelsSpiSelectorProvider_H_
-#define _JavaNioChannelsSpiSelectorProvider_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsSpiSelectorProvider")
+#ifdef RESTRICT_JavaNioChannelsSpiSelectorProvider
+#define INCLUDE_ALL_JavaNioChannelsSpiSelectorProvider 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsSpiSelectorProvider 1
+#endif
+#undef RESTRICT_JavaNioChannelsSpiSelectorProvider
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsSpiSelectorProvider_) && (INCLUDE_ALL_JavaNioChannelsSpiSelectorProvider || defined(INCLUDE_JavaNioChannelsSpiSelectorProvider))
+#define JavaNioChannelsSpiSelectorProvider_
 
 @class JavaNioChannelsDatagramChannel;
 @class JavaNioChannelsPipe;
@@ -13,40 +26,107 @@
 @class JavaNioChannelsSpiAbstractSelector;
 @protocol JavaNioChannelsChannel;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief <code>SelectorProvider</code> is an abstract base class that declares methods for
+ providing instances of <code>DatagramChannel</code>, <code>Pipe</code>,
+ <code>java.nio.channels.Selector</code> , <code>ServerSocketChannel</code>, and
+ <code>SocketChannel</code>.
+ All the methods of this class are thread-safe.
+ <p>A provider instance can be retrieved through a system property or the
+ configuration file in a jar file; if no provider is available that way then
+ the system default provider is returned.
+ */
+@interface JavaNioChannelsSpiSelectorProvider : NSObject
 
-@interface JavaNioChannelsSpiSelectorProvider : NSObject {
-}
+#pragma mark Public
 
-- (instancetype)init;
+/*!
+ @brief Returns the channel inherited from the process that created this VM.
+ On Android, this method always returns null because stdin and stdout are
+ never connected to a socket.
+ @return the channel.
+ @throws IOException
+ if an I/O error occurs.
+ */
+- (id<JavaNioChannelsChannel>)inheritedChannel;
 
-+ (JavaNioChannelsSpiSelectorProvider *)provider;
-
+/*!
+ @brief Creates a new open <code>DatagramChannel</code>.
+ @return the new channel.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (JavaNioChannelsDatagramChannel *)openDatagramChannel;
 
+/*!
+ @brief Creates a new <code>Pipe</code>.
+ @return the new pipe.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (JavaNioChannelsPipe *)openPipe;
 
+/*!
+ @brief Creates a new selector.
+ @return the new selector.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (JavaNioChannelsSpiAbstractSelector *)openSelector;
 
+/*!
+ @brief Creates a new open <code>ServerSocketChannel</code>.
+ @return the new channel.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (JavaNioChannelsServerSocketChannel *)openServerSocketChannel;
 
+/*!
+ @brief Create a new open <code>SocketChannel</code>.
+ @return the new channel.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (JavaNioChannelsSocketChannel *)openSocketChannel;
 
-- (id<JavaNioChannelsChannel>)inheritedChannel;
+/*!
+ @brief Gets a provider instance by executing the following steps when called for
+ the first time:
+ <ul>
+ <li> if the system property "java.nio.channels.spi.SelectorProvider" is
+ set, the value of this property is the class name of the provider
+ returned; </li>
+ <li>if there is a provider-configuration file named
+ "java.nio.channels.spi.SelectorProvider" in META-INF/services of a jar
+ file valid in the system class loader, the first class name is the
+ provider's class name; </li>
+ <li> otherwise, a system default provider will be returned.
+ </li>
+ </ul>
+ @return the provider.
+ */
++ (JavaNioChannelsSpiSelectorProvider *)provider;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new <code>SelectorProvider</code>.
+ */
+- (instancetype)init;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsSpiSelectorProvider)
+J2OBJC_STATIC_INIT(JavaNioChannelsSpiSelectorProvider)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsSpiSelectorProvider_init(JavaNioChannelsSpiSelectorProvider *self);
 
 FOUNDATION_EXPORT JavaNioChannelsSpiSelectorProvider *JavaNioChannelsSpiSelectorProvider_provider();
 
-FOUNDATION_EXPORT JavaNioChannelsSpiSelectorProvider *JavaNioChannelsSpiSelectorProvider_provider__;
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsSpiSelectorProvider, provider__, JavaNioChannelsSpiSelectorProvider *)
-J2OBJC_STATIC_FIELD_SETTER(JavaNioChannelsSpiSelectorProvider, provider__, JavaNioChannelsSpiSelectorProvider *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsSpiSelectorProvider)
 
-#endif // _JavaNioChannelsSpiSelectorProvider_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsSpiSelectorProvider")

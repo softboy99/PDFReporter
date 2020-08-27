@@ -60,8 +60,8 @@ import org.oss.pdfreporter.engine.type.IncrementTypeEnum;
 import org.oss.pdfreporter.engine.type.ResetTypeEnum;
 import org.oss.pdfreporter.engine.util.JRProperties;
 import org.oss.pdfreporter.extensions.ExtensionsEnvironment;
-import org.oss.pdfreporter.progress.ProgressManager;
 import org.oss.pdfreporter.progress.IProgressHandler.ProgressState;
+import org.oss.pdfreporter.progress.ProgressManager;
 import org.oss.pdfreporter.registry.IRegistry;
 import org.oss.pdfreporter.uses.org.apache.digester.IDigester;
 import org.oss.pdfreporter.xml.parsers.IInputSource;
@@ -81,25 +81,25 @@ public class JRXmlLoader
 	 *
 	 */
 	private JasperDesign jasperDesign;
-	private LinkedList<XmlLoaderReportContext> contextStack = 
+	private final LinkedList<XmlLoaderReportContext> contextStack = 
 		new LinkedList<XmlLoaderReportContext>();
 	
-	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = 
+	private final Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = 
 		new HashMap<XmlGroupReference, XmlLoaderReportContext>();
 	
 	//TODO use XmlGroupReference for datasets
-	private Set<JRElementDataset> groupBoundDatasets = new HashSet<JRElementDataset>();
+	private final Set<JRElementDataset> groupBoundDatasets = new HashSet<JRElementDataset>();
 	
-	private List<Exception> errors = new ArrayList<Exception>();
+	private final List<Exception> errors = new ArrayList<Exception>();
 
-	private IDigester digester;
+	private final IDigester digester;
 
 	private boolean ignoreConsistencyProblems;
 		
 	/**
 	 *
 	 */
-	public JRXmlLoader(IDigester digester)
+	public JRXmlLoader(final IDigester digester)
 	{
 		this.digester = digester;
 	}
@@ -107,30 +107,30 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public void setJasperDesign(JasperDesign jasperDesign)
+	public void setJasperDesign(final JasperDesign jasperDesign)
 	{
 		this.jasperDesign = jasperDesign;
 	}
 	
-	public void addGroupReference(XmlGroupReference reference)
+	public void addGroupReference(final XmlGroupReference reference)
 	{
-		XmlLoaderReportContext reportContext = getReportContext();
+		final XmlLoaderReportContext reportContext = getReportContext();
 		groupReferences.put(reference, reportContext);
 	}
 	
-	public void addGroupReprintedElement(JRDesignElement element)
+	public void addGroupReprintedElement(final JRDesignElement element)
 	{
 		addGroupReference(
 				new ElementReprintGroupReference(element));
 	}
 	
-	public void addGroupEvaluatedImage(JRDesignImage image)
+	public void addGroupEvaluatedImage(final JRDesignImage image)
 	{
 		addGroupReference(
 				new ImageEvaluationGroupReference(image));
 	}
 	
-	public void addGroupEvaluatedTextField(JRDesignTextField textField)
+	public void addGroupEvaluatedTextField(final JRDesignTextField textField)
 	{
 		addGroupReference(
 				new TextFieldEvaluationGroupReference(textField));
@@ -148,7 +148,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public static JasperDesign load(String sourceFileName) throws JRException//FIXMEREPO consider renaming
+	public static JasperDesign load(final String sourceFileName) throws JRException//FIXMEREPO consider renaming
 	{
 		return load(new File(sourceFileName));
 	}
@@ -157,7 +157,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public static JasperDesign load(File file) throws JRException
+	public static JasperDesign load(final File file) throws JRException
 	{
 		JasperDesign jasperDesign = null;
 
@@ -168,7 +168,7 @@ public class JRXmlLoader
 			fis = new FileInputStream(file);
 			jasperDesign = JRXmlLoader.load(fis);
 		}
-		catch(IOException e)
+		catch(final IOException e)
 		{
 			throw new JRException(e);
 		}
@@ -180,7 +180,7 @@ public class JRXmlLoader
 				{
 					fis.close();
 				}
-				catch(IOException e)
+				catch(final IOException e)
 				{
 				}
 			}
@@ -193,21 +193,21 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public static JasperDesign load(InputStream is) throws JRException
+	public static JasperDesign load(final InputStream is) throws JRException
 	{
-		ProgressManager pm = new ProgressManager(ProgressState.LOADING);
+		// TODO (08.08.2013, Donat, Open Software Solutions): Temporary solution to reset properties and extensions for each exporter run
+		JRProperties.reload();
+		ExtensionsEnvironment.reset();
+		final ProgressManager pm = new ProgressManager(ProgressState.LOADING);
 		JasperDesign jasperDesign = null;
 
 		JRXmlLoader xmlLoader = null;
 
-		// TODO (08.08.2013, Donat, Open Software Solutions): Temporary solution to reset properties and extensions for each exporter run
-		JRProperties.reload();
-		ExtensionsEnvironment.reset();
 		try 
 		{
 			xmlLoader = new JRXmlLoader(JRXmlDigesterFactory.createDigester());
 		}
-		catch (XMLParseException e) 
+		catch (final XMLParseException e) 
 		{
 			throw new JRException(e);
 		}
@@ -223,7 +223,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public JasperDesign loadXML(InputStream is) throws JRException
+	public JasperDesign loadXML(final InputStream is) throws JRException
 	{
 		return loadXML(IRegistry.getIXmlParserFactory().newInputSource(is));
 	}
@@ -231,7 +231,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public JasperDesign loadXML(IInputSource is) throws JRException
+	public JasperDesign loadXML(final IInputSource is) throws JRException
 	{
 		try
 		{
@@ -240,14 +240,14 @@ public class JRXmlLoader
 			/*   */
 			digester.parse(is);
 		}
-		catch(XMLParseException e)
+		catch(final XMLParseException e)
 		{
-			throw new JRException(e);
+			throw new JRException("Error loading jrxml from IInputSource.",e);
 		}
-		catch(IOException e)
+		catch(final IOException e)
 		{
 			throw new JRException(e);
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			throw new JRException(e);
 		}
 		finally 
@@ -257,7 +257,7 @@ public class JRXmlLoader
 		
 		if (errors.size() > 0)
 		{
-			Exception e = errors.get(0);
+			final Exception e = errors.get(0);
 			if (e instanceof JRException)
 			{
 				throw (JRException)e;
@@ -267,9 +267,9 @@ public class JRXmlLoader
 
 		/*   */
 		assignGroupsToVariables(jasperDesign.getMainDesignDataset());
-		for (Iterator<JRDataset> it = jasperDesign.getDatasetsList().iterator(); it.hasNext();)
+		for (final Iterator<JRDataset> it = jasperDesign.getDatasetsList().iterator(); it.hasNext();)
 		{
-			JRDesignDataset dataset = (JRDesignDataset) it.next();
+			final JRDesignDataset dataset = (JRDesignDataset) it.next();
 			assignGroupsToVariables(dataset);
 		}
 		
@@ -282,15 +282,15 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	private void assignGroupsToVariables(JRDesignDataset dataset) throws JRException
+	private void assignGroupsToVariables(final JRDesignDataset dataset) throws JRException
 	{
-		JRVariable[] variables = dataset.getVariables();
+		final JRVariable[] variables = dataset.getVariables();
 		if (variables != null && variables.length > 0)
 		{
-			Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
+			final Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 			for(int i = 0; i < variables.length; i++)
 			{
-				JRDesignVariable variable = (JRDesignVariable)variables[i];
+				final JRDesignVariable variable = (JRDesignVariable)variables[i];
 				if (variable.getResetTypeValue() == ResetTypeEnum.GROUP)
 				{
 					String groupName = null;
@@ -354,11 +354,11 @@ public class JRXmlLoader
 	 */
 	private void assignGroupReferences() throws JRException
 	{
-		for (Map.Entry<XmlGroupReference, XmlLoaderReportContext> entry : 
+		for (final Map.Entry<XmlGroupReference, XmlLoaderReportContext> entry : 
 			groupReferences.entrySet())
 		{
-			XmlGroupReference reference = entry.getKey();
-			XmlLoaderReportContext context = entry.getValue();
+			final XmlGroupReference reference = entry.getKey();
+			final XmlLoaderReportContext context = entry.getValue();
 
 			String groupName = null;
 			JRGroup group = reference.getGroupReference();
@@ -379,19 +379,19 @@ public class JRXmlLoader
 		}
 	}
 	
-	protected JRGroup resolveGroup(String groupName, XmlLoaderReportContext context)
+	protected JRGroup resolveGroup(final String groupName, final XmlLoaderReportContext context)
 	{
 		JRGroup group;
 		if (context == null)
 		{
 			// main dataset groups
-			Map<String,JRGroup> groupsMap = jasperDesign.getGroupsMap();
+			final Map<String,JRGroup> groupsMap = jasperDesign.getGroupsMap();
 			group = groupsMap.get(groupName);
 		}
 		else
 		{
-			String datasetName = context.getSubdatesetName();
-			JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
+			final String datasetName = context.getSubdatesetName();
+			final JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
 			if (dataset == null)
 			{
 				throw new JRRuntimeException("Could not find subdataset of name \"" 
@@ -409,11 +409,11 @@ public class JRXmlLoader
 	 */
 	private void assignGroupsToDatasets() throws JRException
 	{
-		for(Iterator<JRElementDataset> it = groupBoundDatasets.iterator(); it.hasNext();)
+		for(final Iterator<JRElementDataset> it = groupBoundDatasets.iterator(); it.hasNext();)
 		{
-			JRDesignElementDataset dataset = (JRDesignElementDataset) it.next();
+			final JRDesignElementDataset dataset = (JRDesignElementDataset) it.next();
 			
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
+			final JRDatasetRun datasetRun = dataset.getDatasetRun();
 			Map<String,JRGroup> groupsMap;
 			if (datasetRun == null)
 			{
@@ -421,9 +421,9 @@ public class JRXmlLoader
 			}
 			else
 			{
-				Map<String,JRDataset> datasetMap = jasperDesign.getDatasetMap();
-				String datasetName = datasetRun.getDatasetName();
-				JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
+				final Map<String,JRDataset> datasetMap = jasperDesign.getDatasetMap();
+				final String datasetName = datasetRun.getDatasetName();
+				final JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
 				if (subDataset == null)
 				{
 					throw new JRException("Unknown sub dataset '" + datasetName + "' for chart dataset.");
@@ -481,7 +481,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public void addError(Exception e)
+	public void addError(final Exception e)
 	{
 		if(!ignoreConsistencyProblems)
 		{
@@ -504,11 +504,11 @@ public class JRXmlLoader
 	 * 
 	 * @param ignoreConsistencyProblems The ignoreConsistencyProblems value to set.
 	 */
-	public void setIgnoreConsistencyProblems(boolean ignoreConsistencyProblems) {
+	public void setIgnoreConsistencyProblems(final boolean ignoreConsistencyProblems) {
 		this.ignoreConsistencyProblems = ignoreConsistencyProblems;
 	}
 
-	public void pushReportContext(XmlLoaderReportContext context)
+	public void pushReportContext(final XmlLoaderReportContext context)
 	{
 		contextStack.addFirst(context);
 	}

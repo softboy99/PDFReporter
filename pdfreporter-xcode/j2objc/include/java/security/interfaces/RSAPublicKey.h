@@ -3,26 +3,64 @@
 //  source: android/libcore/luni/src/main/java/java/security/interfaces/RSAPublicKey.java
 //
 
-#ifndef _JavaSecurityInterfacesRSAPublicKey_H_
-#define _JavaSecurityInterfacesRSAPublicKey_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityInterfacesRSAPublicKey")
+#ifdef RESTRICT_JavaSecurityInterfacesRSAPublicKey
+#define INCLUDE_ALL_JavaSecurityInterfacesRSAPublicKey 0
+#else
+#define INCLUDE_ALL_JavaSecurityInterfacesRSAPublicKey 1
+#endif
+#undef RESTRICT_JavaSecurityInterfacesRSAPublicKey
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityInterfacesRSAPublicKey_) && (INCLUDE_ALL_JavaSecurityInterfacesRSAPublicKey || defined(INCLUDE_JavaSecurityInterfacesRSAPublicKey))
+#define JavaSecurityInterfacesRSAPublicKey_
+
+#define RESTRICT_JavaSecurityPublicKey 1
+#define INCLUDE_JavaSecurityPublicKey 1
+#include "java/security/PublicKey.h"
+
+#define RESTRICT_JavaSecurityInterfacesRSAKey 1
+#define INCLUDE_JavaSecurityInterfacesRSAKey 1
+#include "java/security/interfaces/RSAKey.h"
 
 @class JavaMathBigInteger;
 
-#include "J2ObjC_header.h"
-#include "java/security/PublicKey.h"
-#include "java/security/interfaces/RSAKey.h"
-
-#define JavaSecurityInterfacesRSAPublicKey_serialVersionUID -8727434096241101194LL
-
+/*!
+ @brief The interface for a PKCS#1 RSA public key.
+ */
 @protocol JavaSecurityInterfacesRSAPublicKey < JavaSecurityPublicKey, JavaSecurityInterfacesRSAKey, NSObject, JavaObject >
+
+/*!
+ @brief Returns the public exponent <code>e</code>.
+ @return the public exponent <code>e</code>.
+ */
 - (JavaMathBigInteger *)getPublicExponent;
+
+@end
+
+@interface JavaSecurityInterfacesRSAPublicKey : NSObject
+
++ (jlong)serialVersionUID;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityInterfacesRSAPublicKey)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityInterfacesRSAPublicKey, serialVersionUID, jlong)
+/*!
+ @brief The serial version identifier.
+ */
+inline jlong JavaSecurityInterfacesRSAPublicKey_get_serialVersionUID();
+#define JavaSecurityInterfacesRSAPublicKey_serialVersionUID -8727434096241101194LL
+J2OBJC_STATIC_FIELD_CONSTANT(JavaSecurityInterfacesRSAPublicKey, serialVersionUID, jlong)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityInterfacesRSAPublicKey)
 
-#endif // _JavaSecurityInterfacesRSAPublicKey_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityInterfacesRSAPublicKey")

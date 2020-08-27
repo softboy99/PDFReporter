@@ -3,56 +3,174 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/Channels.java
 //
 
-#ifndef _JavaNioChannelsChannels_H_
-#define _JavaNioChannelsChannels_H_
+#include "J2ObjC_header.h"
 
-@class IOSByteArray;
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsChannels")
+#ifdef RESTRICT_JavaNioChannelsChannels
+#define INCLUDE_ALL_JavaNioChannelsChannels 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsChannels 1
+#endif
+#undef RESTRICT_JavaNioChannelsChannels
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsChannels_) && (INCLUDE_ALL_JavaNioChannelsChannels || defined(INCLUDE_JavaNioChannelsChannels))
+#define JavaNioChannelsChannels_
+
+@class JavaIoInputStream;
+@class JavaIoOutputStream;
 @class JavaIoReader;
 @class JavaIoWriter;
-@class JavaNioByteBuffer;
 @class JavaNioCharsetCharsetDecoder;
 @class JavaNioCharsetCharsetEncoder;
 @protocol JavaNioChannelsChannel;
+@protocol JavaNioChannelsReadableByteChannel;
+@protocol JavaNioChannelsWritableByteChannel;
 
-#include "J2ObjC_header.h"
-#include "java/io/InputStream.h"
-#include "java/io/OutputStream.h"
-#include "java/nio/channels/ReadableByteChannel.h"
-#include "java/nio/channels/WritableByteChannel.h"
-#include "java/nio/channels/spi/AbstractInterruptibleChannel.h"
+/*!
+ @brief This class provides several utilities to get I/O streams from channels.
+ */
+@interface JavaNioChannelsChannels : NSObject
 
-@interface JavaNioChannelsChannels : NSObject {
-}
+#pragma mark Public
 
-+ (JavaIoInputStream *)newInputStreamWithJavaNioChannelsReadableByteChannel:(id<JavaNioChannelsReadableByteChannel>)channel OBJC_METHOD_FAMILY_NONE;
-
-+ (JavaIoOutputStream *)newOutputStreamWithJavaNioChannelsWritableByteChannel:(id<JavaNioChannelsWritableByteChannel>)channel OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Returns a readable channel on the given input stream.
+ The resulting
+ channel has the following properties:
+ <ul>
+ <li>If the channel is closed, then the underlying stream is closed as
+ well.</li>
+ <li>It is not buffered.</li>
+ </ul>
+ @param inputStream
+ the stream to be wrapped by a byte channel.
+ @return a byte channel that reads bytes from the input stream.
+ */
 + (id<JavaNioChannelsReadableByteChannel>)newChannelWithJavaIoInputStream:(JavaIoInputStream *)inputStream OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns a writable channel on the given output stream.
+ The resulting channel has following properties:
+ <ul>
+ <li>If the channel is closed, then the underlying stream is closed as
+ well.</li>
+ <li>It is not buffered.</li>
+ </ul>
+ @param outputStream
+ the stream to be wrapped by a byte channel.
+ @return a byte channel that writes bytes to the output stream.
+ */
 + (id<JavaNioChannelsWritableByteChannel>)newChannelWithJavaIoOutputStream:(JavaIoOutputStream *)outputStream OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns an input stream on the given channel.
+ The resulting stream has
+ the following properties:
+ <ul>
+ <li>If the stream is closed, then the underlying channel is closed as
+ well.</li>
+ <li>It is thread safe.</li>
+ <li>It throws an <code>IllegalBlockingModeException</code> if the channel is
+ in non-blocking mode and <code>read</code> is called.</li>
+ <li>Neither <code>mark</code> nor <code>reset</code> is supported.</li>
+ <li>It is not buffered.</li>
+ </ul>
+ @param channel
+ the channel to be wrapped by an InputStream.
+ @return an InputStream that takes bytes from the given byte channel.
+ */
++ (JavaIoInputStream *)newInputStreamWithJavaNioChannelsReadableByteChannel:(id<JavaNioChannelsReadableByteChannel>)channel OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Returns an output stream on the given channel.
+ The resulting stream has
+ the following properties:
+ <ul>
+ <li>If the stream is closed, then the underlying channel is closed as
+ well.</li>
+ <li>It is thread safe.</li>
+ <li>It throws an <code>IllegalBlockingModeException</code> if the channel is
+ in non-blocking mode and <code>write</code> is called.</li>
+ <li>It is not buffered.</li>
+ </ul>
+ @param channel
+ the channel to be wrapped by an OutputStream.
+ @return an OutputStream that puts bytes onto the given byte channel.
+ */
++ (JavaIoOutputStream *)newOutputStreamWithJavaNioChannelsWritableByteChannel:(id<JavaNioChannelsWritableByteChannel>)channel OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Returns a reader that decodes bytes from a channel.
+ @param channel
+ the Channel to be read.
+ @param decoder
+ the Charset decoder to be used.
+ @param minBufferCapacity
+ The minimum size of the byte buffer, -1 means to use the
+ default size.
+ @return the reader.
+ */
 + (JavaIoReader *)newReaderWithJavaNioChannelsReadableByteChannel:(id<JavaNioChannelsReadableByteChannel>)channel
                                  withJavaNioCharsetCharsetDecoder:(JavaNioCharsetCharsetDecoder *)decoder
                                                           withInt:(jint)minBufferCapacity OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns a reader that decodes bytes from a channel.
+ This method creates a
+ reader with a buffer of default size.
+ @param channel
+ the Channel to be read.
+ @param charsetName
+ the name of the charset.
+ @return the reader.
+ @throws java.nio.charset.UnsupportedCharsetException
+ if the given charset name is not supported.
+ */
 + (JavaIoReader *)newReaderWithJavaNioChannelsReadableByteChannel:(id<JavaNioChannelsReadableByteChannel>)channel
                                                      withNSString:(NSString *)charsetName OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns a writer that encodes characters with the specified
+ <code>encoder</code> and sends the bytes to the specified channel.
+ @param channel
+ the Channel to write to.
+ @param encoder
+ the CharsetEncoder to be used.
+ @param minBufferCapacity
+ the minimum size of the byte buffer, -1 means to use the
+ default size.
+ @return the writer.
+ */
 + (JavaIoWriter *)newWriterWithJavaNioChannelsWritableByteChannel:(id<JavaNioChannelsWritableByteChannel>)channel
                                  withJavaNioCharsetCharsetEncoder:(JavaNioCharsetCharsetEncoder *)encoder
                                                           withInt:(jint)minBufferCapacity OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns a writer that encodes characters with the specified
+ <code>encoder</code> and sends the bytes to the specified channel.
+ This method
+ creates a writer with a buffer of default size.
+ @param channel
+ the Channel to be written to.
+ @param charsetName
+ the name of the charset.
+ @return the writer.
+ @throws java.nio.charset.UnsupportedCharsetException
+ if the given charset name is not supported.
+ */
 + (JavaIoWriter *)newWriterWithJavaNioChannelsWritableByteChannel:(id<JavaNioChannelsWritableByteChannel>)channel
                                                      withNSString:(NSString *)charsetName OBJC_METHOD_FAMILY_NONE;
+
+#pragma mark Package-Private
 
 + (void)checkBlockingWithJavaNioChannelsChannel:(id<JavaNioChannelsChannel>)channel;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsChannels)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT JavaIoInputStream *JavaNioChannelsChannels_newInputStreamWithJavaNioChannelsReadableByteChannel_(id<JavaNioChannelsReadableByteChannel> channel);
 
@@ -71,90 +189,11 @@ FOUNDATION_EXPORT JavaIoWriter *JavaNioChannelsChannels_newWriterWithJavaNioChan
 FOUNDATION_EXPORT JavaIoWriter *JavaNioChannelsChannels_newWriterWithJavaNioChannelsWritableByteChannel_withNSString_(id<JavaNioChannelsWritableByteChannel> channel, NSString *charsetName);
 
 FOUNDATION_EXPORT void JavaNioChannelsChannels_checkBlockingWithJavaNioChannelsChannel_(id<JavaNioChannelsChannel> channel);
-CF_EXTERN_C_END
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsChannels)
 
-@interface JavaNioChannelsChannels_ChannelInputStream : JavaIoInputStream {
-}
+#endif
 
-- (instancetype)initWithJavaNioChannelsReadableByteChannel:(id<JavaNioChannelsReadableByteChannel>)channel;
 
-- (jint)read;
-
-- (jint)readWithByteArray:(IOSByteArray *)target
-                  withInt:(jint)byteOffset
-                  withInt:(jint)byteCount;
-
-- (jint)available;
-
-- (void)close;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsChannels_ChannelInputStream)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsChannels_ChannelInputStream)
-
-@interface JavaNioChannelsChannels_ChannelOutputStream : JavaIoOutputStream {
-}
-
-- (instancetype)initWithJavaNioChannelsWritableByteChannel:(id<JavaNioChannelsWritableByteChannel>)channel;
-
-- (void)writeWithInt:(jint)oneByte;
-
-- (void)writeWithByteArray:(IOSByteArray *)source
-                   withInt:(jint)offset
-                   withInt:(jint)length;
-
-- (void)close;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsChannels_ChannelOutputStream)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsChannels_ChannelOutputStream)
-
-@interface JavaNioChannelsChannels_InputStreamChannel : JavaNioChannelsSpiAbstractInterruptibleChannel < JavaNioChannelsReadableByteChannel > {
-}
-
-- (instancetype)initWithJavaIoInputStream:(JavaIoInputStream *)inputStream;
-
-- (jint)readWithJavaNioByteBuffer:(JavaNioByteBuffer *)target;
-
-- (void)implCloseChannel;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsChannels_InputStreamChannel)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsChannels_InputStreamChannel)
-
-@interface JavaNioChannelsChannels_OutputStreamChannel : JavaNioChannelsSpiAbstractInterruptibleChannel < JavaNioChannelsWritableByteChannel > {
-}
-
-- (instancetype)initWithJavaIoOutputStream:(JavaIoOutputStream *)outputStream;
-
-- (jint)writeWithJavaNioByteBuffer:(JavaNioByteBuffer *)source;
-
-- (void)implCloseChannel;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsChannels_OutputStreamChannel)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsChannels_OutputStreamChannel)
-
-#endif // _JavaNioChannelsChannels_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsChannels")

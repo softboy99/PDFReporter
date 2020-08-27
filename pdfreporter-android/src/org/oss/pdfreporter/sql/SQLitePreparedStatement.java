@@ -6,24 +6,15 @@ import java.util.Collection;
 import java.util.TreeMap;
 
 import org.oss.pdfreporter.exception.NotImplementedException;
-import org.oss.pdfreporter.sql.IBlob;
-import org.oss.pdfreporter.sql.IDate;
-import org.oss.pdfreporter.sql.IDateTime;
-import org.oss.pdfreporter.sql.IPreparedStatement;
-import org.oss.pdfreporter.sql.IResultSet;
-import org.oss.pdfreporter.sql.ITime;
-import org.oss.pdfreporter.sql.ITimestamp;
-import org.oss.pdfreporter.sql.SQLException;
-import org.oss.pdfreporter.sql.SqlType;
 
 import android.database.sqlite.SQLiteDatabase;
 
 public class SQLitePreparedStatement implements IPreparedStatement {
-    private TreeMap<Integer, String> values;
-    private SQLiteDatabase db;
-    private String sql;
+    private final TreeMap<Integer, String> values;
+    private final SQLiteDatabase db;
+    private final String sql;
 
-    public SQLitePreparedStatement(String sql, SQLiteDatabase db) {
+    public SQLitePreparedStatement(final String sql, final SQLiteDatabase db) {
         this.db = db;
         values = new TreeMap<Integer, String>();
         this.sql = sql;
@@ -35,91 +26,91 @@ public class SQLitePreparedStatement implements IPreparedStatement {
 
     @Override
     public IResultSet executeQuery() throws SQLException {
-        Collection<String> strings = values.values();
-        String[] array = strings.toArray(new String[strings.size()]);
+        final Collection<String> strings = values.values();
+        final String[] array = strings.toArray(new String[strings.size()]);
         return new SQLiteResultSet(db.rawQuery(sql, array));
     }
 
     @Override
-    public void setBlob(int parameterIndex, IBlob value) throws SQLException {
+    public void setBlob(final int parameterIndex, final IBlob value) throws SQLException {
         throw new NotImplementedException();
     }
 
     @Override
-    public void setBoolean(int parameterIndex, boolean value) throws SQLException {
+    public void setBoolean(final int parameterIndex, final boolean value) throws SQLException {
         values.put(parameterIndex, value ? "1" : "0");
     }
 
     @Override
-    public void setByte(int parameterIndex, byte value) throws SQLException {
+    public void setByte(final int parameterIndex, final byte value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setDate(int parameterIndex, IDate value) throws SQLException {
-        String text = String.format("%.4d-%.2d-%.2d 00:00:00.000", value.getYear(), value.getMonth(), value.getDay());
+    public void setDate(final int parameterIndex, final IDate value) throws SQLException {
+        final String text = String.format("%.4d-%.2d-%.2d 00:00:00.000", value.getYear(), value.getMonth(), value.getDay());
         values.put(parameterIndex, text);
     }
 
     @Override
-    public void setDateTime(int parameterIndex, IDateTime value) throws SQLException {
-        String text = String.format("%.4d-%.2d-%.2d %.2d:%.2d:%.2d.000", value.getYear(), value.getMonth(), value.getDay(), value.getHours(), value.getMinutes(), value.getSeconds());
+    public void setDateTime(final int parameterIndex, final IDateTime value) throws SQLException {
+        final String text = String.format("%.4d-%.2d-%.2d %.2d:%.2d:%.2d.000", value.getYear(), value.getMonth(), value.getDay(), value.getHours(), value.getMinutes(), value.getSeconds());
         values.put(parameterIndex, text);
     }
 
     @Override
-    public void setDecimal(int parameterIndex, BigDecimal value) throws SQLException {
+    public void setDecimal(final int parameterIndex, final BigDecimal value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value.doubleValue()));
     }
 
     @Override
-    public void setDouble(int parameterIndex, double value) throws SQLException {
+    public void setDouble(final int parameterIndex, final double value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setFloat(int parameterIndex, float value) throws SQLException {
+    public void setFloat(final int parameterIndex, final float value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setInt(int parameterIndex, int value) throws SQLException {
+    public void setInt(final int parameterIndex, final int value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setLong(int parameterIndex, long value) throws SQLException {
+    public void setLong(final int parameterIndex, final long value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setObject(int parameterIndex, Object value) throws SQLException {
+    public void setObject(final int parameterIndex, final Object value) throws SQLException {
         throw new NotImplementedException();
     }
 
     @Override
-    public void setShort(int parameterIndex, short value) throws SQLException {
+    public void setShort(final int parameterIndex, final short value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value));
     }
 
     @Override
-    public void setString(int parameterIndex, String value) throws SQLException {
+    public void setString(final int parameterIndex, final String value) throws SQLException {
         values.put(parameterIndex, value);
     }
 
     @Override
-    public void setTime(int parameterIndex, ITime value) throws SQLException {
-        String text = String.format("%.4d-%.2d-%.2d %.2d:%.2d:%.2d.000", 0, 1, 1, value.getHours(), value.getMinutes(), value.getSeconds());
+    public void setTime(final int parameterIndex, final ITime value) throws SQLException {
+        final String text = String.format("%.4d-%.2d-%.2d %.2d:%.2d:%.2d.000", 0, 1, 1, value.getHours(), value.getMinutes(), value.getSeconds());
         values.put(parameterIndex, text);
     }
 
     @Override
-    public void setTimestamp(int parameterIndex, ITimestamp value) throws SQLException {
+    public void setTimestamp(final int parameterIndex, final ITimestamp value) throws SQLException {
         values.put(parameterIndex, String.valueOf(value.getMilliseconds()));
     }
 
     @Override
-    public void setNull(int parameterIndex, SqlType type) throws SQLException {
+    public void setNull(final int parameterIndex, final SqlType type) throws SQLException {
         values.put(parameterIndex, "NULL");
     }
 

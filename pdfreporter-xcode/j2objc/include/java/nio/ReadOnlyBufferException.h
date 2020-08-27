@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/ReadOnlyBufferException.java
 //
 
-#ifndef _JavaNioReadOnlyBufferException_H_
-#define _JavaNioReadOnlyBufferException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioReadOnlyBufferException")
+#ifdef RESTRICT_JavaNioReadOnlyBufferException
+#define INCLUDE_ALL_JavaNioReadOnlyBufferException 0
+#else
+#define INCLUDE_ALL_JavaNioReadOnlyBufferException 1
+#endif
+#undef RESTRICT_JavaNioReadOnlyBufferException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioReadOnlyBufferException_) && (INCLUDE_ALL_JavaNioReadOnlyBufferException || defined(INCLUDE_JavaNioReadOnlyBufferException))
+#define JavaNioReadOnlyBufferException_
+
+#define RESTRICT_JavaLangUnsupportedOperationException 1
+#define INCLUDE_JavaLangUnsupportedOperationException 1
 #include "java/lang/UnsupportedOperationException.h"
 
-#define JavaNioReadOnlyBufferException_serialVersionUID -1210063976496234090LL
+/*!
+ @brief A <code>ReadOnlyBufferException</code> is thrown when some write operation is
+ called on a read-only buffer.
+ */
+@interface JavaNioReadOnlyBufferException : JavaLangUnsupportedOperationException
 
-@interface JavaNioReadOnlyBufferException : JavaLangUnsupportedOperationException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>ReadOnlyBufferException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioReadOnlyBufferException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioReadOnlyBufferException_init(JavaNioReadOnlyBufferException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioReadOnlyBufferException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioReadOnlyBufferException *new_JavaNioReadOnlyBufferException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioReadOnlyBufferException *create_JavaNioReadOnlyBufferException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioReadOnlyBufferException)
 
-#endif // _JavaNioReadOnlyBufferException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioReadOnlyBufferException")

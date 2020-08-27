@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/net/UnknownHostException.java
 //
 
-#ifndef _JavaNetUnknownHostException_H_
-#define _JavaNetUnknownHostException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetUnknownHostException")
+#ifdef RESTRICT_JavaNetUnknownHostException
+#define INCLUDE_ALL_JavaNetUnknownHostException 0
+#else
+#define INCLUDE_ALL_JavaNetUnknownHostException 1
+#endif
+#undef RESTRICT_JavaNetUnknownHostException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetUnknownHostException_) && (INCLUDE_ALL_JavaNetUnknownHostException || defined(INCLUDE_JavaNetUnknownHostException))
+#define JavaNetUnknownHostException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNetUnknownHostException_serialVersionUID -4639126076052875403LL
+/*!
+ @brief Thrown when a hostname can not be resolved.
+ */
+@interface JavaNetUnknownHostException : JavaIoIOException
 
-@interface JavaNetUnknownHostException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UnknownHostException</code> instance with no detail message.
+ Callers should usually supply a detail message.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>UnknownHostException</code> instance with the given detail message.
+ The detail message should generally contain the hostname and a reason for the failure,
+ if known.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetUnknownHostException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetUnknownHostException_init(JavaNetUnknownHostException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetUnknownHostException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetUnknownHostException *new_JavaNetUnknownHostException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetUnknownHostException *create_JavaNetUnknownHostException_init();
+
+FOUNDATION_EXPORT void JavaNetUnknownHostException_initWithNSString_(JavaNetUnknownHostException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetUnknownHostException *new_JavaNetUnknownHostException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetUnknownHostException *create_JavaNetUnknownHostException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetUnknownHostException)
 
-#endif // _JavaNetUnknownHostException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetUnknownHostException")

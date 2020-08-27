@@ -3,63 +3,105 @@
 //  source: android/libcore/luni/src/main/java/java/lang/IntegralToString.java
 //
 
-#ifndef _JavaLangIntegralToString_H_
-#define _JavaLangIntegralToString_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangIntegralToString")
+#ifdef RESTRICT_JavaLangIntegralToString
+#define INCLUDE_ALL_JavaLangIntegralToString 0
+#else
+#define INCLUDE_ALL_JavaLangIntegralToString 1
+#endif
+#undef RESTRICT_JavaLangIntegralToString
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangIntegralToString_) && (INCLUDE_ALL_JavaLangIntegralToString || defined(INCLUDE_JavaLangIntegralToString))
+#define JavaLangIntegralToString_
 
 @class IOSByteArray;
 @class JavaLangAbstractStringBuilder;
 @class JavaLangStringBuilder;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief Converts integral types to strings.
+ This class is public but hidden so that it can also be
+ used by java.util.Formatter to speed up %d. This class is in java.lang so that it can take
+ advantage of the package-private String constructor.
+ The most important methods are appendInt/appendLong and intToString(int)/longToString(int).
+ The former are used in the implementation of StringBuilder, StringBuffer, and Formatter, while
+ the latter are used by Integer.toString and Long.toString.
+ The append methods take AbstractStringBuilder rather than Appendable because the latter requires
+ CharSequences, while we only have raw char[]s. Since much of the savings come from not creating
+ any garbage, we can't afford temporary CharSequence instances.
+ One day the performance advantage of the binary/hex/octal specializations will be small enough
+ that we can lose the duplication, but until then this class offers the full set.
+ */
+@interface JavaLangIntegralToString : NSObject
 
-@interface JavaLangIntegralToString : NSObject {
-}
-
-+ (NSString *)intToStringWithInt:(jint)i
-                         withInt:(jint)radix;
-
-+ (NSString *)intToStringWithInt:(jint)i;
-
-+ (void)appendIntWithJavaLangAbstractStringBuilder:(JavaLangAbstractStringBuilder *)sb
-                                           withInt:(jint)i;
-
-+ (NSString *)longToStringWithLong:(jlong)v
-                           withInt:(jint)radix;
-
-+ (NSString *)longToStringWithLong:(jlong)l;
-
-+ (void)appendLongWithJavaLangAbstractStringBuilder:(JavaLangAbstractStringBuilder *)sb
-                                           withLong:(jlong)l;
-
-+ (NSString *)intToBinaryStringWithInt:(jint)i;
-
-+ (NSString *)longToBinaryStringWithLong:(jlong)v;
+#pragma mark Public
 
 + (JavaLangStringBuilder *)appendByteAsHexWithJavaLangStringBuilder:(JavaLangStringBuilder *)sb
                                                            withByte:(jbyte)b
                                                         withBoolean:(jboolean)upperCase;
 
-+ (NSString *)byteToHexStringWithByte:(jbyte)b
-                          withBoolean:(jboolean)upperCase;
+/*!
+ @brief Equivalent to sb.append(Integer.toString(i)).
+ */
++ (void)appendIntWithJavaLangAbstractStringBuilder:(JavaLangAbstractStringBuilder *)sb
+                                           withInt:(jint)i;
+
+/*!
+ @brief Equivalent to sb.append(Long.toString(l)).
+ */
++ (void)appendLongWithJavaLangAbstractStringBuilder:(JavaLangAbstractStringBuilder *)sb
+                                           withLong:(jlong)l;
 
 + (NSString *)bytesToHexStringWithByteArray:(IOSByteArray *)bytes
                                 withBoolean:(jboolean)upperCase;
+
++ (NSString *)byteToHexStringWithByte:(jbyte)b
+                          withBoolean:(jboolean)upperCase;
+
++ (NSString *)intToBinaryStringWithInt:(jint)i;
 
 + (NSString *)intToHexStringWithInt:(jint)i
                         withBoolean:(jboolean)upperCase
                             withInt:(jint)minWidth;
 
-+ (NSString *)longToHexStringWithLong:(jlong)v;
-
 + (NSString *)intToOctalStringWithInt:(jint)i;
 
+/*!
+ @brief Equivalent to Integer.toString(i).
+ */
++ (NSString *)intToStringWithInt:(jint)i;
+
+/*!
+ @brief Equivalent to Integer.toString(i, radix).
+ */
++ (NSString *)intToStringWithInt:(jint)i
+                         withInt:(jint)radix;
+
++ (NSString *)longToBinaryStringWithLong:(jlong)v;
+
++ (NSString *)longToHexStringWithLong:(jlong)v;
+
 + (NSString *)longToOctalStringWithLong:(jlong)v;
+
+/*!
+ @brief Equivalent to Long.toString(l).
+ */
++ (NSString *)longToStringWithLong:(jlong)l;
+
+/*!
+ @brief Equivalent to Long.toString(v, radix).
+ */
++ (NSString *)longToStringWithLong:(jlong)v
+                           withInt:(jint)radix;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangIntegralToString)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT NSString *JavaLangIntegralToString_intToStringWithInt_withInt_(jint i, jint radix);
 
@@ -90,8 +132,11 @@ FOUNDATION_EXPORT NSString *JavaLangIntegralToString_longToHexStringWithLong_(jl
 FOUNDATION_EXPORT NSString *JavaLangIntegralToString_intToOctalStringWithInt_(jint i);
 
 FOUNDATION_EXPORT NSString *JavaLangIntegralToString_longToOctalStringWithLong_(jlong v);
-CF_EXTERN_C_END
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangIntegralToString)
 
-#endif // _JavaLangIntegralToString_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangIntegralToString")

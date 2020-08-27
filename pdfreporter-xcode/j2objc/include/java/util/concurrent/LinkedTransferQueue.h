@@ -3,205 +3,424 @@
 //  source: android/libcore/luni/src/main/java/java/util/concurrent/LinkedTransferQueue.java
 //
 
-#ifndef _JavaUtilConcurrentLinkedTransferQueue_H_
-#define _JavaUtilConcurrentLinkedTransferQueue_H_
-
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
-@class JavaLangThread;
-@class JavaUtilConcurrentLinkedTransferQueue_Node;
-@class JavaUtilConcurrentTimeUnitEnum;
-@class SunMiscUnsafe;
-@protocol JavaUtilCollection;
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue")
+#ifdef RESTRICT_JavaUtilConcurrentLinkedTransferQueue
+#define INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue 0
+#else
+#define INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue 1
+#endif
+#undef RESTRICT_JavaUtilConcurrentLinkedTransferQueue
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilConcurrentLinkedTransferQueue_) && (INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue || defined(INCLUDE_JavaUtilConcurrentLinkedTransferQueue))
+#define JavaUtilConcurrentLinkedTransferQueue_
+
+#define RESTRICT_JavaUtilAbstractQueue 1
+#define INCLUDE_JavaUtilAbstractQueue 1
 #include "java/util/AbstractQueue.h"
-#include "java/util/Iterator.h"
+
+#define RESTRICT_JavaUtilConcurrentTransferQueue 1
+#define INCLUDE_JavaUtilConcurrentTransferQueue 1
 #include "java/util/concurrent/TransferQueue.h"
 
-#define JavaUtilConcurrentLinkedTransferQueue_ASYNC 1
-#define JavaUtilConcurrentLinkedTransferQueue_CHAINED_SPINS 64
-#define JavaUtilConcurrentLinkedTransferQueue_FRONT_SPINS 128
-#define JavaUtilConcurrentLinkedTransferQueue_NOW 0
-#define JavaUtilConcurrentLinkedTransferQueue_SWEEP_THRESHOLD 32
-#define JavaUtilConcurrentLinkedTransferQueue_SYNC 2
-#define JavaUtilConcurrentLinkedTransferQueue_TIMED 3
-#define JavaUtilConcurrentLinkedTransferQueue_serialVersionUID -3223113410248163686LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
+@class JavaUtilConcurrentLinkedTransferQueue_Node;
+@class JavaUtilConcurrentTimeUnit;
+@protocol JavaUtilCollection;
+@protocol JavaUtilIterator;
+
+/*!
+ @brief An unbounded <code>TransferQueue</code> based on linked nodes.
+ This queue orders elements FIFO (first-in-first-out) with respect
+ to any given producer.  The <em>head</em> of the queue is that
+ element that has been on the queue the longest time for some
+ producer.  The <em>tail</em> of the queue is that element that has
+ been on the queue the shortest time for some producer.
+ <p>Beware that, unlike in most collections, the <code>size</code> method
+ is <em>NOT</em> a constant-time operation. Because of the
+ asynchronous nature of these queues, determining the current number
+ of elements requires a traversal of the elements, and so may report
+ inaccurate results if this collection is modified during traversal.
+ Additionally, the bulk operations <code>addAll</code>,
+ <code>removeAll</code>, <code>retainAll</code>, <code>containsAll</code>,
+ <code>equals</code>, and <code>toArray</code> are <em>not</em> guaranteed
+ to be performed atomically. For example, an iterator operating
+ concurrently with an <code>addAll</code> operation might view only some
+ of the added elements.
+ <p>This class and its iterator implement all of the
+ <em>optional</em> methods of the <code>Collection</code> and <code>Iterator</code>
+  interfaces.
+ <p>Memory consistency effects: As with other concurrent
+ collections, actions in a thread prior to placing an object into a
+ <code>LinkedTransferQueue</code>
+ <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
+ actions subsequent to the access or removal of that element from
+ the <code>LinkedTransferQueue</code> in another thread.
+ @since 1.7
+ @author Doug Lea
+ */
 @interface JavaUtilConcurrentLinkedTransferQueue : JavaUtilAbstractQueue < JavaUtilConcurrentTransferQueue, JavaIoSerializable > {
  @public
-  JavaUtilConcurrentLinkedTransferQueue_Node *head_;
+  /*!
+   @brief head of the queue; null until first enqueue
+   */
+  volatile_id head_;
 }
 
-+ (id)castWithId:(id)item;
++ (jint)SWEEP_THRESHOLD;
 
-- (JavaUtilConcurrentLinkedTransferQueue_Node *)succWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)p;
+#pragma mark Public
 
-- (void)unspliceWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)pred
-                withJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)s;
-
+/*!
+ @brief Creates an initially empty <code>LinkedTransferQueue</code>.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Creates a <code>LinkedTransferQueue</code>
+ initially containing the elements of the given collection,
+ added in traversal order of the collection's iterator.
+ @param c the collection of elements to initially contain
+ @throws NullPointerException if the specified collection or any
+ of its elements are null
+ */
 - (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)c;
 
-- (void)putWithId:(id)e;
-
-- (jboolean)offerWithId:(id)e
-               withLong:(jlong)timeout
-withJavaUtilConcurrentTimeUnitEnum:(JavaUtilConcurrentTimeUnitEnum *)unit;
-
-- (jboolean)offerWithId:(id)e;
-
+/*!
+ @brief Inserts the specified element at the tail of this queue.
+ As the queue is unbounded, this method will never throw
+ <code>IllegalStateException</code> or return <code>false</code>.
+ @return <code>true</code> (as specified by <code>Collection.add</code>)
+ @throws NullPointerException if the specified element is null
+ */
 - (jboolean)addWithId:(id)e;
 
-- (jboolean)tryTransferWithId:(id)e;
+/*!
+ @brief Returns <code>true</code> if this queue contains the specified element.
+ More formally, returns <code>true</code> if and only if this queue contains
+ at least one element <code>e</code> such that <code>o.equals(e)</code>.
+ @param o object to be checked for containment in this queue
+ @return <code>true</code> if this queue contains the specified element
+ */
+- (jboolean)containsWithId:(id)o;
 
-- (void)transferWithId:(id)e;
-
-- (jboolean)tryTransferWithId:(id)e
-                     withLong:(jlong)timeout
-withJavaUtilConcurrentTimeUnitEnum:(JavaUtilConcurrentTimeUnitEnum *)unit;
-
-- (id)take;
-
-- (id)pollWithLong:(jlong)timeout
-withJavaUtilConcurrentTimeUnitEnum:(JavaUtilConcurrentTimeUnitEnum *)unit;
-
-- (id)poll;
-
+/*!
+ @throws NullPointerException
+ @throws IllegalArgumentException
+ */
 - (jint)drainToWithJavaUtilCollection:(id<JavaUtilCollection>)c;
 
+/*!
+ @throws NullPointerException
+ @throws IllegalArgumentException
+ */
 - (jint)drainToWithJavaUtilCollection:(id<JavaUtilCollection>)c
                               withInt:(jint)maxElements;
 
-- (id<JavaUtilIterator>)iterator;
-
-- (id)peek;
-
-- (jboolean)isEmpty;
+- (jint)getWaitingConsumerCount;
 
 - (jboolean)hasWaitingConsumer;
 
-- (jint)size;
+/*!
+ @brief Returns <code>true</code> if this queue contains no elements.
+ @return <code>true</code> if this queue contains no elements
+ */
+- (jboolean)isEmpty;
 
-- (jint)getWaitingConsumerCount;
+/*!
+ @brief Returns an iterator over the elements in this queue in proper sequence.
+ The elements will be returned in order from first (head) to last (tail).
+ <p>The returned iterator is a "weakly consistent" iterator that
+ will never throw <code>ConcurrentModificationException</code>
+ , and guarantees to traverse
+ elements as they existed upon construction of the iterator, and
+ may (but is not guaranteed to) reflect any modifications
+ subsequent to construction.
+ @return an iterator over the elements in this queue in proper sequence
+ */
+- (id<JavaUtilIterator>)iterator;
 
-- (jboolean)removeWithId:(id)o;
+/*!
+ @brief Inserts the specified element at the tail of this queue.
+ As the queue is unbounded, this method will never return <code>false</code>.
+ @return <code>true</code> (as specified by <code>Queue.offer</code>)
+ @throws NullPointerException if the specified element is null
+ */
+- (jboolean)offerWithId:(id)e;
 
-- (jboolean)containsWithId:(id)o;
+/*!
+ @brief Inserts the specified element at the tail of this queue.
+ As the queue is unbounded, this method will never block or
+ return <code>false</code>.
+ @return <code>true</code> (as specified by
+ <code>BlockingQueue.offer</code>
+ )
+ @throws NullPointerException if the specified element is null
+ */
+- (jboolean)offerWithId:(id)e
+               withLong:(jlong)timeout
+withJavaUtilConcurrentTimeUnit:(JavaUtilConcurrentTimeUnit *)unit;
 
+- (id)peek;
+
+- (id)poll;
+
+- (id)pollWithLong:(jlong)timeout
+withJavaUtilConcurrentTimeUnit:(JavaUtilConcurrentTimeUnit *)unit;
+
+/*!
+ @brief Inserts the specified element at the tail of this queue.
+ As the queue is unbounded, this method will never block.
+ @throws NullPointerException if the specified element is null
+ */
+- (void)putWithId:(id)e;
+
+/*!
+ @brief Always returns <code>Integer.MAX_VALUE</code> because a
+ <code>LinkedTransferQueue</code> is not capacity constrained.
+ @return <code>Integer.MAX_VALUE</code> (as specified by
+ <code>BlockingQueue.remainingCapacity</code>
+ )
+ */
 - (jint)remainingCapacity;
 
+/*!
+ @brief Removes a single instance of the specified element from this queue,
+ if it is present.
+ More formally, removes an element <code>e</code> such
+ that <code>o.equals(e)</code>, if this queue contains one or more such
+ elements.
+ Returns <code>true</code> if this queue contained the specified element
+ (or equivalently, if this queue changed as a result of the call).
+ @param o element to be removed from this queue, if present
+ @return <code>true</code> if this queue changed as a result of the call
+ */
+- (jboolean)removeWithId:(id)o;
+
+/*!
+ @brief Returns the number of elements in this queue.
+ If this queue
+ contains more than <code>Integer.MAX_VALUE</code> elements, returns
+ <code>Integer.MAX_VALUE</code>.
+ <p>Beware that, unlike in most collections, this method is
+ <em>NOT</em> a constant-time operation. Because of the
+ asynchronous nature of these queues, determining the current
+ number of elements requires an O(n) traversal.
+ @return the number of elements in this queue
+ */
+- (jint)size;
+
+- (id)take;
+
+/*!
+ @brief Transfers the element to a consumer, waiting if necessary to do so.
+ <p>More precisely, transfers the specified element immediately
+ if there exists a consumer already waiting to receive it (in
+ <code>take</code> or timed <code>poll</code>),
+ else inserts the specified element at the tail of this queue
+ and waits until the element is received by a consumer.
+ @throws NullPointerException if the specified element is null
+ */
+- (void)transferWithId:(id)e;
+
+/*!
+ @brief Transfers the element to a waiting consumer immediately, if possible.
+ <p>More precisely, transfers the specified element immediately
+ if there exists a consumer already waiting to receive it (in
+ <code>take</code> or timed <code>poll</code>),
+ otherwise returning <code>false</code> without enqueuing the element.
+ @throws NullPointerException if the specified element is null
+ */
+- (jboolean)tryTransferWithId:(id)e;
+
+/*!
+ @brief Transfers the element to a consumer if it is possible to do so
+ before the timeout elapses.
+ <p>More precisely, transfers the specified element immediately
+ if there exists a consumer already waiting to receive it (in
+ <code>take</code> or timed <code>poll</code>),
+ else inserts the specified element at the tail of this queue
+ and waits until the element is received by a consumer,
+ returning <code>false</code> if the specified wait time elapses
+ before the element can be transferred.
+ @throws NullPointerException if the specified element is null
+ */
+- (jboolean)tryTransferWithId:(id)e
+                     withLong:(jlong)timeout
+withJavaUtilConcurrentTimeUnit:(JavaUtilConcurrentTimeUnit *)unit;
+
+#pragma mark Package-Private
+
++ (id)castWithId:(id)item;
+
+/*!
+ @brief Returns the successor of p, or the head node if p.next has been
+ linked to self, which will only be true if traversing with a
+ stale pointer that is now off the list.
+ */
+- (JavaUtilConcurrentLinkedTransferQueue_Node *)succWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)p;
+
+/*!
+ @brief Unsplices (now or later) the given deleted/cancelled node with
+ the given predecessor.
+ @param pred a node that was at one time known to be the
+ predecessor of s, or null or s itself if s is/was at head
+ @param s the node to be unspliced
+ */
+- (void)unspliceWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)pred
+                withJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)s;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilConcurrentLinkedTransferQueue_initialized;
 J2OBJC_STATIC_INIT(JavaUtilConcurrentLinkedTransferQueue)
 
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue, head_, JavaUtilConcurrentLinkedTransferQueue_Node *)
+J2OBJC_VOLATILE_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue, head_, JavaUtilConcurrentLinkedTransferQueue_Node *)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief The maximum number of estimated removal failures (sweepVotes)
+ to tolerate before sweeping through the queue unlinking
+ cancelled nodes that were not unlinked upon initial
+ removal.
+ See above for explanation. The value must be at least
+ two to avoid useless sweeps when removing trailing nodes.
+ */
+inline jint JavaUtilConcurrentLinkedTransferQueue_get_SWEEP_THRESHOLD();
+#define JavaUtilConcurrentLinkedTransferQueue_SWEEP_THRESHOLD 32
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilConcurrentLinkedTransferQueue, SWEEP_THRESHOLD, jint)
 
 FOUNDATION_EXPORT id JavaUtilConcurrentLinkedTransferQueue_castWithId_(id item);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, serialVersionUID, jlong)
+FOUNDATION_EXPORT void JavaUtilConcurrentLinkedTransferQueue_init(JavaUtilConcurrentLinkedTransferQueue *self);
 
-FOUNDATION_EXPORT jboolean JavaUtilConcurrentLinkedTransferQueue_MP_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, MP_, jboolean)
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue *new_JavaUtilConcurrentLinkedTransferQueue_init() NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, FRONT_SPINS, jint)
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue *create_JavaUtilConcurrentLinkedTransferQueue_init();
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, CHAINED_SPINS, jint)
+FOUNDATION_EXPORT void JavaUtilConcurrentLinkedTransferQueue_initWithJavaUtilCollection_(JavaUtilConcurrentLinkedTransferQueue *self, id<JavaUtilCollection> c);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, SWEEP_THRESHOLD, jint)
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue *new_JavaUtilConcurrentLinkedTransferQueue_initWithJavaUtilCollection_(id<JavaUtilCollection> c) NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, NOW, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, ASYNC, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, SYNC, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, TIMED, jint)
-
-FOUNDATION_EXPORT SunMiscUnsafe *JavaUtilConcurrentLinkedTransferQueue_UNSAFE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, UNSAFE_, SunMiscUnsafe *)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_headOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, headOffset_, jlong)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_tailOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, tailOffset_, jlong)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_sweepVotesOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue, sweepVotesOffset_, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue *create_JavaUtilConcurrentLinkedTransferQueue_initWithJavaUtilCollection_(id<JavaUtilCollection> c);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentLinkedTransferQueue)
 
-#define JavaUtilConcurrentLinkedTransferQueue_Node_serialVersionUID -3375979862319811754LL
+#endif
 
+#if !defined (JavaUtilConcurrentLinkedTransferQueue_Node_) && (INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue || defined(INCLUDE_JavaUtilConcurrentLinkedTransferQueue_Node))
+#define JavaUtilConcurrentLinkedTransferQueue_Node_
+
+@class JavaLangThread;
+
+/*!
+ @brief Queue nodes.
+ Uses Object, not E, for items to allow forgetting
+ them after use.  Relies heavily on Unsafe mechanics to minimize
+ unnecessary ordering constraints: Writes that are intrinsically
+ ordered wrt other accesses or CASes use simple relaxed forms.
+ */
 @interface JavaUtilConcurrentLinkedTransferQueue_Node : NSObject {
  @public
   jboolean isData_;
-  id item_;
-  JavaUtilConcurrentLinkedTransferQueue_Node *next_;
-  JavaLangThread *waiter_;
+  volatile_id item_;
+  volatile_id next_;
+  volatile_id waiter_;
 }
 
-- (jboolean)casNextWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)cmp
-                   withJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)val;
+#pragma mark Package-Private
+
+/*!
+ @brief Constructs a new node.
+ Uses relaxed write because item can
+ only be seen after publication via casNext.
+ */
+- (instancetype)initWithId:(id)item
+               withBoolean:(jboolean)isData;
+
+/*!
+ @brief Returns true if a node with the given mode cannot be
+ appended to this node because this node is unmatched and
+ has opposite data mode.
+ */
+- (jboolean)cannotPrecedeWithBoolean:(jboolean)haveData;
 
 - (jboolean)casItemWithId:(id)cmp
                    withId:(id)val;
 
-- (instancetype)initWithId:(id)item
-               withBoolean:(jboolean)isData;
+- (jboolean)casNextWithJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)cmp
+                   withJavaUtilConcurrentLinkedTransferQueue_Node:(JavaUtilConcurrentLinkedTransferQueue_Node *)val;
 
-- (void)forgetNext;
-
+/*!
+ @brief Sets item to self and waiter to null, to avoid garbage
+ retention after matching or cancelling.
+ Uses relaxed writes
+ because order is already constrained in the only calling
+ contexts: item is forgotten only after volatile/atomic
+ mechanics that extract items.  Similarly, clearing waiter
+ follows either CAS or return from park (if ever parked;
+ else we don't care).
+ */
 - (void)forgetContents;
 
+/*!
+ @brief Links node to itself to avoid garbage retention.
+ Called
+ only after CASing head field, so uses relaxed write.
+ */
+- (void)forgetNext;
+
+/*!
+ @brief Returns true if this node has been matched, including the
+ case of artificial matches due to cancellation.
+ */
 - (jboolean)isMatched;
 
+/*!
+ @brief Returns true if this is an unmatched request node.
+ */
 - (jboolean)isUnmatchedRequest;
 
-- (jboolean)cannotPrecedeWithBoolean:(jboolean)haveData;
-
+/*!
+ @brief Tries to artificially match a data node -- used by remove.
+ */
 - (jboolean)tryMatchData;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilConcurrentLinkedTransferQueue_Node_initialized;
 J2OBJC_STATIC_INIT(JavaUtilConcurrentLinkedTransferQueue_Node)
 
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, item_, id)
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, next_, JavaUtilConcurrentLinkedTransferQueue_Node *)
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, waiter_, JavaLangThread *)
+J2OBJC_VOLATILE_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, item_, id)
+J2OBJC_VOLATILE_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, next_, JavaUtilConcurrentLinkedTransferQueue_Node *)
+J2OBJC_VOLATILE_FIELD_SETTER(JavaUtilConcurrentLinkedTransferQueue_Node, waiter_, JavaLangThread *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilConcurrentLinkedTransferQueue_Node_initWithId_withBoolean_(JavaUtilConcurrentLinkedTransferQueue_Node *self, id item, jboolean isData);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue_Node, serialVersionUID, jlong)
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue_Node *new_JavaUtilConcurrentLinkedTransferQueue_Node_initWithId_withBoolean_(id item, jboolean isData) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT SunMiscUnsafe *JavaUtilConcurrentLinkedTransferQueue_Node_UNSAFE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue_Node, UNSAFE_, SunMiscUnsafe *)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_Node_itemOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue_Node, itemOffset_, jlong)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_Node_nextOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue_Node, nextOffset_, jlong)
-
-FOUNDATION_EXPORT jlong JavaUtilConcurrentLinkedTransferQueue_Node_waiterOffset_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentLinkedTransferQueue_Node, waiterOffset_, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue_Node *create_JavaUtilConcurrentLinkedTransferQueue_Node_initWithId_withBoolean_(id item, jboolean isData);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentLinkedTransferQueue_Node)
 
-@interface JavaUtilConcurrentLinkedTransferQueue_Itr : NSObject < JavaUtilIterator > {
-}
+#endif
 
-- (instancetype)initWithJavaUtilConcurrentLinkedTransferQueue:(JavaUtilConcurrentLinkedTransferQueue *)outer$;
+#if !defined (JavaUtilConcurrentLinkedTransferQueue_Itr_) && (INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue || defined(INCLUDE_JavaUtilConcurrentLinkedTransferQueue_Itr))
+#define JavaUtilConcurrentLinkedTransferQueue_Itr_
+
+#define RESTRICT_JavaUtilIterator 1
+#define INCLUDE_JavaUtilIterator 1
+#include "java/util/Iterator.h"
+
+@class JavaUtilConcurrentLinkedTransferQueue;
+
+@interface JavaUtilConcurrentLinkedTransferQueue_Itr : NSObject < JavaUtilIterator >
+
+#pragma mark Public
 
 - (jboolean)hasNext;
 
@@ -209,13 +428,24 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentLinkedTransferQueue_Node)
 
 - (void)remove;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilConcurrentLinkedTransferQueue:(JavaUtilConcurrentLinkedTransferQueue *)outer$;
+
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilConcurrentLinkedTransferQueue_Itr)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilConcurrentLinkedTransferQueue_Itr_initWithJavaUtilConcurrentLinkedTransferQueue_(JavaUtilConcurrentLinkedTransferQueue_Itr *self, JavaUtilConcurrentLinkedTransferQueue *outer$);
+
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue_Itr *new_JavaUtilConcurrentLinkedTransferQueue_Itr_initWithJavaUtilConcurrentLinkedTransferQueue_(JavaUtilConcurrentLinkedTransferQueue *outer$) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentLinkedTransferQueue_Itr *create_JavaUtilConcurrentLinkedTransferQueue_Itr_initWithJavaUtilConcurrentLinkedTransferQueue_(JavaUtilConcurrentLinkedTransferQueue *outer$);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentLinkedTransferQueue_Itr)
 
-#endif // _JavaUtilConcurrentLinkedTransferQueue_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilConcurrentLinkedTransferQueue")

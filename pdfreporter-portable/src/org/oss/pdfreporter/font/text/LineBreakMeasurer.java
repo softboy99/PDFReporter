@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.oss.pdfreporter.font.text;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.oss.pdfreporter.text.AttributedStringConverter;
 import org.oss.pdfreporter.text.Paragraph;
 import org.oss.pdfreporter.uses.java.awt.text.AttributedString;
@@ -17,16 +20,17 @@ import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator;
 
 
 public class LineBreakMeasurer implements ILineBreakMeasurer {
+	private final static Logger logger = Logger.getLogger(LineBreakMeasurer.class.getName());
 
 	private final Paragraph paragraph;
 	private final IBreakIterator wordBreakIterator;
 	private final IBreakIterator characterBreakIterator;
-	private int limit;
+	private final int limit;
     private int start;
     private int pos;
 	
-	public LineBreakMeasurer(AttributedString attributedText, String plainText, IBreakIterator breakIterator) {
-		IAttributedCharacterIterator charcterIterator = attributedText.getIterator();
+	public LineBreakMeasurer(final AttributedString attributedText, final String plainText, final IBreakIterator breakIterator) {
+		final IAttributedCharacterIterator charcterIterator = attributedText.getIterator();
 		this.limit = charcterIterator.getEndIndex();
 	    this.pos = this.start = charcterIterator.getBeginIndex();
 	    this.paragraph = AttributedStringConverter.convert(attributedText, plainText);
@@ -36,26 +40,26 @@ public class LineBreakMeasurer implements ILineBreakMeasurer {
 	    this.characterBreakIterator.setText(paragraph);
 	}
 	
-	public LineBreakMeasurer(AttributedString attributedText, String plainText) {
+	public LineBreakMeasurer(final AttributedString attributedText, final String plainText) {
 		this(attributedText,plainText,new WordBreakIterator());
 	}
 
-	public LineBreakMeasurer(AttributedString attributedText, IBreakIterator breakIterator) {
+	public LineBreakMeasurer(final AttributedString attributedText, final IBreakIterator breakIterator) {
 		this(attributedText,AttributedStringConverter.getPlainText(attributedText),breakIterator);
 	}
 
-	public LineBreakMeasurer(AttributedString attributedText) {
+	public LineBreakMeasurer(final AttributedString attributedText) {
 		this(attributedText,new WordBreakIterator());
 	}
 	
 	@Override
-	public int nextOffset(float wrappingWidth) {
+	public int nextOffset(final float wrappingWidth) {
 		return nextOffset(wrappingWidth, limit, false);
 	}
 
 	@Override
-	public int nextOffset(float wrappingWidth, int offsetLimit,
-			boolean requireNextWord) {
+	public int nextOffset(final float wrappingWidth, final int offsetLimit,
+			final boolean requireNextWord) {
 		int nextOffset = pos;
 		if (pos < limit) {	
             if (offsetLimit <= pos) {
@@ -73,36 +77,43 @@ public class LineBreakMeasurer implements ILineBreakMeasurer {
 	}
 
 	@Override
-	public ITextLayout nextLayout(float wrappingWidth) {
+	public ITextLayout nextLayout(final float wrappingWidth) {
 		return nextLayout(wrappingWidth, limit, false);
 	}
 
 	@Override
-	public ITextLayout nextLayout(float wrappingWidth, int offsetLimit,
-			boolean requireNextWord) {
-		int currentOffset = pos;
-		int nextOffset = nextOffset(wrappingWidth,offsetLimit,requireNextWord);
+	public ITextLayout nextLayout(final float wrappingWidth, final int offsetLimit,
+			final boolean requireNextWord) {
+		final int currentOffset = pos;
+		final int nextOffset = nextOffset(wrappingWidth,offsetLimit,requireNextWord);
 		if (currentOffset==nextOffset && requireNextWord) {
 			return null;
 		}
 		setPosition(nextOffset);
-		Paragraph textLine = paragraph.subParagraph(currentOffset, nextOffset);
-        return new TextLayout(textLine, nextOffset - currentOffset);
+		final Paragraph textLine = paragraph.subParagraph(currentOffset, nextOffset);
+        final ITextLayout textLayout = new TextLayout(textLine, nextOffset - currentOffset);
+		if (logger.isLoggable(Level.FINER)) {
+			logger.finer(textLayout.toString());
+		}
+		return textLayout;
 	}
 	
 	
 	@Override
 	public int getPosition() {
+		if (logger.isLoggable(Level.FINEST)) {
+			logger.finest(String.format("%s", pos));
+		}
         return pos;
 	}
 
 	@Override
-	public void setPosition(int newPosition) {
+	public void setPosition(final int newPosition) {
         if (newPosition < start || newPosition > limit) {
             throw new IllegalArgumentException("position is out of range");
         }
 		if (newPosition < limit) {	
-			Paragraph nextParagraph = paragraph.subParagraph(newPosition);
+			final Paragraph nextParagraph = paragraph.subParagraph(newPosition);
 			wordBreakIterator.setText(nextParagraph);
 			characterBreakIterator.setText(nextParagraph);
 		}
@@ -110,14 +121,14 @@ public class LineBreakMeasurer implements ILineBreakMeasurer {
 	}
 
 	@Override
-	public void insertChar(IAttributedCharacterIterator newParagraph,
-			int insertPos) {
+	public void insertChar(final IAttributedCharacterIterator newParagraph,
+			final int insertPos) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void deleteChar(IAttributedCharacterIterator newParagraph,
-			int deletePos) {
+	public void deleteChar(final IAttributedCharacterIterator newParagraph,
+			final int deletePos) {
 		throw new UnsupportedOperationException();
 	}
 

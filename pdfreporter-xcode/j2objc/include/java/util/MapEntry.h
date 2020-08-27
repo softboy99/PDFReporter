@@ -3,22 +3,36 @@
 //  source: android/libcore/luni/src/main/java/java/util/MapEntry.java
 //
 
-#ifndef _JavaUtilMapEntry_H_
-#define _JavaUtilMapEntry_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilMapEntry")
+#ifdef RESTRICT_JavaUtilMapEntry
+#define INCLUDE_ALL_JavaUtilMapEntry 0
+#else
+#define INCLUDE_ALL_JavaUtilMapEntry 1
+#endif
+#undef RESTRICT_JavaUtilMapEntry
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilMapEntry_) && (INCLUDE_ALL_JavaUtilMapEntry || defined(INCLUDE_JavaUtilMapEntry))
+#define JavaUtilMapEntry_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap_Entry 1
 #include "java/util/Map.h"
 
+/*!
+ @brief MapEntry is an internal class which provides an implementation of Map.Entry.
+ */
 @interface JavaUtilMapEntry : NSObject < JavaUtilMap_Entry, NSCopying > {
  @public
   id key_;
   id value_;
 }
 
-- (instancetype)initWithId:(id)theKey;
-
-- (instancetype)initWithId:(id)theKey
-                    withId:(id)theValue;
+#pragma mark Public
 
 - (id)clone;
 
@@ -34,6 +48,13 @@
 
 - (NSString *)description;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithId:(id)theKey;
+
+- (instancetype)initWithId:(id)theKey
+                    withId:(id)theValue;
+
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilMapEntry)
@@ -41,10 +62,26 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilMapEntry)
 J2OBJC_FIELD_SETTER(JavaUtilMapEntry, key_, id)
 J2OBJC_FIELD_SETTER(JavaUtilMapEntry, value_, id)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilMapEntry_initWithId_(JavaUtilMapEntry *self, id theKey);
+
+FOUNDATION_EXPORT JavaUtilMapEntry *new_JavaUtilMapEntry_initWithId_(id theKey) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilMapEntry *create_JavaUtilMapEntry_initWithId_(id theKey);
+
+FOUNDATION_EXPORT void JavaUtilMapEntry_initWithId_withId_(JavaUtilMapEntry *self, id theKey, id theValue);
+
+FOUNDATION_EXPORT JavaUtilMapEntry *new_JavaUtilMapEntry_initWithId_withId_(id theKey, id theValue) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilMapEntry *create_JavaUtilMapEntry_initWithId_withId_(id theKey, id theValue);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMapEntry)
+
+#endif
+
+#if !defined (JavaUtilMapEntry_Type_) && (INCLUDE_ALL_JavaUtilMapEntry || defined(INCLUDE_JavaUtilMapEntry_Type))
+#define JavaUtilMapEntry_Type_
+
+@class JavaUtilMapEntry;
 
 @protocol JavaUtilMapEntry_Type < NSObject, JavaObject >
 
@@ -56,4 +93,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilMapEntry_Type)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMapEntry_Type)
 
-#endif // _JavaUtilMapEntry_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilMapEntry")

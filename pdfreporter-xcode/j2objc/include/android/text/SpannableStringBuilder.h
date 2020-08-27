@@ -3,64 +3,73 @@
 //  source: android/frameworks/base/core/java/android/text/SpannableStringBuilder.java
 //
 
-#ifndef _AndroidTextSpannableStringBuilder_H_
-#define _AndroidTextSpannableStringBuilder_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_AndroidTextSpannableStringBuilder")
+#ifdef RESTRICT_AndroidTextSpannableStringBuilder
+#define INCLUDE_ALL_AndroidTextSpannableStringBuilder 0
+#else
+#define INCLUDE_ALL_AndroidTextSpannableStringBuilder 1
+#endif
+#undef RESTRICT_AndroidTextSpannableStringBuilder
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (AndroidTextSpannableStringBuilder_) && (INCLUDE_ALL_AndroidTextSpannableStringBuilder || defined(INCLUDE_AndroidTextSpannableStringBuilder))
+#define AndroidTextSpannableStringBuilder_
+
+#define RESTRICT_JavaLangCharSequence 1
+#define INCLUDE_JavaLangCharSequence 1
+#include "java/lang/CharSequence.h"
+
+#define RESTRICT_AndroidTextGetChars 1
+#define INCLUDE_AndroidTextGetChars 1
+#include "android/text/GetChars.h"
+
+#define RESTRICT_AndroidTextSpannable 1
+#define INCLUDE_AndroidTextSpannable 1
+#include "android/text/Spannable.h"
+
+#define RESTRICT_AndroidTextEditable 1
+#define INCLUDE_AndroidTextEditable 1
+#include "android/text/Editable.h"
+
+#define RESTRICT_JavaLangAppendable 1
+#define INCLUDE_JavaLangAppendable 1
+#include "java/lang/Appendable.h"
 
 @class IOSCharArray;
 @class IOSClass;
-@class IOSIntArray;
 @class IOSObjectArray;
 
-#include "J2ObjC_header.h"
-#include "android/text/Editable.h"
-#include "android/text/GetChars.h"
-#include "android/text/Spannable.h"
-#include "java/lang/Appendable.h"
-#include "java/lang/CharSequence.h"
+/*!
+ @brief This is the class for text whose content and markup can both be changed.
+ */
+@interface AndroidTextSpannableStringBuilder : NSObject < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpannable, AndroidTextEditable, JavaLangAppendable >
 
-#define AndroidTextSpannableStringBuilder_END_MASK 15
-#define AndroidTextSpannableStringBuilder_MARK 1
-#define AndroidTextSpannableStringBuilder_PARAGRAPH 3
-#define AndroidTextSpannableStringBuilder_POINT 2
-#define AndroidTextSpannableStringBuilder_SPAN_END_AT_END 32768
-#define AndroidTextSpannableStringBuilder_SPAN_END_AT_START 16384
-#define AndroidTextSpannableStringBuilder_SPAN_START_AT_END 8192
-#define AndroidTextSpannableStringBuilder_SPAN_START_AT_START 4096
-#define AndroidTextSpannableStringBuilder_SPAN_START_END_MASK 61440
-#define AndroidTextSpannableStringBuilder_START_MASK 240
-#define AndroidTextSpannableStringBuilder_START_SHIFT 4
+#pragma mark Public
 
-@interface AndroidTextSpannableStringBuilder : NSObject < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpannable, AndroidTextEditable, JavaLangAppendable > {
-}
-
+/*!
+ @brief Create a new SpannableStringBuilder with empty contents
+ */
 - (instancetype)init;
 
+/*!
+ @brief Create a new SpannableStringBuilder containing a copy of the
+ specified text, including its spans if any.
+ */
 - (instancetype)initWithJavaLangCharSequence:(id<JavaLangCharSequence>)text;
 
+/*!
+ @brief Create a new SpannableStringBuilder containing a copy of the
+ specified slice of the specified text, including its spans if any.
+ */
 - (instancetype)initWithJavaLangCharSequence:(id<JavaLangCharSequence>)text
                                      withInt:(jint)start
                                      withInt:(jint)end;
 
-+ (AndroidTextSpannableStringBuilder *)valueOfWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
-
-- (jchar)charAtWithInt:(jint)where;
-
-- (jint)sequenceLength;
-
-- (AndroidTextSpannableStringBuilder *)insertWithInt:(jint)where
-                            withJavaLangCharSequence:(id<JavaLangCharSequence>)tb
-                                             withInt:(jint)start
-                                             withInt:(jint)end;
-
-- (AndroidTextSpannableStringBuilder *)insertWithInt:(jint)where
-                            withJavaLangCharSequence:(id<JavaLangCharSequence>)tb;
-
-- (AndroidTextSpannableStringBuilder *)delete__WithInt:(jint)start
-                                               withInt:(jint)end;
-
-- (void)clear;
-
-- (void)clearSpans;
+- (AndroidTextSpannableStringBuilder *)appendWithChar:(jchar)text;
 
 - (AndroidTextSpannableStringBuilder *)appendWithJavaLangCharSequence:(id<JavaLangCharSequence>)text;
 
@@ -68,7 +77,87 @@
                                                               withInt:(jint)start
                                                               withInt:(jint)end;
 
-- (AndroidTextSpannableStringBuilder *)appendWithChar:(jchar)text;
+/*!
+ @brief Return the char at the specified offset within the buffer.
+ */
+- (jchar)charAtWithInt:(jint)where;
+
+- (void)clear;
+
+- (void)clearSpans;
+
+- (AndroidTextSpannableStringBuilder *)delete__WithInt:(jint)start
+                                               withInt:(jint)end;
+
+- (jboolean)isEqual:(id)o;
+
+/*!
+ @brief Copy the specified range of chars from this buffer into the
+ specified array, beginning at the specified offset.
+ */
+- (void)getCharsWithInt:(jint)start
+                withInt:(jint)end
+          withCharArray:(IOSCharArray *)dest
+                withInt:(jint)destoff;
+
+- (IOSObjectArray *)getFilters;
+
+/*!
+ @brief Return the buffer offset of the end of the specified
+ markup object, or -1 if it is not attached to this buffer.
+ */
+- (jint)getSpanEndWithId:(id)what;
+
+/*!
+ @brief Return the flags of the end of the specified
+ markup object, or 0 if it is not attached to this buffer.
+ */
+- (jint)getSpanFlagsWithId:(id)what;
+
+/*!
+ @brief Return an array of the spans of the specified type that overlap
+ the specified range of the buffer.
+ The kind may be Object.class to get
+ a list of all the spans regardless of type.
+ */
+- (IOSObjectArray *)getSpansWithInt:(jint)queryStart
+                            withInt:(jint)queryEnd
+                       withIOSClass:(IOSClass *)kind;
+
+/*!
+ @brief Return the buffer offset of the beginning of the specified
+ markup object, or -1 if it is not attached to this buffer.
+ */
+- (jint)getSpanStartWithId:(id)what;
+
+- (NSUInteger)hash;
+
+- (AndroidTextSpannableStringBuilder *)insertWithInt:(jint)where
+                            withJavaLangCharSequence:(id<JavaLangCharSequence>)tb;
+
+- (AndroidTextSpannableStringBuilder *)insertWithInt:(jint)where
+                            withJavaLangCharSequence:(id<JavaLangCharSequence>)tb
+                                             withInt:(jint)start
+                                             withInt:(jint)end;
+
+/*!
+ @brief Return the number of chars in the buffer.
+ */
+- (jint)length;
+
+/*!
+ @brief Return the next offset after <code>start</code> but less than or
+ equal to <code>limit</code> where a span of the specified type
+ begins or ends.
+ */
+- (jint)nextSpanTransitionWithInt:(jint)start
+                          withInt:(jint)limit
+                     withIOSClass:(IOSClass *)kind;
+
+/*!
+ @brief Remove the specified markup object from the buffer.
+ */
+- (void)removeSpanWithId:(id)what;
 
 - (AndroidTextSpannableStringBuilder *)replaceWithInt:(jint)start
                                               withInt:(jint)end
@@ -80,82 +169,67 @@
                                               withInt:(jint)tbstart
                                               withInt:(jint)tbend;
 
+- (void)setFiltersWithAndroidTextInputFilterArray:(IOSObjectArray *)filters;
+
+/*!
+ @brief Mark the specified range of text with the specified object.
+ The flags determine how the span will behave when text is
+ inserted at the start or end of the span's range.
+ */
 - (void)setSpanWithId:(id)what
               withInt:(jint)start
               withInt:(jint)end
               withInt:(jint)flags;
 
-- (void)removeSpanWithId:(id)what;
+/*!
+ @brief Return a new CharSequence containing a copy of the specified
+ range of this buffer, including the overlapping spans.
+ */
+- (id<JavaLangCharSequence>)subSequenceFrom:(jint)start
+                                         to:(jint)end;
 
-- (jint)getSpanStartWithId:(id)what;
-
-- (jint)getSpanEndWithId:(id)what;
-
-- (jint)getSpanFlagsWithId:(id)what;
-
-- (IOSObjectArray *)getSpansWithInt:(jint)queryStart
-                            withInt:(jint)queryEnd
-                       withIOSClass:(IOSClass *)kind;
-
-- (jint)nextSpanTransitionWithInt:(jint)start
-                          withInt:(jint)limit
-                     withIOSClass:(IOSClass *)kind;
-
-- (id<JavaLangCharSequence>)subSequenceFrom:(int)start to:(int)end;
-
-- (void)getCharsWithInt:(jint)start
-                withInt:(jint)end
-          withCharArray:(IOSCharArray *)dest
-                withInt:(jint)destoff;
-
-- (NSString *)description;
-
+/*!
+ @brief Return a String containing a copy of the chars in this buffer, limited to the
+ [start, end[ range.
+ */
 - (NSString *)substringWithInt:(jint)start
                        withInt:(jint)end;
 
-- (void)setFiltersWithAndroidTextInputFilterArray:(IOSObjectArray *)filters;
+/*!
+ @brief Return a String containing a copy of the chars in this buffer.
+ */
+- (NSString *)description;
 
-- (IOSObjectArray *)getFilters;
-
-- (jboolean)isEqual:(id)o;
-
-- (NSUInteger)hash;
++ (AndroidTextSpannableStringBuilder *)valueOfWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
 
 @end
 
-FOUNDATION_EXPORT BOOL AndroidTextSpannableStringBuilder_initialized;
 J2OBJC_STATIC_INIT(AndroidTextSpannableStringBuilder)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void AndroidTextSpannableStringBuilder_init(AndroidTextSpannableStringBuilder *self);
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *new_AndroidTextSpannableStringBuilder_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *create_AndroidTextSpannableStringBuilder_init();
+
+FOUNDATION_EXPORT void AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_(AndroidTextSpannableStringBuilder *self, id<JavaLangCharSequence> text);
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *new_AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_(id<JavaLangCharSequence> text) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *create_AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_(id<JavaLangCharSequence> text);
+
+FOUNDATION_EXPORT void AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_withInt_withInt_(AndroidTextSpannableStringBuilder *self, id<JavaLangCharSequence> text, jint start, jint end);
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *new_AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_withInt_withInt_(id<JavaLangCharSequence> text, jint start, jint end) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *create_AndroidTextSpannableStringBuilder_initWithJavaLangCharSequence_withInt_withInt_(id<JavaLangCharSequence> text, jint start, jint end);
 
 FOUNDATION_EXPORT AndroidTextSpannableStringBuilder *AndroidTextSpannableStringBuilder_valueOfWithJavaLangCharSequence_(id<JavaLangCharSequence> source);
 
-FOUNDATION_EXPORT IOSObjectArray *AndroidTextSpannableStringBuilder_NO_FILTERS_;
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, NO_FILTERS_, IOSObjectArray *)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, MARK, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, POINT, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, PARAGRAPH, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, START_MASK, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, END_MASK, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, START_SHIFT, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, SPAN_START_AT_START, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, SPAN_START_AT_END, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, SPAN_END_AT_START, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, SPAN_END_AT_END, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(AndroidTextSpannableStringBuilder, SPAN_START_END_MASK, jint)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(AndroidTextSpannableStringBuilder)
 
-#endif // _AndroidTextSpannableStringBuilder_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_AndroidTextSpannableStringBuilder")

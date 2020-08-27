@@ -3,35 +3,60 @@
 //  source: android/libcore/luni/src/main/java/java/security/CodeSource.java
 //
 
-#ifndef _JavaSecurityCodeSource_H_
-#define _JavaSecurityCodeSource_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityCodeSource")
+#ifdef RESTRICT_JavaSecurityCodeSource
+#define INCLUDE_ALL_JavaSecurityCodeSource 0
+#else
+#define INCLUDE_ALL_JavaSecurityCodeSource 1
+#endif
+#undef RESTRICT_JavaSecurityCodeSource
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityCodeSource_) && (INCLUDE_ALL_JavaSecurityCodeSource || defined(INCLUDE_JavaSecurityCodeSource))
+#define JavaSecurityCodeSource_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSObjectArray;
 @class JavaNetURL;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityCodeSource : NSObject < JavaIoSerializable >
 
-@interface JavaSecurityCodeSource : NSObject < JavaIoSerializable > {
-}
+#pragma mark Public
 
-- (IOSObjectArray *)getObjects;
+- (instancetype)init;
 
 - (IOSObjectArray *)getCodeSigners;
 
 - (JavaNetURL *)getLocation;
 
-- (jboolean)impliesWithJavaSecurityCodeSource:(JavaSecurityCodeSource *)cs;
+- (IOSObjectArray *)getObjects;
 
-- (instancetype)init;
+- (jboolean)impliesWithJavaSecurityCodeSource:(JavaSecurityCodeSource *)cs;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityCodeSource)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityCodeSource_init(JavaSecurityCodeSource *self);
+
+FOUNDATION_EXPORT JavaSecurityCodeSource *new_JavaSecurityCodeSource_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityCodeSource *create_JavaSecurityCodeSource_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityCodeSource)
 
-#endif // _JavaSecurityCodeSource_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityCodeSource")

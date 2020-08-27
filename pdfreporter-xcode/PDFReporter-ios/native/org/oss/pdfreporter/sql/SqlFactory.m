@@ -8,12 +8,12 @@
 
 #import "SqlFactory.h"
 #import "Connection.h"
-#import "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
-#import "org/oss/pdfreporter/sql/factory/DateImpl.h"
-#import "org/oss/pdfreporter/sql/factory/TimeImpl.h"
-#import "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
-#import "org/oss/pdfreporter/sql/factory/BlobImpl.h"
-#import "org/oss/pdfreporter/registry/ApiRegistry.h"
+#include "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
+#include "org/oss/pdfreporter/sql/factory/DateImpl.h"
+#include "org/oss/pdfreporter/sql/factory/TimeImpl.h"
+#include "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
+#include "org/oss/pdfreporter/sql/factory/BlobImpl.h"
+#include "org/oss/pdfreporter/registry/ApiRegistry.h"
 
 @implementation OrgOssPdfreporterSqlSqlFactory
 
@@ -29,6 +29,11 @@
 - (id<OrgOssPdfreporterSqlIConnection>)newConnectionWithNSString:(NSString *)url withNSString:(NSString *)user withNSString:(NSString *)password
 {
     return [self newConnectionWithNSString:url];
+}
+
+- (id<OrgOssPdfreporterSqlIConnection>)createConnectionWithNSString:(NSString *)jdbcUrl withNSString:(NSString *)user withNSString:(NSString *)password
+{
+    return [self newConnectionWithNSString:jdbcUrl withNSString:user withNSString:password];
 }
 
 - (id<OrgOssPdfreporterSqlIDate>)newDateWithJavaUtilDate:(JavaUtilDate *)date

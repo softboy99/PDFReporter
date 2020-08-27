@@ -3,30 +3,66 @@
 //  source: android/libcore/luni/src/main/java/java/security/cert/CertificateExpiredException.java
 //
 
-#ifndef _JavaSecurityCertCertificateExpiredException_H_
-#define _JavaSecurityCertCertificateExpiredException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityCertCertificateExpiredException")
+#ifdef RESTRICT_JavaSecurityCertCertificateExpiredException
+#define INCLUDE_ALL_JavaSecurityCertCertificateExpiredException 0
+#else
+#define INCLUDE_ALL_JavaSecurityCertCertificateExpiredException 1
+#endif
+#undef RESTRICT_JavaSecurityCertCertificateExpiredException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityCertCertificateExpiredException_) && (INCLUDE_ALL_JavaSecurityCertCertificateExpiredException || defined(INCLUDE_JavaSecurityCertCertificateExpiredException))
+#define JavaSecurityCertCertificateExpiredException_
+
+#define RESTRICT_JavaSecurityCertCertificateException 1
+#define INCLUDE_JavaSecurityCertCertificateException 1
 #include "java/security/cert/CertificateException.h"
 
-#define JavaSecurityCertCertificateExpiredException_serialVersionUID 9071001339691533771LL
+/*!
+ @brief The exception that is thrown when a <code>Certificate</code> has expired.
+ */
+@interface JavaSecurityCertCertificateExpiredException : JavaSecurityCertCertificateException
 
-@interface JavaSecurityCertCertificateExpiredException : JavaSecurityCertCertificateException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Creates a new <code>CertificateExpiredException</code>.
+ */
 - (instancetype)init;
+
+/*!
+ @brief Creates a new <code>CertificateExpiredException</code> with the specified
+ message.
+ @param msg
+ the detail message for this exception
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityCertCertificateExpiredException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityCertCertificateExpiredException_initWithNSString_(JavaSecurityCertCertificateExpiredException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityCertCertificateExpiredException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityCertCertificateExpiredException *new_JavaSecurityCertCertificateExpiredException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityCertCertificateExpiredException *create_JavaSecurityCertCertificateExpiredException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaSecurityCertCertificateExpiredException_init(JavaSecurityCertCertificateExpiredException *self);
+
+FOUNDATION_EXPORT JavaSecurityCertCertificateExpiredException *new_JavaSecurityCertCertificateExpiredException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityCertCertificateExpiredException *create_JavaSecurityCertCertificateExpiredException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityCertCertificateExpiredException)
 
-#endif // _JavaSecurityCertCertificateExpiredException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityCertCertificateExpiredException")

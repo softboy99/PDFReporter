@@ -28,9 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -81,6 +79,8 @@ import org.oss.pdfreporter.engine.util.JRQueryExecuterUtils;
 import org.oss.pdfreporter.engine.util.JRResourcesUtil;
 import org.oss.pdfreporter.engine.util.MD5Digest;
 import org.oss.pdfreporter.sql.IConnection;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.java.util.UUID;
 
 
@@ -197,14 +197,14 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected JRDataSource dataSource;
 
 	/**
-	 * The {@link Locale Locale} to be used by the dataset.
+	 * The {@link StringLocale StringLocale} to be used by the dataset.
 	 */
-	protected Locale locale;
+	protected StringLocale locale;
 
 	/**
-	 * The loaded resource bundle.
+	 * The loaded text bundle.
 	 */
-	protected ResourceBundle resourceBundle;
+	protected ITextBundle textBundle;
 
 	/**
 	 * The {@link TimeZone TimeZone} to be used by the dataset.
@@ -546,9 +546,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	/**
 	 * Loads the resource bundle corresponding to the resource bundle base name and locale.
 	 */
-	protected ResourceBundle loadResourceBundle()
+	protected ITextBundle loadResourceBundle()
 	{
-		ResourceBundle loadedBundle;
+		ITextBundle loadedBundle;
 		if (resourceBundleBaseName == null)
 		{
 			loadedBundle = null;
@@ -581,20 +581,20 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 		reportMaxCount = (Integer) parameterValues.get(JRParameter.REPORT_MAX_COUNT);
 
-		locale = (Locale) parameterValues.get(JRParameter.REPORT_LOCALE);
+		locale = (StringLocale) parameterValues.get(JRParameter.REPORT_LOCALE);
 		if (locale == null)
 		{
-			locale = Locale.getDefault();
+			locale = StringLocale.getDefault();
 			parameterValues.put(JRParameter.REPORT_LOCALE, locale);
 		}
 
-		resourceBundle = (ResourceBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
-		if (resourceBundle == null)
+		textBundle = (ITextBundle) parameterValues.get(JRParameter.REPORT_RESOURCE_BUNDLE);
+		if (textBundle == null)
 		{
-			resourceBundle = loadResourceBundle();
-			if (resourceBundle != null)
+			textBundle = loadResourceBundle();
+			if (textBundle != null)
 			{
-				parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
+				parameterValues.put(JRParameter.REPORT_RESOURCE_BUNDLE, textBundle);
 			}
 		}
 
@@ -1704,7 +1704,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return calculator.evaluate(expression, evaluation);
 	}
 
-	public Locale getLocale()
+	public StringLocale getLocale()
 	{
 		return locale;
 	}

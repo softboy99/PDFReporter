@@ -3,35 +3,79 @@
 //  source: android/libcore/luni/src/main/java/java/net/PortUnreachableException.java
 //
 
-#ifndef _JavaNetPortUnreachableException_H_
-#define _JavaNetPortUnreachableException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetPortUnreachableException")
+#ifdef RESTRICT_JavaNetPortUnreachableException
+#define INCLUDE_ALL_JavaNetPortUnreachableException 0
+#else
+#define INCLUDE_ALL_JavaNetPortUnreachableException 1
+#endif
+#undef RESTRICT_JavaNetPortUnreachableException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetPortUnreachableException_) && (INCLUDE_ALL_JavaNetPortUnreachableException || defined(INCLUDE_JavaNetPortUnreachableException))
+#define JavaNetPortUnreachableException_
+
+#define RESTRICT_JavaNetSocketException 1
+#define INCLUDE_JavaNetSocketException 1
 #include "java/net/SocketException.h"
 
-#define JavaNetPortUnreachableException_serialVersionUID 8462541992376507323LL
+/*!
+ @brief This <code>PortUnreachableException</code> will be thrown if an <code>ICMP_Port_Unreachable</code>
+  message has been received.
+ <p>Most applications <strong>should not</strong> catch this exception; it is
+ more robust to catch the superclass <code>SocketException</code>.
+ */
+@interface JavaNetPortUnreachableException : JavaNetSocketException
 
-@interface JavaNetPortUnreachableException : JavaNetSocketException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetPortUnreachableException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetPortUnreachableException_init(JavaNetPortUnreachableException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetPortUnreachableException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetPortUnreachableException *new_JavaNetPortUnreachableException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPortUnreachableException *create_JavaNetPortUnreachableException_init();
+
+FOUNDATION_EXPORT void JavaNetPortUnreachableException_initWithNSString_(JavaNetPortUnreachableException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetPortUnreachableException *new_JavaNetPortUnreachableException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPortUnreachableException *create_JavaNetPortUnreachableException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaNetPortUnreachableException_initWithNSString_withNSException_(JavaNetPortUnreachableException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetPortUnreachableException *new_JavaNetPortUnreachableException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPortUnreachableException *create_JavaNetPortUnreachableException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetPortUnreachableException)
 
-#endif // _JavaNetPortUnreachableException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetPortUnreachableException")

@@ -3,31 +3,75 @@
 //  source: android/libcore/luni/src/main/java/java/util/InputMismatchException.java
 //
 
-#ifndef _JavaUtilInputMismatchException_H_
-#define _JavaUtilInputMismatchException_H_
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilInputMismatchException")
+#ifdef RESTRICT_JavaUtilInputMismatchException
+#define INCLUDE_ALL_JavaUtilInputMismatchException 0
+#else
+#define INCLUDE_ALL_JavaUtilInputMismatchException 1
+#endif
+#undef RESTRICT_JavaUtilInputMismatchException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilInputMismatchException_) && (INCLUDE_ALL_JavaUtilInputMismatchException || defined(INCLUDE_JavaUtilInputMismatchException))
+#define JavaUtilInputMismatchException_
+
+#define RESTRICT_JavaUtilNoSuchElementException 1
+#define INCLUDE_JavaUtilNoSuchElementException 1
 #include "java/util/NoSuchElementException.h"
 
-#define JavaUtilInputMismatchException_serialVersionUID 8811230760997066428LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-@interface JavaUtilInputMismatchException : JavaUtilNoSuchElementException < JavaIoSerializable > {
-}
+/*!
+ @brief An <code>InputMismatchException</code> is thrown by a scanner to indicate that the
+ next token does not match or is out of range for the type specified in the
+ pattern.
+ - seealso: Scanner
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilInputMismatchException : JavaUtilNoSuchElementException < JavaIoSerializable >
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>InputMismatchException</code> with the current stack
+ trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>InputMismatchException</code> with the stack trace
+ filled in and <code>msg</code> as its error message.
+ @param msg
+ the specified error message.
+ */
 - (instancetype)initWithNSString:(NSString *)msg;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilInputMismatchException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilInputMismatchException_init(JavaUtilInputMismatchException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilInputMismatchException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilInputMismatchException *new_JavaUtilInputMismatchException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilInputMismatchException *create_JavaUtilInputMismatchException_init();
+
+FOUNDATION_EXPORT void JavaUtilInputMismatchException_initWithNSString_(JavaUtilInputMismatchException *self, NSString *msg);
+
+FOUNDATION_EXPORT JavaUtilInputMismatchException *new_JavaUtilInputMismatchException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilInputMismatchException *create_JavaUtilInputMismatchException_initWithNSString_(NSString *msg);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilInputMismatchException)
 
-#endif // _JavaUtilInputMismatchException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilInputMismatchException")

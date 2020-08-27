@@ -101,7 +101,7 @@ public class JSHuntingYardExpressionEvaluator extends JREvaluator implements IDa
 	@Override
 	protected Object evaluateEstimated(int id) throws Throwable {
 		return m_expressions.containsKey(id) ?
-				m_expressions.get(id).getValue() : null;
+				m_expressions.get(id).getEsimatedValue() : null;
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class JSHuntingYardExpressionEvaluator extends JREvaluator implements IDa
 
 	@Override
 	public JRFillVariable getVariable(String name) {
-		return m_variables.get(name);
+		return (JRFillVariable) m_variables.get(name);
 	}
 
 	private IExpressionElement buildExpression(JRExpression expression, int expressionId) throws JRException {

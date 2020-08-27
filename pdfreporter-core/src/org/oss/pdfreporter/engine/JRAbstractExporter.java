@@ -33,7 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -60,7 +59,7 @@ import org.oss.pdfreporter.engine.util.JRStyledTextUtil;
 import org.oss.pdfreporter.engine.util.LocalJasperReportsContext;
 import org.oss.pdfreporter.net.IURL;
 import org.oss.pdfreporter.registry.ApiRegistry;
-import org.oss.pdfreporter.registry.IRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.IDateFormat;
 import org.oss.pdfreporter.text.format.INumberFormat;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
@@ -1092,13 +1091,13 @@ public abstract class JRAbstractExporter implements JRExporter
 		return formatFactoryClass;
 	}
 
-	protected Locale getLocale()
+	protected StringLocale getLocale()
 	{
 		String localeCode = jasperPrint.getLocaleCode();
 		return localeCode == null ? null : JRDataUtils.getLocale(localeCode);
 	}
 
-	protected Locale getTextLocale(JRPrintText text)
+	protected StringLocale getTextLocale(JRPrintText text)
 	{
 		String localeCode = text.getLocaleCode();
 		if (localeCode == null)
@@ -1283,7 +1282,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		return new BooleanTextValue(textStr, value);
 	}
 
-	protected IDateFormat getDateFormat(String formatFactoryClass, String pattern, Locale lc, TimeZone tz)
+	protected IDateFormat getDateFormat(String formatFactoryClass, String pattern, StringLocale lc, TimeZone tz)
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
@@ -1293,13 +1292,13 @@ public abstract class JRAbstractExporter implements JRExporter
 		if (dateFormat == null)
 		{
 			IFormatFactory formatFactory = ApiRegistry.getIFormatFactory(FormatType.DEFAULT);
-			dateFormat = formatFactory.newDateFormat(pattern, lc, tz);
+			dateFormat = formatFactory.newDateFormat(pattern, lc.toLocale(), tz);
 			dateFormatCache.put(key, dateFormat);
 		}
 		return dateFormat;
 	}
 
-	protected INumberFormat getNumberFormat(String formatFactoryClass, String pattern, Locale lc)
+	protected INumberFormat getNumberFormat(String formatFactoryClass, String pattern, StringLocale lc)
 	{
 		String key = formatFactoryClass 
 			+ "|" + pattern 
@@ -1308,7 +1307,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		if (numberFormat == null)
 		{
 			IFormatFactory formatFactory = ApiRegistry.getIFormatFactory(FormatType.DEFAULT);
-			numberFormat = formatFactory.newNumberFormat(pattern, lc);
+			numberFormat = formatFactory.newNumberFormat(pattern, lc.toLocale());
 			numberFormatCache.put(key, numberFormat);
 		}
 		return numberFormat;

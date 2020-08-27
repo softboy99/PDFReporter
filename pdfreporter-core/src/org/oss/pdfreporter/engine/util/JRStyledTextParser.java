@@ -47,6 +47,7 @@ import org.oss.pdfreporter.font.text.TextAttribute;
 import org.oss.pdfreporter.geometry.IColor;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.registry.IRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.java.awt.text.AttributedString;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator.Attribute;
@@ -85,7 +86,7 @@ public class JRStyledTextParser implements XMLErrorHandler
 		AVAILABLE_FONT_FACE_NAMES.addAll(ApiRegistry.getFontFactory().getFontManager().getFontFamilyNames());
 	}
 
-	private Locale locale = null;
+	private StringLocale locale = null;
 	
 	/**
 	 *
@@ -144,7 +145,7 @@ public class JRStyledTextParser implements XMLErrorHandler
 	/**
 	 * 
 	 */
-	public static void setLocale(Locale locale)
+	public static void setLocale(StringLocale locale)
 	{
 		instance.locale = locale;
 	}
@@ -152,7 +153,7 @@ public class JRStyledTextParser implements XMLErrorHandler
 	/**
 	 * 
 	 */
-	public static Locale getLocale()
+	public static StringLocale getLocale()
 	{
 		return instance.locale;
 	}
@@ -189,7 +190,7 @@ public class JRStyledTextParser implements XMLErrorHandler
 	/**
 	 *
 	 */
-	public JRStyledText parse(Map<Attribute,Object> attributes, String text, Locale locale) throws XMLParseException
+	public JRStyledText parse(Map<Attribute,Object> attributes, String text, StringLocale locale) throws XMLParseException
 	{
 		JRStyledText styledText = new JRStyledText(locale);
 		
@@ -223,7 +224,7 @@ public class JRStyledTextParser implements XMLErrorHandler
 	 * @param locale the locale for the text
 	 * @return a styled text object
 	 */
-	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, Locale locale)
+	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, StringLocale locale)
 	{
 		JRStyledText styledText = null;
 		if (isStyledText)

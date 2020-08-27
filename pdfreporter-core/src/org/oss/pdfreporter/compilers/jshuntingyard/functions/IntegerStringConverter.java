@@ -10,10 +10,9 @@
  ******************************************************************************/
 package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.IntegerArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
  *Integer to String
@@ -39,6 +38,6 @@ public class IntegerStringConverter extends AbstractOneArgFunctionElement<String
 	 */
 	@Override
 	protected FunctionElementArgument<String> execute(FunctionElementArgument<Integer> a) throws IllegalArgumentException {
-		return FunctionArgumentFactory.createString(((IntegerArgument)a).getValue().toString());
+		return FunctionArgumentFactory.createString(a.getValue().toString());
 	}
 }

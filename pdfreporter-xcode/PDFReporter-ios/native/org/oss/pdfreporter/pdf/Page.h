@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/pdf/IPage.h"
-#import "hpdf.h"
+#include "org/oss/pdfreporter/pdf/IPage.h"
+#import <libHaru/libHaru.h>
 #import "Document.h"
-#import "org/oss/pdfreporter/font/IFont.h"
+#include "org/oss/pdfreporter/font/IFont.h"
 
 @interface Page : NSObject < OrgOssPdfreporterPdfIPage > {
     HPDF_Page hpdf_page;
@@ -19,5 +19,5 @@
 }
 
 - (id)initWithWidth:(int)width height:(int)height document:(OrgOssPdfreporterPdfDocument*)document;
-- (id)initWithWidth:(int)width height:(int)height orientation:(OrgOssPdfreporterPdfIDocument_PageOrientationEnum *)orientation document:(OrgOssPdfreporterPdfDocument*)document;
+- (id)initWithWidth:(int)width height:(int)height orientation:(OrgOssPdfreporterPdfIDocument_PageOrientation *)orientation document:(OrgOssPdfreporterPdfDocument*)document;
 @end

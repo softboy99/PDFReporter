@@ -3,16 +3,44 @@
 //  source: android/libcore/luni/src/main/java/java/net/CookiePolicy.java
 //
 
-#ifndef _JavaNetCookiePolicy_H_
-#define _JavaNetCookiePolicy_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetCookiePolicy")
+#ifdef RESTRICT_JavaNetCookiePolicy
+#define INCLUDE_ALL_JavaNetCookiePolicy 0
+#else
+#define INCLUDE_ALL_JavaNetCookiePolicy 1
+#endif
+#undef RESTRICT_JavaNetCookiePolicy
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetCookiePolicy_) && (INCLUDE_ALL_JavaNetCookiePolicy || defined(INCLUDE_JavaNetCookiePolicy))
+#define JavaNetCookiePolicy_
 
 @class JavaNetHttpCookie;
 @class JavaNetURI;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief CookiePolicy has three pre-defined policy.
+ They are ACCEPT_ALL, ACCEPT_NONE
+ and ACCEPT_ORIGINAL_SERVER respectively. They are used to decide which
+ cookies should be accepted and which should not be.
+ See <a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a> sections 3.3 and 7 for more detail.
+ @since 1.6
+ */
 @protocol JavaNetCookiePolicy < NSObject, JavaObject >
 
+/*!
+ @brief This method is used to determine whether or not the specified cookie
+ should be accepted.
+ @param uri
+ the URI to used to determine acceptability
+ @param cookie
+ the HttpCookie to be determined
+ @return true if this cookie should be accepted; false otherwise
+ */
 - (jboolean)shouldAcceptWithJavaNetURI:(JavaNetURI *)uri
                  withJavaNetHttpCookie:(JavaNetHttpCookie *)cookie;
 
@@ -20,71 +48,44 @@
 
 @interface JavaNetCookiePolicy : NSObject
 
++ (id<JavaNetCookiePolicy>)ACCEPT_ALL;
+
++ (id<JavaNetCookiePolicy>)ACCEPT_NONE;
+
++ (id<JavaNetCookiePolicy>)ACCEPT_ORIGINAL_SERVER;
+
 @end
 
-FOUNDATION_EXPORT BOOL JavaNetCookiePolicy_initialized;
 J2OBJC_STATIC_INIT(JavaNetCookiePolicy)
 
-FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_ALL_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetCookiePolicy, ACCEPT_ALL_, id<JavaNetCookiePolicy>)
+/*!
+ @brief A pre-defined policy, accepts all cookies.
+ */
+inline id<JavaNetCookiePolicy> JavaNetCookiePolicy_get_ACCEPT_ALL();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_ALL;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaNetCookiePolicy, ACCEPT_ALL, id<JavaNetCookiePolicy>)
 
-FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_NONE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetCookiePolicy, ACCEPT_NONE_, id<JavaNetCookiePolicy>)
+/*!
+ @brief A pre-defined policy, accepts no cookies at all.
+ */
+inline id<JavaNetCookiePolicy> JavaNetCookiePolicy_get_ACCEPT_NONE();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_NONE;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaNetCookiePolicy, ACCEPT_NONE, id<JavaNetCookiePolicy>)
 
-FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_ORIGINAL_SERVER_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetCookiePolicy, ACCEPT_ORIGINAL_SERVER_, id<JavaNetCookiePolicy>)
+/*!
+ @brief A pre-defined policy, only accepts cookies from original server.
+ */
+inline id<JavaNetCookiePolicy> JavaNetCookiePolicy_get_ACCEPT_ORIGINAL_SERVER();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaNetCookiePolicy> JavaNetCookiePolicy_ACCEPT_ORIGINAL_SERVER;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaNetCookiePolicy, ACCEPT_ORIGINAL_SERVER, id<JavaNetCookiePolicy>)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetCookiePolicy)
 
-@interface JavaNetCookiePolicy_$1 : NSObject < JavaNetCookiePolicy > {
-}
+#endif
 
-- (jboolean)shouldAcceptWithJavaNetURI:(JavaNetURI *)uri
-                 withJavaNetHttpCookie:(JavaNetHttpCookie *)cookie;
 
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNetCookiePolicy_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNetCookiePolicy_$1)
-
-@interface JavaNetCookiePolicy_$2 : NSObject < JavaNetCookiePolicy > {
-}
-
-- (jboolean)shouldAcceptWithJavaNetURI:(JavaNetURI *)uri
-                 withJavaNetHttpCookie:(JavaNetHttpCookie *)cookie;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNetCookiePolicy_$2)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNetCookiePolicy_$2)
-
-@interface JavaNetCookiePolicy_$3 : NSObject < JavaNetCookiePolicy > {
-}
-
-- (jboolean)shouldAcceptWithJavaNetURI:(JavaNetURI *)uri
-                 withJavaNetHttpCookie:(JavaNetHttpCookie *)cookie;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNetCookiePolicy_$3)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNetCookiePolicy_$3)
-
-#endif // _JavaNetCookiePolicy_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetCookiePolicy")

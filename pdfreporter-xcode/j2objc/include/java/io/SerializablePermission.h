@@ -3,16 +3,34 @@
 //  source: android/libcore/luni/src/main/java/java/io/SerializablePermission.java
 //
 
-#ifndef _JavaIoSerializablePermission_H_
-#define _JavaIoSerializablePermission_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoSerializablePermission")
+#ifdef RESTRICT_JavaIoSerializablePermission
+#define INCLUDE_ALL_JavaIoSerializablePermission 0
+#else
+#define INCLUDE_ALL_JavaIoSerializablePermission 1
+#endif
+#undef RESTRICT_JavaIoSerializablePermission
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoSerializablePermission_) && (INCLUDE_ALL_JavaIoSerializablePermission || defined(INCLUDE_JavaIoSerializablePermission))
+#define JavaIoSerializablePermission_
+
+#define RESTRICT_JavaSecurityBasicPermission 1
+#define INCLUDE_JavaSecurityBasicPermission 1
+#include "java/security/BasicPermission.h"
 
 @class JavaSecurityPermission;
 
-#include "J2ObjC_header.h"
-#include "java/security/BasicPermission.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaIoSerializablePermission : JavaSecurityBasicPermission
 
-@interface JavaIoSerializablePermission : JavaSecurityBasicPermission {
-}
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)permissionName;
 
@@ -27,9 +45,22 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoSerializablePermission)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaIoSerializablePermission_initWithNSString_(JavaIoSerializablePermission *self, NSString *permissionName);
+
+FOUNDATION_EXPORT JavaIoSerializablePermission *new_JavaIoSerializablePermission_initWithNSString_(NSString *permissionName) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoSerializablePermission *create_JavaIoSerializablePermission_initWithNSString_(NSString *permissionName);
+
+FOUNDATION_EXPORT void JavaIoSerializablePermission_initWithNSString_withNSString_(JavaIoSerializablePermission *self, NSString *name, NSString *actions);
+
+FOUNDATION_EXPORT JavaIoSerializablePermission *new_JavaIoSerializablePermission_initWithNSString_withNSString_(NSString *name, NSString *actions) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoSerializablePermission *create_JavaIoSerializablePermission_initWithNSString_withNSString_(NSString *name, NSString *actions);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoSerializablePermission)
 
-#endif // _JavaIoSerializablePermission_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoSerializablePermission")

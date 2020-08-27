@@ -3,107 +3,122 @@
 //  source: android/libcore/luni/src/main/java/java/util/concurrent/ForkJoinWorkerThread.java
 //
 
-#ifndef _JavaUtilConcurrentForkJoinWorkerThread_H_
-#define _JavaUtilConcurrentForkJoinWorkerThread_H_
-
-@class IOSObjectArray;
-@class JavaLangThrowable;
-@class JavaUtilConcurrentForkJoinPool;
-@class JavaUtilConcurrentForkJoinTask;
-@class SunMiscUnsafe;
-@protocol JavaUtilCollection;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilConcurrentForkJoinWorkerThread")
+#ifdef RESTRICT_JavaUtilConcurrentForkJoinWorkerThread
+#define INCLUDE_ALL_JavaUtilConcurrentForkJoinWorkerThread 0
+#else
+#define INCLUDE_ALL_JavaUtilConcurrentForkJoinWorkerThread 1
+#endif
+#undef RESTRICT_JavaUtilConcurrentForkJoinWorkerThread
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilConcurrentForkJoinWorkerThread_) && (INCLUDE_ALL_JavaUtilConcurrentForkJoinWorkerThread || defined(INCLUDE_JavaUtilConcurrentForkJoinWorkerThread))
+#define JavaUtilConcurrentForkJoinWorkerThread_
+
+#define RESTRICT_JavaLangThread 1
+#define INCLUDE_JavaLangThread 1
 #include "java/lang/Thread.h"
 
-#define JavaUtilConcurrentForkJoinWorkerThread_INITIAL_QUEUE_CAPACITY 8192
-#define JavaUtilConcurrentForkJoinWorkerThread_MAXIMUM_QUEUE_CAPACITY 16777216
-#define JavaUtilConcurrentForkJoinWorkerThread_MAX_HELP 16
-#define JavaUtilConcurrentForkJoinWorkerThread_SMASK 65535
+@class JavaUtilConcurrentForkJoinPool;
+@class JavaUtilConcurrentForkJoinPool_WorkQueue;
 
+/*!
+ @brief A thread managed by a <code>ForkJoinPool</code>, which executes
+ <code>ForkJoinTask</code>s.
+ This class is subclassable solely for the sake of adding
+ functionality -- there are no overridable methods dealing with
+ scheduling or execution.  However, you can override initialization
+ and termination methods surrounding the main task processing loop.
+ If you do create such a subclass, you will also need to supply a
+ custom <code>ForkJoinPool.ForkJoinWorkerThreadFactory</code> to
+ use it in a <code>ForkJoinPool</code>.
+ @since 1.7
+ @author Doug Lea
+ */
 @interface JavaUtilConcurrentForkJoinWorkerThread : JavaLangThread {
  @public
-  IOSObjectArray *queue_;
   JavaUtilConcurrentForkJoinPool *pool_;
-  jint queueTop_;
-  jint queueBase_;
-  jint stealHint_;
-  jint poolIndex_;
-  jint nextWait_;
-  jint eventCount_;
-  jint seed_;
-  jint stealCount_;
-  jboolean terminate_;
-  jboolean parked_;
-  jboolean locallyFifo_;
-  JavaUtilConcurrentForkJoinTask *currentSteal_;
-  JavaUtilConcurrentForkJoinTask *currentJoin_;
+  __unsafe_unretained JavaUtilConcurrentForkJoinPool_WorkQueue *workQueue_;
 }
 
-- (instancetype)initWithJavaUtilConcurrentForkJoinPool:(JavaUtilConcurrentForkJoinPool *)pool;
+#pragma mark Public
 
+/*!
+ @brief Returns the pool hosting this thread.
+ @return the pool
+ */
 - (JavaUtilConcurrentForkJoinPool *)getPool;
 
+/*!
+ @brief Returns the unique index number of this thread in its pool.
+ The returned value ranges from zero to the maximum number of
+ threads (minus one) that may exist in the pool, and does not
+ change during the lifetime of the thread.  This method may be
+ useful for applications that track status or collect results
+ per-worker-thread rather than per-task.
+ @return the index number
+ */
 - (jint)getPoolIndex;
 
-- (void)onStart;
-
-- (void)onTerminationWithJavaLangThrowable:(JavaLangThrowable *)exception;
-
+/*!
+ @brief This method is required to be public, but should never be
+ called explicitly.
+ It performs the main run loop to execute
+ <code>ForkJoinTask</code>s.
+ */
 - (void)run;
 
-- (void)pushTaskWithJavaUtilConcurrentForkJoinTask:(JavaUtilConcurrentForkJoinTask *)t;
+#pragma mark Protected
 
-- (JavaUtilConcurrentForkJoinTask *)deqTask;
+/*!
+ @brief Creates a ForkJoinWorkerThread operating in the given pool.
+ @param pool the pool this thread works in
+ @throws NullPointerException if pool is null
+ */
+- (instancetype)initWithJavaUtilConcurrentForkJoinPool:(JavaUtilConcurrentForkJoinPool *)pool;
 
-- (JavaUtilConcurrentForkJoinTask *)locallyDeqTask;
+/*!
+ @brief Initializes internal state after construction but before
+ processing any tasks.
+ If you override this method, you must
+ invoke <code>super.onStart()</code> at the beginning of the method.
+ Initialization requires care: Most fields must have legal
+ default values, to ensure that attempted accesses from other
+ threads work correctly even before this thread starts
+ processing tasks.
+ */
+- (void)onStart;
 
-- (jboolean)unpushTaskWithJavaUtilConcurrentForkJoinTask:(JavaUtilConcurrentForkJoinTask *)t;
-
-- (JavaUtilConcurrentForkJoinTask *)peekTask;
-
-- (void)execTaskWithJavaUtilConcurrentForkJoinTask:(JavaUtilConcurrentForkJoinTask *)t;
-
-- (void)cancelTasks;
-
-- (jint)drainTasksToWithJavaUtilCollection:(id<JavaUtilCollection>)c;
-
-- (jint)getQueueSize;
-
-- (JavaUtilConcurrentForkJoinTask *)pollLocalTask;
-
-- (JavaUtilConcurrentForkJoinTask *)pollTask;
-
-- (jint)joinTaskWithJavaUtilConcurrentForkJoinTask:(JavaUtilConcurrentForkJoinTask *)joinMe;
-
-- (jint)getEstimatedSurplusTaskCount;
-
-- (void)helpQuiescePool;
+/*!
+ @brief Performs cleanup associated with termination of this worker
+ thread.
+ If you override this method, you must invoke
+ <code>super.onTermination</code> at the end of the overridden method.
+ @param exception the exception causing this thread to abort due
+ to an unrecoverable error, or <code>null</code> if completed normally
+ */
+- (void)onTerminationWithNSException:(NSException *)exception;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilConcurrentForkJoinWorkerThread_initialized;
-J2OBJC_STATIC_INIT(JavaUtilConcurrentForkJoinWorkerThread)
+J2OBJC_EMPTY_STATIC_INIT(JavaUtilConcurrentForkJoinWorkerThread)
 
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentForkJoinWorkerThread, queue_, IOSObjectArray *)
 J2OBJC_FIELD_SETTER(JavaUtilConcurrentForkJoinWorkerThread, pool_, JavaUtilConcurrentForkJoinPool *)
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentForkJoinWorkerThread, currentSteal_, JavaUtilConcurrentForkJoinTask *)
-J2OBJC_FIELD_SETTER(JavaUtilConcurrentForkJoinWorkerThread, currentJoin_, JavaUtilConcurrentForkJoinTask *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilConcurrentForkJoinWorkerThread_initWithJavaUtilConcurrentForkJoinPool_(JavaUtilConcurrentForkJoinWorkerThread *self, JavaUtilConcurrentForkJoinPool *pool);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentForkJoinWorkerThread, SMASK, jint)
+FOUNDATION_EXPORT JavaUtilConcurrentForkJoinWorkerThread *new_JavaUtilConcurrentForkJoinWorkerThread_initWithJavaUtilConcurrentForkJoinPool_(JavaUtilConcurrentForkJoinPool *pool) NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentForkJoinWorkerThread, INITIAL_QUEUE_CAPACITY, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentForkJoinWorkerThread, MAXIMUM_QUEUE_CAPACITY, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentForkJoinWorkerThread, MAX_HELP, jint)
-
-FOUNDATION_EXPORT SunMiscUnsafe *JavaUtilConcurrentForkJoinWorkerThread_UNSAFE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentForkJoinWorkerThread, UNSAFE_, SunMiscUnsafe *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilConcurrentForkJoinWorkerThread *create_JavaUtilConcurrentForkJoinWorkerThread_initWithJavaUtilConcurrentForkJoinPool_(JavaUtilConcurrentForkJoinPool *pool);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentForkJoinWorkerThread)
 
-#endif // _JavaUtilConcurrentForkJoinWorkerThread_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilConcurrentForkJoinWorkerThread")

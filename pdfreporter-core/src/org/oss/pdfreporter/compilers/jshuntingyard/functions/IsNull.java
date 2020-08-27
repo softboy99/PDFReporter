@@ -13,9 +13,9 @@
  */
 package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
  *returns a formatted "today".

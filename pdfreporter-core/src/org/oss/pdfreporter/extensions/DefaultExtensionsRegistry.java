@@ -147,6 +147,12 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 				registries = classLoaderRegistries.get(url);
 				if (registries == null)
 				{
+					if (logger.isLoggable(Level.FINEST))
+					{
+						logger.finest("Loading JasperReports extension properties resource " 
+								+ url.getPath());
+					}					
+					
 					registries = loadRegistries(url);
 					
 					classLoaderRegistries.put(url, registries);
@@ -192,6 +198,11 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			String registryId = factoryProp.getSuffix();
 			String factoryClass = factoryProp.getValue();
 			
+			if (logger.isLoggable(Level.FINEST))
+			{
+				logger.finest("Instantiating registry of type " + factoryClass 
+						+ " for property " + factoryProp.getKey());
+			}
 			try
 			{
 				ExtensionsRegistry registry = instantiateRegistry(
@@ -209,7 +220,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	protected ExtensionsRegistry instantiateRegistry(
 			JRPropertiesMap props, String registryId, String factoryClass)
 	{
-		logger.info("Loading ExtensionsRegistry: " + registryId);
+//		logger.finer("Loading ExtensionsRegistry: " + registryId);
 		ExtensionsRegistryFactory factory = (ExtensionsRegistryFactory) 
 				ClassUtils.instantiateClass(factoryClass, ExtensionsRegistryFactory.class);
 		return factory.createRegistry(registryId, props);

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "hpdf.h"
+#import <libHaru/libHaru.h>
 
 @interface FontBox : NSObject {
     HPDF_Font mFont;

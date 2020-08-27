@@ -3,13 +3,35 @@
 //  source: android/libcore/luni/src/main/java/java/lang/Runnable.java
 //
 
-#ifndef _JavaLangRunnable_H_
-#define _JavaLangRunnable_H_
-
 #include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaLangRunnable")
+#ifdef RESTRICT_JavaLangRunnable
+#define INCLUDE_ALL_JavaLangRunnable 0
+#else
+#define INCLUDE_ALL_JavaLangRunnable 1
+#endif
+#undef RESTRICT_JavaLangRunnable
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangRunnable_) && (INCLUDE_ALL_JavaLangRunnable || defined(INCLUDE_JavaLangRunnable))
+#define JavaLangRunnable_
+
+/*!
+ @brief Represents a command that can be executed.
+ Often used to run code in a
+ different <code>Thread</code>.
+ */
 @protocol JavaLangRunnable < NSObject, JavaObject >
 
+/*!
+ @brief Starts executing the active part of the class' code.
+ This method is
+ called when a thread is started that has been created with a class which
+ implements <code>Runnable</code>.
+ */
 - (void)run;
 
 @end
@@ -18,4 +40,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaLangRunnable)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangRunnable)
 
-#endif // _JavaLangRunnable_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangRunnable")

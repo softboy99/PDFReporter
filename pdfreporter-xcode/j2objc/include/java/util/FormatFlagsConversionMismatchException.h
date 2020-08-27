@@ -3,24 +3,61 @@
 //  source: android/libcore/luni/src/main/java/java/util/FormatFlagsConversionMismatchException.java
 //
 
-#ifndef _JavaUtilFormatFlagsConversionMismatchException_H_
-#define _JavaUtilFormatFlagsConversionMismatchException_H_
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilFormatFlagsConversionMismatchException")
+#ifdef RESTRICT_JavaUtilFormatFlagsConversionMismatchException
+#define INCLUDE_ALL_JavaUtilFormatFlagsConversionMismatchException 0
+#else
+#define INCLUDE_ALL_JavaUtilFormatFlagsConversionMismatchException 1
+#endif
+#undef RESTRICT_JavaUtilFormatFlagsConversionMismatchException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilFormatFlagsConversionMismatchException_) && (INCLUDE_ALL_JavaUtilFormatFlagsConversionMismatchException || defined(INCLUDE_JavaUtilFormatFlagsConversionMismatchException))
+#define JavaUtilFormatFlagsConversionMismatchException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilFormatFlagsConversionMismatchException_serialVersionUID 19120414LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-@interface JavaUtilFormatFlagsConversionMismatchException : JavaUtilIllegalFormatException < JavaIoSerializable > {
-}
+/*!
+ @brief A <code>FormatFlagsConversionMismatchException</code> will be thrown if a
+ conversion and the flags are incompatible.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilFormatFlagsConversionMismatchException : JavaUtilIllegalFormatException < JavaIoSerializable >
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>FormatFlagsConversionMismatchException</code> with the
+ flags and conversion specified.
+ @param f
+ the flags.
+ @param c
+ the conversion.
+ */
 - (instancetype)initWithNSString:(NSString *)f
                         withChar:(jchar)c;
 
-- (NSString *)getFlags;
-
+/*!
+ @brief Returns the incompatible conversion.
+ @return the incompatible conversion.
+ */
 - (jchar)getConversion;
+
+/*!
+ @brief Returns the incompatible format flag.
+ @return the incompatible format flag.
+ */
+- (NSString *)getFlags;
 
 - (NSString *)getMessage;
 
@@ -28,11 +65,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilFormatFlagsConversionMismatchException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilFormatFlagsConversionMismatchException_initWithNSString_withChar_(JavaUtilFormatFlagsConversionMismatchException *self, NSString *f, jchar c);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilFormatFlagsConversionMismatchException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilFormatFlagsConversionMismatchException *new_JavaUtilFormatFlagsConversionMismatchException_initWithNSString_withChar_(NSString *f, jchar c) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilFormatFlagsConversionMismatchException *create_JavaUtilFormatFlagsConversionMismatchException_initWithNSString_withChar_(NSString *f, jchar c);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilFormatFlagsConversionMismatchException)
 
-#endif // _JavaUtilFormatFlagsConversionMismatchException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilFormatFlagsConversionMismatchException")

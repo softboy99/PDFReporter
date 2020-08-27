@@ -32,6 +32,7 @@ import org.oss.pdfreporter.engine.type.ModeEnum;
 import org.oss.pdfreporter.engine.util.JRDataUtils;
 import org.oss.pdfreporter.engine.util.JRStyledTextParser;
 import org.oss.pdfreporter.font.text.TextAttribute;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator.Attribute;
 
 
@@ -59,7 +60,7 @@ public abstract class JRStyledTextAttributeSelector
 	/**
 	 * 
 	 */
-	private static Locale getLocale()
+	private static StringLocale getLocale()
 	{
 		return JRStyledTextParser.getLocale();
 	}
@@ -67,7 +68,7 @@ public abstract class JRStyledTextAttributeSelector
 	/**
 	 * 
 	 */
-	public static Locale getTextLocale(JRPrintText printText)
+	public static StringLocale getTextLocale(JRPrintText printText)
 	{
 		String localeCode = printText.getLocaleCode();
 		if (localeCode == null)

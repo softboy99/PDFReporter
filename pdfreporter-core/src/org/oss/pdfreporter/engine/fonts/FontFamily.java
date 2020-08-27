@@ -23,7 +23,7 @@
  */
 package org.oss.pdfreporter.engine.fonts;
 
-import java.util.Locale;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 
@@ -97,6 +97,6 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public boolean supportsLocale(Locale locale);
+	public boolean supportsLocale(StringLocale locale);
 
 }

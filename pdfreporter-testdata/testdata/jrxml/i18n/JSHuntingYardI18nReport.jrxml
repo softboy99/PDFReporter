@@ -48,7 +48,7 @@
 				<textElement>
 					<font size="18" isItalic="true" pdfFontName="Helvetica-Oblique"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(date) now()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[now()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="20" y="235" width="530" height="15"/>

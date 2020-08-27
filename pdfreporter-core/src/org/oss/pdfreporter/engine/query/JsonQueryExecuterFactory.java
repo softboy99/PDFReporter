@@ -96,7 +96,7 @@ public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 		JSON_SOURCE, "java.lang.String",
 		JSON_DATE_PATTERN, "java.lang.String",
 		JSON_NUMBER_PATTERN, "java.lang.String",
-		JSON_LOCALE, "java.util.Locale",
+		JSON_LOCALE, "org.oss.pdfreporter.text.bundle.StringLocale",
 		JSON_LOCALE_CODE, "java.lang.String",
 		JSON_TIME_ZONE, "java.util.TimeZone",
 		JSON_TIMEZONE_ID, "java.lang.String"

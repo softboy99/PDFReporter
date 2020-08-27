@@ -12,15 +12,16 @@ package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 
 import java.util.Locale;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.text.bundle.StringLocale;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
  * Date to String
  *
  */
-public class DisplayName extends AbstractOneArgFunctionElement<String,String>  {
+public class DisplayName extends AbstractOneArgFunctionElement<String,StringLocale>  {
 
 	/**
 	 *
@@ -38,10 +39,8 @@ public class DisplayName extends AbstractOneArgFunctionElement<String,String>  {
 	/* (non-Javadoc)
 	 * @see org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement#execute(org.oss.jshuntingyard.evaluator.FunctionElementArgument)
 	 */
-	protected FunctionElementArgument<String> execute(FunctionElementArgument<String> a) throws IllegalArgumentException {
-		String[] parameter = a.getValue().split("\'|_");
-		String language = parameter[1];
-		String country = parameter[2];
-		return FunctionArgumentFactory.createString(new Locale(language, country).getDisplayName());
+	protected FunctionElementArgument<String> execute(FunctionElementArgument<StringLocale> a) throws IllegalArgumentException {
+		Locale locale = a.getValue().toLocale();
+		return FunctionArgumentFactory.createString(locale.getDisplayName(locale));
 	}
 }

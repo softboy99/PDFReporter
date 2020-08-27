@@ -3,17 +3,35 @@
 //  source: android/libcore/luni/src/main/java/java/security/AllPermissionCollection.java
 //
 
-#ifndef _JavaSecurityAllPermissionCollection_H_
-#define _JavaSecurityAllPermissionCollection_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityAllPermissionCollection")
+#ifdef RESTRICT_JavaSecurityAllPermissionCollection
+#define INCLUDE_ALL_JavaSecurityAllPermissionCollection 0
+#else
+#define INCLUDE_ALL_JavaSecurityAllPermissionCollection 1
+#endif
+#undef RESTRICT_JavaSecurityAllPermissionCollection
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityAllPermissionCollection_) && (INCLUDE_ALL_JavaSecurityAllPermissionCollection || defined(INCLUDE_JavaSecurityAllPermissionCollection))
+#define JavaSecurityAllPermissionCollection_
+
+#define RESTRICT_JavaSecurityPermissionCollection 1
+#define INCLUDE_JavaSecurityPermissionCollection 1
+#include "java/security/PermissionCollection.h"
 
 @class JavaSecurityPermission;
 @protocol JavaUtilEnumeration;
 
-#include "J2ObjC_header.h"
-#include "java/security/PermissionCollection.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityAllPermissionCollection : JavaSecurityPermissionCollection
 
-@interface JavaSecurityAllPermissionCollection : JavaSecurityPermissionCollection {
-}
+#pragma mark Public
 
 - (void)addWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
 
@@ -21,15 +39,24 @@
 
 - (jboolean)impliesWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
 
+#pragma mark Package-Private
+
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityAllPermissionCollection)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityAllPermissionCollection_init(JavaSecurityAllPermissionCollection *self);
+
+FOUNDATION_EXPORT JavaSecurityAllPermissionCollection *new_JavaSecurityAllPermissionCollection_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityAllPermissionCollection *create_JavaSecurityAllPermissionCollection_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityAllPermissionCollection)
 
-#endif // _JavaSecurityAllPermissionCollection_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityAllPermissionCollection")

@@ -3,30 +3,55 @@
 //  source: android/libcore/luni/src/main/java/java/io/IOError.java
 //
 
-#ifndef _JavaIoIOError_H_
-#define _JavaIoIOError_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoIOError")
+#ifdef RESTRICT_JavaIoIOError
+#define INCLUDE_ALL_JavaIoIOError 0
+#else
+#define INCLUDE_ALL_JavaIoIOError 1
+#endif
+#undef RESTRICT_JavaIoIOError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoIOError_) && (INCLUDE_ALL_JavaIoIOError || defined(INCLUDE_JavaIoIOError))
+#define JavaIoIOError_
+
+#define RESTRICT_JavaLangError 1
+#define INCLUDE_JavaLangError 1
 #include "java/lang/Error.h"
 
-#define JavaIoIOError_serialVersionUID 67100927991680413LL
+/*!
+ @brief This error is thrown when a severe I/O error has happened.
+ @since 1.6
+ */
+@interface JavaIoIOError : JavaLangError
 
-@interface JavaIoIOError : JavaLangError {
-}
+#pragma mark Public
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance with its cause filled in.
+ @param cause
+ The detail cause for the error.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoIOError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoIOError_initWithNSException_(JavaIoIOError *self, NSException *cause);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoIOError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoIOError *new_JavaIoIOError_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoIOError *create_JavaIoIOError_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoIOError)
 
-#endif // _JavaIoIOError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoIOError")

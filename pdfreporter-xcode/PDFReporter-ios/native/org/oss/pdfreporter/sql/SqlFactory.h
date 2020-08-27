@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/sql/factory/ISqlFactory.h"
+#include "org/oss/pdfreporter/sql/factory/ISqlFactory.h"
 
 @interface OrgOssPdfreporterSqlSqlFactory : NSObject < OrgOssPdfreporterSqlFactoryISqlFactory >
 

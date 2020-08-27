@@ -3,35 +3,78 @@
 //  source: android/libcore/luni/src/main/java/java/net/MalformedURLException.java
 //
 
-#ifndef _JavaNetMalformedURLException_H_
-#define _JavaNetMalformedURLException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetMalformedURLException")
+#ifdef RESTRICT_JavaNetMalformedURLException
+#define INCLUDE_ALL_JavaNetMalformedURLException 0
+#else
+#define INCLUDE_ALL_JavaNetMalformedURLException 1
+#endif
+#undef RESTRICT_JavaNetMalformedURLException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetMalformedURLException_) && (INCLUDE_ALL_JavaNetMalformedURLException || defined(INCLUDE_JavaNetMalformedURLException))
+#define JavaNetMalformedURLException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNetMalformedURLException_serialVersionUID -182787522200415866LL
+/*!
+ @brief This exception is thrown when a program attempts to create an URL from an
+ incorrect specification.
+ - seealso: URL
+ */
+@interface JavaNetMalformedURLException : JavaIoIOException
 
-@interface JavaNetMalformedURLException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetMalformedURLException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetMalformedURLException_init(JavaNetMalformedURLException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetMalformedURLException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetMalformedURLException *new_JavaNetMalformedURLException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetMalformedURLException *create_JavaNetMalformedURLException_init();
+
+FOUNDATION_EXPORT void JavaNetMalformedURLException_initWithNSString_(JavaNetMalformedURLException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetMalformedURLException *new_JavaNetMalformedURLException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetMalformedURLException *create_JavaNetMalformedURLException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaNetMalformedURLException_initWithNSString_withNSException_(JavaNetMalformedURLException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetMalformedURLException *new_JavaNetMalformedURLException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetMalformedURLException *create_JavaNetMalformedURLException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetMalformedURLException)
 
-#endif // _JavaNetMalformedURLException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetMalformedURLException")

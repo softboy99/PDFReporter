@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/registry/ISessionObject.h"
-#import "hpdf.h"
-#import "org/oss/pdfreporter/registry/Session.h"
+#include "org/oss/pdfreporter/registry/ISessionObject.h"
+#import <libHaru/libHaru.h>
+#include "org/oss/pdfreporter/registry/Session.h"
 
 @interface HpdfDocBox : NSObject <OrgOssPdfreporterRegistryISessionObject> {
     HPDF_Doc mHpdf_Doc;

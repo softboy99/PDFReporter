@@ -15,14 +15,14 @@ package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 
 import java.util.Date;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractZeroArgFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractZeroArgFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
  *returns a formatted "today".
  */
-public class CurrentDate extends AbstractZeroArgFunctionElement<Double> {
+public class CurrentDate extends AbstractZeroArgFunctionElement<Date> {
 
 	public CurrentDate() {
 		super("now", Precedence.USERFUNCTION);
@@ -39,7 +39,7 @@ public class CurrentDate extends AbstractZeroArgFunctionElement<Double> {
 	 * @see org.oss.evaluator.function.string.AbstractStringOperatorAssociativityLeftOneArg#execute(org.oss.evaluator.function.FunctionArgument)
 	 */
 	@Override
-	protected FunctionElementArgument<Double> execute() throws IllegalArgumentException {
-		return FunctionArgumentFactory.createObject((double)new Date().getTime());
+	protected FunctionElementArgument<Date> execute() throws IllegalArgumentException {
+		return FunctionArgumentFactory.createObject(new Date());
 	}
 }

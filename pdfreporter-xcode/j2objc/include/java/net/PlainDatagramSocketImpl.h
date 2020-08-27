@@ -3,36 +3,55 @@
 //  source: android/libcore/luni/src/main/java/java/net/PlainDatagramSocketImpl.java
 //
 
-#ifndef _JavaNetPlainDatagramSocketImpl_H_
-#define _JavaNetPlainDatagramSocketImpl_H_
+#include "J2ObjC_header.h"
 
-@class DalvikSystemCloseGuard;
+#pragma push_macro("INCLUDE_ALL_JavaNetPlainDatagramSocketImpl")
+#ifdef RESTRICT_JavaNetPlainDatagramSocketImpl
+#define INCLUDE_ALL_JavaNetPlainDatagramSocketImpl 0
+#else
+#define INCLUDE_ALL_JavaNetPlainDatagramSocketImpl 1
+#endif
+#undef RESTRICT_JavaNetPlainDatagramSocketImpl
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetPlainDatagramSocketImpl_) && (INCLUDE_ALL_JavaNetPlainDatagramSocketImpl || defined(INCLUDE_JavaNetPlainDatagramSocketImpl))
+#define JavaNetPlainDatagramSocketImpl_
+
+#define RESTRICT_JavaNetDatagramSocketImpl 1
+#define INCLUDE_JavaNetDatagramSocketImpl 1
+#include "java/net/DatagramSocketImpl.h"
+
 @class JavaIoFileDescriptor;
 @class JavaNetDatagramPacket;
 @class JavaNetInetAddress;
 @class JavaNetNetworkInterface;
 @class JavaNetSocketAddress;
-@class LibcoreIoStructGroupReq;
 
-#include "J2ObjC_header.h"
-#include "java/net/DatagramSocketImpl.h"
+/*!
+  used in java.nio.
+ */
+@interface JavaNetPlainDatagramSocketImpl : JavaNetDatagramSocketImpl
 
-@interface JavaNetPlainDatagramSocketImpl : JavaNetDatagramSocketImpl {
-}
+#pragma mark Public
+
+- (instancetype)init;
 
 - (instancetype)initWithJavaIoFileDescriptor:(JavaIoFileDescriptor *)fd
                                      withInt:(jint)localPort;
-
-- (instancetype)init;
 
 - (void)bindWithInt:(jint)port
 withJavaNetInetAddress:(JavaNetInetAddress *)address;
 
 - (void)close;
 
+- (void)connectWithJavaNetInetAddress:(JavaNetInetAddress *)inetAddr
+                              withInt:(jint)port;
+
 - (void)create;
 
-- (void)dealloc;
+- (void)disconnect;
 
 - (id)getOptionWithInt:(jint)option;
 
@@ -50,11 +69,9 @@ withJavaNetInetAddress:(JavaNetInetAddress *)address;
 - (void)leaveGroupWithJavaNetSocketAddress:(JavaNetSocketAddress *)addr
                withJavaNetNetworkInterface:(JavaNetNetworkInterface *)netInterface;
 
-- (jint)peekWithJavaNetInetAddress:(JavaNetInetAddress *)sender;
+- (jint)peekDataWithJavaNetDatagramPacket:(JavaNetDatagramPacket *)pack;
 
 - (void)receiveWithJavaNetDatagramPacket:(JavaNetDatagramPacket *)pack;
-
-- (jint)peekDataWithJavaNetDatagramPacket:(JavaNetDatagramPacket *)pack;
 
 - (void)sendWithJavaNetDatagramPacket:(JavaNetDatagramPacket *)packet;
 
@@ -65,18 +82,32 @@ withJavaNetInetAddress:(JavaNetInetAddress *)address;
 
 - (void)setTTLWithByte:(jbyte)ttl;
 
-- (void)connectWithJavaNetInetAddress:(JavaNetInetAddress *)inetAddr
-                              withInt:(jint)port;
+#pragma mark Protected
 
-- (void)disconnect;
+- (void)javaFinalize;
+
+- (jint)peekWithJavaNetInetAddress:(JavaNetInetAddress *)sender;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetPlainDatagramSocketImpl)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaNetPlainDatagramSocketImpl_initWithJavaIoFileDescriptor_withInt_(JavaNetPlainDatagramSocketImpl *self, JavaIoFileDescriptor *fd, jint localPort);
+
+FOUNDATION_EXPORT JavaNetPlainDatagramSocketImpl *new_JavaNetPlainDatagramSocketImpl_initWithJavaIoFileDescriptor_withInt_(JavaIoFileDescriptor *fd, jint localPort) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPlainDatagramSocketImpl *create_JavaNetPlainDatagramSocketImpl_initWithJavaIoFileDescriptor_withInt_(JavaIoFileDescriptor *fd, jint localPort);
+
+FOUNDATION_EXPORT void JavaNetPlainDatagramSocketImpl_init(JavaNetPlainDatagramSocketImpl *self);
+
+FOUNDATION_EXPORT JavaNetPlainDatagramSocketImpl *new_JavaNetPlainDatagramSocketImpl_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPlainDatagramSocketImpl *create_JavaNetPlainDatagramSocketImpl_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetPlainDatagramSocketImpl)
 
-#endif // _JavaNetPlainDatagramSocketImpl_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetPlainDatagramSocketImpl")

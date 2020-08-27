@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 @class OrgOssPdfreporterEngineExportJRPdfExporterParameter;
+@class JavaUtilLocale;
+@class JavaUtilResourceBundle;
 
 typedef NS_ENUM(NSUInteger, ReporterDataSourceType) {
     DATASOURCE_TYPE_NONE = 0,
@@ -34,6 +36,7 @@ typedef NS_ENUM(NSUInteger, ReporterDataSourceType) {
 @property (nonatomic, strong, readonly) NSString *selectExpression;
 @property (nonatomic, strong, readonly) NSDictionary *subreportsDefinition;
 @property (nonatomic, strong, readonly) NSDictionary *exportParameters;
+@property (nonatomic, strong, readonly) NSString *language;
 
 /**
  * xmlDataFile - File name without path. Path to this file must be provided in resourceFolders property.
@@ -61,5 +64,12 @@ typedef NS_ENUM(NSUInteger, ReporterDataSourceType) {
  */
 - (void)addExportParameterValue:(id)value forKey:(OrgOssPdfreporterEngineExportJRPdfExporterParameter *)key;
 
+/**
+ Sets language locale.
+
+ @param language    Language locale to use. Passing `nil`,
+                    will remove language settings from configuration.
+ */
+- (void)setLanguage:(NSString *)language;
 
 @end

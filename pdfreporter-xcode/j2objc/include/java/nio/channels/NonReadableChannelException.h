@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/NonReadableChannelException.java
 //
 
-#ifndef _JavaNioChannelsNonReadableChannelException_H_
-#define _JavaNioChannelsNonReadableChannelException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsNonReadableChannelException")
+#ifdef RESTRICT_JavaNioChannelsNonReadableChannelException
+#define INCLUDE_ALL_JavaNioChannelsNonReadableChannelException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsNonReadableChannelException 1
+#endif
+#undef RESTRICT_JavaNioChannelsNonReadableChannelException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsNonReadableChannelException_) && (INCLUDE_ALL_JavaNioChannelsNonReadableChannelException || defined(INCLUDE_JavaNioChannelsNonReadableChannelException))
+#define JavaNioChannelsNonReadableChannelException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsNonReadableChannelException_serialVersionUID -3200915679294993514LL
+/*!
+ @brief A <code>NonReadableChannelException</code> is thrown when attempting to read from
+ a channel that is not open for reading.
+ */
+@interface JavaNioChannelsNonReadableChannelException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsNonReadableChannelException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>NonReadableChannelException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsNonReadableChannelException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsNonReadableChannelException_init(JavaNioChannelsNonReadableChannelException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsNonReadableChannelException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsNonReadableChannelException *new_JavaNioChannelsNonReadableChannelException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsNonReadableChannelException *create_JavaNioChannelsNonReadableChannelException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsNonReadableChannelException)
 
-#endif // _JavaNioChannelsNonReadableChannelException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsNonReadableChannelException")

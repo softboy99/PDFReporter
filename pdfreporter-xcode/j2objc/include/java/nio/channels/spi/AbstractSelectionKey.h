@@ -3,30 +3,71 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/spi/AbstractSelectionKey.java
 //
 
-#ifndef _JavaNioChannelsSpiAbstractSelectionKey_H_
-#define _JavaNioChannelsSpiAbstractSelectionKey_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsSpiAbstractSelectionKey")
+#ifdef RESTRICT_JavaNioChannelsSpiAbstractSelectionKey
+#define INCLUDE_ALL_JavaNioChannelsSpiAbstractSelectionKey 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsSpiAbstractSelectionKey 1
+#endif
+#undef RESTRICT_JavaNioChannelsSpiAbstractSelectionKey
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsSpiAbstractSelectionKey_) && (INCLUDE_ALL_JavaNioChannelsSpiAbstractSelectionKey || defined(INCLUDE_JavaNioChannelsSpiAbstractSelectionKey))
+#define JavaNioChannelsSpiAbstractSelectionKey_
+
+#define RESTRICT_JavaNioChannelsSelectionKey 1
+#define INCLUDE_JavaNioChannelsSelectionKey 1
 #include "java/nio/channels/SelectionKey.h"
 
+/*!
+ @brief <code>AbstractSelectionKey</code> is the base implementation class for selection keys.
+ It implements validation and cancellation methods.
+ */
 @interface JavaNioChannelsSpiAbstractSelectionKey : JavaNioChannelsSelectionKey {
  @public
-  jboolean isValid__;
+  jboolean isValid_;
 }
 
-- (instancetype)init;
+#pragma mark Public
 
+/*!
+ @brief Cancels this key.
+ <p>
+ A key that has been canceled is no longer valid. Calling this method on
+ an already canceled key does nothing.
+ */
+- (void)cancel;
+
+/*!
+ @brief Indicates whether this key is valid.
+ A key is valid as long as it has not
+ been canceled.
+ @return <code>true</code> if this key has not been canceled, <code>false</code>
+ otherwise.
+ */
 - (jboolean)isValid;
 
-- (void)cancel;
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new <code>AbstractSelectionKey</code>.
+ */
+- (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsSpiAbstractSelectionKey)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaNioChannelsSpiAbstractSelectionKey_init(JavaNioChannelsSpiAbstractSelectionKey *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsSpiAbstractSelectionKey)
 
-#endif // _JavaNioChannelsSpiAbstractSelectionKey_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsSpiAbstractSelectionKey")

@@ -3,33 +3,70 @@
 //  source: android/libcore/luni/src/main/java/java/lang/TypeNotPresentException.java
 //
 
-#ifndef _JavaLangTypeNotPresentException_H_
-#define _JavaLangTypeNotPresentException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangTypeNotPresentException")
+#ifdef RESTRICT_JavaLangTypeNotPresentException
+#define INCLUDE_ALL_JavaLangTypeNotPresentException 0
+#else
+#define INCLUDE_ALL_JavaLangTypeNotPresentException 1
+#endif
+#undef RESTRICT_JavaLangTypeNotPresentException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangTypeNotPresentException_) && (INCLUDE_ALL_JavaLangTypeNotPresentException || defined(INCLUDE_JavaLangTypeNotPresentException))
+#define JavaLangTypeNotPresentException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaLangTypeNotPresentException_serialVersionUID -5101214195716534496LL
+/*!
+ @brief Thrown when a program tries to access a class, interface, enum or annotation
+ type through a string that contains the type's name and the type cannot be
+ found.
+ This exception is an unchecked alternative to
+ <code>java.lang.ClassNotFoundException</code>.
+ @since 1.5
+ */
+@interface JavaLangTypeNotPresentException : JavaLangRuntimeException
 
-@interface JavaLangTypeNotPresentException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>TypeNotPresentException</code> with the current stack
+ trace, a detail message that includes the name of the type that could not
+ be found and the <code>Throwable</code> that caused this exception.
+ @param typeName
+ the fully qualified name of the type that could not be found.
+ @param cause
+ the optional cause of this exception, may be <code>null</code>.
+ */
 - (instancetype)initWithNSString:(NSString *)typeName
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
+/*!
+ @brief Gets the fully qualified name of the type that could not be found.
+ @return the name of the type that caused this exception.
+ */
 - (NSString *)typeName;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangTypeNotPresentException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangTypeNotPresentException_initWithNSString_withNSException_(JavaLangTypeNotPresentException *self, NSString *typeName, NSException *cause);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangTypeNotPresentException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangTypeNotPresentException *new_JavaLangTypeNotPresentException_initWithNSString_withNSException_(NSString *typeName, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangTypeNotPresentException *create_JavaLangTypeNotPresentException_initWithNSString_withNSException_(NSString *typeName, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangTypeNotPresentException)
 
-#endif // _JavaLangTypeNotPresentException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangTypeNotPresentException")

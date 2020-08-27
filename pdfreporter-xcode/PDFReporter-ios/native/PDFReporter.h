@@ -19,4 +19,6 @@ typedef void (^ReporterConfigurationBlock)(ReporterConfiguration *configuration)
  */
 + (NSString *)exportReportWithConfigurationBlock:(ReporterConfigurationBlock)configurationBlock;
 
+- (void)selectLanguage:(NSString *)language;
+
 @end

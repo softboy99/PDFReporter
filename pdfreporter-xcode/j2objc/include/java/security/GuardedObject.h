@@ -3,34 +3,73 @@
 //  source: android/libcore/luni/src/main/java/java/security/GuardedObject.java
 //
 
-#ifndef _JavaSecurityGuardedObject_H_
-#define _JavaSecurityGuardedObject_H_
-
-@class JavaIoObjectOutputStream;
-@protocol JavaSecurityGuard;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityGuardedObject")
+#ifdef RESTRICT_JavaSecurityGuardedObject
+#define INCLUDE_ALL_JavaSecurityGuardedObject 0
+#else
+#define INCLUDE_ALL_JavaSecurityGuardedObject 1
+#endif
+#undef RESTRICT_JavaSecurityGuardedObject
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityGuardedObject_) && (INCLUDE_ALL_JavaSecurityGuardedObject || defined(INCLUDE_JavaSecurityGuardedObject))
+#define JavaSecurityGuardedObject_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
 #include "java/io/Serializable.h"
 
-#define JavaSecurityGuardedObject_serialVersionUID -5240450096227834308LL
+@protocol JavaSecurityGuard;
 
-@interface JavaSecurityGuardedObject : NSObject < JavaIoSerializable > {
-}
+/*!
+ @brief <code>GuardedObject</code> controls access to an object, by checking all requests
+ for the object with a <code>Guard</code>.
+ */
+@interface JavaSecurityGuardedObject : NSObject < JavaIoSerializable >
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new instance of <code>GuardedObject</code> which protects access
+ to the specified <code>Object</code> using the specified <code>Guard</code>.
+ @param object
+ the <code>Object</code> to protect.
+ @param guard
+ the <code>Guard</code> which protects the specified <code>Object</code>,
+ maybe <code>null</code>.
+ */
 - (instancetype)initWithId:(id)object
      withJavaSecurityGuard:(id<JavaSecurityGuard>)guard;
 
+/*!
+ @brief Returns the guarded <code>Object</code> if the associated <code>Guard</code>
+ permits access.
+ If access is not granted, then a <code>SecurityException</code>
+  is thrown.
+ @return the guarded object.
+ @exception SecurityException
+ if access is not granted to the guarded object.
+ */
 - (id)getObject;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityGuardedObject)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityGuardedObject_initWithId_withJavaSecurityGuard_(JavaSecurityGuardedObject *self, id object, id<JavaSecurityGuard> guard);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityGuardedObject, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityGuardedObject *new_JavaSecurityGuardedObject_initWithId_withJavaSecurityGuard_(id object, id<JavaSecurityGuard> guard) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityGuardedObject *create_JavaSecurityGuardedObject_initWithId_withJavaSecurityGuard_(id object, id<JavaSecurityGuard> guard);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityGuardedObject)
 
-#endif // _JavaSecurityGuardedObject_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityGuardedObject")

@@ -39,6 +39,14 @@
 
 #define FILE_IN_ZIP_MAX_NAME_LENGTH (256)
 
+static NSCalendarUnit calendarUnitFlags = (
+	  NSCalendarUnitSecond
+	| NSCalendarUnitMinute
+	| NSCalendarUnitHour
+	| NSCalendarUnitDay
+	| NSCalendarUnitMonth
+	| NSCalendarUnitYear
+);
 
 @implementation ZipFile
 
@@ -97,7 +105,7 @@
 	
 	NSDate *now= [NSDate date];
 	NSCalendar *calendar= [NSCalendar currentCalendar];
-	NSDateComponents *date= [calendar components:(NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:now];	
+	NSDateComponents *date= [calendar components:calendarUnitFlags fromDate:now];
 	zip_fileinfo zi;
 	zi.tmz_date.tm_sec= [date second];
 	zi.tmz_date.tm_min= [date minute];
@@ -133,7 +141,7 @@
 	}
 	
 	NSCalendar *calendar= [NSCalendar currentCalendar];
-	NSDateComponents *date= [calendar components:(NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:fileDate];	
+	NSDateComponents *date= [calendar components:calendarUnitFlags fromDate:fileDate];
 	zip_fileinfo zi;
 	zi.tmz_date.tm_sec= [date second];
 	zi.tmz_date.tm_min= [date minute];
@@ -169,7 +177,7 @@
 	}
 	
 	NSCalendar *calendar= [NSCalendar currentCalendar];
-	NSDateComponents *date= [calendar components:(NSSecondCalendarUnit | NSMinuteCalendarUnit | NSHourCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:fileDate];	
+	NSDateComponents *date= [calendar components:calendarUnitFlags fromDate:fileDate];	
 	zip_fileinfo zi;
 	zi.tmz_date.tm_sec= [date second];
 	zi.tmz_date.tm_min= [date minute];

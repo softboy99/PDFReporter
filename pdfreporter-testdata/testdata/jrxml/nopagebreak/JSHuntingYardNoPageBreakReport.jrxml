@@ -23,10 +23,10 @@
 		<initialValueExpression><![CDATA[new java.util.ArrayList()]]></initialValueExpression>
 	</variable>
 	<variable name="FirstLetter" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]]></variableExpression>
+		<variableExpression><![CDATA[substr($F{ShipCountry},0, 1).toUpperCase()]]></variableExpression>
 	</variable>
 	<variable name="ShipCountryNumber" class="java.lang.Integer" resetType="Group" resetGroup="ShipCountryGroup" calculation="System">
-		<initialValueExpression><![CDATA[($V{ShipCountryNumber} != null)?(Integer.valueOf($V{ShipCountryNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+		<initialValueExpression><![CDATA[ifelse(isNull($V{ShipCountryNumber}),1,ifelse(isNull($V{ShipCountryNumber}),0,$V{ShipCountryNumber}) + 1)]]></initialValueExpression>
 	</variable>
 	<group name="FirstLetterGroup" minHeightToStartNewPage="60">
 		<groupExpression><![CDATA[$V{FirstLetter}]]></groupExpression>
@@ -49,7 +49,7 @@
 			<textField>
 				<reportElement mode="Opaque" x="190" y="10" width="325" height="15" backcolor="#c0c0c0" style="Sans_Bold"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["FirstLetterGroup_" + $V{FirstLetter}]]></anchorNameExpression>
+				<anchorNameExpression><![CDATA['FirstLetterGroup_' + $V{FirstLetter}]]></anchorNameExpression>
 			</textField>
 		</band>
 		</groupHeader>
@@ -70,7 +70,7 @@
 			</line>
 			<textField>
 				<reportElement x="0" y="4" width="515" height="15" style="Sans_Bold"/>
-				<textFieldExpression class="java.lang.String"><![CDATA['  ' + '$V{ShipCountryNumber}' + '. ' + '$F{ShipCountry}']]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA['  ' + intString($V{ShipCountryNumber}) + '. ' + $F{ShipCountry}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA['ShipCountryGroup_' + $V{ShipCountryNumber}]]></anchorNameExpression>
 			</textField>
 		</band>
@@ -172,9 +172,9 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="175" y="20" width="165" height="15" style="Sans_Italic"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["There were " +
-					String.valueOf($V{REPORT_COUNT}) +
-					" orders on this report."]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA['There were ' +
+					intString($V{REPORT_COUNT}) +
+					' orders on this report.']]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement positionType="Float" mode="Transparent" x="175" y="35" width="10" height="25" forecolor="#ff0000" backcolor="#ffafaf"/>

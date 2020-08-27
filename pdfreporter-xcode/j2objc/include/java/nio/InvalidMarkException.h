@@ -3,30 +3,64 @@
 //  source: android/libcore/luni/src/main/java/java/nio/InvalidMarkException.java
 //
 
-#ifndef _JavaNioInvalidMarkException_H_
-#define _JavaNioInvalidMarkException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioInvalidMarkException")
+#ifdef RESTRICT_JavaNioInvalidMarkException
+#define INCLUDE_ALL_JavaNioInvalidMarkException 0
+#else
+#define INCLUDE_ALL_JavaNioInvalidMarkException 1
+#endif
+#undef RESTRICT_JavaNioInvalidMarkException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioInvalidMarkException_) && (INCLUDE_ALL_JavaNioInvalidMarkException || defined(INCLUDE_JavaNioInvalidMarkException))
+#define JavaNioInvalidMarkException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioInvalidMarkException_serialVersionUID 1698329710438510774LL
+/*!
+ @brief An <code>InvalidMarkException</code> is thrown when <code>reset()</code> is called on a
+ buffer, but no mark has been set previously.
+ */
+@interface JavaNioInvalidMarkException : JavaLangIllegalStateException
 
-@interface JavaNioInvalidMarkException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>InvalidMarkException</code>.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs an <code>InvalidMarkException</code> with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioInvalidMarkException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioInvalidMarkException_init(JavaNioInvalidMarkException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioInvalidMarkException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioInvalidMarkException *new_JavaNioInvalidMarkException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioInvalidMarkException *create_JavaNioInvalidMarkException_init();
+
+FOUNDATION_EXPORT void JavaNioInvalidMarkException_initWithNSString_(JavaNioInvalidMarkException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNioInvalidMarkException *new_JavaNioInvalidMarkException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioInvalidMarkException *create_JavaNioInvalidMarkException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioInvalidMarkException)
 
-#endif // _JavaNioInvalidMarkException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioInvalidMarkException")

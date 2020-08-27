@@ -98,6 +98,7 @@ public class MainActivity extends Activity {
                 try {
                     String fileName = null;
                     fileName = mReportTestRunner.exportReport(identifier);
+                    System.out.println("Generated: " + fileName);
                     return new ReportResult(null, fileName);
                 } catch (Exception e) {
                     Log.e(TAG, "Failed to generate report : " + e.getMessage());

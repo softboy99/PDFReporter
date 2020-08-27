@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/security/spec/EncodedKeySpec.java
 //
 
-#ifndef _JavaSecuritySpecEncodedKeySpec_H_
-#define _JavaSecuritySpecEncodedKeySpec_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySpecEncodedKeySpec")
+#ifdef RESTRICT_JavaSecuritySpecEncodedKeySpec
+#define INCLUDE_ALL_JavaSecuritySpecEncodedKeySpec 0
+#else
+#define INCLUDE_ALL_JavaSecuritySpecEncodedKeySpec 1
+#endif
+#undef RESTRICT_JavaSecuritySpecEncodedKeySpec
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySpecEncodedKeySpec_) && (INCLUDE_ALL_JavaSecuritySpecEncodedKeySpec || defined(INCLUDE_JavaSecuritySpecEncodedKeySpec))
+#define JavaSecuritySpecEncodedKeySpec_
+
+#define RESTRICT_JavaSecuritySpecKeySpec 1
+#define INCLUDE_JavaSecuritySpecKeySpec 1
+#include "java/security/spec/KeySpec.h"
 
 @class IOSByteArray;
 
-#include "J2ObjC_header.h"
-#include "java/security/spec/KeySpec.h"
+/*!
+ @brief The abstract key specification for a public or a private key in encoded
+ format.
+ */
+@interface JavaSecuritySpecEncodedKeySpec : NSObject < JavaSecuritySpecKeySpec >
 
-@interface JavaSecuritySpecEncodedKeySpec : NSObject < JavaSecuritySpecKeySpec > {
-}
+#pragma mark Public
 
+/*!
+ @brief Creates a new <code>EncodedKeySpec</code> with the specified encoded key bytes.
+ @param encodedKey
+ the encoded key bytes.
+ */
 - (instancetype)initWithByteArray:(IOSByteArray *)encodedKey;
 
+/*!
+ @brief Returns the encoded key bytes.
+ @return the encoded key bytes.
+ */
 - (IOSByteArray *)getEncoded;
 
+/*!
+ @brief Returns the name of the encoding format of this encoded key
+ specification.
+ @return the name of the encoding format of this encoded key
+ specification.
+ */
 - (NSString *)getFormat;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySpecEncodedKeySpec)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecuritySpecEncodedKeySpec_initWithByteArray_(JavaSecuritySpecEncodedKeySpec *self, IOSByteArray *encodedKey);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySpecEncodedKeySpec)
 
-#endif // _JavaSecuritySpecEncodedKeySpec_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySpecEncodedKeySpec")

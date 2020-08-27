@@ -3,131 +3,241 @@
 //  source: android/libcore/luni/src/main/java/java/util/Timer.java
 //
 
-#ifndef _JavaUtilTimer_H_
-#define _JavaUtilTimer_H_
+#include "J2ObjC_header.h"
 
-@class IOSObjectArray;
+#pragma push_macro("INCLUDE_ALL_JavaUtilTimer")
+#ifdef RESTRICT_JavaUtilTimer
+#define INCLUDE_ALL_JavaUtilTimer 0
+#else
+#define INCLUDE_ALL_JavaUtilTimer 1
+#endif
+#undef RESTRICT_JavaUtilTimer
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilTimer_) && (INCLUDE_ALL_JavaUtilTimer || defined(INCLUDE_JavaUtilTimer))
+#define JavaUtilTimer_
+
 @class JavaUtilDate;
 @class JavaUtilTimerTask;
-@class JavaUtilTimer_FinalizerHelper;
-@class JavaUtilTimer_TimerImpl;
-@class JavaUtilTimer_TimerImpl_TimerHeap;
 
-#include "J2ObjC_header.h"
-#include "java/lang/Thread.h"
+/*!
+ @brief Timers schedule one-shot or recurring <code>tasks</code> for execution.
+ Prefer <code>ScheduledThreadPoolExecutor</code>
+  for new code.
+ <p>Each timer has one thread on which tasks are executed sequentially. When
+ this thread is busy running a task, runnable tasks may be subject to delays.
+ <p>One-shot are scheduled to run at an absolute time or after a relative
+ delay.
+ <p>Recurring tasks are scheduled with either a fixed period or a fixed rate:
+ <ul>
+ <li>With the default <strong>fixed-period execution</strong>, each
+ successive run of a task is scheduled relative to the start time of
+ the previous run, so two runs are never fired closer together in time
+ than the specified <code>period</code>.
+ <li>With <strong>fixed-rate execution</strong>, the start time of each
+ successive run of a task is scheduled without regard for when the
+ previous run took place. This may result in a series of bunched-up runs
+ (one launched immediately after another) if delays prevent the timer
+ from starting tasks on time.
+ </ul>
+ <p>When a timer is no longer needed, users should call <code>cancel</code>, which
+ releases the timer's thread and other resources. Timers not explicitly
+ cancelled may hold resources indefinitely.
+ <p>This class does not offer guarantees about the real-time nature of task
+ scheduling. Multiple threads can share a single timer without
+ synchronization.
+ */
+@interface JavaUtilTimer : NSObject
 
-@interface JavaUtilTimer : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief Creates a new non-daemon <code>Timer</code>.
+ */
+- (instancetype)init;
+
+/*!
+ @brief Creates a new <code>Timer</code> which may be specified to be run as a daemon thread.
+ @param isDaemon <code>true</code> if the <code>Timer</code>'s thread should be a daemon thread.
+ */
+- (instancetype)initWithBoolean:(jboolean)isDaemon;
+
+/*!
+ @brief Creates a new named <code>Timer</code> which does not run as a daemon thread.
+ @param name the name of the Timer.
+ @throws NullPointerException is <code>name</code> is <code>null</code>
+ */
+- (instancetype)initWithNSString:(NSString *)name;
+
+/*!
+ @brief Creates a new named <code>Timer</code> which may be specified to be run as a
+ daemon thread.
+ @param name the name of the <code>Timer</code>.
+ @param isDaemon true if <code>Timer</code>'s thread should be a daemon thread.
+ @throws NullPointerException is <code>name</code> is <code>null</code>
+ */
 - (instancetype)initWithNSString:(NSString *)name
                      withBoolean:(jboolean)isDaemon;
 
-- (instancetype)initWithNSString:(NSString *)name;
-
-- (instancetype)initWithBoolean:(jboolean)isDaemon;
-
-- (instancetype)init;
-
+/*!
+ @brief Cancels the <code>Timer</code> and all scheduled tasks.
+ If there is a
+ currently running task it is not affected. No more tasks may be scheduled
+ on this <code>Timer</code>. Subsequent calls do nothing.
+ */
 - (void)cancel;
 
+/*!
+ @brief Removes all canceled tasks from the task queue.
+ If there are no
+ other references on the tasks, then after this call they are free
+ to be garbage collected.
+ @return the number of canceled tasks that were removed from the task
+ queue.
+ */
 - (jint)purge;
 
+/*!
+ @brief Schedule a task for single execution.
+ If <code>when</code> is less than the
+ current time, it will be scheduled to be executed as soon as possible.
+ @param task
+ the task to schedule.
+ @param when
+ time of execution.
+ @throws IllegalArgumentException
+ if <code>when.getTime() < 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
 - (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
                      withJavaUtilDate:(JavaUtilDate *)when;
 
-- (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
-                             withLong:(jlong)delay;
-
-- (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
-                             withLong:(jlong)delay
-                             withLong:(jlong)period;
-
+/*!
+ @brief Schedule a task for repeated fixed-delay execution after a specific time
+ has been reached.
+ @param task
+ the task to schedule.
+ @param when
+ time of first execution.
+ @param period
+ amount of time in milliseconds between subsequent executions.
+ @throws IllegalArgumentException
+ if <code>when.getTime() < 0</code> or <code>period <= 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
 - (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
                      withJavaUtilDate:(JavaUtilDate *)when
                              withLong:(jlong)period;
 
-- (void)scheduleAtFixedRateWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
-                                        withLong:(jlong)delay
-                                        withLong:(jlong)period;
+/*!
+ @brief Schedule a task for single execution after a specified delay.
+ @param task
+ the task to schedule.
+ @param delay
+ amount of time in milliseconds before execution.
+ @throws IllegalArgumentException
+ if <code>delay < 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
+- (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
+                             withLong:(jlong)delay;
 
+/*!
+ @brief Schedule a task for repeated fixed-delay execution after a specific delay.
+ @param task
+ the task to schedule.
+ @param delay
+ amount of time in milliseconds before first execution.
+ @param period
+ amount of time in milliseconds between subsequent executions.
+ @throws IllegalArgumentException
+ if <code>delay < 0</code> or <code>period <= 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
+- (void)scheduleWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
+                             withLong:(jlong)delay
+                             withLong:(jlong)period;
+
+/*!
+ @brief Schedule a task for repeated fixed-rate execution after a specific time
+ has been reached.
+ @param task
+ the task to schedule.
+ @param when
+ time of first execution.
+ @param period
+ amount of time in milliseconds between subsequent executions.
+ @throws IllegalArgumentException
+ if <code>when.getTime() < 0</code> or <code>period <= 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
 - (void)scheduleAtFixedRateWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
                                 withJavaUtilDate:(JavaUtilDate *)when
+                                        withLong:(jlong)period;
+
+/*!
+ @brief Schedule a task for repeated fixed-rate execution after a specific delay
+ has passed.
+ @param task
+ the task to schedule.
+ @param delay
+ amount of time in milliseconds before first execution.
+ @param period
+ amount of time in milliseconds between subsequent executions.
+ @throws IllegalArgumentException
+ if <code>delay < 0</code> or <code>period <= 0</code>.
+ @throws IllegalStateException
+ if the <code>Timer</code> has been canceled, or if the task has been
+ scheduled or canceled.
+ */
+- (void)scheduleAtFixedRateWithJavaUtilTimerTask:(JavaUtilTimerTask *)task
+                                        withLong:(jlong)delay
                                         withLong:(jlong)period;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilTimer)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilTimer_initWithNSString_withBoolean_(JavaUtilTimer *self, NSString *name, jboolean isDaemon);
 
-FOUNDATION_EXPORT jlong JavaUtilTimer_timerId_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilTimer, timerId_, jlong)
-J2OBJC_STATIC_FIELD_REF_GETTER(JavaUtilTimer, timerId_, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilTimer *new_JavaUtilTimer_initWithNSString_withBoolean_(NSString *name, jboolean isDaemon) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTimer *create_JavaUtilTimer_initWithNSString_withBoolean_(NSString *name, jboolean isDaemon);
+
+FOUNDATION_EXPORT void JavaUtilTimer_initWithNSString_(JavaUtilTimer *self, NSString *name);
+
+FOUNDATION_EXPORT JavaUtilTimer *new_JavaUtilTimer_initWithNSString_(NSString *name) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTimer *create_JavaUtilTimer_initWithNSString_(NSString *name);
+
+FOUNDATION_EXPORT void JavaUtilTimer_initWithBoolean_(JavaUtilTimer *self, jboolean isDaemon);
+
+FOUNDATION_EXPORT JavaUtilTimer *new_JavaUtilTimer_initWithBoolean_(jboolean isDaemon) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTimer *create_JavaUtilTimer_initWithBoolean_(jboolean isDaemon);
+
+FOUNDATION_EXPORT void JavaUtilTimer_init(JavaUtilTimer *self);
+
+FOUNDATION_EXPORT JavaUtilTimer *new_JavaUtilTimer_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTimer *create_JavaUtilTimer_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilTimer)
 
-@interface JavaUtilTimer_TimerImpl : JavaLangThread {
-}
+#endif
 
-- (instancetype)initWithNSString:(NSString *)name
-                     withBoolean:(jboolean)isDaemon;
 
-- (void)run;
-
-- (void)cancel;
-
-- (jint)purge;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilTimer_TimerImpl)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilTimer_TimerImpl)
-
-@interface JavaUtilTimer_TimerImpl_TimerHeap : NSObject {
-}
-
-- (JavaUtilTimerTask *)minimum;
-
-- (jboolean)isEmpty;
-
-- (void)insertWithJavaUtilTimerTask:(JavaUtilTimerTask *)task;
-
-- (void)delete__WithInt:(jint)pos;
-
-- (void)reset;
-
-- (void)adjustMinimum;
-
-- (void)deleteIfCancelled;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilTimer_TimerImpl_TimerHeap)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilTimer_TimerImpl_TimerHeap)
-
-@interface JavaUtilTimer_FinalizerHelper : NSObject {
-}
-
-- (instancetype)initWithJavaUtilTimer_TimerImpl:(JavaUtilTimer_TimerImpl *)impl;
-
-- (void)dealloc;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilTimer_FinalizerHelper)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilTimer_FinalizerHelper)
-
-#endif // _JavaUtilTimer_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilTimer")

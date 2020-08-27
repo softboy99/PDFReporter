@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/sql/SQLXML.java
 //
 
-#ifndef _JavaSqlSQLXML_H_
-#define _JavaSqlSQLXML_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSqlSQLXML")
+#ifdef RESTRICT_JavaSqlSQLXML
+#define INCLUDE_ALL_JavaSqlSQLXML 0
+#else
+#define INCLUDE_ALL_JavaSqlSQLXML 1
+#endif
+#undef RESTRICT_JavaSqlSQLXML
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSqlSQLXML_) && (INCLUDE_ALL_JavaSqlSQLXML || defined(INCLUDE_JavaSqlSQLXML))
+#define JavaSqlSQLXML_
 
 @class IOSClass;
 @class JavaIoInputStream;
@@ -14,26 +27,66 @@
 @protocol JavaxXmlTransformResult;
 @protocol JavaxXmlTransformSource;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Maps SQL's XML type into Java.
+ */
 @protocol JavaSqlSQLXML < NSObject, JavaObject >
 
+/*!
+ @brief Frees any resources held by this object.
+ After <code>free</code> is called, calling
+ method other than <code>free</code> will throw <code>SQLException</code> (calling <code>free</code>
+ repeatedly will do nothing).
+ @throws SQLException
+ */
 - (void)free;
 
+/*!
+ @brief Returns a stream that can be used to read binary data from this SQL <code>XML</code> object.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (JavaIoInputStream *)getBinaryStream;
 
+/*!
+ @brief Returns a stream that can be used to write binary data to this SQL <code>XML</code> object.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (JavaIoOutputStream *)setBinaryStream;
 
+/*!
+ @brief Returns a reader that can be used to read character data from this SQL <code>XML</code> object.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (JavaIoReader *)getCharacterStream;
 
+/*!
+ @brief Returns a writer that can be used to write character data to this SQL <code>XML</code> object.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (JavaIoWriter *)setCharacterStream;
 
+/*!
+ @brief Returns this object's data as an XML string.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (NSString *)getString;
 
+/*!
+ @brief Sets this object's data to the given XML string.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (void)setStringWithNSString:(NSString *)value;
 
+/*!
+ @brief Returns a <code>Source</code> for reading this object's data.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (id)getSourceWithIOSClass:(IOSClass *)sourceClass;
 
+/*!
+ @brief Returns a <code>Result</code> for writing this object's data.
+ @throws SQLException if an error occurs accessing the data
+ */
 - (id)setResultWithIOSClass:(IOSClass *)resultClass;
 
 @end
@@ -42,4 +95,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaSqlSQLXML)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSqlSQLXML)
 
-#endif // _JavaSqlSQLXML_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSqlSQLXML")

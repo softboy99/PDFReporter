@@ -105,16 +105,16 @@ public class Document extends AbstractDocument {
 		if ((permission & PERMISSION_COPY) == PERMISSION_COPY ) {
 			translated |= PdfWriter.ALLOW_COPY;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_EDIT ) {
+		if ((permission & PERMISSION_EDIT) == PERMISSION_EDIT ) {
 			translated |= PdfWriter.ALLOW_MODIFY_ANNOTATIONS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_EDIT_ALL ) {
+		if ((permission & PERMISSION_EDIT_ALL) == PERMISSION_EDIT_ALL ) {
 			translated |= PdfWriter.ALLOW_MODIFY_CONTENTS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_READ) {
+		if ((permission & PERMISSION_READ) == PERMISSION_READ) {
 			translated |= PdfWriter.ALLOW_SCREENREADERS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_PRINT ) {
+		if ((permission & PERMISSION_PRINT) == PERMISSION_PRINT ) {
 			translated |= PdfWriter.ALLOW_PRINTING;
 		}
 		return translated;

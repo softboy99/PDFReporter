@@ -29,6 +29,7 @@ import org.oss.pdfreporter.registry.IRegistry;
 import org.oss.pdfreporter.uses.org.apache.digester.IDigester;
 import org.oss.pdfreporter.uses.org.apache.digester.IObjectCreationFactory;
 import org.oss.pdfreporter.uses.org.apache.digester.IRule;
+import org.oss.pdfreporter.uses.org.apache.digester.IRuleSet;
 import org.oss.pdfreporter.uses.org.apache.digester.IRules;
 import org.oss.pdfreporter.uses.org.apache.digester.SetPropertiesRule;
 import org.oss.pdfreporter.xml.parsers.IAttributes;
@@ -542,5 +543,33 @@ public class Digester extends NotImplementedDigester implements IContentHandler 
 		this.delegator = delegator;
 	}
 
+    /**
+     * Return the namespace URI that will be applied to all subsequently
+     * added <code>Rule</code> objects.
+     */
+    public String getRuleNamespaceURI() {
+
+        return (getRules().getNamespaceURI());
+
+    }
+	
+	
+	@Override
+	public void addRuleSet(IRuleSet ruleSet) {
+        String oldNamespaceURI = getRuleNamespaceURI();
+        String newNamespaceURI = ruleSet.getNamespaceURI();
+        if (logger.isLoggable(Level.FINEST)) {
+            if (newNamespaceURI == null) {
+                logger.finest("addRuleSet() with no namespace URI");
+            } else {
+                logger.finest("addRuleSet() with namespace URI " + newNamespaceURI);
+            }
+        }
+        setRuleNamespaceURI(newNamespaceURI);
+        ruleSet.addRuleInstances(this);
+        setRuleNamespaceURI(oldNamespaceURI);
+	}
+
+	
 
 }

@@ -856,7 +856,7 @@ public final class JasperFillManager
 		try {
 			return getDefaultInstance().fill(jasperReport, parameters, connection);
 		} finally {
-			logger.info("Time for filling Report: " + String.format("%1$TM:%1$TS.%1$TL", System.currentTimeMillis() - time));			
+			logger.finer("Time for filling Report: " + String.format("%1$TM:%1$TS.%1$TL", System.currentTimeMillis() - time));			
 		}
 		
 	}

@@ -3,83 +3,91 @@
 //  source: android/libcore/luni/src/main/java/java/util/MiniEnumSet.java
 //
 
-#ifndef _JavaUtilMiniEnumSet_H_
-#define _JavaUtilMiniEnumSet_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilMiniEnumSet")
+#ifdef RESTRICT_JavaUtilMiniEnumSet
+#define INCLUDE_ALL_JavaUtilMiniEnumSet 0
+#else
+#define INCLUDE_ALL_JavaUtilMiniEnumSet 1
+#endif
+#undef RESTRICT_JavaUtilMiniEnumSet
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilMiniEnumSet_) && (INCLUDE_ALL_JavaUtilMiniEnumSet || defined(INCLUDE_JavaUtilMiniEnumSet))
+#define JavaUtilMiniEnumSet_
+
+#define RESTRICT_JavaUtilEnumSet 1
+#define INCLUDE_JavaUtilEnumSet 1
+#include "java/util/EnumSet.h"
 
 @class IOSClass;
 @class IOSObjectArray;
 @class JavaLangEnum;
 @protocol JavaUtilCollection;
+@protocol JavaUtilIterator;
 
-#include "J2ObjC_header.h"
-#include "java/util/EnumSet.h"
-#include "java/util/Iterator.h"
+/*!
+ @brief A concrete EnumSet for enums with 64 or fewer elements.
+ */
+@interface JavaUtilMiniEnumSet : JavaUtilEnumSet
 
-#define JavaUtilMiniEnumSet_MAX_ELEMENTS 64
-
-@interface JavaUtilMiniEnumSet : JavaUtilEnumSet {
-}
-
-- (instancetype)initWithIOSClass:(IOSClass *)elementType
-           withJavaLangEnumArray:(IOSObjectArray *)enums;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (void)clear;
+#pragma mark Public
 
 - (jboolean)addWithId:(JavaLangEnum *)element;
 
 - (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
+- (void)clear;
+
 - (jboolean)containsWithId:(id)object;
 
 - (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+- (jboolean)isEqual:(id)object;
+
+- (id<JavaUtilIterator>)iterator;
+
+- (jboolean)removeWithId:(id)object;
 
 - (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
 - (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
-- (jboolean)removeWithId:(id)object;
+- (jint)size;
 
-- (jboolean)isEqual:(id)object;
+#pragma mark Package-Private
+
+/*!
+ @brief Constructs an instance.
+ @param elementType non-null; type of the elements
+ @param enums non-null; pre-populated array of constants in ordinal
+ order
+ */
+- (instancetype)initWithIOSClass:(IOSClass *)elementType
+           withJavaLangEnumArray:(IOSObjectArray *)enums;
 
 - (void)complement;
 
 - (void)setRangeWithJavaLangEnum:(JavaLangEnum *)start
                 withJavaLangEnum:(JavaLangEnum *)end;
 
-
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilMiniEnumSet)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilMiniEnumSet_initWithIOSClass_withJavaLangEnumArray_(JavaUtilMiniEnumSet *self, IOSClass *elementType, IOSObjectArray *enums);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilMiniEnumSet, MAX_ELEMENTS, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilMiniEnumSet *new_JavaUtilMiniEnumSet_initWithIOSClass_withJavaLangEnumArray_(IOSClass *elementType, IOSObjectArray *enums) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilMiniEnumSet *create_JavaUtilMiniEnumSet_initWithIOSClass_withJavaLangEnumArray_(IOSClass *elementType, IOSObjectArray *enums);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMiniEnumSet)
 
-@interface JavaUtilMiniEnumSet_MiniEnumSetIterator : NSObject < JavaUtilIterator > {
-}
+#endif
 
-- (jboolean)hasNext;
 
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilMiniEnumSet:(JavaUtilMiniEnumSet *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilMiniEnumSet_MiniEnumSetIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMiniEnumSet_MiniEnumSetIterator)
-
-#endif // _JavaUtilMiniEnumSet_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilMiniEnumSet")

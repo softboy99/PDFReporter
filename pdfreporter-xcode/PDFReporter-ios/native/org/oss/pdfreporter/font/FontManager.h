@@ -7,11 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/font/AbstractFontManager.h"
+#include "org/oss/pdfreporter/font/AbstractFontManager.h"
 
 @interface OrgOssPdfreporterFontFontManager : OrgOssPdfreporterFontAbstractFontManager {
+    @public
     NSMutableDictionary *fontDict;
 }
 
-- (id)init;
+#pragma mark Package-Private
+
+- (instancetype)init;
+
 @end
+
+J2OBJC_EMPTY_STATIC_INIT(OrgOssPdfreporterFontFontManager)
+
+FOUNDATION_EXPORT void OrgOssPdfreporterFontFontManager_init(OrgOssPdfreporterFontFontManager *self);
+
+FOUNDATION_EXPORT OrgOssPdfreporterFontFontManager *new_OrgOssPdfreporterFontFontManager_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT OrgOssPdfreporterFontFontManager *create_OrgOssPdfreporterFontFontManager_init();
+
+J2OBJC_TYPE_LITERAL_HEADER(OrgOssPdfreporterFontFontManager)

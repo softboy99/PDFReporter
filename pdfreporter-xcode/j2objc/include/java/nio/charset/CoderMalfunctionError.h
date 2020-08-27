@@ -3,30 +3,57 @@
 //  source: android/libcore/luni/src/main/java/java/nio/charset/CoderMalfunctionError.java
 //
 
-#ifndef _JavaNioCharsetCoderMalfunctionError_H_
-#define _JavaNioCharsetCoderMalfunctionError_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioCharsetCoderMalfunctionError")
+#ifdef RESTRICT_JavaNioCharsetCoderMalfunctionError
+#define INCLUDE_ALL_JavaNioCharsetCoderMalfunctionError 0
+#else
+#define INCLUDE_ALL_JavaNioCharsetCoderMalfunctionError 1
+#endif
+#undef RESTRICT_JavaNioCharsetCoderMalfunctionError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioCharsetCoderMalfunctionError_) && (INCLUDE_ALL_JavaNioCharsetCoderMalfunctionError || defined(INCLUDE_JavaNioCharsetCoderMalfunctionError))
+#define JavaNioCharsetCoderMalfunctionError_
+
+#define RESTRICT_JavaLangError 1
+#define INCLUDE_JavaLangError 1
+#include "java/lang/Error.h"
 
 @class JavaLangException;
 
-#include "J2ObjC_header.h"
-#include "java/lang/Error.h"
+/*!
+ @brief A <code>CoderMalfunctionError</code> is thrown when the encoder/decoder is
+ malfunctioning.
+ */
+@interface JavaNioCharsetCoderMalfunctionError : JavaLangError
 
-#define JavaNioCharsetCoderMalfunctionError_serialVersionUID -1151412348057794301LL
+#pragma mark Public
 
-@interface JavaNioCharsetCoderMalfunctionError : JavaLangError {
-}
-
+/*!
+ @brief Constructs a new <code>CoderMalfunctionError</code>.
+ @param ex
+ the original exception thrown by the encoder/decoder.
+ */
 - (instancetype)initWithJavaLangException:(JavaLangException *)ex;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioCharsetCoderMalfunctionError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioCharsetCoderMalfunctionError_initWithJavaLangException_(JavaNioCharsetCoderMalfunctionError *self, JavaLangException *ex);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioCharsetCoderMalfunctionError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioCharsetCoderMalfunctionError *new_JavaNioCharsetCoderMalfunctionError_initWithJavaLangException_(JavaLangException *ex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioCharsetCoderMalfunctionError *create_JavaNioCharsetCoderMalfunctionError_initWithJavaLangException_(JavaLangException *ex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioCharsetCoderMalfunctionError)
 
-#endif // _JavaNioCharsetCoderMalfunctionError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioCharsetCoderMalfunctionError")

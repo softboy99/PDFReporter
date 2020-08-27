@@ -3,32 +3,74 @@
 //  source: android/libcore/luni/src/main/java/java/util/PropertyResourceBundle.java
 //
 
-#ifndef _JavaUtilPropertyResourceBundle_H_
-#define _JavaUtilPropertyResourceBundle_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilPropertyResourceBundle")
+#ifdef RESTRICT_JavaUtilPropertyResourceBundle
+#define INCLUDE_ALL_JavaUtilPropertyResourceBundle 0
+#else
+#define INCLUDE_ALL_JavaUtilPropertyResourceBundle 1
+#endif
+#undef RESTRICT_JavaUtilPropertyResourceBundle
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilPropertyResourceBundle_) && (INCLUDE_ALL_JavaUtilPropertyResourceBundle || defined(INCLUDE_JavaUtilPropertyResourceBundle))
+#define JavaUtilPropertyResourceBundle_
+
+#define RESTRICT_JavaUtilResourceBundle 1
+#define INCLUDE_JavaUtilResourceBundle 1
+#include "java/util/ResourceBundle.h"
 
 @class JavaIoInputStream;
 @class JavaIoReader;
 @class JavaUtilProperties;
+@protocol JavaUtilEnumeration;
 @protocol JavaUtilSet;
 
-#include "J2ObjC_header.h"
-#include "java/util/Enumeration.h"
-#include "java/util/ResourceBundle.h"
-
+/*!
+ @brief <code>PropertyResourceBundle</code> loads resources from an <code>InputStream</code>.
+ All resources are
+ Strings. The resources must be of the form <code>key=value</code>, one
+ resource per line (see Properties).
+ - seealso: ResourceBundle
+ - seealso: Properties
+ @since 1.1
+ */
 @interface JavaUtilPropertyResourceBundle : JavaUtilResourceBundle {
  @public
   JavaUtilProperties *resources_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new instance of <code>PropertyResourceBundle</code> and loads the
+ properties file from the specified <code>InputStream</code>.
+ @param stream
+ the <code>InputStream</code>.
+ @throws IOException
+ if an error occurs during a read operation on the
+ <code>InputStream</code>.
+ */
 - (instancetype)initWithJavaIoInputStream:(JavaIoInputStream *)stream;
 
+/*!
+ @brief Constructs a new resource bundle with properties read from <code>reader</code>.
+ @param reader the <code>Reader</code>
+ @throws IOException
+ @since 1.6
+ */
 - (instancetype)initWithJavaIoReader:(JavaIoReader *)reader;
-
-- (id<JavaUtilSet>)handleKeySet;
 
 - (id<JavaUtilEnumeration>)getKeys;
 
 - (id)handleGetObjectWithNSString:(NSString *)key;
+
+#pragma mark Protected
+
+- (id<JavaUtilSet>)handleKeySet;
 
 @end
 
@@ -36,35 +78,22 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilPropertyResourceBundle)
 
 J2OBJC_FIELD_SETTER(JavaUtilPropertyResourceBundle, resources_, JavaUtilProperties *)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilPropertyResourceBundle_initWithJavaIoInputStream_(JavaUtilPropertyResourceBundle *self, JavaIoInputStream *stream);
+
+FOUNDATION_EXPORT JavaUtilPropertyResourceBundle *new_JavaUtilPropertyResourceBundle_initWithJavaIoInputStream_(JavaIoInputStream *stream) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilPropertyResourceBundle *create_JavaUtilPropertyResourceBundle_initWithJavaIoInputStream_(JavaIoInputStream *stream);
+
+FOUNDATION_EXPORT void JavaUtilPropertyResourceBundle_initWithJavaIoReader_(JavaUtilPropertyResourceBundle *self, JavaIoReader *reader);
+
+FOUNDATION_EXPORT JavaUtilPropertyResourceBundle *new_JavaUtilPropertyResourceBundle_initWithJavaIoReader_(JavaIoReader *reader) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilPropertyResourceBundle *create_JavaUtilPropertyResourceBundle_initWithJavaIoReader_(JavaIoReader *reader);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilPropertyResourceBundle)
 
-@interface JavaUtilPropertyResourceBundle_$1 : NSObject < JavaUtilEnumeration > {
- @public
-  id<JavaUtilEnumeration> local_;
-  id<JavaUtilEnumeration> pEnum_;
-  NSString *nextElement__;
-}
+#endif
 
-- (jboolean)hasMoreElements;
 
-- (NSString *)nextElement;
-
-- (instancetype)initWithJavaUtilPropertyResourceBundle:(JavaUtilPropertyResourceBundle *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilPropertyResourceBundle_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilPropertyResourceBundle_$1, local_, id<JavaUtilEnumeration>)
-J2OBJC_FIELD_SETTER(JavaUtilPropertyResourceBundle_$1, pEnum_, id<JavaUtilEnumeration>)
-J2OBJC_FIELD_SETTER(JavaUtilPropertyResourceBundle_$1, nextElement__, NSString *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilPropertyResourceBundle_$1)
-
-#endif // _JavaUtilPropertyResourceBundle_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilPropertyResourceBundle")

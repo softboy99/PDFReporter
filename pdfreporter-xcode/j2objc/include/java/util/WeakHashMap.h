@@ -3,72 +3,218 @@
 //  source: android/libcore/luni/src/main/java/java/util/WeakHashMap.java
 //
 
-#ifndef _JavaUtilWeakHashMap_H_
-#define _JavaUtilWeakHashMap_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilWeakHashMap")
+#ifdef RESTRICT_JavaUtilWeakHashMap
+#define INCLUDE_ALL_JavaUtilWeakHashMap 0
+#else
+#define INCLUDE_ALL_JavaUtilWeakHashMap 1
+#endif
+#undef RESTRICT_JavaUtilWeakHashMap
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilWeakHashMap_) && (INCLUDE_ALL_JavaUtilWeakHashMap || defined(INCLUDE_JavaUtilWeakHashMap))
+#define JavaUtilWeakHashMap_
+
+#define RESTRICT_JavaUtilAbstractMap 1
+#define INCLUDE_JavaUtilAbstractMap 1
+#include "java/util/AbstractMap.h"
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap 1
+#include "java/util/Map.h"
 
 @class IOSObjectArray;
-@class JavaLangRefReferenceQueue;
 @class JavaUtilWeakHashMap_Entry;
 @protocol JavaUtilCollection;
 @protocol JavaUtilSet;
-@protocol JavaUtilWeakHashMap_Entry_Type;
 
-#include "J2ObjC_header.h"
-#include "java/lang/ref/WeakReference.h"
-#include "java/util/AbstractCollection.h"
-#include "java/util/AbstractMap.h"
-#include "java/util/AbstractSet.h"
-#include "java/util/Iterator.h"
-#include "java/util/Map.h"
-
-#define JavaUtilWeakHashMap_DEFAULT_SIZE 16
-
+/*!
+ @brief WeakHashMap is an implementation of Map with keys which are WeakReferences.
+ A
+ key/value mapping is removed when the key is no longer referenced. All
+ optional operations (adding and removing) are supported. Keys and values can
+ be any objects. Note that the garbage collector acts similar to a second
+ thread on this collection, possibly removing keys.
+ @since 1.2
+ - seealso: HashMap
+ - seealso: WeakReference
+ */
 @interface JavaUtilWeakHashMap : JavaUtilAbstractMap < JavaUtilMap > {
  @public
   jint elementCount_;
   IOSObjectArray *elementData_;
-  jint modCount_;
+  volatile_jint modCount_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new empty <code>WeakHashMap</code> instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>WeakHashMap</code> instance with the specified
+ capacity.
+ @param capacity
+ the initial capacity of this map.
+ @throws IllegalArgumentException
+ if the capacity is less than zero.
+ */
 - (instancetype)initWithInt:(jint)capacity;
 
+/*!
+ @brief Constructs a new <code>WeakHashMap</code> instance with the specified capacity
+ and load factor.
+ @param capacity
+ the initial capacity of this map.
+ @param loadFactor
+ the initial load factor.
+ @throws IllegalArgumentException
+ if the capacity is less than zero or the load factor is less
+ or equal to zero.
+ */
 - (instancetype)initWithInt:(jint)capacity
                   withFloat:(jfloat)loadFactor;
 
+/*!
+ @brief Constructs a new <code>WeakHashMap</code> instance containing the mappings
+ from the specified map.
+ @param map
+ the mappings to add.
+ */
 - (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
 
+/*!
+ @brief Removes all mappings from this map, leaving it empty.
+ - seealso: #isEmpty()
+ - seealso: #size()
+ */
 - (void)clear;
 
+/*!
+ @brief Returns whether this map contains the specified key.
+ @param key
+ the key to search for.
+ @return <code>true</code> if this map contains the specified key,
+ <code>false</code> otherwise.
+ */
 - (jboolean)containsKeyWithId:(id)key;
 
-- (id<JavaUtilSet>)entrySet;
-
-- (id<JavaUtilSet>)keySet;
-
-- (id<JavaUtilCollection>)values;
-
-- (id)getWithId:(id)key;
-
-- (JavaUtilWeakHashMap_Entry *)getEntryWithId:(id)key;
-
+/*!
+ @brief Returns whether this map contains the specified value.
+ @param value
+ the value to search for.
+ @return <code>true</code> if this map contains the specified value,
+ <code>false</code> otherwise.
+ */
 - (jboolean)containsValueWithId:(id)value;
 
+/*!
+ @brief Returns a set containing all of the mappings in this map.
+ Each mapping is
+ an instance of <code>Map.Entry</code>. As the set is backed by this map,
+ changes in one will be reflected in the other. It does not support adding
+ operations.
+ @return a set of the mappings.
+ */
+- (id<JavaUtilSet>)entrySet;
+
+/*!
+ @brief Returns the value of the mapping with the specified key.
+ @param key
+ the key.
+ @return the value of the mapping with the specified key, or <code>null</code>
+ if no mapping for the specified key is found.
+ */
+- (id)getWithId:(id)key;
+
+/*!
+ @brief Returns the number of elements in this map.
+ @return the number of elements in this map.
+ */
 - (jboolean)isEmpty;
+
+/*!
+ @brief Returns a set of the keys contained in this map.
+ The set is backed by
+ this map so changes to one are reflected by the other. The set does not
+ support adding.
+ @return a set of the keys.
+ */
+- (id<JavaUtilSet>)keySet;
+
+/*!
+ @brief Maps the specified key to the specified value.
+ @param key
+ the key.
+ @param value
+ the value.
+ @return the value of any previous mapping with the specified key or
+ <code>null</code> if there was no mapping.
+ */
+- (id)putWithId:(id)key
+         withId:(id)value;
+
+/*!
+ @brief Copies all the mappings in the given map to this map.
+ These mappings will
+ replace all mappings that this map had for any of the keys currently in
+ the given map.
+ @param map
+ the map to copy mappings from.
+ @throws NullPointerException
+ if <code>map</code> is <code>null</code>.
+ */
+- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
+
+/*!
+ @brief Removes the mapping with the specified key from this map.
+ @param key
+ the key of the mapping to remove.
+ @return the value of the removed mapping or <code>null</code> if no mapping
+ for the specified key was found.
+ */
+- (id)removeWithId:(id)key;
+
+/*!
+ @brief Returns the number of elements in this map.
+ @return the number of elements in this map.
+ */
+- (jint)size;
+
+/*!
+ @brief Returns a collection of the values contained in this map.
+ The collection
+ is backed by this map so changes to one are reflected by the other. The
+ collection supports remove, removeAll, retainAll and clear operations,
+ and it does not support add or addAll operations.
+ <p>
+ This method returns a collection which is the subclass of
+ AbstractCollection. The iterator method of this subclass returns a
+ "wrapper object" over the iterator of map's entrySet(). The size method
+ wraps the map's size method and the contains method wraps the map's
+ containsValue method.
+ <p>
+ The collection is created when this method is called at first time and
+ returned in response to all subsequent calls. This method may return
+ different Collection when multiple calls to this method, since it has no
+ synchronization performed.
+ @return a collection of the values contained in this map.
+ */
+- (id<JavaUtilCollection>)values;
+
+#pragma mark Package-Private
+
+- (JavaUtilWeakHashMap_Entry *)getEntryWithId:(id)key;
 
 - (void)poll;
 
 - (void)removeEntryWithJavaUtilWeakHashMap_Entry:(JavaUtilWeakHashMap_Entry *)toRemove;
-
-- (id)putWithId:(id)key
-         withId:(id)value;
-
-- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (id)removeWithId:(id)key;
-
-- (jint)size;
 
 @end
 
@@ -76,12 +222,46 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap)
 
 J2OBJC_FIELD_SETTER(JavaUtilWeakHashMap, elementData_, IOSObjectArray *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_init(JavaUtilWeakHashMap *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilWeakHashMap, DEFAULT_SIZE, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilWeakHashMap *new_JavaUtilWeakHashMap_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *create_JavaUtilWeakHashMap_init();
+
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_initWithInt_(JavaUtilWeakHashMap *self, jint capacity);
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *new_JavaUtilWeakHashMap_initWithInt_(jint capacity) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *create_JavaUtilWeakHashMap_initWithInt_(jint capacity);
+
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_initWithInt_withFloat_(JavaUtilWeakHashMap *self, jint capacity, jfloat loadFactor);
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *new_JavaUtilWeakHashMap_initWithInt_withFloat_(jint capacity, jfloat loadFactor) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *create_JavaUtilWeakHashMap_initWithInt_withFloat_(jint capacity, jfloat loadFactor);
+
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_initWithJavaUtilMap_(JavaUtilWeakHashMap *self, id<JavaUtilMap> map);
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *new_JavaUtilWeakHashMap_initWithJavaUtilMap_(id<JavaUtilMap> map) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap *create_JavaUtilWeakHashMap_initWithJavaUtilMap_(id<JavaUtilMap> map);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap)
+
+#endif
+
+#if !defined (JavaUtilWeakHashMap_Entry_) && (INCLUDE_ALL_JavaUtilWeakHashMap || defined(INCLUDE_JavaUtilWeakHashMap_Entry))
+#define JavaUtilWeakHashMap_Entry_
+
+#define RESTRICT_JavaLangRefWeakReference 1
+#define INCLUDE_JavaLangRefWeakReference 1
+#include "java/lang/ref/WeakReference.h"
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap_Entry 1
+#include "java/util/Map.h"
+
+@class JavaLangRefReferenceQueue;
 
 @interface JavaUtilWeakHashMap_Entry : JavaLangRefWeakReference < JavaUtilMap_Entry > {
  @public
@@ -91,21 +271,25 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap)
   JavaUtilWeakHashMap_Entry *next_;
 }
 
-- (instancetype)initWithId:(id)key
-                    withId:(id)object
-withJavaLangRefReferenceQueue:(JavaLangRefReferenceQueue *)queue;
+#pragma mark Public
+
+- (jboolean)isEqual:(id)other;
 
 - (id)getKey;
 
 - (id)getValue;
 
-- (id)setValueWithId:(id)object;
-
-- (jboolean)isEqual:(id)other;
-
 - (NSUInteger)hash;
 
+- (id)setValueWithId:(id)object;
+
 - (NSString *)description;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithId:(id)key
+                    withId:(id)object
+withJavaLangRefReferenceQueue:(JavaLangRefReferenceQueue *)queue;
 
 @end
 
@@ -114,60 +298,20 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_Entry)
 J2OBJC_FIELD_SETTER(JavaUtilWeakHashMap_Entry, value_, id)
 J2OBJC_FIELD_SETTER(JavaUtilWeakHashMap_Entry, next_, JavaUtilWeakHashMap_Entry *)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_Entry_initWithId_withId_withJavaLangRefReferenceQueue_(JavaUtilWeakHashMap_Entry *self, id key, id object, JavaLangRefReferenceQueue *queue);
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap_Entry *new_JavaUtilWeakHashMap_Entry_initWithId_withId_withJavaLangRefReferenceQueue_(id key, id object, JavaLangRefReferenceQueue *queue) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilWeakHashMap_Entry *create_JavaUtilWeakHashMap_Entry_initWithId_withId_withJavaLangRefReferenceQueue_(id key, id object, JavaLangRefReferenceQueue *queue);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_Entry)
 
-@interface JavaUtilWeakHashMap_HashIterator : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilWeakHashMap_Entry_Type> type_;
-}
+#endif
 
-- (instancetype)initWithJavaUtilWeakHashMap:(JavaUtilWeakHashMap *)outer$
-         withJavaUtilWeakHashMap_Entry_Type:(id<JavaUtilWeakHashMap_Entry_Type>)type;
+#if !defined (JavaUtilWeakHashMap_Entry_Type_) && (INCLUDE_ALL_JavaUtilWeakHashMap || defined(INCLUDE_JavaUtilWeakHashMap_Entry_Type))
+#define JavaUtilWeakHashMap_Entry_Type_
 
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_HashIterator)
-
-J2OBJC_FIELD_SETTER(JavaUtilWeakHashMap_HashIterator, type_, id<JavaUtilWeakHashMap_Entry_Type>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_HashIterator)
-
-@interface JavaUtilWeakHashMap_KeySet : JavaUtilAbstractSet {
-}
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (void)clear;
-
-- (jboolean)removeWithId:(id)key;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilWeakHashMap:(JavaUtilWeakHashMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_KeySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_KeySet)
+@protocol JavaUtilMap_Entry;
 
 @protocol JavaUtilWeakHashMap_Entry_Type < NSObject, JavaObject >
 
@@ -179,100 +323,52 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_Entry_Type)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_Entry_Type)
 
-@interface JavaUtilWeakHashMap_KeySet_$1 : NSObject < JavaUtilWeakHashMap_Entry_Type > {
+#endif
+
+#if !defined (JavaUtilWeakHashMap_HashIterator_) && (INCLUDE_ALL_JavaUtilWeakHashMap || defined(INCLUDE_JavaUtilWeakHashMap_HashIterator))
+#define JavaUtilWeakHashMap_HashIterator_
+
+#define RESTRICT_JavaUtilIterator 1
+#define INCLUDE_JavaUtilIterator 1
+#include "java/util/Iterator.h"
+
+@class JavaUtilWeakHashMap;
+@protocol JavaUtilWeakHashMap_Entry_Type;
+
+@interface JavaUtilWeakHashMap_HashIterator : NSObject < JavaUtilIterator > {
+ @public
+  id<JavaUtilWeakHashMap_Entry_Type> type_;
 }
 
-- (id)getWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)entry_;
+#pragma mark Public
 
-- (instancetype)init;
+- (jboolean)hasNext;
+
+- (id)next;
+
+- (void)remove;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilWeakHashMap:(JavaUtilWeakHashMap *)outer$
+         withJavaUtilWeakHashMap_Entry_Type:(id<JavaUtilWeakHashMap_Entry_Type>)type;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_KeySet_$1)
+J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_HashIterator)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+J2OBJC_FIELD_SETTER(JavaUtilWeakHashMap_HashIterator, type_, id<JavaUtilWeakHashMap_Entry_Type>)
 
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_KeySet_$1)
+FOUNDATION_EXPORT void JavaUtilWeakHashMap_HashIterator_initWithJavaUtilWeakHashMap_withJavaUtilWeakHashMap_Entry_Type_(JavaUtilWeakHashMap_HashIterator *self, JavaUtilWeakHashMap *outer$, id<JavaUtilWeakHashMap_Entry_Type> type);
 
-@interface JavaUtilWeakHashMap_ValuesCollection : JavaUtilAbstractCollection {
-}
+FOUNDATION_EXPORT JavaUtilWeakHashMap_HashIterator *new_JavaUtilWeakHashMap_HashIterator_initWithJavaUtilWeakHashMap_withJavaUtilWeakHashMap_Entry_Type_(JavaUtilWeakHashMap *outer$, id<JavaUtilWeakHashMap_Entry_Type> type) NS_RETURNS_RETAINED;
 
-- (jint)size;
+FOUNDATION_EXPORT JavaUtilWeakHashMap_HashIterator *create_JavaUtilWeakHashMap_HashIterator_initWithJavaUtilWeakHashMap_withJavaUtilWeakHashMap_Entry_Type_(JavaUtilWeakHashMap *outer$, id<JavaUtilWeakHashMap_Entry_Type> type);
 
-- (void)clear;
+J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_HashIterator)
 
-- (jboolean)containsWithId:(id)object;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilWeakHashMap:(JavaUtilWeakHashMap *)outer$;
+#endif
 
 
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_ValuesCollection)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_ValuesCollection)
-
-@interface JavaUtilWeakHashMap_ValuesCollection_$1 : NSObject < JavaUtilWeakHashMap_Entry_Type > {
-}
-
-- (id)getWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)entry_;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_ValuesCollection_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_ValuesCollection_$1)
-
-@interface JavaUtilWeakHashMap_$1 : JavaUtilAbstractSet {
-}
-
-- (jint)size;
-
-- (void)clear;
-
-- (jboolean)removeWithId:(id)object;
-
-- (jboolean)containsWithId:(id)object;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilWeakHashMap:(JavaUtilWeakHashMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_$1)
-
-@interface JavaUtilWeakHashMap_$1_$1 : NSObject < JavaUtilWeakHashMap_Entry_Type > {
-}
-
-- (id<JavaUtilMap_Entry>)getWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)entry_;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilWeakHashMap_$1_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilWeakHashMap_$1_$1)
-
-#endif // _JavaUtilWeakHashMap_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilWeakHashMap")

@@ -3,37 +3,98 @@
 //  source: android/libcore/luni/src/main/java/java/security/KeyManagementException.java
 //
 
-#ifndef _JavaSecurityKeyManagementException_H_
-#define _JavaSecurityKeyManagementException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityKeyManagementException")
+#ifdef RESTRICT_JavaSecurityKeyManagementException
+#define INCLUDE_ALL_JavaSecurityKeyManagementException 0
+#else
+#define INCLUDE_ALL_JavaSecurityKeyManagementException 1
+#endif
+#undef RESTRICT_JavaSecurityKeyManagementException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityKeyManagementException_) && (INCLUDE_ALL_JavaSecurityKeyManagementException || defined(INCLUDE_JavaSecurityKeyManagementException))
+#define JavaSecurityKeyManagementException_
+
+#define RESTRICT_JavaSecurityKeyException 1
+#define INCLUDE_JavaSecurityKeyException 1
 #include "java/security/KeyException.h"
 
-#define JavaSecurityKeyManagementException_serialVersionUID 947674216157062695LL
+/*!
+ @brief <code>KeyManagementException</code> is a general exception, thrown to indicate an
+ exception during processing an operation concerning key management.
+ */
+@interface JavaSecurityKeyManagementException : JavaSecurityKeyException
 
-@interface JavaSecurityKeyManagementException : JavaSecurityKeyException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Constructs a new instance of <code>KeyManagementException</code>.
+ */
 - (instancetype)init;
 
-- (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>KeyManagementException</code> with the
+ given message.
+ @param msg
+ the detail message for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>KeyManagementException</code> with the
+ given message and the cause.
+ @param message
+ the detail message for this exception.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)message
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new instance of <code>KeyManagementException</code> with the
+ cause.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityKeyManagementException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityKeyManagementException_initWithNSString_(JavaSecurityKeyManagementException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKeyManagementException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *new_JavaSecurityKeyManagementException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *create_JavaSecurityKeyManagementException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaSecurityKeyManagementException_init(JavaSecurityKeyManagementException *self);
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *new_JavaSecurityKeyManagementException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *create_JavaSecurityKeyManagementException_init();
+
+FOUNDATION_EXPORT void JavaSecurityKeyManagementException_initWithNSString_withNSException_(JavaSecurityKeyManagementException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *new_JavaSecurityKeyManagementException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *create_JavaSecurityKeyManagementException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaSecurityKeyManagementException_initWithNSException_(JavaSecurityKeyManagementException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *new_JavaSecurityKeyManagementException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityKeyManagementException *create_JavaSecurityKeyManagementException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKeyManagementException)
 
-#endif // _JavaSecurityKeyManagementException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityKeyManagementException")

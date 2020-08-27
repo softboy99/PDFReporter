@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -43,6 +42,7 @@ import org.oss.pdfreporter.engine.design.JRDesignDatasetRun;
 import org.oss.pdfreporter.engine.fill.SortedDataSource.SortRecord;
 import org.oss.pdfreporter.engine.type.SortFieldTypeEnum;
 import org.oss.pdfreporter.engine.type.SortOrderEnum;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 
@@ -100,7 +100,7 @@ public class DatasetSortUtil
 	public static SortedDataSource getSortedDataSource(
 		JRBaseFiller filler, 
 		JRFillDataset dataset, 
-		Locale locale 
+		StringLocale locale 
 		) throws JRException
 	{
 		SortInfo sortInfo = createSortInfo(dataset);
@@ -230,7 +230,7 @@ class DataSourceComparator implements Comparator<Integer>
 	SortFieldInfo[] sortFieldInfo;
 	private final List<SortedDataSource.SortRecord> records;
 
-	public DataSourceComparator(SortFieldInfo[] sortFieldInfo, Locale locale, 
+	public DataSourceComparator(SortFieldInfo[] sortFieldInfo, StringLocale locale, 
 			List<SortedDataSource.SortRecord> records)
 	{
 // TODO (23.05.2013, Donat, Open Software Solutions): Reintroduce locale aware sorting with Collator in later version

@@ -607,7 +607,7 @@
 			</textField>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track1Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track1Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -627,7 +627,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track2Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track2Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -647,7 +647,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track3Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track3Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -667,7 +667,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track4Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track4Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -687,7 +687,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track5Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track5Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -707,7 +707,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track6Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track6Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -727,7 +727,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track7Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track7Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -747,7 +747,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track8Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track8Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -767,7 +767,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track9Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track9Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -787,7 +787,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track10Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track10Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -807,7 +807,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track11Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track11Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -827,7 +827,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track12Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track12Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -847,7 +847,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track13Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track13Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -867,7 +867,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track14Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track14Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -887,7 +887,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track15Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track15Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -907,7 +907,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track16Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track16Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">
@@ -927,7 +927,7 @@
 			</break>
 		</band>
 		<band height="66">
-			<printWhenExpression><![CDATA[(boolean)!equals($F{Track17Title},'')]]></printWhenExpression>
+			<printWhenExpression><![CDATA[!equals($F{Track17Title},'')]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="17" y="10" width="361" height="20" backcolor="#CCCCCC"/>
 				<textElement textAlignment="Center">

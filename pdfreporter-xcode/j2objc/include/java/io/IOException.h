@@ -3,37 +3,102 @@
 //  source: android/libcore/luni/src/main/java/java/io/IOException.java
 //
 
-#ifndef _JavaIoIOException_H_
-#define _JavaIoIOException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoIOException")
+#ifdef RESTRICT_JavaIoIOException
+#define INCLUDE_ALL_JavaIoIOException 0
+#else
+#define INCLUDE_ALL_JavaIoIOException 1
+#endif
+#undef RESTRICT_JavaIoIOException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoIOException_) && (INCLUDE_ALL_JavaIoIOException || defined(INCLUDE_JavaIoIOException))
+#define JavaIoIOException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaIoIOException_serialVersionUID 7818375828146090155LL
+/*!
+ @brief Signals a general, I/O-related error.
+ Error details may be specified when
+ calling the constructor, as usual. Note there are also several subclasses of
+ this class for more specific error situations, such as
+ <code>FileNotFoundException</code> or <code>EOFException</code>.
+ */
+@interface JavaIoIOException : JavaLangException
 
-@interface JavaIoIOException : JavaLangException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>IOException</code> with its stack trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>IOException</code> with its stack trace and detail
+ message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new instance of this class with detail message and cause
+ filled in.
+ @param message
+ The detail message for the exception.
+ @param cause
+ The detail cause for the exception.
+ @since 1.6
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of this class with its detail cause filled in.
+ @param cause
+ The detail cause for the exception.
+ @since 1.6
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoIOException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoIOException_init(JavaIoIOException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoIOException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoIOException *new_JavaIoIOException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoIOException *create_JavaIoIOException_init();
+
+FOUNDATION_EXPORT void JavaIoIOException_initWithNSString_(JavaIoIOException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoIOException *new_JavaIoIOException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoIOException *create_JavaIoIOException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaIoIOException_initWithNSString_withNSException_(JavaIoIOException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaIoIOException *new_JavaIoIOException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoIOException *create_JavaIoIOException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaIoIOException_initWithNSException_(JavaIoIOException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaIoIOException *new_JavaIoIOException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoIOException *create_JavaIoIOException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoIOException)
 
-#endif // _JavaIoIOException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoIOException")

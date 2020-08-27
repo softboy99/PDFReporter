@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -24,6 +25,7 @@ import javax.imageio.ImageWriter;
 
 import org.oss.pdfreporter.image.AbstractImageManager;
 import org.oss.pdfreporter.image.IImage;
+import org.oss.pdfreporter.net.IURL;
 
 import com.lowagie.text.BadElementException;
 
@@ -36,18 +38,41 @@ public class ImageManager extends AbstractImageManager {
 
 	@Override
 	IImage loadImageInternal(String filePath, float quality, float scale) throws IOException {
-		IImage image = null;
+		BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+		com.lowagie.text.Image iTextImage = loadImageInternal(bufferedImage, quality, scale);
+		return new Image(this, iTextImage);
+	}
+
+	
+	@Override
+	IImage loadImageInternal(InputStream image, float quality, float scale)
+			throws IOException {
+		BufferedImage bufferedImage = ImageIO.read(image);
+		com.lowagie.text.Image iTextImage = loadImageInternal(bufferedImage, quality, scale);
+		return new Image(this, iTextImage);
+	}
+
+	@Override
+	IImage loadImageInternal(IURL urlPath, float quality, float scale)
+			throws IOException {
+		BufferedImage bufferedImage = ImageIO.read(urlPath.openStream());
+		com.lowagie.text.Image iTextImage = loadImageInternal(bufferedImage, quality, scale);
+		return new Image(this, iTextImage);
+	}
+
+	@Override
+	void disposeInternal() {
+	}
+
+	private com.lowagie.text.Image loadImageInternal(BufferedImage bufferedImage, float quality, float scale) throws IOException {
 		if(quality>0 && scale>0) {
-			BufferedImage original = ImageIO.read(new File(filePath));
-			int width = (int) (original.getWidth()*scale);
-			int height = (int) (original.getHeight()*scale);
-			BufferedImage resized = new BufferedImage(width, height, original.getType());
+			int width = (int) (bufferedImage.getWidth()*scale);
+			int height = (int) (bufferedImage.getHeight()*scale);
+			BufferedImage resized = new BufferedImage(width, height, bufferedImage.getType());
 		    Graphics2D g = resized.createGraphics();
 		    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		    g.drawImage(original, 0, 0, width, height, 0, 0, original.getWidth(), original.getHeight(), null);
+		    g.drawImage(bufferedImage, 0, 0, width, height, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null);
 		    g.dispose();
-		    original = null;
-		    
 		    
 		    ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
 		    ImageWriteParam iwp = writer.getDefaultWriteParam();
@@ -62,28 +87,17 @@ public class ImageManager extends AbstractImageManager {
 		    byte[] byteArray = bout.toByteArray();
 		    
 			try {
-				com.lowagie.text.Image img = com.lowagie.text.Image.getInstance(byteArray);
-				image = new Image(this,img, filePath);
+				return com.lowagie.text.Image.getInstance(byteArray);
 			} catch (BadElementException e) {
 				throw new IOException(e);
 			}
 		}
 		else {
 			try {
-				com.lowagie.text.Image img = com.lowagie.text.Image.getInstance(filePath);
-				image = new Image(this,img, filePath);
+				return com.lowagie.text.Image.getInstance(bufferedImage,null,false);
 			} catch (BadElementException e) {
 				throw new IOException(e);
 			}
-			
 		}
-		return image;
 	}
-
-	@Override
-	void disposeInternal() {
-	}
-
-	
-
 }

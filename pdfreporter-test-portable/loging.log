@@ -1,30 +1,39 @@
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: ShapesReport.jrxml in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\testdata\jrxml\shapes\ShapesReport.jrxml]
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports_extension.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\jasperreports_extension.properties]
-2013-09-30 14:12:57 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: iregistry
-2013-09-30 14:12:57 INFO  DefaultIRegistryExtensionsRegistryFactory:57 - Initialized IRegistry
-2013-09-30 14:12:57 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: default
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports_extension.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\jasperreports_extension.properties]
-2013-09-30 14:12:57 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: iregistry
-2013-09-30 14:12:57 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: default
-2013-09-30 14:12:57 TRACE DigireportFileResourceLoader:80 - find resource: dtds/jasperreport.dtd in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\dtds\jasperreport.dtd]
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: ShapesReport.jrxml in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\testdata\jrxml\shapes\ShapesReport.jrxml]
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports_extension.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\jasperreports_extension.properties]
-2013-09-30 14:13:38 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: iregistry
-2013-09-30 14:13:38 INFO  DefaultIRegistryExtensionsRegistryFactory:57 - Initialized IRegistry
-2013-09-30 14:13:38 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: default
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: default.jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\default.jasperreports.properties]
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: []
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: jasperreports_extension.properties in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\jasperreports_extension.properties]
-2013-09-30 14:13:38 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: iregistry
-2013-09-30 14:13:38 INFO  DefaultExtensionsRegistry:212 - Loading ExtensionsRegistry: default
-2013-09-30 14:13:38 TRACE DigireportFileResourceLoader:80 - find resource: dtds/jasperreport.dtd in [../pdfreporter-testdata/resource, ../pdfreporter-testdata/testdata/jrxml/shapes, ../pdfreporter-testdata/datasource], found: [..\pdfreporter-testdata\resource\dtds\jasperreport.dtd]
+2020-07-22 14:19:52 INFO  DefaultIRegistryExtensionsRegistryFactory:75 - Initialized IRegistry
+2020-07-22 14:19:53 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 14:19:53 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 14:19:55 WARN  FillTable:286 - JRXmlWriter ist not implemented
+2020-07-22 14:20:02 INFO  ENGINE:? - Checkpoint start
+2020-07-22 14:20:02 INFO  ENGINE:? - checkpointClose start
+2020-07-22 14:20:02 INFO  ENGINE:? - checkpointClose end
+2020-07-22 14:20:02 INFO  ENGINE:? - Checkpoint end - txts: 1
+2020-07-22 14:40:34 INFO  DefaultIRegistryExtensionsRegistryFactory:75 - Initialized IRegistry
+2020-07-22 14:40:37 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 14:40:37 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 14:40:39 INFO  ENGINE:? - Checkpoint start
+2020-07-22 14:40:39 INFO  ENGINE:? - checkpointClose start
+2020-07-22 14:40:39 INFO  ENGINE:? - checkpointClose end
+2020-07-22 14:40:39 INFO  ENGINE:? - Checkpoint end - txts: 1
+2020-07-22 21:04:39 INFO  DefaultIRegistryExtensionsRegistryFactory:75 - Initialized IRegistry
+2020-07-22 21:04:40 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:04:41 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:04:43 WARN  FillTable:286 - JRXmlWriter ist not implemented
+2020-07-22 21:04:50 INFO  ENGINE:? - Checkpoint start
+2020-07-22 21:04:50 INFO  ENGINE:? - checkpointClose start
+2020-07-22 21:04:50 INFO  ENGINE:? - checkpointClose end
+2020-07-22 21:04:50 INFO  ENGINE:? - Checkpoint end - txts: 1
+2020-07-22 21:05:50 INFO  DefaultIRegistryExtensionsRegistryFactory:75 - Initialized IRegistry
+2020-07-22 21:05:52 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:05:53 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:05:54 WARN  FillTable:286 - JRXmlWriter ist not implemented
+2020-07-22 21:05:59 INFO  ENGINE:? - Checkpoint start
+2020-07-22 21:05:59 INFO  ENGINE:? - checkpointClose start
+2020-07-22 21:06:00 INFO  ENGINE:? - checkpointClose end
+2020-07-22 21:06:00 INFO  ENGINE:? - Checkpoint end - txts: 1
+2020-07-22 21:15:16 INFO  DefaultIRegistryExtensionsRegistryFactory:75 - Initialized IRegistry
+2020-07-22 21:15:19 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:15:20 WARN  FontUtil:291 - Font style: BOLD_OBLIQUE not available for Font: Gentium use Style: PLAIN instead.
+2020-07-22 21:15:21 WARN  FillTable:286 - JRXmlWriter ist not implemented
+2020-07-22 21:15:26 INFO  ENGINE:? - Checkpoint start
+2020-07-22 21:15:26 INFO  ENGINE:? - checkpointClose start
+2020-07-22 21:15:26 INFO  ENGINE:? - checkpointClose end
+2020-07-22 21:15:26 INFO  ENGINE:? - Checkpoint end - txts: 1

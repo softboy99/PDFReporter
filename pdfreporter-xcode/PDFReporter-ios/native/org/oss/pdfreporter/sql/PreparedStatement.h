@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/sql/IPreparedStatement.h"
+#include "org/oss/pdfreporter/sql/IPreparedStatement.h"
 #import <sqlite3.h>
 
 @interface PreparedStatement : NSObject < OrgOssPdfreporterSqlIPreparedStatement >

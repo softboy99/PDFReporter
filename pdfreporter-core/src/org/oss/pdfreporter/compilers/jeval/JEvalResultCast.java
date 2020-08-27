@@ -20,6 +20,7 @@ import org.oss.pdfreporter.compilers.ExpressionParseException;
 import org.oss.pdfreporter.compilers.IExpressionElement;
 import org.oss.pdfreporter.compilers.expressionelements.ExpressionType;
 import org.oss.pdfreporter.compilers.util.ResultUtil;
+import org.oss.pdfreporter.exception.NotImplementedException;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.EvaluationConstants;
 
 
@@ -142,4 +143,11 @@ public class JEvalResultCast implements IExpressionElement{
 			throw new ExpressionEvaluationException(e);
 		}
 	}
+
+	@Override
+	public Object getEsimatedValue() throws ExpressionEvaluationException {
+		throw new NotImplementedException();
+	}
+	
+	
 }

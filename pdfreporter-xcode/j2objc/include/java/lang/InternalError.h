@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/lang/InternalError.java
 //
 
-#ifndef _JavaLangInternalError_H_
-#define _JavaLangInternalError_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangInternalError")
+#ifdef RESTRICT_JavaLangInternalError
+#define INCLUDE_ALL_JavaLangInternalError 0
+#else
+#define INCLUDE_ALL_JavaLangInternalError 1
+#endif
+#undef RESTRICT_JavaLangInternalError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangInternalError_) && (INCLUDE_ALL_JavaLangInternalError || defined(INCLUDE_JavaLangInternalError))
+#define JavaLangInternalError_
+
+#define RESTRICT_JavaLangVirtualMachineError 1
+#define INCLUDE_JavaLangVirtualMachineError 1
 #include "java/lang/VirtualMachineError.h"
 
-#define JavaLangInternalError_serialVersionUID -9062593416125562365LL
+/*!
+ @brief Thrown when the VM notices that it has gotten into an undefined state.
+ */
+@interface JavaLangInternalError : JavaLangVirtualMachineError
 
-@interface JavaLangInternalError : JavaLangVirtualMachineError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>InternalError</code> that includes the current stack
+ trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>InternalError</code> with the current stack trace and
+ the specified detail message.
+ @param detailMessage
+ the detail message for this error.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangInternalError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangInternalError_init(JavaLangInternalError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangInternalError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangInternalError *new_JavaLangInternalError_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInternalError *create_JavaLangInternalError_init();
+
+FOUNDATION_EXPORT void JavaLangInternalError_initWithNSString_(JavaLangInternalError *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangInternalError *new_JavaLangInternalError_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInternalError *create_JavaLangInternalError_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangInternalError)
 
-#endif // _JavaLangInternalError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangInternalError")

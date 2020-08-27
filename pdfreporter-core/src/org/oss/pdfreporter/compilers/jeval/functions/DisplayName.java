@@ -31,7 +31,8 @@ public class DisplayName implements Function {
 		String[] parameter = arguments.split("\'|_");
 		String language = parameter[1];
 		String country = parameter[2];
-		String displayName = new Locale(language, country).getDisplayName();
+		Locale locale = new Locale(language, country);
+		String displayName = locale.getDisplayName(locale);
 		return new FunctionResult(displayName, FunctionConstants.FUNCTION_RESULT_TYPE_STRING);
 	}
 }

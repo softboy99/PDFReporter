@@ -3,14 +3,46 @@
 //  source: android/libcore/luni/src/main/java/java/util/concurrent/RunnableFuture.java
 //
 
-#ifndef _JavaUtilConcurrentRunnableFuture_H_
-#define _JavaUtilConcurrentRunnableFuture_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilConcurrentRunnableFuture")
+#ifdef RESTRICT_JavaUtilConcurrentRunnableFuture
+#define INCLUDE_ALL_JavaUtilConcurrentRunnableFuture 0
+#else
+#define INCLUDE_ALL_JavaUtilConcurrentRunnableFuture 1
+#endif
+#undef RESTRICT_JavaUtilConcurrentRunnableFuture
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilConcurrentRunnableFuture_) && (INCLUDE_ALL_JavaUtilConcurrentRunnableFuture || defined(INCLUDE_JavaUtilConcurrentRunnableFuture))
+#define JavaUtilConcurrentRunnableFuture_
+
+#define RESTRICT_JavaLangRunnable 1
+#define INCLUDE_JavaLangRunnable 1
 #include "java/lang/Runnable.h"
+
+#define RESTRICT_JavaUtilConcurrentFuture 1
+#define INCLUDE_JavaUtilConcurrentFuture 1
 #include "java/util/concurrent/Future.h"
 
+/*!
+ @brief A <code>Future</code> that is <code>Runnable</code>.
+ Successful execution of
+ the <code>run</code> method causes completion of the <code>Future</code>
+ and allows access to its results.
+ - seealso: FutureTask
+ - seealso: Executor
+ @since 1.6
+ @author Doug Lea
+ */
 @protocol JavaUtilConcurrentRunnableFuture < JavaLangRunnable, JavaUtilConcurrentFuture, NSObject, JavaObject >
+
+/*!
+ @brief Sets this Future to the result of its computation
+ unless it has been cancelled.
+ */
 - (void)run;
 
 @end
@@ -19,4 +51,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilConcurrentRunnableFuture)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentRunnableFuture)
 
-#endif // _JavaUtilConcurrentRunnableFuture_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilConcurrentRunnableFuture")

@@ -3,57 +3,155 @@
 //  source: android/libcore/luni/src/main/java/java/util/AbstractMap.java
 //
 
-#ifndef _JavaUtilAbstractMap_H_
-#define _JavaUtilAbstractMap_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilAbstractMap")
+#ifdef RESTRICT_JavaUtilAbstractMap
+#define INCLUDE_ALL_JavaUtilAbstractMap 0
+#else
+#define INCLUDE_ALL_JavaUtilAbstractMap 1
+#endif
+#undef RESTRICT_JavaUtilAbstractMap
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilAbstractMap_) && (INCLUDE_ALL_JavaUtilAbstractMap || defined(INCLUDE_JavaUtilAbstractMap))
+#define JavaUtilAbstractMap_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap 1
+#include "java/util/Map.h"
 
 @protocol JavaUtilCollection;
 @protocol JavaUtilSet;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/util/AbstractCollection.h"
-#include "java/util/AbstractSet.h"
-#include "java/util/Iterator.h"
-#include "java/util/Map.h"
-
+/*!
+ @brief A base class for <code>Map</code> implementations.
+ <p>Subclasses that permit new mappings to be added must override <code>put</code>
+ .
+ <p>The default implementations of many methods are inefficient for large
+ maps. For example in the default implementation, each call to <code>get</code>
+ performs a linear iteration of the entry set. Subclasses should override such
+ methods to improve their performance.
+ @since 1.2
+ */
 @interface JavaUtilAbstractMap : NSObject < JavaUtilMap > {
  @public
-  id<JavaUtilSet> keySet__;
+  id<JavaUtilSet> keySet_;
   id<JavaUtilCollection> valuesCollection_;
 }
 
-- (instancetype)init;
+#pragma mark Public
 
+/*!
+ @brief 
+ <p>This implementation calls <code>entrySet().clear()</code>.
+ */
 - (void)clear;
 
+/*!
+ @brief 
+ <p>This implementation iterates its key set, looking for a key that
+ <code>key</code> equals.
+ */
 - (jboolean)containsKeyWithId:(id)key;
 
+/*!
+ @brief 
+ <p>This implementation iterates its entry set, looking for an entry with
+ a value that <code>value</code> equals.
+ */
 - (jboolean)containsValueWithId:(id)value;
 
 - (id<JavaUtilSet>)entrySet;
 
+/*!
+ @brief 
+ <p>This implementation first checks the structure of <code>object</code>.
+ If
+ it is not a map or of a different size, this returns false. Otherwise it
+ iterates its own entry set, looking up each entry's key in <code>object</code>
+ . If any value does not equal the other map's value for the same
+ key, this returns false. Otherwise it returns true.
+ */
 - (jboolean)isEqual:(id)object;
 
+/*!
+ @brief 
+ <p>This implementation iterates its entry set, looking for an entry with
+ a key that <code>key</code> equals.
+ */
 - (id)getWithId:(id)key;
 
+/*!
+ @brief 
+ <p>This implementation iterates its entry set, summing the hashcodes of
+ its entries.
+ */
 - (NSUInteger)hash;
 
+/*!
+ @brief 
+ <p>This implementation compares <code>size()</code> to 0.
+ */
 - (jboolean)isEmpty;
 
+/*!
+ @brief 
+ <p>This implementation returns a view that calls through this to map.
+ Its
+ iterator transforms this map's entry set iterator to return keys.
+ */
 - (id<JavaUtilSet>)keySet;
 
+/*!
+ @brief 
+ <p>This base implementation throws <code>UnsupportedOperationException</code>.
+ */
 - (id)putWithId:(id)key
          withId:(id)value;
 
+/*!
+ @brief 
+ <p>This implementation iterates through <code>map</code>'s entry set, calling
+ <code>put()</code> for each.
+ */
 - (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
 
+/*!
+ @brief 
+ <p>This implementation iterates its entry set, removing the entry with
+ a key that <code>key</code> equals.
+ */
 - (id)removeWithId:(id)key;
 
+/*!
+ @brief 
+ <p>This implementation returns its entry set's size.
+ */
 - (jint)size;
 
+/*!
+ @brief 
+ <p>This implementation composes a string by iterating its entry set.
+ If
+ this map contains itself as a key or a value, the string "(this Map)"
+ will appear in its place.
+ */
 - (NSString *)description;
 
+/*!
+ @brief 
+ <p>This implementation returns a view that calls through this to map.
+ Its
+ iterator transforms this map's entry set iterator to return values.
+ */
 - (id<JavaUtilCollection>)values;
+
+#pragma mark Protected
+
+- (instancetype)init;
 
 - (id)clone;
 
@@ -61,33 +159,57 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap)
 
-J2OBJC_FIELD_SETTER(JavaUtilAbstractMap, keySet__, id<JavaUtilSet>)
+J2OBJC_FIELD_SETTER(JavaUtilAbstractMap, keySet_, id<JavaUtilSet>)
 J2OBJC_FIELD_SETTER(JavaUtilAbstractMap, valuesCollection_, id<JavaUtilCollection>)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilAbstractMap_init(JavaUtilAbstractMap *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap)
 
-#define JavaUtilAbstractMap_SimpleImmutableEntry_serialVersionUID 7138329143949025153LL
+#endif
 
-@interface JavaUtilAbstractMap_SimpleImmutableEntry : NSObject < JavaUtilMap_Entry, JavaIoSerializable > {
-}
+#if !defined (JavaUtilAbstractMap_SimpleImmutableEntry_) && (INCLUDE_ALL_JavaUtilAbstractMap || defined(INCLUDE_JavaUtilAbstractMap_SimpleImmutableEntry))
+#define JavaUtilAbstractMap_SimpleImmutableEntry_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap_Entry 1
+#include "java/util/Map.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
+
+/*!
+ @brief An immutable key-value mapping.
+ Despite the name, this class is non-final
+ and its subclasses may be mutable.
+ @since 1.6
+ */
+@interface JavaUtilAbstractMap_SimpleImmutableEntry : NSObject < JavaUtilMap_Entry, JavaIoSerializable >
+
+#pragma mark Public
+
+/*!
+ @brief Constructs an instance with the key and value of <code>copyFrom</code>.
+ */
+- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)copyFrom;
 
 - (instancetype)initWithId:(id)theKey
                     withId:(id)theValue;
 
-- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)copyFrom;
+- (jboolean)isEqual:(id)object;
 
 - (id)getKey;
 
 - (id)getValue;
 
-- (id)setValueWithId:(id)object;
-
-- (jboolean)isEqual:(id)object;
-
 - (NSUInteger)hash;
+
+/*!
+ @brief This base implementation throws <code>UnsupportedOperationException</code>
+ always.
+ */
+- (id)setValueWithId:(id)object;
 
 - (NSString *)description;
 
@@ -95,32 +217,58 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap)
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_SimpleImmutableEntry)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilAbstractMap_SimpleImmutableEntry_initWithId_withId_(JavaUtilAbstractMap_SimpleImmutableEntry *self, id theKey, id theValue);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilAbstractMap_SimpleImmutableEntry, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleImmutableEntry *new_JavaUtilAbstractMap_SimpleImmutableEntry_initWithId_withId_(id theKey, id theValue) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleImmutableEntry *create_JavaUtilAbstractMap_SimpleImmutableEntry_initWithId_withId_(id theKey, id theValue);
+
+FOUNDATION_EXPORT void JavaUtilAbstractMap_SimpleImmutableEntry_initWithJavaUtilMap_Entry_(JavaUtilAbstractMap_SimpleImmutableEntry *self, id<JavaUtilMap_Entry> copyFrom);
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleImmutableEntry *new_JavaUtilAbstractMap_SimpleImmutableEntry_initWithJavaUtilMap_Entry_(id<JavaUtilMap_Entry> copyFrom) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleImmutableEntry *create_JavaUtilAbstractMap_SimpleImmutableEntry_initWithJavaUtilMap_Entry_(id<JavaUtilMap_Entry> copyFrom);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_SimpleImmutableEntry)
 
-#define JavaUtilAbstractMap_SimpleEntry_serialVersionUID -8499721149061103585LL
+#endif
 
-@interface JavaUtilAbstractMap_SimpleEntry : NSObject < JavaUtilMap_Entry, JavaIoSerializable > {
-}
+#if !defined (JavaUtilAbstractMap_SimpleEntry_) && (INCLUDE_ALL_JavaUtilAbstractMap || defined(INCLUDE_JavaUtilAbstractMap_SimpleEntry))
+#define JavaUtilAbstractMap_SimpleEntry_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap_Entry 1
+#include "java/util/Map.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
+
+/*!
+ @brief A key-value mapping with mutable values.
+ @since 1.6
+ */
+@interface JavaUtilAbstractMap_SimpleEntry : NSObject < JavaUtilMap_Entry, JavaIoSerializable >
+
+#pragma mark Public
+
+/*!
+ @brief Constructs an instance with the key and value of <code>copyFrom</code>.
+ */
+- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)copyFrom;
 
 - (instancetype)initWithId:(id)theKey
                     withId:(id)theValue;
 
-- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)copyFrom;
+- (jboolean)isEqual:(id)object;
 
 - (id)getKey;
 
 - (id)getValue;
 
-- (id)setValueWithId:(id)object;
-
-- (jboolean)isEqual:(id)object;
-
 - (NSUInteger)hash;
+
+- (id)setValueWithId:(id)object;
 
 - (NSString *)description;
 
@@ -128,101 +276,22 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_SimpleImmutableEntry)
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_SimpleEntry)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilAbstractMap_SimpleEntry_initWithId_withId_(JavaUtilAbstractMap_SimpleEntry *self, id theKey, id theValue);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilAbstractMap_SimpleEntry, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleEntry *new_JavaUtilAbstractMap_SimpleEntry_initWithId_withId_(id theKey, id theValue) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleEntry *create_JavaUtilAbstractMap_SimpleEntry_initWithId_withId_(id theKey, id theValue);
+
+FOUNDATION_EXPORT void JavaUtilAbstractMap_SimpleEntry_initWithJavaUtilMap_Entry_(JavaUtilAbstractMap_SimpleEntry *self, id<JavaUtilMap_Entry> copyFrom);
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleEntry *new_JavaUtilAbstractMap_SimpleEntry_initWithJavaUtilMap_Entry_(id<JavaUtilMap_Entry> copyFrom) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilAbstractMap_SimpleEntry *create_JavaUtilAbstractMap_SimpleEntry_initWithJavaUtilMap_Entry_(id<JavaUtilMap_Entry> copyFrom);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_SimpleEntry)
 
-@interface JavaUtilAbstractMap_keySet_AbstractMapKeySet : JavaUtilAbstractSet {
-}
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilAbstractMap:(JavaUtilAbstractMap *)outer$;
+#endif
 
 
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_keySet_AbstractMapKeySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_keySet_AbstractMapKeySet)
-
-@interface JavaUtilAbstractMap_keySet_AbstractMapKeySet_$1 : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilIterator> setIterator_;
-}
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilAbstractMap_keySet_AbstractMapKeySet:(JavaUtilAbstractMap_keySet_AbstractMapKeySet *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_keySet_AbstractMapKeySet_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilAbstractMap_keySet_AbstractMapKeySet_$1, setIterator_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_keySet_AbstractMapKeySet_$1)
-
-@interface JavaUtilAbstractMap_values_AbstractMapValuesCollection : JavaUtilAbstractCollection {
-}
-
-- (jint)size;
-
-- (jboolean)containsWithId:(id)object;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilAbstractMap:(JavaUtilAbstractMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_values_AbstractMapValuesCollection)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_values_AbstractMapValuesCollection)
-
-@interface JavaUtilAbstractMap_values_AbstractMapValuesCollection_$1 : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilIterator> setIterator_;
-}
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilAbstractMap_values_AbstractMapValuesCollection:(JavaUtilAbstractMap_values_AbstractMapValuesCollection *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractMap_values_AbstractMapValuesCollection_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilAbstractMap_values_AbstractMapValuesCollection_$1, setIterator_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractMap_values_AbstractMapValuesCollection_$1)
-
-#endif // _JavaUtilAbstractMap_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilAbstractMap")

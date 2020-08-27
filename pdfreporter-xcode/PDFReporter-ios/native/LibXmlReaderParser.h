@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/xml/parsers/AbstractXmlParser.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
+#include "org/oss/pdfreporter/xml/parsers/AbstractXmlParser.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
 
 @interface LibXmlReaderParser : OrgOssPdfreporterXmlParsersAbstractXmlParser {
 @public

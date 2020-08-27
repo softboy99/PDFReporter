@@ -10,14 +10,19 @@
  ******************************************************************************/
 package org.oss.pdfreporter.font;
 
-import com.lowagie.text.pdf.BaseFont;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.itextpdf.text.pdf.BaseFont;
+
+//import com.lowagie.text.pdf.BaseFont;
 
 public class FontPeer implements IFontPeer {
 
 	private final BaseFont delegate;
 	private final IFontMetric fontMetric;
 	
-	FontPeer(BaseFont delegate) {
+	FontPeer(final BaseFont delegate) {
 		super();
 		this.delegate = delegate;
 		this.fontMetric = new FontMetric(delegate);
@@ -34,20 +39,21 @@ public class FontPeer implements IFontPeer {
 	}
 	
 	private static class FontMetric extends AbstractFontMetric implements IFontMetric {
+		private final static Logger logger = Logger.getLogger(FontMetric.class.getName());
 		private final BaseFont delegate;
 		
-		private FontMetric(BaseFont delegate) {
+		private FontMetric(final BaseFont delegate) {
 			super();
 			this.delegate = delegate;
 		}
 
 		@Override
-		public int measureText(String text, int width, boolean wordwrap) {
+		public int measureText(final String text, final int width, final boolean wordwrap) {
 			int remainingWidth = width;
 			int idx=0;
 			int lastWordPos = 0;
 			while (remainingWidth>0 && idx<text.length()) {
-				char ch = text.charAt(idx);
+				final char ch = text.charAt(idx);
 				if (ch<=' ') {
 					lastWordPos = idx + 1;
 				}
@@ -55,15 +61,19 @@ public class FontPeer implements IFontPeer {
 				idx++;
 			}
 			if(remainingWidth<0) idx--;
-			int result = !wordwrap || text.length()==idx ? idx : lastWordPos;
+			final int result = !wordwrap || text.length()==idx ? idx : lastWordPos;
+			if (logger.isLoggable(Level.FINEST)) {			
+				logger.finest(String.format("%s measureText %s %s %s", result,text,width,wordwrap));
+			}		
 			return result;
 		}
 
 		@Override
-		public int getWidth(String text) {
+		public int getWidth(final String text) {
 			return delegate.getWidth(text);
 		}
 		
+
 	}
 
 }

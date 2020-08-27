@@ -3,15 +3,37 @@
 //  source: android/libcore/luni/src/main/java/java/net/ContentHandlerFactory.java
 //
 
-#ifndef _JavaNetContentHandlerFactory_H_
-#define _JavaNetContentHandlerFactory_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetContentHandlerFactory")
+#ifdef RESTRICT_JavaNetContentHandlerFactory
+#define INCLUDE_ALL_JavaNetContentHandlerFactory 0
+#else
+#define INCLUDE_ALL_JavaNetContentHandlerFactory 1
+#endif
+#undef RESTRICT_JavaNetContentHandlerFactory
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetContentHandlerFactory_) && (INCLUDE_ALL_JavaNetContentHandlerFactory || defined(INCLUDE_JavaNetContentHandlerFactory))
+#define JavaNetContentHandlerFactory_
 
 @class JavaNetContentHandler;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Defines a factory which is responsible for creating a <code>ContentHandler</code>.
+ - seealso: ContentHandler
+ */
 @protocol JavaNetContentHandlerFactory < NSObject, JavaObject >
 
+/*!
+ @brief Creates a content handler to handle <code>contentType</code>.
+ @param contentType
+ specifies the content type which is handled by the returned
+ <code>ContentHandler</code>.
+ @return content handler object for a specific content type.
+ */
 - (JavaNetContentHandler *)createContentHandlerWithNSString:(NSString *)contentType;
 
 @end
@@ -20,4 +42,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaNetContentHandlerFactory)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetContentHandlerFactory)
 
-#endif // _JavaNetContentHandlerFactory_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetContentHandlerFactory")

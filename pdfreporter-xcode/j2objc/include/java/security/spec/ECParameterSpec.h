@@ -3,43 +3,107 @@
 //  source: android/libcore/luni/src/main/java/java/security/spec/ECParameterSpec.java
 //
 
-#ifndef _JavaSecuritySpecECParameterSpec_H_
-#define _JavaSecuritySpecECParameterSpec_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySpecECParameterSpec")
+#ifdef RESTRICT_JavaSecuritySpecECParameterSpec
+#define INCLUDE_ALL_JavaSecuritySpecECParameterSpec 0
+#else
+#define INCLUDE_ALL_JavaSecuritySpecECParameterSpec 1
+#endif
+#undef RESTRICT_JavaSecuritySpecECParameterSpec
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySpecECParameterSpec_) && (INCLUDE_ALL_JavaSecuritySpecECParameterSpec || defined(INCLUDE_JavaSecuritySpecECParameterSpec))
+#define JavaSecuritySpecECParameterSpec_
+
+#define RESTRICT_JavaSecuritySpecAlgorithmParameterSpec 1
+#define INCLUDE_JavaSecuritySpecAlgorithmParameterSpec 1
+#include "java/security/spec/AlgorithmParameterSpec.h"
 
 @class JavaMathBigInteger;
 @class JavaSecuritySpecECPoint;
 @class JavaSecuritySpecEllipticCurve;
 
-#include "J2ObjC_header.h"
-#include "java/security/spec/AlgorithmParameterSpec.h"
+/*!
+ @brief The parameter specification used with Elliptic Curve Cryptography (ECC).
+ */
+@interface JavaSecuritySpecECParameterSpec : NSObject < JavaSecuritySpecAlgorithmParameterSpec >
 
-@interface JavaSecuritySpecECParameterSpec : NSObject < JavaSecuritySpecAlgorithmParameterSpec > {
-}
+#pragma mark Public
 
+/*!
+ @brief Creates a new <code>ECParameterSpec</code> with the specified elliptic curve,
+ the base point, the order of the generator (or base point) and the
+ co-factor.
+ @param curve
+ the elliptic curve.
+ @param generator
+ the generator (or base point).
+ @param order
+ the order of the generator.
+ @param cofactor
+ the co-factor.
+ @throws IllegalArgumentException
+ if <code>order <= zero</code> or <code>cofactor <= zero</code>.
+ */
 - (instancetype)initWithJavaSecuritySpecEllipticCurve:(JavaSecuritySpecEllipticCurve *)curve
                           withJavaSecuritySpecECPoint:(JavaSecuritySpecECPoint *)generator
                                withJavaMathBigInteger:(JavaMathBigInteger *)order
                                               withInt:(jint)cofactor;
 
+/*!
+ @brief Returns the <code>cofactor</code>.
+ @return the <code>cofactor</code>.
+ */
 - (jint)getCofactor;
 
+/*!
+ @brief Returns the elliptic curve.
+ @return the elliptic curve.
+ */
 - (JavaSecuritySpecEllipticCurve *)getCurve;
 
+/*!
+ @brief Returns the name of the curve if this is a named curve.
+ Returns
+ <code>null</code> if this is not known to be a named curve.
+ */
+- (NSString *)getCurveName;
+
+/*!
+ @brief Returns the generator (or base point).
+ @return the generator (or base point).
+ */
 - (JavaSecuritySpecECPoint *)getGenerator;
 
+/*!
+ @brief Returns the order of the generator.
+ @return the order of the generator.
+ */
 - (JavaMathBigInteger *)getOrder;
 
+/*!
+ @brief Used to set the curve name if available.
+ */
 - (void)setCurveNameWithNSString:(NSString *)curveName;
-
-- (NSString *)getCurveName;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySpecECParameterSpec)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecuritySpecECParameterSpec_initWithJavaSecuritySpecEllipticCurve_withJavaSecuritySpecECPoint_withJavaMathBigInteger_withInt_(JavaSecuritySpecECParameterSpec *self, JavaSecuritySpecEllipticCurve *curve, JavaSecuritySpecECPoint *generator, JavaMathBigInteger *order, jint cofactor);
+
+FOUNDATION_EXPORT JavaSecuritySpecECParameterSpec *new_JavaSecuritySpecECParameterSpec_initWithJavaSecuritySpecEllipticCurve_withJavaSecuritySpecECPoint_withJavaMathBigInteger_withInt_(JavaSecuritySpecEllipticCurve *curve, JavaSecuritySpecECPoint *generator, JavaMathBigInteger *order, jint cofactor) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecuritySpecECParameterSpec *create_JavaSecuritySpecECParameterSpec_initWithJavaSecuritySpecEllipticCurve_withJavaSecuritySpecECPoint_withJavaMathBigInteger_withInt_(JavaSecuritySpecEllipticCurve *curve, JavaSecuritySpecECPoint *generator, JavaMathBigInteger *order, jint cofactor);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySpecECParameterSpec)
 
-#endif // _JavaSecuritySpecECParameterSpec_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySpecECParameterSpec")

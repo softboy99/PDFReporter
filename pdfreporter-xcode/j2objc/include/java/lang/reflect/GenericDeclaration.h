@@ -3,15 +3,38 @@
 //  source: android/libcore/luni/src/main/java/java/lang/reflect/GenericDeclaration.java
 //
 
-#ifndef _JavaLangReflectGenericDeclaration_H_
-#define _JavaLangReflectGenericDeclaration_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangReflectGenericDeclaration")
+#ifdef RESTRICT_JavaLangReflectGenericDeclaration
+#define INCLUDE_ALL_JavaLangReflectGenericDeclaration 0
+#else
+#define INCLUDE_ALL_JavaLangReflectGenericDeclaration 1
+#endif
+#undef RESTRICT_JavaLangReflectGenericDeclaration
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangReflectGenericDeclaration_) && (INCLUDE_ALL_JavaLangReflectGenericDeclaration || defined(INCLUDE_JavaLangReflectGenericDeclaration))
+#define JavaLangReflectGenericDeclaration_
 
 @class IOSObjectArray;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Common interface for language constructs that declare type parameters.
+ @since 1.5
+ */
 @protocol JavaLangReflectGenericDeclaration < NSObject, JavaObject >
 
+/*!
+ @brief Returns the declared type parameters in declaration order.
+ If there are
+ no type parameters, this method returns a zero length array.
+ @return the declared type parameters in declaration order
+ @throws GenericSignatureFormatError
+ if the signature is malformed
+ */
 - (IOSObjectArray *)getTypeParameters;
 
 @end
@@ -20,4 +43,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaLangReflectGenericDeclaration)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangReflectGenericDeclaration)
 
-#endif // _JavaLangReflectGenericDeclaration_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangReflectGenericDeclaration")

@@ -3,30 +3,71 @@
 //  source: android/libcore/luni/src/main/java/javax/security/cert/CertificateException.java
 //
 
-#ifndef _JavaxSecurityCertCertificateException_H_
-#define _JavaxSecurityCertCertificateException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxSecurityCertCertificateException")
+#ifdef RESTRICT_JavaxSecurityCertCertificateException
+#define INCLUDE_ALL_JavaxSecurityCertCertificateException 0
+#else
+#define INCLUDE_ALL_JavaxSecurityCertCertificateException 1
+#endif
+#undef RESTRICT_JavaxSecurityCertCertificateException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxSecurityCertCertificateException_) && (INCLUDE_ALL_JavaxSecurityCertCertificateException || defined(INCLUDE_JavaxSecurityCertCertificateException))
+#define JavaxSecurityCertCertificateException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaxSecurityCertCertificateException_serialVersionUID -5757213374030785290LL
+/*!
+ @brief The base class for all <code>Certificate</code> related exceptions.
+ <p>
+ Note: This package is provided only for compatibility reasons. It contains a
+ simplified version of the java.security.cert package that was previously used
+ by JSSE (Java SSL package). All applications that do not have to be
+ compatible with older versions of JSSE (that is before Java SDK 1.5) should
+ only use java.security.cert.
+ */
+@interface JavaxSecurityCertCertificateException : JavaLangException
 
-@interface JavaxSecurityCertCertificateException : JavaLangException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Creates a new <code>CertificateException</code>.
+ */
 - (instancetype)init;
+
+/*!
+ @brief Creates a new <code>CertificateException</code> with the specified message.
+ @param msg
+ the detail message for the exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxSecurityCertCertificateException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaxSecurityCertCertificateException_initWithNSString_(JavaxSecurityCertCertificateException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityCertCertificateException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxSecurityCertCertificateException *new_JavaxSecurityCertCertificateException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateException *create_JavaxSecurityCertCertificateException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaxSecurityCertCertificateException_init(JavaxSecurityCertCertificateException *self);
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateException *new_JavaxSecurityCertCertificateException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateException *create_JavaxSecurityCertCertificateException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxSecurityCertCertificateException)
 
-#endif // _JavaxSecurityCertCertificateException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxSecurityCertCertificateException")

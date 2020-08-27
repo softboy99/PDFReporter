@@ -30,10 +30,10 @@ package org.oss.pdfreporter.engine.util;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import org.oss.pdfreporter.engine.JRRuntimeException;
 import org.oss.pdfreporter.engine.JasperReportsContext;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 
@@ -83,7 +83,7 @@ public final class MessageUtil
 	/**
 	 *
 	 */
-	public LocalizedMessageProvider getLocalizedMessageProvider(String name, Locale locale)
+	public LocalizedMessageProvider getLocalizedMessageProvider(String name, StringLocale locale)
 	{
 		return new LocalizedMessageProvider(getMessageProvider(name), locale);
 	}

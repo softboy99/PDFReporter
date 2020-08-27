@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "hpdf.h"
+#import <libHaru/libHaru.h>
 
 @interface ImageBox : NSObject {
     HPDF_Image mImage;

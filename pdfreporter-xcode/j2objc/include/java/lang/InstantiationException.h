@@ -3,34 +3,86 @@
 //  source: android/libcore/luni/src/main/java/java/lang/InstantiationException.java
 //
 
-#ifndef _JavaLangInstantiationException_H_
-#define _JavaLangInstantiationException_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangInstantiationException")
+#ifdef RESTRICT_JavaLangInstantiationException
+#define INCLUDE_ALL_JavaLangInstantiationException 0
+#else
+#define INCLUDE_ALL_JavaLangInstantiationException 1
+#endif
+#undef RESTRICT_JavaLangInstantiationException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangInstantiationException_) && (INCLUDE_ALL_JavaLangInstantiationException || defined(INCLUDE_JavaLangInstantiationException))
+#define JavaLangInstantiationException_
+
+#define RESTRICT_JavaLangReflectiveOperationException 1
+#define INCLUDE_JavaLangReflectiveOperationException 1
+#include "java/lang/ReflectiveOperationException.h"
 
 @class IOSClass;
 
-#include "J2ObjC_header.h"
-#include "java/lang/ReflectiveOperationException.h"
+/*!
+ @brief Thrown when a program attempts to access a constructor which is not
+ accessible from the location where the reference is made.
+ */
+@interface JavaLangInstantiationException : JavaLangReflectiveOperationException
 
-#define JavaLangInstantiationException_serialVersionUID -8441929162975509110LL
+#pragma mark Public
 
-@interface JavaLangInstantiationException : JavaLangReflectiveOperationException {
-}
-
+/*!
+ @brief Constructs a new <code>InstantiationException</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>InstantiationException</code> with the current stack
+ trace and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+#pragma mark Package-Private
+
+/*!
+ @brief Constructs a new <code>InstantiationException</code> with the current stack
+ trace and the class that caused this exception.
+ @param clazz
+ the class that can not be instantiated.
+ */
 - (instancetype)initWithIOSClass:(IOSClass *)clazz;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangInstantiationException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangInstantiationException_init(JavaLangInstantiationException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangInstantiationException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangInstantiationException *new_JavaLangInstantiationException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInstantiationException *create_JavaLangInstantiationException_init();
+
+FOUNDATION_EXPORT void JavaLangInstantiationException_initWithNSString_(JavaLangInstantiationException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangInstantiationException *new_JavaLangInstantiationException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInstantiationException *create_JavaLangInstantiationException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaLangInstantiationException_initWithIOSClass_(JavaLangInstantiationException *self, IOSClass *clazz);
+
+FOUNDATION_EXPORT JavaLangInstantiationException *new_JavaLangInstantiationException_initWithIOSClass_(IOSClass *clazz) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInstantiationException *create_JavaLangInstantiationException_initWithIOSClass_(IOSClass *clazz);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangInstantiationException)
 
-#endif // _JavaLangInstantiationException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangInstantiationException")

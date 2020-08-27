@@ -25,10 +25,19 @@ package org.oss.pdfreporter.components;
 
 import org.oss.pdfreporter.components.list.DesignListContents;
 import org.oss.pdfreporter.components.list.StandardListComponent;
+import org.oss.pdfreporter.components.table.DesignCell;
+import org.oss.pdfreporter.components.table.StandardColumn;
+import org.oss.pdfreporter.components.table.StandardColumnGroup;
+import org.oss.pdfreporter.components.table.StandardGroupCell;
+import org.oss.pdfreporter.components.table.StandardTableFactory;
+import org.oss.pdfreporter.components.table.TableReportContextXmlRule;
 import org.oss.pdfreporter.engine.component.XmlDigesterConfigurer;
+import org.oss.pdfreporter.engine.type.PrintOrderEnum;
+import org.oss.pdfreporter.engine.xml.JRXmlConstants;
+import org.oss.pdfreporter.engine.xml.StyleContainerRule;
+import org.oss.pdfreporter.engine.xml.UuidPropertyRule;
 import org.oss.pdfreporter.engine.xml.XmlConstantPropertyRule;
 import org.oss.pdfreporter.uses.org.apache.digester.IDigester;
-import org.oss.pdfreporter.engine.type.PrintOrderEnum;
 
 /**
  * XML digester for built-in component implementations.
@@ -44,7 +53,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		addListRules(digester);
 		//addBarbecueRules(digester);
 		//addBarcode4jRules(digester);
-		//addTableRules(digester);
+		addTableRules(digester);
 		//SpiderChartDigester.addSpiderChartRules(digester);
 		//addMapRules(digester);
 		//SortComponentDigester.addSortComponentRules(digester);
@@ -67,4 +76,75 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addSetNext(listContentsPattern, "setContents");
 
 	}
+	
+	// TODO Check if addExpressionRules is required for PDFReports
+	@SuppressWarnings("deprecation")
+	protected void addTableRules(IDigester digester)
+	{
+		String tablePattern = "*/componentElement/table";
+		//digester.addObjectCreate(tablePattern, StandardTable.class);
+		digester.addFactoryCreate(tablePattern, StandardTableFactory.class.getName());
+		
+		String columnPattern = "*/column";
+		digester.addObjectCreate(columnPattern, StandardColumn.class);
+		digester.addSetNext(columnPattern, "addColumn");
+		digester.addSetProperties(columnPattern,
+				//properties to be ignored by this rule
+				new String[]{"uuid"}, 
+				new String[0]);
+		digester.addRule(columnPattern, new UuidPropertyRule("uuid", "UUID"));
+//		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
+//				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+//				true);
+		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
+		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
+		addTableGroupCellRules(digester, columnPattern + "/groupHeader", "addGroupHeader");
+		addTableGroupCellRules(digester, columnPattern + "/groupFooter", "addGroupFooter");
+		addTableCellRules(digester, columnPattern + "/columnHeader", "setColumnHeader");
+		addTableCellRules(digester, columnPattern + "/columnFooter", "setColumnFooter");
+		addTableCellRules(digester, columnPattern + "/detailCell", "setDetailCell");
+		
+		String columnGroupPattern = "*/columnGroup";
+		digester.addObjectCreate(columnGroupPattern, StandardColumnGroup.class);
+		digester.addSetNext(columnGroupPattern, "addColumn");
+		digester.addSetProperties(columnGroupPattern,
+				//properties to be ignored by this rule
+				new String[]{"uuid"}, 
+				new String[0]);
+		digester.addRule(columnGroupPattern, new UuidPropertyRule("uuid", "UUID"));
+//		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
+//				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+//				true);
+		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
+		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
+		addTableGroupCellRules(digester, columnGroupPattern + "/groupHeader", "addGroupHeader");
+		addTableGroupCellRules(digester, columnGroupPattern + "/groupFooter", "addGroupFooter");
+		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
+		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
+	}
+	
+	protected void addTableCellRules(IDigester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, DesignCell.class);
+		digester.addSetNext(pattern, setNextMethod);
+		// rule to set the context dataset name
+		digester.addRule(pattern, new TableReportContextXmlRule());
+		
+		digester.addSetProperties(pattern,
+				new String[]{JRXmlConstants.ATTRIBUTE_style}, 
+				new String[0]);
+		digester.addRule(pattern, new StyleContainerRule());
+	}
+	
+	protected void addTableGroupCellRules(IDigester digester, String pattern, 
+			String setNextMethod)
+	{
+		digester.addObjectCreate(pattern, StandardGroupCell.class);
+		digester.addSetProperties(pattern);
+		addTableCellRules(digester, pattern + "/cell", "setCell");
+		digester.addSetNext(pattern, setNextMethod);
+	}
+	
+	
 }

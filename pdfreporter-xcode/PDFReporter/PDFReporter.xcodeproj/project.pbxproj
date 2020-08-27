@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2EE145EF17F57ADD002EF172 /* liblibPng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE145C817F5795B002EF172 /* liblibPng.a */; };
 		2EE68DA717F176E900C7C1FE /* libPDFReporter-core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE681EE17F1744F00C7C1FE /* libPDFReporter-core.a */; };
 		2EFDD88B17F0825900D4580A /* libPDFReporter-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E9E9B4C17F06FE100AF81E3 /* libPDFReporter-ios.a */; };
-		2EFDDA2F17F083D100D4580A /* liblibHaru.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFDD99617F0839300D4580A /* liblibHaru.a */; };
 		2EFDDA5717F084BB00D4580A /* libjre_emul.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EFDDA5617F084BB00D4580A /* libjre_emul.a */; };
 		2EFDDA5D17F084E100D4580A /* libPDFReporter-extensions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE6C22717F0664F000A49AB /* libPDFReporter-extensions.a */; };
+		3B705B4C1D4548FB005BA326 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B705B4B1D4548FB005BA326 /* libz.1.dylib */; };
+		3B705B4E1D454909005BA326 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B705B4D1D454909005BA326 /* libxml2.2.dylib */; };
+		3B705B501D45491A005BA326 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B705B4F1D45491A005BA326 /* libsqlite3.dylib */; };
+		3B705B531D454D27005BA326 /* libHaru.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BDF62D91D44003400C2DF4F /* libHaru.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3B705B541D454D27005BA326 /* libPng.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3BDF62DA1D44003400C2DF4F /* libPng.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D31637B181A85D200826501 /* Icon76.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D316378181A85D200826501 /* Icon76.png */; };
 		3D31637C181A85D200826501 /* Icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D316379181A85D200826501 /* Icon120.png */; };
 		3D31637D181A85D200826501 /* Icon152.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D31637A181A85D200826501 /* Icon152.png */; };
 		3D929EFA1A92238C00039533 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D929EF91A92238C00039533 /* libicucore.dylib */; };
 		51525303179AE41F007A838A /* test.script in Resources */ = {isa = PBXBuildFile; fileRef = 51525302179AE41F007A838A /* test.script */; };
-		51525308179AE4E1007A838A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C13165179ADC970059E90D /* libsqlite3.dylib */; };
-		51525310179AE7EE007A838A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5152530F179AE7EE007A838A /* libz.dylib */; };
-		51525314179AE813007A838A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51525313179AE813007A838A /* libxml2.dylib */; };
 		5152533A179B04C7007A838A /* HomeViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 51525339179B04C7007A838A /* HomeViewController_iPhone.m */; };
 		517D234617BE3AC9005B901E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 517D234517BE3AC9005B901E /* MessageUI.framework */; };
 		5182BED6179E921600DFD0EE /* pickButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5182BED5179E921600DFD0EE /* pickButton.png */; };
@@ -63,7 +63,7 @@
 		51CDE19A17C4D1E900DACDBE /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18317C4D1E900DACDBE /* gzwrite.c */; };
 		51CDE19B17C4D1E900DACDBE /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18417C4D1E900DACDBE /* infback.c */; };
 		51CDE19C17C4D1E900DACDBE /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18517C4D1E900DACDBE /* inffast.c */; };
-		51CDE19D17C4D1E900DACDBE /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18817C4D1E900DACDBE /* inflate.c */; };
+		51CDE19D17C4D1E900DACDBE /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18817C4D1E900DACDBE /* inflate.c */; settings = {COMPILER_FLAGS = "-Wno-shift-negative-value"; }; };
 		51CDE19E17C4D1E900DACDBE /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18A17C4D1E900DACDBE /* inftrees.c */; };
 		51CDE19F17C4D1E900DACDBE /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18C17C4D1E900DACDBE /* trees.c */; };
 		51CDE1A017C4D1E900DACDBE /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 51CDE18E17C4D1E900DACDBE /* uncompr.c */; };
@@ -89,20 +89,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2E9E9B1D17F06FE000AF81E3;
 			remoteInfo = "PDFReporter-ios";
-		};
-		2EE145C717F5795B002EF172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2EE145C217F57959002EF172 /* libPng.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2EE1459917F57959002EF172;
-			remoteInfo = libPng;
-		};
-		2EE145F017F57AE4002EF172 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2EE145C217F57959002EF172 /* libPng.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2EE1459817F57959002EF172;
-			remoteInfo = libPng;
 		};
 		2EE681ED17F1744F00C7C1FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -132,20 +118,6 @@
 			remoteGlobalIDString = 2E9E9B1C17F06FE000AF81E3;
 			remoteInfo = "PDFReporter-ios";
 		};
-		2EFDD99517F0839300D4580A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2EFDD99017F0839200D4580A /* libHaru.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 2EFDD96717F0839200D4580A;
-			remoteInfo = libHaru;
-		};
-		2EFDDA2D17F083CE00D4580A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2EFDD99017F0839200D4580A /* libHaru.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2EFDD96617F0839200D4580A;
-			remoteInfo = libHaru;
-		};
 		2EFDDA5817F084D600D4580A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2EE6C22117F0664E000A49AB /* PDFReporter-extensions.xcodeproj */;
@@ -155,21 +127,35 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3B705B521D454D13005BA326 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				3B705B531D454D27005BA326 /* libHaru.framework in CopyFiles */,
+				3B705B541D454D27005BA326 /* libPng.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2E9E9B4617F06FE000AF81E3 /* PDFReporter-ios.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "PDFReporter-ios.xcodeproj"; path = "../PDFReporter-ios/PDFReporter-ios.xcodeproj"; sourceTree = "<group>"; };
-		2EE145C217F57959002EF172 /* libPng.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libPng.xcodeproj; path = ../libPng/libPng.xcodeproj; sourceTree = "<group>"; };
 		2EE681E817F1744D00C7C1FE /* PDFReporter-core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "PDFReporter-core.xcodeproj"; path = "../PDFReporter-core/PDFReporter-core.xcodeproj"; sourceTree = "<group>"; };
 		2EE6C22117F0664E000A49AB /* PDFReporter-extensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "PDFReporter-extensions.xcodeproj"; path = "../PDFReporter-extensions/PDFReporter-extensions.xcodeproj"; sourceTree = "<group>"; };
-		2EFDD99017F0839200D4580A /* libHaru.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libHaru.xcodeproj; path = ../libHaru/libHaru.xcodeproj; sourceTree = "<group>"; };
 		2EFDDA5617F084BB00D4580A /* libjre_emul.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjre_emul.a; path = ../j2objc/lib/libjre_emul.a; sourceTree = "<group>"; };
+		3B705B4B1D4548FB005BA326 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
+		3B705B4D1D454909005BA326 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = ../../../../../../../usr/lib/libxml2.2.dylib; sourceTree = "<group>"; };
+		3B705B4F1D45491A005BA326 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
+		3BDF62D91D44003400C2DF4F /* libHaru.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libHaru.framework; path = "../PDFReporter-ios/Carthage/Build/iOS/libHaru.framework"; sourceTree = "<group>"; };
+		3BDF62DA1D44003400C2DF4F /* libPng.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libPng.framework; path = "../PDFReporter-ios/Carthage/Build/iOS/libPng.framework"; sourceTree = "<group>"; };
 		3D316378181A85D200826501 /* Icon76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon76.png; sourceTree = SOURCE_ROOT; };
 		3D316379181A85D200826501 /* Icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon120.png; sourceTree = SOURCE_ROOT; };
 		3D31637A181A85D200826501 /* Icon152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon152.png; sourceTree = SOURCE_ROOT; };
 		3D929EF91A92238C00039533 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		51525302179AE41F007A838A /* test.script */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test.script; path = PDFReporter/test.script; sourceTree = "<group>"; };
-		51525309179AE504007A838A /* libjre_emul.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjre_emul.a; path = ../../JasperReportLib/j2objc/lib/libjre_emul.a; sourceTree = "<group>"; };
-		5152530F179AE7EE007A838A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		51525313179AE813007A838A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		51525339179B04C7007A838A /* HomeViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController_iPhone.m; sourceTree = "<group>"; };
 		5152533B179B04D2007A838A /* HomeViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController_iPhone.h; sourceTree = "<group>"; };
 		517D234517BE3AC9005B901E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -201,7 +187,6 @@
 		51C104F0179AB5320059E90D /* HomeViewController_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController_iPad.m; sourceTree = "<group>"; };
 		51C104F3179AB5320059E90D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HomeViewController_iPhone.xib; sourceTree = "<group>"; };
 		51C104F6179AB5320059E90D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HomeViewController_iPad.xib; sourceTree = "<group>"; };
-		51C13165179ADC970059E90D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		51C168C517C49C97008FD70C /* test2.script */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test2.script; sourceTree = "<group>"; };
 		51CDE15C17C4D1CA00DACDBE /* ARCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCHelper.h; sourceTree = "<group>"; };
 		51CDE15E17C4D1D200DACDBE /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
@@ -270,18 +255,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B705B501D45491A005BA326 /* libsqlite3.dylib in Frameworks */,
+				3B705B4E1D454909005BA326 /* libxml2.2.dylib in Frameworks */,
+				3B705B4C1D4548FB005BA326 /* libz.1.dylib in Frameworks */,
 				3D929EFA1A92238C00039533 /* libicucore.dylib in Frameworks */,
-				2EE145EF17F57ADD002EF172 /* liblibPng.a in Frameworks */,
 				2EE68DA717F176E900C7C1FE /* libPDFReporter-core.a in Frameworks */,
 				2EFDDA5D17F084E100D4580A /* libPDFReporter-extensions.a in Frameworks */,
 				2EFDDA5717F084BB00D4580A /* libjre_emul.a in Frameworks */,
-				2EFDDA2F17F083D100D4580A /* liblibHaru.a in Frameworks */,
 				2EFDD88B17F0825900D4580A /* libPDFReporter-ios.a in Frameworks */,
 				517D234617BE3AC9005B901E /* MessageUI.framework in Frameworks */,
 				51E3B69D179E7C820051BB36 /* QuartzCore.framework in Frameworks */,
-				51525314179AE813007A838A /* libxml2.dylib in Frameworks */,
-				51525310179AE7EE007A838A /* libz.dylib in Frameworks */,
-				51525308179AE4E1007A838A /* libsqlite3.dylib in Frameworks */,
 				51C104D8179AB5320059E90D /* UIKit.framework in Frameworks */,
 				51C104DA179AB5320059E90D /* Foundation.framework in Frameworks */,
 				51C104DC179AB5320059E90D /* CoreGraphics.framework in Frameworks */,
@@ -299,14 +282,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2EE145C317F57959002EF172 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2EE145C817F5795B002EF172 /* liblibPng.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2EE681E917F1744D00C7C1FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,14 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				2EE6C22717F0664F000A49AB /* libPDFReporter-extensions.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		2EFDD99117F0839200D4580A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2EFDD99617F0839300D4580A /* liblibHaru.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -399,8 +366,6 @@
 				2EE681E817F1744D00C7C1FE /* PDFReporter-core.xcodeproj */,
 				2EE6C22117F0664E000A49AB /* PDFReporter-extensions.xcodeproj */,
 				2E9E9B4617F06FE000AF81E3 /* PDFReporter-ios.xcodeproj */,
-				2EE145C217F57959002EF172 /* libPng.xcodeproj */,
-				2EFDD99017F0839200D4580A /* libHaru.xcodeproj */,
 				51C104DD179AB5320059E90D /* PDFReporter */,
 				51525316179AEA93007A838A /* Resources */,
 				51C104D6179AB5320059E90D /* Frameworks */,
@@ -419,14 +384,16 @@
 		51C104D6179AB5320059E90D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B705B4F1D45491A005BA326 /* libsqlite3.dylib */,
+				3B705B4D1D454909005BA326 /* libxml2.2.dylib */,
+				3B705B4B1D4548FB005BA326 /* libz.1.dylib */,
+				3BDF62D91D44003400C2DF4F /* libHaru.framework */,
+				3BDF62DA1D44003400C2DF4F /* libPng.framework */,
 				3D929EF91A92238C00039533 /* libicucore.dylib */,
 				2EFDDA5617F084BB00D4580A /* libjre_emul.a */,
 				51CDE15A17C4D1AF00DACDBE /* Objective-ZIP */,
 				517D234517BE3AC9005B901E /* MessageUI.framework */,
 				51E3B69C179E7C820051BB36 /* QuartzCore.framework */,
-				51525313179AE813007A838A /* libxml2.dylib */,
-				5152530F179AE7EE007A838A /* libz.dylib */,
-				51C13165179ADC970059E90D /* libsqlite3.dylib */,
 				51C104D7179AB5320059E90D /* UIKit.framework */,
 				51C104D9179AB5320059E90D /* Foundation.framework */,
 				51C104DB179AB5320059E90D /* CoreGraphics.framework */,
@@ -456,7 +423,6 @@
 		51C104DE179AB5320059E90D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				51525309179AE504007A838A /* libjre_emul.a */,
 				51C104DF179AB5320059E90D /* PDFReporter-Info.plist */,
 				51C104E0179AB5320059E90D /* InfoPlist.strings */,
 				51C104E3179AB5320059E90D /* main.m */,
@@ -558,15 +524,14 @@
 				51C104D0179AB5320059E90D /* Sources */,
 				51C104D1179AB5320059E90D /* Frameworks */,
 				51C104D2179AB5320059E90D /* Resources */,
+				3B705B521D454D13005BA326 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2EE145F117F57AE4002EF172 /* PBXTargetDependency */,
 				2EE68DA617F176DD00C7C1FE /* PBXTargetDependency */,
 				2EFDDA5917F084D600D4580A /* PBXTargetDependency */,
 				2EFDD88717F07C4A00D4580A /* PBXTargetDependency */,
-				2EFDDA2E17F083CE00D4580A /* PBXTargetDependency */,
 			);
 			name = PDFReporter;
 			productName = PDFReporter;
@@ -579,7 +544,7 @@
 		51C104CC179AB5320059E90D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Fr3e;
 			};
 			buildConfigurationList = 51C104CF179AB5320059E90D /* Build configuration list for PBXProject "PDFReporter" */;
@@ -593,14 +558,6 @@
 			productRefGroup = 51C104D5179AB5320059E90D /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 2EFDD99117F0839200D4580A /* Products */;
-					ProjectRef = 2EFDD99017F0839200D4580A /* libHaru.xcodeproj */;
-				},
-				{
-					ProductGroup = 2EE145C317F57959002EF172 /* Products */;
-					ProjectRef = 2EE145C217F57959002EF172 /* libPng.xcodeproj */;
-				},
 				{
 					ProductGroup = 2EE681E917F1744D00C7C1FE /* Products */;
 					ProjectRef = 2EE681E817F1744D00C7C1FE /* PDFReporter-core.xcodeproj */;
@@ -629,13 +586,6 @@
 			remoteRef = 2E9E9B4B17F06FE100AF81E3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2EE145C817F5795B002EF172 /* liblibPng.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = liblibPng.a;
-			remoteRef = 2EE145C717F5795B002EF172 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2EE681EE17F1744F00C7C1FE /* libPDFReporter-core.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -648,13 +598,6 @@
 			fileType = archive.ar;
 			path = "libPDFReporter-extensions.a";
 			remoteRef = 2EE6C22617F0664F000A49AB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2EFDD99617F0839300D4580A /* liblibHaru.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = liblibHaru.a;
-			remoteRef = 2EFDD99517F0839300D4580A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -738,11 +681,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2EE145F117F57AE4002EF172 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libPng;
-			targetProxy = 2EE145F017F57AE4002EF172 /* PBXContainerItemProxy */;
-		};
 		2EE68DA617F176DD00C7C1FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "PDFReporter-core";
@@ -752,11 +690,6 @@
 			isa = PBXTargetDependency;
 			name = "PDFReporter-ios";
 			targetProxy = 2EFDD88617F07C4A00D4580A /* PBXContainerItemProxy */;
-		};
-		2EFDDA2E17F083CE00D4580A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libHaru;
-			targetProxy = 2EFDDA2D17F083CE00D4580A /* PBXContainerItemProxy */;
 		};
 		2EFDDA5917F084D600D4580A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -807,6 +740,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -815,14 +750,15 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				ONLY_ACTIVE_ARCH = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Debug;
 		};
@@ -841,18 +777,20 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Release;
 		};
@@ -860,19 +798,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)-ios/Carthage/Build/iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFReporter/PDFReporter-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "PDFReporter/PDFReporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../j2objc/lib,
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = eu.inloop.pdfreporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "../PDFReporter-ios/native ../j2objc/include";
+				USER_HEADER_SEARCH_PATHS = "../PDFReporter-ios/native ../j2objc/include ../PDFReporter-extensions/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -880,21 +824,26 @@
 		51C104FC179AB5320059E90D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Open Software Solutions GmbH (FSY39VUCWR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)-ios/Carthage/Build/iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PDFReporter/PDFReporter-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "PDFReporter/PDFReporter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../j2objc/lib,
 				);
 				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = eu.inloop.pdfreporter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "FECFDA8C-9AD4-48F2-90B9-F824F17667AF";
-				USER_HEADER_SEARCH_PATHS = "../PDFReporter-ios/native ../j2objc/include";
+				USER_HEADER_SEARCH_PATHS = "../PDFReporter-ios/native ../j2objc/include ../PDFReporter-extensions/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

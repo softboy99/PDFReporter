@@ -3,37 +3,97 @@
 //  source: android/libcore/luni/src/main/java/java/security/InvalidKeyException.java
 //
 
-#ifndef _JavaSecurityInvalidKeyException_H_
-#define _JavaSecurityInvalidKeyException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityInvalidKeyException")
+#ifdef RESTRICT_JavaSecurityInvalidKeyException
+#define INCLUDE_ALL_JavaSecurityInvalidKeyException 0
+#else
+#define INCLUDE_ALL_JavaSecurityInvalidKeyException 1
+#endif
+#undef RESTRICT_JavaSecurityInvalidKeyException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityInvalidKeyException_) && (INCLUDE_ALL_JavaSecurityInvalidKeyException || defined(INCLUDE_JavaSecurityInvalidKeyException))
+#define JavaSecurityInvalidKeyException_
+
+#define RESTRICT_JavaSecurityKeyException 1
+#define INCLUDE_JavaSecurityKeyException 1
 #include "java/security/KeyException.h"
 
-#define JavaSecurityInvalidKeyException_serialVersionUID 5698479920593359816LL
+/*!
+ @brief <code>InvalidKeyException</code> indicates exceptional conditions, caused by an
+ invalid key.
+ */
+@interface JavaSecurityInvalidKeyException : JavaSecurityKeyException
 
-@interface JavaSecurityInvalidKeyException : JavaSecurityKeyException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Constructs a new instance of <code>InvalidKeyException</code>.
+ */
 - (instancetype)init;
 
-- (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>InvalidKeyException</code> with the given
+ message.
+ @param msg
+ the detail message for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>InvalidKeyException</code> with the given
+ message and the cause.
+ @param message
+ the detail message for this exception.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)message
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new instance of <code>InvalidKeyException</code> with the cause.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityInvalidKeyException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityInvalidKeyException_initWithNSString_(JavaSecurityInvalidKeyException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityInvalidKeyException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *new_JavaSecurityInvalidKeyException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *create_JavaSecurityInvalidKeyException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaSecurityInvalidKeyException_init(JavaSecurityInvalidKeyException *self);
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *new_JavaSecurityInvalidKeyException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *create_JavaSecurityInvalidKeyException_init();
+
+FOUNDATION_EXPORT void JavaSecurityInvalidKeyException_initWithNSString_withNSException_(JavaSecurityInvalidKeyException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *new_JavaSecurityInvalidKeyException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *create_JavaSecurityInvalidKeyException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaSecurityInvalidKeyException_initWithNSException_(JavaSecurityInvalidKeyException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *new_JavaSecurityInvalidKeyException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidKeyException *create_JavaSecurityInvalidKeyException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityInvalidKeyException)
 
-#endif // _JavaSecurityInvalidKeyException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityInvalidKeyException")

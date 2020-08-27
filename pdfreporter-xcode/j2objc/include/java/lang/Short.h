@@ -3,38 +3,115 @@
 //  source: android/libcore/luni/src/main/java/java/lang/Short.java
 //
 
-#ifndef _JavaLangShort_H_
-#define _JavaLangShort_H_
-
-@class IOSClass;
-@class IOSObjectArray;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangShort")
+#ifdef RESTRICT_JavaLangShort
+#define INCLUDE_ALL_JavaLangShort 0
+#else
+#define INCLUDE_ALL_JavaLangShort 1
+#endif
+#undef RESTRICT_JavaLangShort
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangShort_) && (INCLUDE_ALL_JavaLangShort || defined(INCLUDE_JavaLangShort))
+#define JavaLangShort_
+
+#define RESTRICT_JavaLangComparable 1
+#define INCLUDE_JavaLangComparable 1
 #include "java/lang/Comparable.h"
 
-#define JavaLangShort_MAX_VALUE 32767
-#define JavaLangShort_MIN_VALUE -32768
-#define JavaLangShort_SIZE 16
-#define JavaLangShort_serialVersionUID 7515723908773894738LL
+@class IOSClass;
 
-@interface JavaLangShort : NSNumber < JavaLangComparable > {
-}
+/*!
+ @brief The wrapper for the primitive type <code>short</code>.
+ - seealso: java.lang.Number
+ @since 1.1
+ */
+@interface JavaLangShort : NSNumber < JavaLangComparable >
 
-- (instancetype)initWithNSString:(NSString *)string;
++ (jshort)MAX_VALUE;
 
++ (jshort)MIN_VALUE;
+
++ (jint)SIZE;
+
++ (IOSClass *)TYPE;
+
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>Short</code> with the specified primitive short value.
+ @param value
+ the primitive short value to store in the new instance.
+ */
 - (instancetype)initWithShort:(jshort)value;
+
+/*!
+ @brief Constructs a new <code>Short</code> from the specified string.
+ @param string
+ the string representation of a short value.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value.
+ - seealso: #parseShort(String)
+ */
+- (instancetype)initWithNSString:(NSString *)string;
 
 - (jbyte)charValue;
 
-- (jint)compareToWithId:(JavaLangShort *)object;
-
+/*!
+ @brief Compares two <code>short</code> values.
+ @return 0 if lhs = rhs, less than 0 if lhs &lt; rhs, and greater than 0 if lhs &gt; rhs.
+ @since 1.7
+ */
 + (jint)compareWithShort:(jshort)lhs
                withShort:(jshort)rhs;
 
+/*!
+ @brief Compares this object to the specified short object to determine their
+ relative order.
+ @param object
+ the short object to compare this object to.
+ @return a negative value if the value of this short is less than the
+ value of <code>object</code>; 0 if the value of this short and the
+ value of <code>object</code> are equal; a positive value if the value
+ of this short is greater than the value of <code>object</code>.
+ @throws NullPointerException
+ if <code>object</code> is null.
+ - seealso: java.lang.Comparable
+ @since 1.2
+ */
+- (jint)compareToWithId:(JavaLangShort *)object;
+
+/*!
+ @brief Parses the specified string and returns a <code>Short</code> instance if the
+ string can be decoded into a short value.
+ The string may be an optional
+ minus sign "-" followed by a hexadecimal ("0x..." or "#..."), octal
+ ("0..."), or decimal ("...") representation of a short.
+ @param string
+ a string representation of a short value.
+ @return a <code>Short</code> containing the value represented by
+ <code>string</code>.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value.
+ */
 + (JavaLangShort *)decodeWithNSString:(NSString *)string;
 
 - (jdouble)doubleValue;
 
+/*!
+ @brief Compares this instance with the specified object and indicates if they
+ are equal.
+ In order to be equal, <code>object</code> must be an instance of
+ <code>Short</code> and have the same short value as this object.
+ @param object
+ the object to compare this short with.
+ @return <code>true</code> if the specified object is equal to this
+ <code>Short</code>; <code>false</code> otherwise.
+ */
 - (jboolean)isEqual:(id)object;
 
 - (jfloat)floatValue;
@@ -45,33 +122,156 @@
 
 - (jlong)longLongValue;
 
+/*!
+ @brief Parses the specified string as a signed decimal short value.
+ The ASCII
+ character \u002d ('-') is recognized as the minus sign.
+ @param string
+ the string representation of a short value.
+ @return the primitive short value represented by <code>string</code>.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value.
+ */
 + (jshort)parseShortWithNSString:(NSString *)string;
 
+/*!
+ @brief Parses the specified string as a signed short value using the specified
+ radix.
+ The ASCII character \u002d ('-') is recognized as the minus sign.
+ @param string
+ the string representation of a short value.
+ @param radix
+ the radix to use when parsing.
+ @return the primitive short value represented by <code>string</code> using
+ <code>radix</code>.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value, or
+ <code>radix < Character.MIN_RADIX ||
+ radix > Character.MAX_RADIX</code>
+ .
+ */
 + (jshort)parseShortWithNSString:(NSString *)string
                          withInt:(jint)radix;
 
+/*!
+ @brief Reverses the bytes of the specified short.
+ @param s
+ the short value for which to reverse bytes.
+ @return the reversed value.
+ @since 1.5
+ */
++ (jshort)reverseBytesWithShort:(jshort)s;
+
+/*!
+ @brief Gets the primitive value of this short.
+ @return this object's primitive value.
+ */
 - (jshort)shortValue;
 
 - (NSString *)description;
 
+/*!
+ @brief Returns a string containing a concise, human-readable description of the
+ specified short value with radix 10.
+ @param value
+ the short to convert to a string.
+ @return a printable representation of <code>value</code>.
+ */
 + (NSString *)toStringWithShort:(jshort)value;
 
+/*!
+ @brief Returns a <code>Short</code> instance for the specified short value.
+ <p>
+ If it is not necessary to get a new <code>Short</code> instance, it is
+ recommended to use this method instead of the constructor, since it
+ maintains a cache of instances which may result in better performance.
+ @param s
+ the short value to store in the instance.
+ @return a <code>Short</code> instance containing <code>s</code>.
+ @since 1.5
+ */
++ (JavaLangShort *)valueOfWithShort:(jshort)s;
+
+/*!
+ @brief Parses the specified string as a signed decimal short value.
+ @param string
+ the string representation of a short value.
+ @return a <code>Short</code> instance containing the short value represented
+ by <code>string</code>.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value.
+ - seealso: #parseShort(String)
+ */
 + (JavaLangShort *)valueOfWithNSString:(NSString *)string;
 
+/*!
+ @brief Parses the specified string as a signed short value using the specified
+ radix.
+ @param string
+ the string representation of a short value.
+ @param radix
+ the radix to use when parsing.
+ @return a <code>Short</code> instance containing the short value represented
+ by <code>string</code> using <code>radix</code>.
+ @throws NumberFormatException
+ if <code>string</code> cannot be parsed as a short value, or
+ <code>radix < Character.MIN_RADIX ||
+ radix > Character.MAX_RADIX</code>
+ .
+ - seealso: #parseShort(String,int)
+ */
 + (JavaLangShort *)valueOfWithNSString:(NSString *)string
                                withInt:(jint)radix;
 
-+ (jshort)reverseBytesWithShort:(jshort)s;
-
-+ (JavaLangShort *)valueOfWithShort:(jshort)s;
-
+#pragma mark Package-Private
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaLangShort_initialized;
 J2OBJC_STATIC_INIT(JavaLangShort)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief Constant for the maximum <code>short</code> value, 2<sup>15</sup>-1.
+ */
+inline jshort JavaLangShort_get_MAX_VALUE();
+#define JavaLangShort_MAX_VALUE 32767
+J2OBJC_STATIC_FIELD_CONSTANT(JavaLangShort, MAX_VALUE, jshort)
+
+/*!
+ @brief Constant for the minimum <code>short</code> value, -2<sup>15</sup>.
+ */
+inline jshort JavaLangShort_get_MIN_VALUE();
+#define JavaLangShort_MIN_VALUE -32768
+J2OBJC_STATIC_FIELD_CONSTANT(JavaLangShort, MIN_VALUE, jshort)
+
+/*!
+ @brief Constant for the number of bits needed to represent a <code>short</code> in
+ two's complement form.
+ @since 1.5
+ */
+inline jint JavaLangShort_get_SIZE();
+#define JavaLangShort_SIZE 16
+J2OBJC_STATIC_FIELD_CONSTANT(JavaLangShort, SIZE, jint)
+
+/*!
+ @brief The <code>Class</code> object that represents the primitive type <code>short</code>
+ .
+ */
+inline IOSClass *JavaLangShort_get_TYPE();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT IOSClass *JavaLangShort_TYPE;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaLangShort, TYPE, IOSClass *)
+
+FOUNDATION_EXPORT void JavaLangShort_initWithNSString_(JavaLangShort *self, NSString *string);
+
+FOUNDATION_EXPORT JavaLangShort *new_JavaLangShort_initWithNSString_(NSString *string) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangShort *create_JavaLangShort_initWithNSString_(NSString *string);
+
+FOUNDATION_EXPORT void JavaLangShort_initWithShort_(JavaLangShort *self, jshort value);
+
+FOUNDATION_EXPORT JavaLangShort *new_JavaLangShort_initWithShort_(jshort value) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangShort *create_JavaLangShort_initWithShort_(jshort value);
 
 FOUNDATION_EXPORT jint JavaLangShort_compareWithShort_withShort_(jshort lhs, jshort rhs);
 
@@ -91,23 +291,12 @@ FOUNDATION_EXPORT jshort JavaLangShort_reverseBytesWithShort_(jshort s);
 
 FOUNDATION_EXPORT JavaLangShort *JavaLangShort_valueOfWithShort_(jshort s);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, serialVersionUID, jlong)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, MAX_VALUE, jshort)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, MIN_VALUE, jshort)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, SIZE, jint)
-
-FOUNDATION_EXPORT IOSClass *JavaLangShort_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, TYPE_, IOSClass *)
-
-FOUNDATION_EXPORT IOSObjectArray *JavaLangShort_SMALL_VALUES_;
-J2OBJC_STATIC_FIELD_GETTER(JavaLangShort, SMALL_VALUES_, IOSObjectArray *)
-CF_EXTERN_C_END
+J2OBJC_TYPE_LITERAL_HEADER(JavaLangShort)
 
 BOXED_INC_AND_DEC(Short, shortValue, JavaLangShort)
 
-J2OBJC_TYPE_LITERAL_HEADER(JavaLangShort)
+#endif
 
-#endif // _JavaLangShort_H_
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangShort")

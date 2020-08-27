@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/lang/NoClassDefFoundError.java
 //
 
-#ifndef _JavaLangNoClassDefFoundError_H_
-#define _JavaLangNoClassDefFoundError_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangNoClassDefFoundError")
+#ifdef RESTRICT_JavaLangNoClassDefFoundError
+#define INCLUDE_ALL_JavaLangNoClassDefFoundError 0
+#else
+#define INCLUDE_ALL_JavaLangNoClassDefFoundError 1
+#endif
+#undef RESTRICT_JavaLangNoClassDefFoundError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangNoClassDefFoundError_) && (INCLUDE_ALL_JavaLangNoClassDefFoundError || defined(INCLUDE_JavaLangNoClassDefFoundError))
+#define JavaLangNoClassDefFoundError_
+
+#define RESTRICT_JavaLangLinkageError 1
+#define INCLUDE_JavaLangLinkageError 1
 #include "java/lang/LinkageError.h"
 
-#define JavaLangNoClassDefFoundError_serialVersionUID 9095859863287012458LL
+/*!
+ @brief Thrown when the VM is unable to locate a class which it has been
+ asked to load.
+ */
+@interface JavaLangNoClassDefFoundError : JavaLangLinkageError
 
-@interface JavaLangNoClassDefFoundError : JavaLangLinkageError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>NoClassDefFoundError</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>NoClassDefFoundError</code> with the current stack
+ trace and the specified detail message.
+ @param detailMessage
+ the detail message for this error.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangNoClassDefFoundError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangNoClassDefFoundError_init(JavaLangNoClassDefFoundError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangNoClassDefFoundError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangNoClassDefFoundError *new_JavaLangNoClassDefFoundError_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangNoClassDefFoundError *create_JavaLangNoClassDefFoundError_init();
+
+FOUNDATION_EXPORT void JavaLangNoClassDefFoundError_initWithNSString_(JavaLangNoClassDefFoundError *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangNoClassDefFoundError *new_JavaLangNoClassDefFoundError_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangNoClassDefFoundError *create_JavaLangNoClassDefFoundError_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangNoClassDefFoundError)
 
-#endif // _JavaLangNoClassDefFoundError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangNoClassDefFoundError")

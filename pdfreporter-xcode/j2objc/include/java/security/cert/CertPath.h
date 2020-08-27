@@ -3,76 +3,194 @@
 //  source: android/libcore/luni/src/main/java/java/security/cert/CertPath.java
 //
 
-#ifndef _JavaSecurityCertCertPath_H_
-#define _JavaSecurityCertCertPath_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityCertCertPath")
+#ifdef RESTRICT_JavaSecurityCertCertPath
+#define INCLUDE_ALL_JavaSecurityCertCertPath 0
+#else
+#define INCLUDE_ALL_JavaSecurityCertCertPath 1
+#endif
+#undef RESTRICT_JavaSecurityCertCertPath
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityCertCertPath_) && (INCLUDE_ALL_JavaSecurityCertCertPath || defined(INCLUDE_JavaSecurityCertCertPath))
+#define JavaSecurityCertCertPath_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSByteArray;
-@class IOSObjectArray;
 @protocol JavaUtilIterator;
 @protocol JavaUtilList;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+/*!
+ @brief An immutable certificate path that can be validated.
+ All certificates in the
+ path are of the same type (i.e., X509).
+ <p>
+ A <code>CertPath</code> can be represented as a byte array in at least one
+ supported encoding scheme (i.e. PkiPath or PKCS7) when serialized.
+ <p>
+ When a <code>List</code> of the certificates is obtained it must be immutable.
+ <p>
+ A <code>CertPath</code> must be thread-safe without requiring coordinated access.
+ - seealso: Certificate
+ */
+@interface JavaSecurityCertCertPath : NSObject < JavaIoSerializable >
 
-#define JavaSecurityCertCertPath_serialVersionUID 6068470306649138683LL
+#pragma mark Public
 
-@interface JavaSecurityCertCertPath : NSObject < JavaIoSerializable > {
-}
-
-- (instancetype)initWithNSString:(NSString *)type;
-
-- (NSString *)getType;
-
+/*!
+ @brief Returns <code>true</code> if <code>Certificate</code>s in the list are the same
+ type and the lists are equal (and by implication the certificates
+ contained within are the same).
+ @param other
+ <code>CertPath</code> to be compared for equality.
+ @return <code>true</code> if the object are equal, <code>false</code> otherwise.
+ */
 - (jboolean)isEqual:(id)other;
 
-- (NSUInteger)hash;
-
-- (NSString *)description;
-
+/*!
+ @brief Returns an immutable List of the <code>Certificate</code>s contained
+ in the <code>CertPath</code>.
+ @return a list of <code>Certificate</code>s in the <code>CertPath</code>.
+ */
 - (id<JavaUtilList>)getCertificates;
 
+/*!
+ @brief Returns an encoding of the <code>CertPath</code> using the default encoding.
+ @return default encoding of the <code>CertPath</code>.
+ @throws CertificateEncodingException
+ if the encoding fails.
+ */
 - (IOSByteArray *)getEncoded;
 
+/*!
+ @brief Returns an encoding of this <code>CertPath</code> using the given
+ <code>encoding</code> from <code>getEncodings()</code>.
+ @throws CertificateEncodingException
+ if the encoding fails.
+ */
 - (IOSByteArray *)getEncodedWithNSString:(NSString *)encoding;
 
+/*!
+ @brief Returns an <code>Iterator</code> over the supported encodings for a
+ representation of the certificate path.
+ @return <code>Iterator</code> over supported encodings (as <code>String</code>s).
+ */
 - (id<JavaUtilIterator>)getEncodings;
 
+/*!
+ @brief Returns the type of <code>Certificate</code> in this instance.
+ @return the certificate type.
+ */
+- (NSString *)getType;
+
+/*!
+ @brief Overrides <code>Object.hashCode()</code>.
+ The function is defined as follows:
+ @code
+
+  hashCode = 31 * path.getType().hashCode() +
+  path.getCertificates().hashCode();
+  
+@endcode
+ @return the hash code for this instance.
+ */
+- (NSUInteger)hash;
+
+/*!
+ @brief Returns a <code>String</code> representation of this <code>CertPath</code>
+ instance.
+ It is the result of calling <code>toString</code> on all <code>Certificate</code>
+ s in the <code>List</code>.
+ @return a string representation of this instance.
+ */
+- (NSString *)description;
+
+#pragma mark Protected
+
+/*!
+ @brief Creates a new <code>CertPath</code> instance for the specified certificate
+ type.
+ @param type
+ the certificate type.
+ */
+- (instancetype)initWithNSString:(NSString *)type;
+
+/*!
+ @brief Returns an alternate object to be serialized.
+ @return an alternate object to be serialized.
+ @throws ObjectStreamException
+ if the creation of the alternate object fails.
+ */
 - (id)writeReplace;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityCertCertPath)
 
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityCertCertPath, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityCertCertPath_initWithNSString_(JavaSecurityCertCertPath *self, NSString *type);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityCertCertPath)
 
-#define JavaSecurityCertCertPath_CertPathRep_serialVersionUID 3015633072427920915LL
+#endif
 
-@interface JavaSecurityCertCertPath_CertPathRep : NSObject < JavaIoSerializable > {
-}
+#if !defined (JavaSecurityCertCertPath_CertPathRep_) && (INCLUDE_ALL_JavaSecurityCertCertPath || defined(INCLUDE_JavaSecurityCertCertPath_CertPathRep))
+#define JavaSecurityCertCertPath_CertPathRep_
 
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
+
+@class IOSByteArray;
+
+/*!
+ @brief The alternate <code>Serializable</code> class to be used for serialization and
+ deserialization on <code>CertPath</code> objects.
+ */
+@interface JavaSecurityCertCertPath_CertPathRep : NSObject < JavaIoSerializable >
+
+#pragma mark Protected
+
+/*!
+ @brief Creates a new <code>CertPathRep</code> instance with the specified type
+ and encoded data.
+ @param type
+ the certificate type.
+ @param data
+ the encoded data.
+ */
 - (instancetype)initWithNSString:(NSString *)type
                    withByteArray:(IOSByteArray *)data;
 
+/*!
+ @brief Deserializes a <code>CertPath</code> from a serialized <code>CertPathRep</code>
+ object.
+ @return the deserialized <code>CertPath</code>.
+ @throws ObjectStreamException
+ if deserialization fails.
+ */
 - (id)readResolve;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaSecurityCertCertPath_CertPathRep_initialized;
 J2OBJC_STATIC_INIT(JavaSecurityCertCertPath_CertPathRep)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityCertCertPath_CertPathRep_initWithNSString_withByteArray_(JavaSecurityCertCertPath_CertPathRep *self, NSString *type, IOSByteArray *data);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityCertCertPath_CertPathRep, serialVersionUID, jlong)
+FOUNDATION_EXPORT JavaSecurityCertCertPath_CertPathRep *new_JavaSecurityCertCertPath_CertPathRep_initWithNSString_withByteArray_(NSString *type, IOSByteArray *data) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT IOSObjectArray *JavaSecurityCertCertPath_CertPathRep_serialPersistentFields_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityCertCertPath_CertPathRep, serialPersistentFields_, IOSObjectArray *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityCertCertPath_CertPathRep *create_JavaSecurityCertCertPath_CertPathRep_initWithNSString_withByteArray_(NSString *type, IOSByteArray *data);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityCertCertPath_CertPathRep)
 
-#endif // _JavaSecurityCertCertPath_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityCertCertPath")

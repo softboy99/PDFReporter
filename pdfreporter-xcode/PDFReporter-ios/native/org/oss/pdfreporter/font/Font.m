@@ -10,12 +10,12 @@
 #import "FontManager.h"
 #import "FontBox.h"
 #import "HpdfDocBox.h"
-#import "org/oss/pdfreporter/registry/ApiRegistry.h"
-#import "org/oss/pdfreporter/font/FontFactory.h"
+#include "org/oss/pdfreporter/registry/ApiRegistry.h"
+#include "org/oss/pdfreporter/font/FontFactory.h"
 
 @implementation Font
 
-- (id)initWithFontName:(NSString*)name style:(OrgOssPdfreporterFontIFont_FontStyleEnum*)style size:(float)size encoding:(NSString*)encoding manager:(OrgOssPdfreporterFontFontManager*)manager
+- (id)initWithFontName:(NSString*)name style:(OrgOssPdfreporterFontIFont_FontStyle*)style size:(float)size encoding:(NSString*)encoding manager:(OrgOssPdfreporterFontFontManager*)manager
 {
     self = [super init];
     if(self) {
@@ -48,12 +48,12 @@
     return mEncoding;
 }
 
-- (OrgOssPdfreporterFontIFont_FontStyleEnum *)getStyle
+- (OrgOssPdfreporterFontIFont_FontStyle *)getStyle
 {
     return mStyle;
 }
 
-- (OrgOssPdfreporterFontIFont_FontDecorationEnum *)getDecoration
+- (OrgOssPdfreporterFontIFont_FontDecoration *)getDecoration
 {
     return nil;
 }

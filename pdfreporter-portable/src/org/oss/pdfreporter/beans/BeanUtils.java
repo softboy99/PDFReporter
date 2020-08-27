@@ -21,16 +21,23 @@ import org.oss.pdfreporter.exception.ConversionException;
 
 
 public class BeanUtils implements IBeansUtils {
-	
+
 	@Override
 	public void setProperty(Object top, String propertyName, Object value) {
 		if (top != null) {
 			try {
-				// TODO (19.4.2013, Donat, Open Software Solutions) add support for
-				// properties declared on superclasses
-				Field field = top.getClass().getDeclaredField(propertyName);
-				field.setAccessible(true);
-				field.set(top, value);
+				Field field = getDeclarecField(top.getClass(),propertyName);
+				if (field != null) {
+					field.setAccessible(true);
+					Class<?> clazz = field.getType();
+					if (clazz == value.getClass()) {
+						field.set(top, value);
+					} else if (clazz==int.class || clazz==Integer.class) {
+						field.set(top, Integer.parseInt((String)value));
+					} else {
+						throw new IllegalArgumentException("Typ= " + clazz.getSimpleName() + " is not supported");
+					}
+				}
 			} catch (Exception e) {
 				throw new ConversionException("Cannot set Property " + propertyName + " on Object "
 						+ top, e);
@@ -42,9 +49,7 @@ public class BeanUtils implements IBeansUtils {
 	@Override
 	public Object getProperty(Object top, String propertyName) {
 		try {
-			// TODO (19.4.2013, Donat, Open Software Solutions) add support for properties
-			// declared on superclasses
-			Field field = top.getClass().getDeclaredField(propertyName);
+			Field field = getDeclarecField(top.getClass(),propertyName);
 			field.setAccessible(true);
 			return field.get(top);
 		} catch (Exception e) {
@@ -52,11 +57,13 @@ public class BeanUtils implements IBeansUtils {
 					+ top, e);
 		}
 	}
+	
+	
 
 	@Override
 	public boolean isWriteable(Object bean, String name) {
 		try {
-			Field field = bean.getClass().getDeclaredField(name);
+			Field field = getDeclarecField(bean.getClass(),name);
 			return !Modifier.isFinal(field.getModifiers());
 		} catch (Exception e) {
 			throw new ConversionException("Cannot get Property " + name + " from Object " + bean, e);
@@ -65,15 +72,9 @@ public class BeanUtils implements IBeansUtils {
 
 	@Override
 	public boolean hasProperty(Object bean, String name) {
-		try {
-			bean.getClass().getDeclaredField(name);
-			return true;
-		} catch (SecurityException e) {
-			throw new ConversionException("Cannot get Property " + name + " from Object " + bean, e);
-		} catch (NoSuchFieldException e) {
-			return false;
-		}
+		return getDeclarecField(bean.getClass(),name)!=null;
 	}
+		
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -101,4 +102,14 @@ public class BeanUtils implements IBeansUtils {
 		}
 	}
 
+	private Field getDeclarecField(Class<?> clazz, String fieldName) {
+		try {
+			return clazz==null ? null : clazz.getDeclaredField(fieldName);
+		} catch (NoSuchFieldException e) {
+			return getDeclarecField(clazz.getSuperclass(),fieldName);
+		} catch (SecurityException e) {
+			throw new ConversionException("Cannot get Property " + fieldName + " from Class " + clazz, e);
+		}
+	}
+	
 }

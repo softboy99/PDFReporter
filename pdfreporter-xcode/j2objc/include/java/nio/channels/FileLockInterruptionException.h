@@ -3,28 +3,55 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/FileLockInterruptionException.java
 //
 
-#ifndef _JavaNioChannelsFileLockInterruptionException_H_
-#define _JavaNioChannelsFileLockInterruptionException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsFileLockInterruptionException")
+#ifdef RESTRICT_JavaNioChannelsFileLockInterruptionException
+#define INCLUDE_ALL_JavaNioChannelsFileLockInterruptionException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsFileLockInterruptionException 1
+#endif
+#undef RESTRICT_JavaNioChannelsFileLockInterruptionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsFileLockInterruptionException_) && (INCLUDE_ALL_JavaNioChannelsFileLockInterruptionException || defined(INCLUDE_JavaNioChannelsFileLockInterruptionException))
+#define JavaNioChannelsFileLockInterruptionException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNioChannelsFileLockInterruptionException_serialVersionUID 7104080643653532383LL
+/*!
+ @brief A <code>FileLockInterruptionException</code> is thrown when a thread is
+ interrupted while waiting to acquire a file lock.
+ <p>
+ Note that the thread will also be in the 'interrupted' state.
+ */
+@interface JavaNioChannelsFileLockInterruptionException : JavaIoIOException
 
-@interface JavaNioChannelsFileLockInterruptionException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>FileLockInterruptionException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsFileLockInterruptionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsFileLockInterruptionException_init(JavaNioChannelsFileLockInterruptionException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsFileLockInterruptionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsFileLockInterruptionException *new_JavaNioChannelsFileLockInterruptionException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsFileLockInterruptionException *create_JavaNioChannelsFileLockInterruptionException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsFileLockInterruptionException)
 
-#endif // _JavaNioChannelsFileLockInterruptionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsFileLockInterruptionException")

@@ -100,6 +100,8 @@ public class XmlParserUnmarshaller {
 		if (node==null) return null;
 		if (node instanceof UnmarshallingNode) {
 			return ((UnmarshallingNode)node).getDelegate();			
+		} else if (node instanceof Document) {
+			return new DelegatingDocument((Document) node);
 		}
 		return new DelegatingNode(node);
 	}

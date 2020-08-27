@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/IllegalSelectorException.java
 //
 
-#ifndef _JavaNioChannelsIllegalSelectorException_H_
-#define _JavaNioChannelsIllegalSelectorException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsIllegalSelectorException")
+#ifdef RESTRICT_JavaNioChannelsIllegalSelectorException
+#define INCLUDE_ALL_JavaNioChannelsIllegalSelectorException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsIllegalSelectorException 1
+#endif
+#undef RESTRICT_JavaNioChannelsIllegalSelectorException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsIllegalSelectorException_) && (INCLUDE_ALL_JavaNioChannelsIllegalSelectorException || defined(INCLUDE_JavaNioChannelsIllegalSelectorException))
+#define JavaNioChannelsIllegalSelectorException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaNioChannelsIllegalSelectorException_serialVersionUID -8406323347253320987LL
+/*!
+ @brief An <code>IllegalSelectorException</code> is thrown when a call is made to register
+ a channel on a selector that has been created by a different provider.
+ */
+@interface JavaNioChannelsIllegalSelectorException : JavaLangIllegalArgumentException
 
-@interface JavaNioChannelsIllegalSelectorException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>IllegalSelectorException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsIllegalSelectorException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsIllegalSelectorException_init(JavaNioChannelsIllegalSelectorException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsIllegalSelectorException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsIllegalSelectorException *new_JavaNioChannelsIllegalSelectorException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsIllegalSelectorException *create_JavaNioChannelsIllegalSelectorException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsIllegalSelectorException)
 
-#endif // _JavaNioChannelsIllegalSelectorException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsIllegalSelectorException")

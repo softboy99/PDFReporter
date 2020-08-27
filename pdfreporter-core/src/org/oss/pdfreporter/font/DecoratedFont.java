@@ -21,9 +21,6 @@ public class DecoratedFont implements IFont {
 		this.delegate = delegate;
 		this.size = size;
 		this.decoration = decoration;
-		if (delegate == null) {
-			System.out.println("ALERT");
-		}
 	}
 
 	public String getName() {

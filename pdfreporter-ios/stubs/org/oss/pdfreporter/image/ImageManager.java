@@ -11,8 +11,10 @@
 package org.oss.pdfreporter.image;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
+import org.oss.pdfreporter.net.IURL;
 import org.oss.pdfreporter.registry.ISessionObject;
 
 /**
@@ -26,15 +28,15 @@ public class ImageManager implements IImageManager {
 	}
 
 	@Override
-	public void get(String key) {
+	public void get(final String key) {
 	}
 
 	@Override
-	public void put(String key, ISessionObject value) {
+	public void put(final String key, final ISessionObject value) {
 	}
 
 	@Override
-	public void remove(String key) {
+	public void remove(final String key) {
 	}
 
 	@Override
@@ -43,13 +45,39 @@ public class ImageManager implements IImageManager {
 	}
 
 	@Override
-	public IImage loadImage(String filePath) throws IOException {
+	public IImage loadImage(final String filePath) throws IOException {
 		return null;
 	}
 
 	@Override
-	public IImage loadImage(String filePath, float quality, float scale)
+	public IImage loadImage(final String filePath, final float quality, final float scale)
 			throws IOException {
+		return null;
+	}
+
+	@Override
+	public IImage loadImage(final InputStream image) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IImage loadImage(final IURL fileURL) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IImage loadImage(final InputStream image, final float quality, final float scale)
+			throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IImage loadImage(final IURL fileUrl, final float quality, final float scale)
+			throws IOException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

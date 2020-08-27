@@ -3,17 +3,35 @@
 //  source: android/libcore/luni/src/main/java/java/util/UnsafeArrayList.java
 //
 
-#ifndef _JavaUtilUnsafeArrayList_H_
-#define _JavaUtilUnsafeArrayList_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilUnsafeArrayList")
+#ifdef RESTRICT_JavaUtilUnsafeArrayList
+#define INCLUDE_ALL_JavaUtilUnsafeArrayList 0
+#else
+#define INCLUDE_ALL_JavaUtilUnsafeArrayList 1
+#endif
+#undef RESTRICT_JavaUtilUnsafeArrayList
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilUnsafeArrayList_) && (INCLUDE_ALL_JavaUtilUnsafeArrayList || defined(INCLUDE_JavaUtilUnsafeArrayList))
+#define JavaUtilUnsafeArrayList_
+
+#define RESTRICT_JavaUtilAbstractList 1
+#define INCLUDE_JavaUtilAbstractList 1
+#include "java/util/AbstractList.h"
 
 @class IOSClass;
 @class IOSObjectArray;
 
-#include "J2ObjC_header.h"
-#include "java/util/AbstractList.h"
+/*!
+ @brief An array-backed list that exposes its array.
+ */
+@interface JavaUtilUnsafeArrayList : JavaUtilAbstractList
 
-@interface JavaUtilUnsafeArrayList : JavaUtilAbstractList {
-}
+#pragma mark Public
 
 - (instancetype)initWithIOSClass:(IOSClass *)elementType
                          withInt:(jint)initialCapacity;
@@ -26,14 +44,22 @@
 
 - (jint)size;
 
+#pragma mark Package-Private
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilUnsafeArrayList)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilUnsafeArrayList_initWithIOSClass_withInt_(JavaUtilUnsafeArrayList *self, IOSClass *elementType, jint initialCapacity);
+
+FOUNDATION_EXPORT JavaUtilUnsafeArrayList *new_JavaUtilUnsafeArrayList_initWithIOSClass_withInt_(IOSClass *elementType, jint initialCapacity) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilUnsafeArrayList *create_JavaUtilUnsafeArrayList_initWithIOSClass_withInt_(IOSClass *elementType, jint initialCapacity);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilUnsafeArrayList)
 
-#endif // _JavaUtilUnsafeArrayList_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilUnsafeArrayList")

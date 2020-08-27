@@ -3,32 +3,65 @@
 //  source: android/libcore/luni/src/main/java/java/util/IllegalFormatPrecisionException.java
 //
 
-#ifndef _JavaUtilIllegalFormatPrecisionException_H_
-#define _JavaUtilIllegalFormatPrecisionException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilIllegalFormatPrecisionException")
+#ifdef RESTRICT_JavaUtilIllegalFormatPrecisionException
+#define INCLUDE_ALL_JavaUtilIllegalFormatPrecisionException 0
+#else
+#define INCLUDE_ALL_JavaUtilIllegalFormatPrecisionException 1
+#endif
+#undef RESTRICT_JavaUtilIllegalFormatPrecisionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilIllegalFormatPrecisionException_) && (INCLUDE_ALL_JavaUtilIllegalFormatPrecisionException || defined(INCLUDE_JavaUtilIllegalFormatPrecisionException))
+#define JavaUtilIllegalFormatPrecisionException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilIllegalFormatPrecisionException_serialVersionUID 18711008LL
+/*!
+ @brief An <code>IllegalFormatPrecisionException</code> will be thrown if the precision is
+ a negative other than -1 or in other cases where precision is not supported.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilIllegalFormatPrecisionException : JavaUtilIllegalFormatException
 
-@interface JavaUtilIllegalFormatPrecisionException : JavaUtilIllegalFormatException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>IllegalFormatPrecisionException</code> with specified
+ precision.
+ @param p
+ the precision.
+ */
 - (instancetype)initWithInt:(jint)p;
 
-- (jint)getPrecision;
-
 - (NSString *)getMessage;
+
+/*!
+ @brief Returns the precision associated with the exception.
+ @return the precision.
+ */
+- (jint)getPrecision;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilIllegalFormatPrecisionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilIllegalFormatPrecisionException_initWithInt_(JavaUtilIllegalFormatPrecisionException *self, jint p);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilIllegalFormatPrecisionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilIllegalFormatPrecisionException *new_JavaUtilIllegalFormatPrecisionException_initWithInt_(jint p) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilIllegalFormatPrecisionException *create_JavaUtilIllegalFormatPrecisionException_initWithInt_(jint p);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilIllegalFormatPrecisionException)
 
-#endif // _JavaUtilIllegalFormatPrecisionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilIllegalFormatPrecisionException")

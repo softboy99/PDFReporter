@@ -3,30 +3,69 @@
 //  source: android/libcore/luni/src/main/java/java/io/UTFDataFormatException.java
 //
 
-#ifndef _JavaIoUTFDataFormatException_H_
-#define _JavaIoUTFDataFormatException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoUTFDataFormatException")
+#ifdef RESTRICT_JavaIoUTFDataFormatException
+#define INCLUDE_ALL_JavaIoUTFDataFormatException 0
+#else
+#define INCLUDE_ALL_JavaIoUTFDataFormatException 1
+#endif
+#undef RESTRICT_JavaIoUTFDataFormatException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoUTFDataFormatException_) && (INCLUDE_ALL_JavaIoUTFDataFormatException || defined(INCLUDE_JavaIoUTFDataFormatException))
+#define JavaIoUTFDataFormatException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaIoUTFDataFormatException_serialVersionUID 420743449228280612LL
+/*!
+ @brief Signals that an incorrectly encoded UTF-8 string has been encountered, most
+ likely while reading some <code>DataInputStream</code>.
+ - seealso: DataInputStream#readUTF()
+ */
+@interface JavaIoUTFDataFormatException : JavaIoIOException
 
-@interface JavaIoUTFDataFormatException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UTFDataFormatException</code> with its stack trace
+ filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>UTFDataFormatException</code> with its stack trace and
+ detail message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoUTFDataFormatException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoUTFDataFormatException_init(JavaIoUTFDataFormatException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoUTFDataFormatException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoUTFDataFormatException *new_JavaIoUTFDataFormatException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoUTFDataFormatException *create_JavaIoUTFDataFormatException_init();
+
+FOUNDATION_EXPORT void JavaIoUTFDataFormatException_initWithNSString_(JavaIoUTFDataFormatException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoUTFDataFormatException *new_JavaIoUTFDataFormatException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoUTFDataFormatException *create_JavaIoUTFDataFormatException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoUTFDataFormatException)
 
-#endif // _JavaIoUTFDataFormatException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoUTFDataFormatException")

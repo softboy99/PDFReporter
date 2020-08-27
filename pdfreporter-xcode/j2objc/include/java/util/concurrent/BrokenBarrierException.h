@@ -3,30 +3,71 @@
 //  source: android/libcore/luni/src/main/java/java/util/concurrent/BrokenBarrierException.java
 //
 
-#ifndef _JavaUtilConcurrentBrokenBarrierException_H_
-#define _JavaUtilConcurrentBrokenBarrierException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilConcurrentBrokenBarrierException")
+#ifdef RESTRICT_JavaUtilConcurrentBrokenBarrierException
+#define INCLUDE_ALL_JavaUtilConcurrentBrokenBarrierException 0
+#else
+#define INCLUDE_ALL_JavaUtilConcurrentBrokenBarrierException 1
+#endif
+#undef RESTRICT_JavaUtilConcurrentBrokenBarrierException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilConcurrentBrokenBarrierException_) && (INCLUDE_ALL_JavaUtilConcurrentBrokenBarrierException || defined(INCLUDE_JavaUtilConcurrentBrokenBarrierException))
+#define JavaUtilConcurrentBrokenBarrierException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaUtilConcurrentBrokenBarrierException_serialVersionUID 7117394618823254244LL
+/*!
+ @brief Exception thrown when a thread tries to wait upon a barrier that is
+ in a broken state, or which enters the broken state while the thread
+ is waiting.
+ - seealso: CyclicBarrier
+ @since 1.5
+ @author Doug Lea
+ */
+@interface JavaUtilConcurrentBrokenBarrierException : JavaLangException
 
-@interface JavaUtilConcurrentBrokenBarrierException : JavaLangException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>BrokenBarrierException</code> with no specified detail
+ message.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a <code>BrokenBarrierException</code> with the specified
+ detail message.
+ @param message the detail message
+ */
 - (instancetype)initWithNSString:(NSString *)message;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilConcurrentBrokenBarrierException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilConcurrentBrokenBarrierException_init(JavaUtilConcurrentBrokenBarrierException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentBrokenBarrierException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilConcurrentBrokenBarrierException *new_JavaUtilConcurrentBrokenBarrierException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentBrokenBarrierException *create_JavaUtilConcurrentBrokenBarrierException_init();
+
+FOUNDATION_EXPORT void JavaUtilConcurrentBrokenBarrierException_initWithNSString_(JavaUtilConcurrentBrokenBarrierException *self, NSString *message);
+
+FOUNDATION_EXPORT JavaUtilConcurrentBrokenBarrierException *new_JavaUtilConcurrentBrokenBarrierException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentBrokenBarrierException *create_JavaUtilConcurrentBrokenBarrierException_initWithNSString_(NSString *message);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentBrokenBarrierException)
 
-#endif // _JavaUtilConcurrentBrokenBarrierException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilConcurrentBrokenBarrierException")

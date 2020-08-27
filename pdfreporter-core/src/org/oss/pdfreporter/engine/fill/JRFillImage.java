@@ -24,6 +24,7 @@
 package org.oss.pdfreporter.engine.fill;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
@@ -51,6 +52,7 @@ import org.oss.pdfreporter.engine.util.JRStyleResolver;
 import org.oss.pdfreporter.geometry.IDimension;
 import org.oss.pdfreporter.image.IImage;
 import org.oss.pdfreporter.net.IURL;
+import org.oss.pdfreporter.registry.ApiRegistry;
 
 
 
@@ -510,12 +512,23 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				}
 				else if (source instanceof InputStream)
 				{
-					logger.warning("Image from input stream is not supported.");
+					InputStream in = (InputStream) source;
+					try {
+						IImage img = ApiRegistry.getImageFactory().getImageManager().loadImage(in);
+						newRenderer = JRImageRenderer.getInstance(img);
+					} catch (IOException e) {
+						throw new JRException("Exception while reading image from InputStream.",e);
+					}
 				}
 				else if (source instanceof IURL)
 				{
 					IURL url = (IURL) source;
-					logger.warning("Image from url is not supported. URL: " + url.getPath());
+					try {
+						IImage img = ApiRegistry.getImageFactory().getImageManager().loadImage(url);
+						newRenderer = JRImageRenderer.getInstance(img);
+					} catch (IOException e) {
+						throw new JRException("Exception while reading image from URL: " + url.getPath(),e);
+					}
 				}
 				else if (source instanceof File)
 				{

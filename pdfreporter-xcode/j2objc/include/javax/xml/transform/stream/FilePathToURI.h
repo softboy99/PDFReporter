@@ -3,47 +3,48 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/transform/stream/FilePathToURI.java
 //
 
-#ifndef _JavaxXmlTransformStreamFilePathToURI_H_
-#define _JavaxXmlTransformStreamFilePathToURI_H_
-
-@class IOSBooleanArray;
-@class IOSCharArray;
-
 #include "J2ObjC_header.h"
 
-@interface JavaxXmlTransformStreamFilePathToURI : NSObject {
-}
+#pragma push_macro("INCLUDE_ALL_JavaxXmlTransformStreamFilePathToURI")
+#ifdef RESTRICT_JavaxXmlTransformStreamFilePathToURI
+#define INCLUDE_ALL_JavaxXmlTransformStreamFilePathToURI 0
+#else
+#define INCLUDE_ALL_JavaxXmlTransformStreamFilePathToURI 1
+#endif
+#undef RESTRICT_JavaxXmlTransformStreamFilePathToURI
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlTransformStreamFilePathToURI_) && (INCLUDE_ALL_JavaxXmlTransformStreamFilePathToURI || defined(INCLUDE_JavaxXmlTransformStreamFilePathToURI))
+#define JavaxXmlTransformStreamFilePathToURI_
+
+@interface JavaxXmlTransformStreamFilePathToURI : NSObject
+
+#pragma mark Public
 
 + (NSString *)filepath2URIWithNSString:(NSString *)path;
+
+#pragma mark Package-Private
 
 - (instancetype)init;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaxXmlTransformStreamFilePathToURI_initialized;
 J2OBJC_STATIC_INIT(JavaxXmlTransformStreamFilePathToURI)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT NSString *JavaxXmlTransformStreamFilePathToURI_filepath2URIWithNSString_(NSString *path);
 
-FOUNDATION_EXPORT IOSBooleanArray *JavaxXmlTransformStreamFilePathToURI_gNeedEscaping_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformStreamFilePathToURI, gNeedEscaping_, IOSBooleanArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlTransformStreamFilePathToURI, gNeedEscaping_, IOSBooleanArray *)
+FOUNDATION_EXPORT void JavaxXmlTransformStreamFilePathToURI_init(JavaxXmlTransformStreamFilePathToURI *self);
 
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlTransformStreamFilePathToURI_gAfterEscaping1_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformStreamFilePathToURI, gAfterEscaping1_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlTransformStreamFilePathToURI, gAfterEscaping1_, IOSCharArray *)
+FOUNDATION_EXPORT JavaxXmlTransformStreamFilePathToURI *new_JavaxXmlTransformStreamFilePathToURI_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlTransformStreamFilePathToURI_gAfterEscaping2_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformStreamFilePathToURI, gAfterEscaping2_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlTransformStreamFilePathToURI, gAfterEscaping2_, IOSCharArray *)
-
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlTransformStreamFilePathToURI_gHexChs_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformStreamFilePathToURI, gHexChs_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlTransformStreamFilePathToURI, gHexChs_, IOSCharArray *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxXmlTransformStreamFilePathToURI *create_JavaxXmlTransformStreamFilePathToURI_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlTransformStreamFilePathToURI)
 
-#endif // _JavaxXmlTransformStreamFilePathToURI_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlTransformStreamFilePathToURI")

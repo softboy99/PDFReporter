@@ -7,7 +7,7 @@
 //
 
 #import "Connection.h"
-#import "org/oss/pdfreporter/sql/SQLException.h"
+#include "org/oss/pdfreporter/sql/SQLException.h"
 #import "PreparedStatement.h"
 
 @implementation OrgOssPdfreporterSqlConnection

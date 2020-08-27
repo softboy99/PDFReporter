@@ -23,8 +23,6 @@
  */
 package org.oss.pdfreporter.engine.fill;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import org.oss.pdfreporter.engine.JRComponentElement;
@@ -43,6 +41,8 @@ import org.oss.pdfreporter.engine.component.FillComponent;
 import org.oss.pdfreporter.engine.component.FillContext;
 import org.oss.pdfreporter.engine.component.FillPrepareResult;
 import org.oss.pdfreporter.engine.type.EvaluationTimeEnum;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 /**
@@ -241,12 +241,12 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 				evaluationTime, evaluationGroup, band);
 	}
 
-	public Locale getReportLocale()
+	public StringLocale getReportLocale()
 	{
 		return filler.getLocale();
 	}
 
-	public ResourceBundle getReportResourceBundle()
+	public ITextBundle getReportResourceBundle()
 	{
 		return filler.getResourceBundle();
 	}

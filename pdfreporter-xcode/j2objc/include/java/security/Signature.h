@@ -3,104 +3,413 @@
 //  source: android/libcore/luni/src/main/java/java/security/Signature.java
 //
 
-#ifndef _JavaSecuritySignature_H_
-#define _JavaSecuritySignature_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySignature")
+#ifdef RESTRICT_JavaSecuritySignature
+#define INCLUDE_ALL_JavaSecuritySignature 0
+#else
+#define INCLUDE_ALL_JavaSecuritySignature 1
+#endif
+#undef RESTRICT_JavaSecuritySignature
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySignature_) && (INCLUDE_ALL_JavaSecuritySignature || defined(INCLUDE_JavaSecuritySignature))
+#define JavaSecuritySignature_
+
+#define RESTRICT_JavaSecuritySignatureSpi 1
+#define INCLUDE_JavaSecuritySignatureSpi 1
+#include "java/security/SignatureSpi.h"
 
 @class IOSByteArray;
+@class IOSObjectArray;
 @class JavaNioByteBuffer;
 @class JavaSecurityAlgorithmParameters;
 @class JavaSecurityCertCertificate;
 @class JavaSecurityProvider;
-@class JavaSecurityProvider_Service;
 @class JavaSecuritySecureRandom;
-@class OrgApacheHarmonySecurityFortressEngine;
-@class OrgApacheHarmonySecurityFortressEngine_SpiAndProvider;
-@protocol JavaSecurityKey;
 @protocol JavaSecurityPrivateKey;
 @protocol JavaSecurityPublicKey;
 @protocol JavaSecuritySpecAlgorithmParameterSpec;
 
-#include "J2ObjC_header.h"
-#include "java/security/SignatureSpi.h"
-
-#define JavaSecuritySignature_SIGN 2
-#define JavaSecuritySignature_UNINITIALIZED 0
-#define JavaSecuritySignature_VERIFY 3
-
+/*!
+ @brief <code>Signature</code> is an engine class which is capable of creating and
+ verifying digital signatures, using different algorithms that have been
+ registered with the <code>Security</code> class.
+ - seealso: SignatureSpi
+ */
 @interface JavaSecuritySignature : JavaSecuritySignatureSpi {
  @public
   JavaSecurityProvider *provider_;
   NSString *algorithm_;
+  /*!
+   @brief Represents the current state of this <code>Signature</code>.
+   The three
+ possible states are <code>UNINITIALIZED</code>, <code>SIGN</code> or
+ <code>VERIFY</code>.
+   */
   jint state_;
 }
 
-- (instancetype)initWithNSString:(NSString *)algorithm;
++ (jint)UNINITIALIZED;
 
++ (jint)SIGN;
+
++ (jint)VERIFY;
+
+#pragma mark Public
+
+/*!
+ @brief Returns the name of the algorithm of this <code>Signature</code>.
+ @return the name of the algorithm of this <code>Signature</code>.
+ */
+- (NSString *)getAlgorithm;
+
+/*!
+ @brief Returns a new instance of <code>Signature</code> that utilizes the specified
+ algorithm.
+ @param algorithm
+ the name of the algorithm to use.
+ @return a new instance of <code>Signature</code> that utilizes the specified
+ algorithm.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ */
 + (JavaSecuritySignature *)getInstanceWithNSString:(NSString *)algorithm;
 
-+ (JavaSecuritySignature *)getInstanceWithNSString:(NSString *)algorithm
-                                      withNSString:(NSString *)provider;
-
+/*!
+ @brief Returns a new instance of <code>Signature</code> that utilizes the specified
+ algorithm from the specified provider.
+ The <code>provider</code> supplied
+ does not have to be registered.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ the security provider.
+ @return a new instance of <code>Signature</code> that utilizes the specified
+ algorithm from the specified provider.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ @throws IllegalArgumentException if <code>provider == null</code>
+ */
 + (JavaSecuritySignature *)getInstanceWithNSString:(NSString *)algorithm
                           withJavaSecurityProvider:(JavaSecurityProvider *)provider;
 
+/*!
+ @brief Returns a new instance of <code>Signature</code> that utilizes the specified
+ algorithm from the specified provider.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ the name of the provider.
+ @return a new instance of <code>Signature</code> that utilizes the specified
+ algorithm from the specified provider.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NoSuchProviderException
+ if the specified provider is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ @throws IllegalArgumentException if <code>provider == null || provider.isEmpty()</code>
+ */
++ (JavaSecuritySignature *)getInstanceWithNSString:(NSString *)algorithm
+                                      withNSString:(NSString *)provider;
+
+/*!
+ @brief Returns the value of the parameter with the specified name.
+ @param param
+ the name of the requested parameter value
+ @return the value of the parameter with the specified name, maybe <code>null</code>
+ .
+ @throws InvalidParameterException
+ if <code>param</code> is not a valid parameter for this <code>Signature</code>
+  or an other error occurs.
+ */
+- (id)getParameterWithNSString:(NSString *)param __attribute__((deprecated));
+
+/*!
+ @brief Returns the <code>AlgorithmParameters</code> of this <code>Signature</code>
+ instance.
+ @return the <code>AlgorithmParameters</code> of this <code>Signature</code>
+ instance, maybe <code>null</code>.
+ */
+- (JavaSecurityAlgorithmParameters *)getParameters;
+
+/*!
+ @brief Returns the provider associated with this <code>Signature</code>.
+ @return the provider associated with this <code>Signature</code>.
+ */
 - (JavaSecurityProvider *)getProvider;
 
-- (void)ensureProviderChosen;
-
-- (NSString *)getAlgorithm;
-
-- (void)initVerifyWithJavaSecurityPublicKey:(id<JavaSecurityPublicKey>)publicKey OBJC_METHOD_FAMILY_NONE;
-
-- (void)initVerifyWithJavaSecurityCertCertificate:(JavaSecurityCertCertificate *)certificate OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Initializes this <code>Signature</code> instance for signing, using the
+ private key of the identity whose signature is going to be generated.
+ @param privateKey
+ the private key.
+ @throws InvalidKeyException
+ if <code>privateKey</code> is not valid.
+ */
 - (void)initSignWithJavaSecurityPrivateKey:(id<JavaSecurityPrivateKey>)privateKey OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Initializes this <code>Signature</code> instance for signing, using the
+ private key of the identity whose signature is going to be generated and
+ the specified source of randomness.
+ @param privateKey
+ the private key.
+ @param random
+ the <code>SecureRandom</code> to use.
+ @throws InvalidKeyException
+ if <code>privateKey</code> is not valid.
+ */
 - (void)initSignWithJavaSecurityPrivateKey:(id<JavaSecurityPrivateKey>)privateKey
               withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Initializes this <code>Signature</code> instance for signature verification,
+ using the certificate of the identity whose signature is going to be
+ verified.
+ <p>
+ If the given certificate is an instance of <code>X509Certificate</code> and
+ has a key usage parameter that indicates, that this certificate is not to
+ be used for signing, an <code>InvalidKeyException</code> is thrown.
+ @param certificate
+ the certificate used to verify a signature.
+ @throws InvalidKeyException
+ if the publicKey in the certificate is not valid or not to be
+ used for signing.
+ */
+- (void)initVerifyWithJavaSecurityCertCertificate:(JavaSecurityCertCertificate *)certificate OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Initializes this <code>Signature</code> instance for signature verification,
+ using the public key of the identity whose signature is going to be
+ verified.
+ @param publicKey
+ the public key.
+ @throws InvalidKeyException
+ if <code>publicKey</code> is not valid.
+ */
+- (void)initVerifyWithJavaSecurityPublicKey:(id<JavaSecurityPublicKey>)publicKey OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Sets the specified <code>AlgorithmParameterSpec</code>.
+ @param params
+ the parameter to set.
+ @throws InvalidAlgorithmParameterException
+ if the parameter is invalid, already set or is not allowed to
+ be changed.
+ */
+- (void)setParameterWithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)params;
+
+/*!
+ @brief Sets the specified parameter to the given value.
+ @param param
+ the name of the parameter.
+ @param value
+ the parameter value.
+ @throws InvalidParameterException
+ if the parameter is invalid, already set or is not allowed to
+ be changed.
+ */
+- (void)setParameterWithNSString:(NSString *)param
+                          withId:(id)value __attribute__((deprecated));
+
+/*!
+ @brief Generates and returns the signature of all updated data.
+ <p>
+ This <code>Signature</code> instance is reset to the state of its last
+ initialization for signing and thus can be used for another signature
+ from the same identity.
+ @return the signature of all updated data.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
 - (IOSByteArray *)sign;
 
+/*!
+ @brief Generates and stores the signature of all updated data in the provided
+ <code>byte[]</code> at the specified position with the specified length.
+ <p>
+ This <code>Signature</code> instance is reset to the state of its last
+ initialization for signing and thus can be used for another signature
+ from the same identity.
+ @param outbuf
+ the buffer to store the signature.
+ @param offset
+ the index of the first byte in <code>outbuf</code> to store.
+ @param len
+ the number of bytes allocated for the signature.
+ @return the number of bytes stored in <code>outbuf</code>.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ @throws IllegalArgumentException
+ if <code>offset</code> or <code>len</code> are not valid in respect to
+ <code>outbuf</code>.
+ */
 - (jint)signWithByteArray:(IOSByteArray *)outbuf
                   withInt:(jint)offset
                   withInt:(jint)len;
 
-- (jboolean)verifyWithByteArray:(IOSByteArray *)signature;
+/*!
+ @brief Returns a string containing a concise, human-readable description of this
+ <code>Signature</code> including its algorithm and its state.
+ @return a printable representation for this <code>Signature</code>.
+ */
+- (NSString *)description;
 
-- (jboolean)verifyWithByteArray:(IOSByteArray *)signature
-                        withInt:(jint)offset
-                        withInt:(jint)length;
-
+/*!
+ @brief Updates the data to be verified or to be signed, using the specified
+ <code>byte</code>.
+ @param b
+ the byte to update with.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
 - (void)updateWithByte:(jbyte)b;
 
+/*!
+ @brief Updates the data to be verified or to be signed, using the specified
+ <code>byte[]</code>.
+ @param data
+ the byte array to update with.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
 - (void)updateWithByteArray:(IOSByteArray *)data;
 
+/*!
+ @brief Updates the data to be verified or to be signed, using the given <code>byte[]</code>
+ , starting form the specified index for the specified length.
+ @param data
+ the byte array to update with.
+ @param off
+ the start index in <code>data</code> of the data.
+ @param len
+ the number of bytes to use.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
 - (void)updateWithByteArray:(IOSByteArray *)data
                     withInt:(jint)off
                     withInt:(jint)len;
 
+/*!
+ @brief Updates the data to be verified or to be signed, using the specified
+ <code>ByteBuffer</code>.
+ @param data
+ the <code>ByteBuffer</code> to update with.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
 - (void)updateWithJavaNioByteBuffer:(JavaNioByteBuffer *)data;
 
-- (NSString *)description;
+/*!
+ @brief Indicates whether the given <code>signature</code> can be verified using the
+ public key or a certificate of the signer.
+ <p>
+ This <code>Signature</code> instance is reset to the state of its last
+ initialization for verifying and thus can be used to verify another
+ signature of the same signer.
+ @param signature
+ the signature to verify.
+ @return <code>true</code> if the signature was verified, <code>false</code>
+ otherwise.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ */
+- (jboolean)verifyWithByteArray:(IOSByteArray *)signature;
 
-- (void)setParameterWithNSString:(NSString *)param
-                          withId:(id)value;
+/*!
+ @brief Indicates whether the given <code>signature</code> starting at index <code>offset</code>
+  with <code>length</code> bytes can be verified using the public key or
+ a certificate of the signer.
+ <p>
+ This <code>Signature</code> instance is reset to the state of its last
+ initialization for verifying and thus can be used to verify another
+ signature of the same signer.
+ @param signature
+ the <code>byte[]</code> containing the signature to verify.
+ @param offset
+ the start index in <code>signature</code> of the signature.
+ @param length
+ the number of bytes allocated for the signature.
+ @return <code>true</code> if the signature was verified, <code>false</code>
+ otherwise.
+ @throws SignatureException
+ if this <code>Signature</code> instance is not initialized
+ properly.
+ @throws IllegalArgumentException
+ if <code>offset</code> or <code>length</code> are not valid in respect
+ to <code>signature</code>.
+ */
+- (jboolean)verifyWithByteArray:(IOSByteArray *)signature
+                        withInt:(jint)offset
+                        withInt:(jint)length;
 
-- (void)setParameterWithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)params;
+#pragma mark Protected
 
-- (JavaSecurityAlgorithmParameters *)getParameters;
+/*!
+ @brief Constructs a new instance of <code>Signature</code> with the name of
+ the algorithm to use.
+ @param algorithm
+ the name of algorithm to use.
+ */
+- (instancetype)initWithNSString:(NSString *)algorithm;
 
-- (id)getParameterWithNSString:(NSString *)param;
+#pragma mark Package-Private
+
+/*!
+ @brief This makes sure the provider is chosen since Signature is abstract and
+ getProvider is final but we need to support late binding.
+ */
+- (void)ensureProviderChosen;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaSecuritySignature_initialized;
 J2OBJC_STATIC_INIT(JavaSecuritySignature)
 
 J2OBJC_FIELD_SETTER(JavaSecuritySignature, provider_, JavaSecurityProvider *)
 J2OBJC_FIELD_SETTER(JavaSecuritySignature, algorithm_, NSString *)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief Constant that indicates that this <code>Signature</code> instance has not yet
+ been initialized.
+ */
+inline jint JavaSecuritySignature_get_UNINITIALIZED();
+#define JavaSecuritySignature_UNINITIALIZED 0
+J2OBJC_STATIC_FIELD_CONSTANT(JavaSecuritySignature, UNINITIALIZED, jint)
+
+/*!
+ @brief Constant that indicates that this <code>Signature</code> instance has been
+ initialized for signing.
+ */
+inline jint JavaSecuritySignature_get_SIGN();
+#define JavaSecuritySignature_SIGN 2
+J2OBJC_STATIC_FIELD_CONSTANT(JavaSecuritySignature, SIGN, jint)
+
+/*!
+ @brief Constant that indicates that this <code>Signature</code> instance has been
+ initialized for verification.
+ */
+inline jint JavaSecuritySignature_get_VERIFY();
+#define JavaSecuritySignature_VERIFY 3
+J2OBJC_STATIC_FIELD_CONSTANT(JavaSecuritySignature, VERIFY, jint)
+
+FOUNDATION_EXPORT void JavaSecuritySignature_initWithNSString_(JavaSecuritySignature *self, NSString *algorithm);
 
 FOUNDATION_EXPORT JavaSecuritySignature *JavaSecuritySignature_getInstanceWithNSString_(NSString *algorithm);
 
@@ -108,59 +417,10 @@ FOUNDATION_EXPORT JavaSecuritySignature *JavaSecuritySignature_getInstanceWithNS
 
 FOUNDATION_EXPORT JavaSecuritySignature *JavaSecuritySignature_getInstanceWithNSString_withJavaSecurityProvider_(NSString *algorithm, JavaSecurityProvider *provider);
 
-FOUNDATION_EXPORT NSString *JavaSecuritySignature_SERVICE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySignature, SERVICE_, NSString *)
-
-FOUNDATION_EXPORT OrgApacheHarmonySecurityFortressEngine *JavaSecuritySignature_ENGINE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySignature, ENGINE_, OrgApacheHarmonySecurityFortressEngine *)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySignature, UNINITIALIZED, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySignature, SIGN, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySignature, VERIFY, jint)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySignature)
 
-@interface JavaSecuritySignature_SignatureImpl : JavaSecuritySignature {
-}
+#endif
 
-- (instancetype)initWithNSString:(NSString *)algorithm
-        withJavaSecurityProvider:(JavaSecurityProvider *)provider;
 
-- (void)ensureProviderChosen;
-
-- (IOSByteArray *)engineSign;
-
-- (void)engineUpdateWithByte:(jbyte)arg0;
-
-- (jboolean)engineVerifyWithByteArray:(IOSByteArray *)arg0;
-
-- (void)engineUpdateWithByteArray:(IOSByteArray *)arg0
-                          withInt:(jint)arg1
-                          withInt:(jint)arg2;
-
-- (void)engineInitSignWithJavaSecurityPrivateKey:(id<JavaSecurityPrivateKey>)arg0;
-
-- (void)engineInitVerifyWithJavaSecurityPublicKey:(id<JavaSecurityPublicKey>)arg0;
-
-- (id)engineGetParameterWithNSString:(NSString *)arg0;
-
-- (void)engineSetParameterWithNSString:(NSString *)arg0
-                                withId:(id)arg1;
-
-- (void)engineSetParameterWithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)arg0;
-
-- (id)clone;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySignature_SignatureImpl)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySignature_SignatureImpl)
-
-#endif // _JavaSecuritySignature_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySignature")

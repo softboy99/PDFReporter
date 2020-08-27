@@ -3,16 +3,32 @@
 //  source: android/libcore/luni/src/main/java/java/security/PrivilegedActionException.java
 //
 
-#ifndef _JavaSecurityPrivilegedActionException_H_
-#define _JavaSecurityPrivilegedActionException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityPrivilegedActionException")
+#ifdef RESTRICT_JavaSecurityPrivilegedActionException
+#define INCLUDE_ALL_JavaSecurityPrivilegedActionException 0
+#else
+#define INCLUDE_ALL_JavaSecurityPrivilegedActionException 1
+#endif
+#undef RESTRICT_JavaSecurityPrivilegedActionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityPrivilegedActionException_) && (INCLUDE_ALL_JavaSecurityPrivilegedActionException || defined(INCLUDE_JavaSecurityPrivilegedActionException))
+#define JavaSecurityPrivilegedActionException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaSecurityPrivilegedActionException_serialVersionUID 4724086851538908602LL
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityPrivilegedActionException : JavaLangException
 
-@interface JavaSecurityPrivilegedActionException : JavaLangException {
-}
+#pragma mark Public
 
 - (instancetype)initWithJavaLangException:(JavaLangException *)ex;
 
@@ -22,11 +38,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityPrivilegedActionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityPrivilegedActionException_initWithJavaLangException_(JavaSecurityPrivilegedActionException *self, JavaLangException *ex);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityPrivilegedActionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityPrivilegedActionException *new_JavaSecurityPrivilegedActionException_initWithJavaLangException_(JavaLangException *ex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityPrivilegedActionException *create_JavaSecurityPrivilegedActionException_initWithJavaLangException_(JavaLangException *ex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityPrivilegedActionException)
 
-#endif // _JavaSecurityPrivilegedActionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityPrivilegedActionException")

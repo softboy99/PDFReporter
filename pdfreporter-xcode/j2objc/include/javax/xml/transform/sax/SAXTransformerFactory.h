@@ -3,8 +3,25 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/transform/sax/SAXTransformerFactory.java
 //
 
-#ifndef _JavaxXmlTransformSaxSAXTransformerFactory_H_
-#define _JavaxXmlTransformSaxSAXTransformerFactory_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxXmlTransformSaxSAXTransformerFactory")
+#ifdef RESTRICT_JavaxXmlTransformSaxSAXTransformerFactory
+#define INCLUDE_ALL_JavaxXmlTransformSaxSAXTransformerFactory 0
+#else
+#define INCLUDE_ALL_JavaxXmlTransformSaxSAXTransformerFactory 1
+#endif
+#undef RESTRICT_JavaxXmlTransformSaxSAXTransformerFactory
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlTransformSaxSAXTransformerFactory_) && (INCLUDE_ALL_JavaxXmlTransformSaxSAXTransformerFactory || defined(INCLUDE_JavaxXmlTransformSaxSAXTransformerFactory))
+#define JavaxXmlTransformSaxSAXTransformerFactory_
+
+#define RESTRICT_JavaxXmlTransformTransformerFactory 1
+#define INCLUDE_JavaxXmlTransformTransformerFactory 1
+#include "javax/xml/transform/TransformerFactory.h"
 
 @protocol JavaxXmlTransformSaxTemplatesHandler;
 @protocol JavaxXmlTransformSaxTransformerHandler;
@@ -12,39 +29,128 @@
 @protocol JavaxXmlTransformTemplates;
 @protocol OrgXmlSaxXMLFilter;
 
-#include "J2ObjC_header.h"
-#include "javax/xml/transform/TransformerFactory.h"
+/*!
+ @brief This class extends TransformerFactory to provide SAX-specific
+ factory methods.
+ It provides two types of ContentHandlers,
+ one for creating Transformers, the other for creating Templates
+ objects.
+ <p>If an application wants to set the ErrorHandler or EntityResolver
+ for an XMLReader used during a transformation, it should use a URIResolver
+ to return the SAXSource which provides (with getXMLReader) a reference to
+ the XMLReader.</p>
+ */
+@interface JavaxXmlTransformSaxSAXTransformerFactory : JavaxXmlTransformTransformerFactory
 
-@interface JavaxXmlTransformSaxSAXTransformerFactory : JavaxXmlTransformTransformerFactory {
-}
++ (NSString *)FEATURE;
 
-- (instancetype)init;
++ (NSString *)FEATURE_XMLFILTER;
 
-- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandlerWithJavaxXmlTransformSource:(id<JavaxXmlTransformSource>)src OBJC_METHOD_FAMILY_NONE;
+#pragma mark Public
 
-- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandlerWithJavaxXmlTransformTemplates:(id<JavaxXmlTransformTemplates>)templates OBJC_METHOD_FAMILY_NONE;
-
-- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandler OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Get a TemplatesHandler object that can process SAX
+ ContentHandler events into a Templates object.
+ @return A non-null reference to a TransformerHandler, that may
+ be used as a ContentHandler for SAX parse events.
+ @throws TransformerConfigurationException If for some reason the
+ TemplatesHandler cannot be created.
+ */
 - (id<JavaxXmlTransformSaxTemplatesHandler>)newTemplatesHandler OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Get a TransformerHandler object that can process SAX
+ ContentHandler events into a Result.
+ The transformation
+ is defined as an identity (or copy) transformation, for example
+ to copy a series of SAX parse events into a DOM tree.
+ @return A non-null reference to a TransformerHandler, that may
+ be used as a ContentHandler for SAX parse events.
+ @throws TransformerConfigurationException If for some reason the
+ TransformerHandler cannot be created.
+ */
+- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandler OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Get a TransformerHandler object that can process SAX
+ ContentHandler events into a Result, based on the transformation
+ instructions specified by the argument.
+ @param src The Source of the transformation instructions.
+ @return TransformerHandler ready to transform SAX events.
+ @throws TransformerConfigurationException If for some reason the
+ TransformerHandler can not be created.
+ */
+- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandlerWithJavaxXmlTransformSource:(id<JavaxXmlTransformSource>)src OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Get a TransformerHandler object that can process SAX
+ ContentHandler events into a Result, based on the Templates argument.
+ @param templates The compiled transformation instructions.
+ @return TransformerHandler ready to transform SAX events.
+ @throws TransformerConfigurationException If for some reason the
+ TransformerHandler can not be created.
+ */
+- (id<JavaxXmlTransformSaxTransformerHandler>)newTransformerHandlerWithJavaxXmlTransformTemplates:(id<JavaxXmlTransformTemplates>)templates OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Create an XMLFilter that uses the given Source as the
+ transformation instructions.
+ @param src The Source of the transformation instructions.
+ @return An XMLFilter object, or null if this feature is not supported.
+ @throws TransformerConfigurationException If for some reason the
+ TemplatesHandler cannot be created.
+ */
 - (id<OrgXmlSaxXMLFilter>)newXMLFilterWithJavaxXmlTransformSource:(id<JavaxXmlTransformSource>)src OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Create an XMLFilter, based on the Templates argument..
+ @param templates The compiled transformation instructions.
+ @return An XMLFilter object, or null if this feature is not supported.
+ @throws TransformerConfigurationException If for some reason the
+ TemplatesHandler cannot be created.
+ */
 - (id<OrgXmlSaxXMLFilter>)newXMLFilterWithJavaxXmlTransformTemplates:(id<JavaxXmlTransformTemplates>)templates OBJC_METHOD_FAMILY_NONE;
+
+#pragma mark Protected
+
+/*!
+ @brief The default constructor is protected on purpose.
+ */
+- (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxXmlTransformSaxSAXTransformerFactory)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief If <code>javax.xml.transform.TransformerFactory.getFeature</code>
+ returns true when passed this value as an argument,
+ the TransformerFactory returned from
+ <code>javax.xml.transform.TransformerFactory.newInstance</code> may
+ be safely cast to a SAXTransformerFactory.
+ */
+inline NSString *JavaxXmlTransformSaxSAXTransformerFactory_get_FEATURE();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT NSString *JavaxXmlTransformSaxSAXTransformerFactory_FEATURE;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaxXmlTransformSaxSAXTransformerFactory, FEATURE, NSString *)
 
-FOUNDATION_EXPORT NSString *JavaxXmlTransformSaxSAXTransformerFactory_FEATURE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformSaxSAXTransformerFactory, FEATURE_, NSString *)
+/*!
+ @brief If <code>javax.xml.transform.TransformerFactory.getFeature</code>
+ returns true when passed this value as an argument,
+ the <code>src)</code>
+ and <code>templates)</code> methods are supported.
+ */
+inline NSString *JavaxXmlTransformSaxSAXTransformerFactory_get_FEATURE_XMLFILTER();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT NSString *JavaxXmlTransformSaxSAXTransformerFactory_FEATURE_XMLFILTER;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaxXmlTransformSaxSAXTransformerFactory, FEATURE_XMLFILTER, NSString *)
 
-FOUNDATION_EXPORT NSString *JavaxXmlTransformSaxSAXTransformerFactory_FEATURE_XMLFILTER_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlTransformSaxSAXTransformerFactory, FEATURE_XMLFILTER_, NSString *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaxXmlTransformSaxSAXTransformerFactory_init(JavaxXmlTransformSaxSAXTransformerFactory *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlTransformSaxSAXTransformerFactory)
 
-#endif // _JavaxXmlTransformSaxSAXTransformerFactory_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlTransformSaxSAXTransformerFactory")

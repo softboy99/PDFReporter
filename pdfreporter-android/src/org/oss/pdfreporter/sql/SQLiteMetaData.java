@@ -1,9 +1,5 @@
 package org.oss.pdfreporter.sql;
 
-import org.oss.pdfreporter.sql.IResultMetaData;
-import org.oss.pdfreporter.sql.SQLException;
-import org.oss.pdfreporter.sql.SqlType;
-
 import android.database.Cursor;
 
 public class SQLiteMetaData implements IResultMetaData {
@@ -46,7 +42,7 @@ public class SQLiteMetaData implements IResultMetaData {
 	public SqlType getColumnType(int columnIndex) throws SQLException {
 		int type = cursor.getType(columnIndex-1);
 		switch(type) {
-		case Cursor.FIELD_TYPE_NULL: return SqlType.VARCHAR;
+		case Cursor.FIELD_TYPE_NULL: return SqlType.NULL;
 		case Cursor.FIELD_TYPE_BLOB: return SqlType.BLOB;
 		case Cursor.FIELD_TYPE_FLOAT: return SqlType.FLOAT;
 		case Cursor.FIELD_TYPE_INTEGER: return SqlType.INTEGER;

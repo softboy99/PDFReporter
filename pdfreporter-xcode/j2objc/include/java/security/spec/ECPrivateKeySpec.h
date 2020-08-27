@@ -3,32 +3,73 @@
 //  source: android/libcore/luni/src/main/java/java/security/spec/ECPrivateKeySpec.java
 //
 
-#ifndef _JavaSecuritySpecECPrivateKeySpec_H_
-#define _JavaSecuritySpecECPrivateKeySpec_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySpecECPrivateKeySpec")
+#ifdef RESTRICT_JavaSecuritySpecECPrivateKeySpec
+#define INCLUDE_ALL_JavaSecuritySpecECPrivateKeySpec 0
+#else
+#define INCLUDE_ALL_JavaSecuritySpecECPrivateKeySpec 1
+#endif
+#undef RESTRICT_JavaSecuritySpecECPrivateKeySpec
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySpecECPrivateKeySpec_) && (INCLUDE_ALL_JavaSecuritySpecECPrivateKeySpec || defined(INCLUDE_JavaSecuritySpecECPrivateKeySpec))
+#define JavaSecuritySpecECPrivateKeySpec_
+
+#define RESTRICT_JavaSecuritySpecKeySpec 1
+#define INCLUDE_JavaSecuritySpecKeySpec 1
+#include "java/security/spec/KeySpec.h"
 
 @class JavaMathBigInteger;
 @class JavaSecuritySpecECParameterSpec;
 
-#include "J2ObjC_header.h"
-#include "java/security/spec/KeySpec.h"
+/*!
+ @brief The parameters specifying an Elliptic Curve (EC) private key.
+ */
+@interface JavaSecuritySpecECPrivateKeySpec : NSObject < JavaSecuritySpecKeySpec >
 
-@interface JavaSecuritySpecECPrivateKeySpec : NSObject < JavaSecuritySpecKeySpec > {
-}
+#pragma mark Public
 
+/*!
+ @brief Creates a new <code>ECPrivateKeySpec</code> with the specified private value
+ <code>S</code> and parameter specification.
+ @param s
+ the private value <code>S</code>.
+ @param params
+ the domain parameter specification.
+ */
 - (instancetype)initWithJavaMathBigInteger:(JavaMathBigInteger *)s
        withJavaSecuritySpecECParameterSpec:(JavaSecuritySpecECParameterSpec *)params;
 
+/*!
+ @brief Returns the domain parameter specification.
+ @return the domain parameter specification.
+ */
 - (JavaSecuritySpecECParameterSpec *)getParams;
 
+/*!
+ @brief Returns the private value <code>S</code>.
+ @return the private value <code>S</code>.
+ */
 - (JavaMathBigInteger *)getS;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySpecECPrivateKeySpec)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecuritySpecECPrivateKeySpec_initWithJavaMathBigInteger_withJavaSecuritySpecECParameterSpec_(JavaSecuritySpecECPrivateKeySpec *self, JavaMathBigInteger *s, JavaSecuritySpecECParameterSpec *params);
+
+FOUNDATION_EXPORT JavaSecuritySpecECPrivateKeySpec *new_JavaSecuritySpecECPrivateKeySpec_initWithJavaMathBigInteger_withJavaSecuritySpecECParameterSpec_(JavaMathBigInteger *s, JavaSecuritySpecECParameterSpec *params) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecuritySpecECPrivateKeySpec *create_JavaSecuritySpecECPrivateKeySpec_initWithJavaMathBigInteger_withJavaSecuritySpecECParameterSpec_(JavaMathBigInteger *s, JavaSecuritySpecECParameterSpec *params);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySpecECPrivateKeySpec)
 
-#endif // _JavaSecuritySpecECPrivateKeySpec_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySpecECPrivateKeySpec")

@@ -3,30 +3,72 @@
 //  source: android/libcore/luni/src/main/java/java/io/StreamCorruptedException.java
 //
 
-#ifndef _JavaIoStreamCorruptedException_H_
-#define _JavaIoStreamCorruptedException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoStreamCorruptedException")
+#ifdef RESTRICT_JavaIoStreamCorruptedException
+#define INCLUDE_ALL_JavaIoStreamCorruptedException 0
+#else
+#define INCLUDE_ALL_JavaIoStreamCorruptedException 1
+#endif
+#undef RESTRICT_JavaIoStreamCorruptedException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoStreamCorruptedException_) && (INCLUDE_ALL_JavaIoStreamCorruptedException || defined(INCLUDE_JavaIoStreamCorruptedException))
+#define JavaIoStreamCorruptedException_
+
+#define RESTRICT_JavaIoObjectStreamException 1
+#define INCLUDE_JavaIoObjectStreamException 1
 #include "java/io/ObjectStreamException.h"
 
-#define JavaIoStreamCorruptedException_serialVersionUID 8983558202217591746LL
+/*!
+ @brief Signals that the <code>ObjectInputStream.readObject()</code> method could not
+ read an object due to missing information (for example, a cyclic reference
+ that doesn't match a previous instance, or a missing class descriptor for the
+ object to be loaded).
+ - seealso: ObjectInputStream
+ - seealso: OptionalDataException
+ */
+@interface JavaIoStreamCorruptedException : JavaIoObjectStreamException
 
-@interface JavaIoStreamCorruptedException : JavaIoObjectStreamException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>StreamCorruptedException</code> with its stack trace
+ filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>StreamCorruptedException</code> with its stack trace
+ and detail message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoStreamCorruptedException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoStreamCorruptedException_init(JavaIoStreamCorruptedException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoStreamCorruptedException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoStreamCorruptedException *new_JavaIoStreamCorruptedException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoStreamCorruptedException *create_JavaIoStreamCorruptedException_init();
+
+FOUNDATION_EXPORT void JavaIoStreamCorruptedException_initWithNSString_(JavaIoStreamCorruptedException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoStreamCorruptedException *new_JavaIoStreamCorruptedException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoStreamCorruptedException *create_JavaIoStreamCorruptedException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoStreamCorruptedException)
 
-#endif // _JavaIoStreamCorruptedException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoStreamCorruptedException")

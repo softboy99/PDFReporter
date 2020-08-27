@@ -26,7 +26,6 @@ package org.oss.pdfreporter.engine.data;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import org.oss.pdfreporter.engine.JRDataSource;
@@ -34,6 +33,7 @@ import org.oss.pdfreporter.engine.JRException;
 import org.oss.pdfreporter.engine.util.FormatUtils;
 import org.oss.pdfreporter.engine.util.JRDataUtils;
 import org.oss.pdfreporter.text.ParseException;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.IDateFormat;
 import org.oss.pdfreporter.text.format.INumberFormat;
 import org.oss.pdfreporter.text.format.LocaleConverter;
@@ -52,7 +52,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 {
 	
 	
-	private Locale locale;
+	private StringLocale locale;
 	private String datePattern;
 	private String numberPattern;
 	private TimeZone timeZone;
@@ -151,11 +151,11 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		setTimeZone(textDataSource.getTimeZone());
 	}
 	
-	public Locale getLocale() {
+	public StringLocale getLocale() {
 		return locale;
 	}
 
-	public void setLocale(Locale locale) {
+	public void setLocale(StringLocale locale) {
 		this.locale = locale;
 	}
 	

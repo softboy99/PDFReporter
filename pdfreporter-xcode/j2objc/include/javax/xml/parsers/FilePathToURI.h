@@ -3,47 +3,48 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/parsers/FilePathToURI.java
 //
 
-#ifndef _JavaxXmlParsersFilePathToURI_H_
-#define _JavaxXmlParsersFilePathToURI_H_
-
-@class IOSBooleanArray;
-@class IOSCharArray;
-
 #include "J2ObjC_header.h"
 
-@interface JavaxXmlParsersFilePathToURI : NSObject {
-}
+#pragma push_macro("INCLUDE_ALL_JavaxXmlParsersFilePathToURI")
+#ifdef RESTRICT_JavaxXmlParsersFilePathToURI
+#define INCLUDE_ALL_JavaxXmlParsersFilePathToURI 0
+#else
+#define INCLUDE_ALL_JavaxXmlParsersFilePathToURI 1
+#endif
+#undef RESTRICT_JavaxXmlParsersFilePathToURI
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlParsersFilePathToURI_) && (INCLUDE_ALL_JavaxXmlParsersFilePathToURI || defined(INCLUDE_JavaxXmlParsersFilePathToURI))
+#define JavaxXmlParsersFilePathToURI_
+
+@interface JavaxXmlParsersFilePathToURI : NSObject
+
+#pragma mark Public
 
 + (NSString *)filepath2URIWithNSString:(NSString *)path;
+
+#pragma mark Package-Private
 
 - (instancetype)init;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaxXmlParsersFilePathToURI_initialized;
 J2OBJC_STATIC_INIT(JavaxXmlParsersFilePathToURI)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT NSString *JavaxXmlParsersFilePathToURI_filepath2URIWithNSString_(NSString *path);
 
-FOUNDATION_EXPORT IOSBooleanArray *JavaxXmlParsersFilePathToURI_gNeedEscaping_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlParsersFilePathToURI, gNeedEscaping_, IOSBooleanArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlParsersFilePathToURI, gNeedEscaping_, IOSBooleanArray *)
+FOUNDATION_EXPORT void JavaxXmlParsersFilePathToURI_init(JavaxXmlParsersFilePathToURI *self);
 
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlParsersFilePathToURI_gAfterEscaping1_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlParsersFilePathToURI, gAfterEscaping1_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlParsersFilePathToURI, gAfterEscaping1_, IOSCharArray *)
+FOUNDATION_EXPORT JavaxXmlParsersFilePathToURI *new_JavaxXmlParsersFilePathToURI_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlParsersFilePathToURI_gAfterEscaping2_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlParsersFilePathToURI, gAfterEscaping2_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlParsersFilePathToURI, gAfterEscaping2_, IOSCharArray *)
-
-FOUNDATION_EXPORT IOSCharArray *JavaxXmlParsersFilePathToURI_gHexChs_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlParsersFilePathToURI, gHexChs_, IOSCharArray *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlParsersFilePathToURI, gHexChs_, IOSCharArray *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxXmlParsersFilePathToURI *create_JavaxXmlParsersFilePathToURI_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlParsersFilePathToURI)
 
-#endif // _JavaxXmlParsersFilePathToURI_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlParsersFilePathToURI")

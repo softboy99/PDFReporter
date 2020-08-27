@@ -3,20 +3,52 @@
 //  source: android/libcore/luni/src/main/java/java/util/IllegalFormatCodePointException.java
 //
 
-#ifndef _JavaUtilIllegalFormatCodePointException_H_
-#define _JavaUtilIllegalFormatCodePointException_H_
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilIllegalFormatCodePointException")
+#ifdef RESTRICT_JavaUtilIllegalFormatCodePointException
+#define INCLUDE_ALL_JavaUtilIllegalFormatCodePointException 0
+#else
+#define INCLUDE_ALL_JavaUtilIllegalFormatCodePointException 1
+#endif
+#undef RESTRICT_JavaUtilIllegalFormatCodePointException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilIllegalFormatCodePointException_) && (INCLUDE_ALL_JavaUtilIllegalFormatCodePointException || defined(INCLUDE_JavaUtilIllegalFormatCodePointException))
+#define JavaUtilIllegalFormatCodePointException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilIllegalFormatCodePointException_serialVersionUID 19080630LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-@interface JavaUtilIllegalFormatCodePointException : JavaUtilIllegalFormatException < JavaIoSerializable > {
-}
+/*!
+ @brief An <code>IllegalFormatCodePointException</code> will be thrown if an invalid
+ Unicode code point (defined by <code>Character.isValidCodePoint(int)</code>) is
+ passed as a parameter to a Formatter.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilIllegalFormatCodePointException : JavaUtilIllegalFormatException < JavaIoSerializable >
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>IllegalFormatCodePointException</code> which is
+ specified by the invalid Unicode code point.
+ @param c
+ the invalid Unicode code point.
+ */
 - (instancetype)initWithInt:(jint)c;
 
+/*!
+ @brief Returns the invalid Unicode code point.
+ @return the invalid Unicode code point.
+ */
 - (jint)getCodePoint;
 
 - (NSString *)getMessage;
@@ -25,11 +57,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilIllegalFormatCodePointException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilIllegalFormatCodePointException_initWithInt_(JavaUtilIllegalFormatCodePointException *self, jint c);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilIllegalFormatCodePointException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilIllegalFormatCodePointException *new_JavaUtilIllegalFormatCodePointException_initWithInt_(jint c) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilIllegalFormatCodePointException *create_JavaUtilIllegalFormatCodePointException_initWithInt_(jint c);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilIllegalFormatCodePointException)
 
-#endif // _JavaUtilIllegalFormatCodePointException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilIllegalFormatCodePointException")

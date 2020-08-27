@@ -3,30 +3,62 @@
 //  source: android/libcore/luni/src/main/java/java/nio/charset/UnsupportedCharsetException.java
 //
 
-#ifndef _JavaNioCharsetUnsupportedCharsetException_H_
-#define _JavaNioCharsetUnsupportedCharsetException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioCharsetUnsupportedCharsetException")
+#ifdef RESTRICT_JavaNioCharsetUnsupportedCharsetException
+#define INCLUDE_ALL_JavaNioCharsetUnsupportedCharsetException 0
+#else
+#define INCLUDE_ALL_JavaNioCharsetUnsupportedCharsetException 1
+#endif
+#undef RESTRICT_JavaNioCharsetUnsupportedCharsetException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioCharsetUnsupportedCharsetException_) && (INCLUDE_ALL_JavaNioCharsetUnsupportedCharsetException || defined(INCLUDE_JavaNioCharsetUnsupportedCharsetException))
+#define JavaNioCharsetUnsupportedCharsetException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaNioCharsetUnsupportedCharsetException_serialVersionUID 1490765524727386367LL
+/*!
+ @brief An <code>UnsupportedCharsetException</code> is thrown when an unsupported charset
+ name is encountered.
+ */
+@interface JavaNioCharsetUnsupportedCharsetException : JavaLangIllegalArgumentException
 
-@interface JavaNioCharsetUnsupportedCharsetException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UnsupportedCharsetException</code> with the supplied
+ charset name.
+ @param charsetName
+ the encountered unsupported charset name.
+ */
 - (instancetype)initWithNSString:(NSString *)charsetName;
 
+/*!
+ @brief Gets the encountered unsupported charset name.
+ @return the encountered unsupported charset name.
+ */
 - (NSString *)getCharsetName;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioCharsetUnsupportedCharsetException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioCharsetUnsupportedCharsetException_initWithNSString_(JavaNioCharsetUnsupportedCharsetException *self, NSString *charsetName);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioCharsetUnsupportedCharsetException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioCharsetUnsupportedCharsetException *new_JavaNioCharsetUnsupportedCharsetException_initWithNSString_(NSString *charsetName) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioCharsetUnsupportedCharsetException *create_JavaNioCharsetUnsupportedCharsetException_initWithNSString_(NSString *charsetName);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioCharsetUnsupportedCharsetException)
 
-#endif // _JavaNioCharsetUnsupportedCharsetException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioCharsetUnsupportedCharsetException")

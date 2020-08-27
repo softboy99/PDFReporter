@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/sql/IResultMetaData.h"
+#include "org/oss/pdfreporter/sql/IResultMetaData.h"
 #import <sqlite3.h>
 
 @interface ResultMetaData : NSObject < OrgOssPdfreporterSqlIResultMetaData >

@@ -3,28 +3,54 @@
 //  source: android/libcore/luni/src/main/java/java/lang/reflect/GenericSignatureFormatError.java
 //
 
-#ifndef _JavaLangReflectGenericSignatureFormatError_H_
-#define _JavaLangReflectGenericSignatureFormatError_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangReflectGenericSignatureFormatError")
+#ifdef RESTRICT_JavaLangReflectGenericSignatureFormatError
+#define INCLUDE_ALL_JavaLangReflectGenericSignatureFormatError 0
+#else
+#define INCLUDE_ALL_JavaLangReflectGenericSignatureFormatError 1
+#endif
+#undef RESTRICT_JavaLangReflectGenericSignatureFormatError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangReflectGenericSignatureFormatError_) && (INCLUDE_ALL_JavaLangReflectGenericSignatureFormatError || defined(INCLUDE_JavaLangReflectGenericSignatureFormatError))
+#define JavaLangReflectGenericSignatureFormatError_
+
+#define RESTRICT_JavaLangClassFormatError 1
+#define INCLUDE_JavaLangClassFormatError 1
 #include "java/lang/ClassFormatError.h"
 
-#define JavaLangReflectGenericSignatureFormatError_serialVersionUID 6709919147137911034LL
+/*!
+ @brief Indicates that a malformed signature has been encountered via a reflective
+ method.
+ @since 1.5
+ */
+@interface JavaLangReflectGenericSignatureFormatError : JavaLangClassFormatError
 
-@interface JavaLangReflectGenericSignatureFormatError : JavaLangClassFormatError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>GenericSignatureFormatError</code> instance.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangReflectGenericSignatureFormatError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangReflectGenericSignatureFormatError_init(JavaLangReflectGenericSignatureFormatError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangReflectGenericSignatureFormatError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangReflectGenericSignatureFormatError *new_JavaLangReflectGenericSignatureFormatError_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangReflectGenericSignatureFormatError *create_JavaLangReflectGenericSignatureFormatError_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangReflectGenericSignatureFormatError)
 
-#endif // _JavaLangReflectGenericSignatureFormatError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangReflectGenericSignatureFormatError")

@@ -3,11 +3,26 @@
 //  source: android/libcore/luni/src/main/java/java/util/EventListener.java
 //
 
-#ifndef _JavaUtilEventListener_H_
-#define _JavaUtilEventListener_H_
-
 #include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaUtilEventListener")
+#ifdef RESTRICT_JavaUtilEventListener
+#define INCLUDE_ALL_JavaUtilEventListener 0
+#else
+#define INCLUDE_ALL_JavaUtilEventListener 1
+#endif
+#undef RESTRICT_JavaUtilEventListener
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilEventListener_) && (INCLUDE_ALL_JavaUtilEventListener || defined(INCLUDE_JavaUtilEventListener))
+#define JavaUtilEventListener_
+
+/*!
+ @brief EventListener is the superclass of all event listener interfaces.
+ - seealso: EventObject
+ */
 @protocol JavaUtilEventListener < NSObject, JavaObject >
 
 @end
@@ -16,4 +31,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilEventListener)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilEventListener)
 
-#endif // _JavaUtilEventListener_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilEventListener")

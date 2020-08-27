@@ -65,21 +65,21 @@ This operation has apparently only one inconvenience. The final document does no
 		<band height="32">
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="45" y="0" width="100" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 1)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="145" y="0" width="290" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 1)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[___________________________________]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="435" y="0" width="30" height="15" isRemoveLineWhenBlank="true" style="Sans_Bold">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 1)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 1)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[(int)$F{pageIndex}]]></textFieldExpression>
@@ -87,23 +87,23 @@ This operation has apparently only one inconvenience. The final document does no
 			</textField>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="75" y="16" width="100" height="15" isRemoveLineWhenBlank="true">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 2)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{headingText}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{reference}]]></hyperlinkAnchorExpression>
-				<hyperlinkTooltipExpression><![CDATA['View orders from ' + '$F{headingText}']]></hyperlinkTooltipExpression>
+				<hyperlinkTooltipExpression><![CDATA['View orders from ' + intString($F{headingText})]]></hyperlinkTooltipExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="175" y="16" width="260" height="15" isRemoveLineWhenBlank="true">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 2)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   .]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" hyperlinkType="LocalAnchor">
 				<reportElement positionType="Float" x="435" y="16" width="30" height="15" isRemoveLineWhenBlank="true">
-					<printWhenExpression><![CDATA[(boolean)($F{headingType}.intValue() == 2)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[($F{headingType}.intValue() == 2)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[(int)$F{pageIndex}]]></textFieldExpression>

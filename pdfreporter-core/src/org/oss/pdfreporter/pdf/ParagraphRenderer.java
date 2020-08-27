@@ -12,7 +12,10 @@ package org.oss.pdfreporter.pdf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.oss.pdfreporter.font.IFont;
 import org.oss.pdfreporter.geometry.IRectangle;
 import org.oss.pdfreporter.text.HorizontalAlignment;
 import org.oss.pdfreporter.text.Paragraph;
@@ -20,6 +23,7 @@ import org.oss.pdfreporter.text.ParagraphText;
 
 
 public class ParagraphRenderer {
+	private final static Logger logger = Logger.getLogger(ParagraphRenderer.class.getName());
 	private static float LEADING_FACTOR = 1.25f;
 	private final Paragraph paragraph;
 	private final HorizontalAlignment alignment;
@@ -28,8 +32,8 @@ public class ParagraphRenderer {
 	private float leading;
 	private float y, widthLeft;
 	
-	public ParagraphRenderer(Paragraph paragraph,
-			HorizontalAlignment alignment, IRectangle bounding) {
+	public ParagraphRenderer(final Paragraph paragraph,
+			final HorizontalAlignment alignment, final IRectangle bounding) {
 		super();
 		this.paragraph = paragraph;
 		this.alignment = alignment;
@@ -37,13 +41,13 @@ public class ParagraphRenderer {
 		this.textLine = new ArrayList<ParagraphText>();
 	}
 	
-	public void render(IPage page, boolean wordwrap) {
+	public void render(final IPage page, final boolean wordwrap) {
 		page.beginText();
 		leading = 0;
 		y = bounding.getY();
 		widthLeft = bounding.getWidth();
-		for (ParagraphText text : paragraph) {
-			int chars = text.measureText(widthLeft, wordwrap);
+		for (final ParagraphText text : paragraph) {
+			final int chars = text.measureText(widthLeft, wordwrap);
 			if (chars<text.getLength()) {
 				add(text.split(calcSpiltPos(chars,wordwrap)));
 				renderLine(page);
@@ -59,7 +63,7 @@ public class ParagraphRenderer {
 		page.endText();
 	}
 
-	private int calcSpiltPos(int splitpos, boolean wordwrap) {
+	private int calcSpiltPos(int splitpos, final boolean wordwrap) {
 		if (wordwrap && splitpos > 0) {
 			if (alignment==HorizontalAlignment.ALIGN_RIGHT) {
 				splitpos--;
@@ -68,13 +72,13 @@ public class ParagraphRenderer {
 		return splitpos;
 	}
 
-	private void add(ParagraphText text) {
+	private void add(final ParagraphText text) {
 		textLine.add(text);
 		widthLeft -= text.getWidth();
 		leading = Math.max(leading, text.getFont().getSize() * LEADING_FACTOR);
 	}
 
-	private void renderLine(IPage page) {
+	private void renderLine(final IPage page) {
 		float x;
 		switch (alignment) {
 		case ALIGN_LEFT:
@@ -92,7 +96,12 @@ public class ParagraphRenderer {
 		default:	
 			x = bounding.getX();
 		}
-		for (ParagraphText text : textLine) {
+		for (final ParagraphText text : textLine) {
+			// TODO render background
+			if (logger.isLoggable(Level.FINEST)) {
+				final IFont font = text.getFont();
+				logger.finest(String.format("text: %s, fontName: %s, fontStyle: %s, fontDecoration: %s, fontSize: %s ", text.getText(), font.getName(), font.getStyle(), font.getDecoration(), font.getSize()));
+			}
 			page.setFont(text.getFont());
 			page.setRGBColorFill(text.getForeground());
 			page.setTextPos(x, y);

@@ -3,33 +3,87 @@
 //  source: android/libcore/luni/src/main/java/java/lang/ReflectiveOperationException.java
 //
 
-#ifndef _JavaLangReflectiveOperationException_H_
-#define _JavaLangReflectiveOperationException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangReflectiveOperationException")
+#ifdef RESTRICT_JavaLangReflectiveOperationException
+#define INCLUDE_ALL_JavaLangReflectiveOperationException 0
+#else
+#define INCLUDE_ALL_JavaLangReflectiveOperationException 1
+#endif
+#undef RESTRICT_JavaLangReflectiveOperationException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangReflectiveOperationException_) && (INCLUDE_ALL_JavaLangReflectiveOperationException || defined(INCLUDE_JavaLangReflectiveOperationException))
+#define JavaLangReflectiveOperationException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-@interface JavaLangReflectiveOperationException : JavaLangException {
-}
+/*!
+ @brief Superclass of exceptions related to reflection.
+ @since 1.7
+ */
+@interface JavaLangReflectiveOperationException : JavaLangException
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new exception with no detail message.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new exception with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)message;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
-
+/*!
+ @brief Constructs a new exception with the given detail message and cause.
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new exception with the given cause.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangReflectiveOperationException)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaLangReflectiveOperationException_init(JavaLangReflectiveOperationException *self);
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *new_JavaLangReflectiveOperationException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *create_JavaLangReflectiveOperationException_init();
+
+FOUNDATION_EXPORT void JavaLangReflectiveOperationException_initWithNSString_(JavaLangReflectiveOperationException *self, NSString *message);
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *new_JavaLangReflectiveOperationException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *create_JavaLangReflectiveOperationException_initWithNSString_(NSString *message);
+
+FOUNDATION_EXPORT void JavaLangReflectiveOperationException_initWithNSException_(JavaLangReflectiveOperationException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *new_JavaLangReflectiveOperationException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *create_JavaLangReflectiveOperationException_initWithNSException_(NSException *cause);
+
+FOUNDATION_EXPORT void JavaLangReflectiveOperationException_initWithNSString_withNSException_(JavaLangReflectiveOperationException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *new_JavaLangReflectiveOperationException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangReflectiveOperationException *create_JavaLangReflectiveOperationException_initWithNSString_withNSException_(NSString *message, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangReflectiveOperationException)
 
-#endif // _JavaLangReflectiveOperationException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangReflectiveOperationException")

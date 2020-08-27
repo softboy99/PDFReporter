@@ -28,12 +28,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.logging.Logger;
-
 
 import org.oss.pdfreporter.commons.arrays.Array2D;
 import org.oss.pdfreporter.commons.arrays.Array2DImpl;
@@ -70,6 +67,8 @@ import org.oss.pdfreporter.engine.util.JRCloneUtils;
 import org.oss.pdfreporter.engine.util.JRStyleResolver;
 import org.oss.pdfreporter.engine.util.Pair;
 import org.oss.pdfreporter.geometry.IColor;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
 import org.oss.pdfreporter.uses.org.apache.commons.collections.SequencedHashMap;
 
@@ -155,8 +154,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] {
 		JRParameter.REPORT_CONTEXT, ReportContext.class,
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class,
-		JRParameter.REPORT_LOCALE, Locale.class,
-		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
+		JRParameter.REPORT_LOCALE, StringLocale.class,
+		JRParameter.REPORT_RESOURCE_BUNDLE, ITextBundle.class,
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class,
 		JRParameter.REPORT_FORMAT_FACTORY, IFormatFactory.class,
 		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class
@@ -1180,7 +1179,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	protected void createCellMatrix()
 	{
-		logger.info("Create JRDesignCrosstabCell [" + (rowGroups.size() + 1)  + "][" + (columnGroups.size() + 1) + "], thread: " + Thread.currentThread());
+		logger.finer("Create JRDesignCrosstabCell [" + (rowGroups.size() + 1)  + "][" + (columnGroups.size() + 1) + "], thread: " + Thread.currentThread());
 		crossCells = new Array2DImpl<JRDesignCrosstabCell>(rowGroups.size() + 1,columnGroups.size() + 1);
 		for (Iterator<JRCrosstabCell> it = cellsList.iterator(); it.hasNext();)
 		{

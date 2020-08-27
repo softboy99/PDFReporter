@@ -7,19 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/font/IFont.h"
-#import "hpdf.h"
+#import <libHaru/libHaru.h>
+#include "org/oss/pdfreporter/font/IFont.h"
 
 @class OrgOssPdfreporterFontFontManager;
 
 @interface Font : NSObject <OrgOssPdfreporterFontIFont> {
-    OrgOssPdfreporterFontIFont_FontStyleEnum *mStyle;
+    OrgOssPdfreporterFontIFont_FontStyle *mStyle;
     NSString *mName;
     NSString *mEncoding;
     float mSize;
     OrgOssPdfreporterFontFontManager *mManager;
 }
 
-- (id)initWithFontName:(NSString*)name style:(OrgOssPdfreporterFontIFont_FontStyleEnum*)style size:(float)size encoding:(NSString*)encoding manager:(OrgOssPdfreporterFontFontManager*)manager;
+- (id)initWithFontName:(NSString*)name style:(OrgOssPdfreporterFontIFont_FontStyle*)style size:(float)size encoding:(NSString*)encoding manager:(OrgOssPdfreporterFontFontManager*)manager;
 
 @end

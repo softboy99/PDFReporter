@@ -7,10 +7,10 @@
 //
 
 #import "DomNodeMarshaller.h"
-#import "org/oss/pdfreporter/uses/org/w3c/dom/Node.h"
-#import "org/oss/pdfreporter/uses/org/w3c/dom/NodeList.h"
-#import "org/oss/pdfreporter/xml/parsers/impl/NodeImpl.h"
-#import "org/oss/pdfreporter/xml/parsers/impl/ElementImpl.h"
+#include "org/oss/pdfreporter/uses/org/w3c/dom/Node.h"
+#include "org/oss/pdfreporter/uses/org/w3c/dom/NodeList.h"
+#include "org/oss/pdfreporter/xml/parsers/impl/NodeImpl.h"
+#include "org/oss/pdfreporter/xml/parsers/impl/ElementImpl.h"
 
 @implementation DomNodeMarshaller
 

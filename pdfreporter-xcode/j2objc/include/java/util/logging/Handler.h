@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/util/logging/Handler.java
 //
 
-#ifndef _JavaUtilLoggingHandler_H_
-#define _JavaUtilLoggingHandler_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilLoggingHandler")
+#ifdef RESTRICT_JavaUtilLoggingHandler
+#define INCLUDE_ALL_JavaUtilLoggingHandler 0
+#else
+#define INCLUDE_ALL_JavaUtilLoggingHandler 1
+#endif
+#undef RESTRICT_JavaUtilLoggingHandler
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilLoggingHandler_) && (INCLUDE_ALL_JavaUtilLoggingHandler || defined(INCLUDE_JavaUtilLoggingHandler))
+#define JavaUtilLoggingHandler_
 
 @class JavaLangException;
 @class JavaUtilLoggingErrorManager;
@@ -13,69 +26,195 @@
 @class JavaUtilLoggingLogRecord;
 @protocol JavaUtilLoggingFilter;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief A <code>Handler</code> object accepts a logging request and exports the desired
+ messages to a target, for example, a file, the console, etc.
+ It can be
+ disabled by setting its logging level to <code>Level.OFF</code>.
+ */
+@interface JavaUtilLoggingHandler : NSObject
 
-@interface JavaUtilLoggingHandler : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief Closes this handler.
+ A flush operation will be performed and all the
+ associated resources will be freed. Client applications should not use
+ this handler after closing it.
+ */
+- (void)close;
+
+/*!
+ @brief Flushes any buffered output.
+ */
+- (void)flush;
+
+/*!
+ @brief Gets the character encoding used by this handler, <code>null</code> for
+ default encoding.
+ @return the character encoding used by this handler.
+ */
+- (NSString *)getEncoding;
+
+/*!
+ @brief Gets the error manager used by this handler to report errors during
+ logging.
+ @return the error manager used by this handler.
+ */
+- (JavaUtilLoggingErrorManager *)getErrorManager;
+
+/*!
+ @brief Gets the filter used by this handler.
+ @return the filter used by this handler (possibly <code>null</code>).
+ */
+- (id<JavaUtilLoggingFilter>)getFilter;
+
+/*!
+ @brief Gets the formatter used by this handler to format the logging messages.
+ @return the formatter used by this handler (possibly <code>null</code>).
+ */
+- (JavaUtilLoggingFormatter *)getFormatter;
+
+/*!
+ @brief Gets the logging level of this handler, records with levels lower than
+ this value will be dropped.
+ @return the logging level of this handler.
+ */
+- (JavaUtilLoggingLevel *)getLevel;
+
+/*!
+ @brief Determines whether the supplied log record needs to be logged.
+ The
+ logging levels will be checked as well as the filter.
+ @param record
+ the log record to be checked.
+ @return <code>true</code> if the supplied log record needs to be logged,
+ otherwise <code>false</code>.
+ */
+- (jboolean)isLoggableWithJavaUtilLoggingLogRecord:(JavaUtilLoggingLogRecord *)record;
+
+/*!
+ @brief Accepts a logging request and sends it to the the target.
+ @param record
+ the log record to be logged; <code>null</code> records are ignored.
+ */
+- (void)publishWithJavaUtilLoggingLogRecord:(JavaUtilLoggingLogRecord *)record;
+
+/*!
+ @brief Sets the character encoding used by this handler, <code>null</code> indicates
+ a default encoding.
+ @throws UnsupportedEncodingException if <code>charsetName</code> is not supported.
+ */
+- (void)setEncodingWithNSString:(NSString *)charsetName;
+
+/*!
+ @brief Sets the error manager for this handler.
+ @param newErrorManager
+ the error manager to set.
+ @throws NullPointerException
+ if <code>em</code> is <code>null</code>.
+ */
+- (void)setErrorManagerWithJavaUtilLoggingErrorManager:(JavaUtilLoggingErrorManager *)newErrorManager;
+
+/*!
+ @brief Sets the filter to be used by this handler.
+ @param newFilter
+ the filter to set, may be <code>null</code>.
+ */
+- (void)setFilterWithJavaUtilLoggingFilter:(id<JavaUtilLoggingFilter>)newFilter;
+
+/*!
+ @brief Sets the formatter to be used by this handler.
+ @param newFormatter
+ the formatter to set.
+ @throws NullPointerException
+ if <code>newFormatter</code> is <code>null</code>.
+ */
+- (void)setFormatterWithJavaUtilLoggingFormatter:(JavaUtilLoggingFormatter *)newFormatter;
+
+/*!
+ @brief Sets the logging level of the messages logged by this handler, levels
+ lower than this value will be dropped.
+ @param newLevel
+ the logging level to set.
+ @throws NullPointerException
+ if <code>newLevel</code> is <code>null</code>.
+ */
+- (void)setLevelWithJavaUtilLoggingLevel:(JavaUtilLoggingLevel *)newLevel;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs a <code>Handler</code> object with a default error manager instance
+ <code>ErrorManager</code>, the default encoding, and the default logging
+ level <code>Level.ALL</code>.
+ It has no filter and no formatter.
+ */
 - (instancetype)init;
 
-- (void)printInvalidPropMessageWithNSString:(NSString *)key
-                               withNSString:(NSString *)value
-                      withJavaLangException:(JavaLangException *)e;
+/*!
+ @brief Reports an error to the error manager associated with this handler,
+ <code>ErrorManager</code> is used for that purpose.
+ No security checks are
+ done, therefore this is compatible with environments where the caller
+ is non-privileged.
+ @param msg
+ the error message, may be <code>null</code>.
+ @param ex
+ the associated exception, may be <code>null</code>.
+ @param code
+ an <code>ErrorManager</code> error code.
+ */
+- (void)reportErrorWithNSString:(NSString *)msg
+          withJavaLangException:(JavaLangException *)ex
+                        withInt:(jint)code;
 
+#pragma mark Package-Private
+
+/*!
+ @brief init the common properties, including filter, level, formatter, and
+ encoding
+ */
 - (void)initPropertiesWithNSString:(NSString *)defaultLevel
                       withNSString:(NSString *)defaultFilter
                       withNSString:(NSString *)defaultFormatter
                       withNSString:(NSString *)defaultEncoding OBJC_METHOD_FAMILY_NONE;
 
-- (void)close;
-
-- (void)flush;
-
-- (void)publishWithJavaUtilLoggingLogRecord:(JavaUtilLoggingLogRecord *)record;
-
-- (NSString *)getEncoding;
-
-- (JavaUtilLoggingErrorManager *)getErrorManager;
-
-- (id<JavaUtilLoggingFilter>)getFilter;
-
-- (JavaUtilLoggingFormatter *)getFormatter;
-
-- (JavaUtilLoggingLevel *)getLevel;
-
-- (jboolean)isLoggableWithJavaUtilLoggingLogRecord:(JavaUtilLoggingLogRecord *)record;
-
-- (void)reportErrorWithNSString:(NSString *)msg
-          withJavaLangException:(JavaLangException *)ex
-                        withInt:(jint)code;
-
+/*!
+ @brief Sets the character encoding used by this handler.
+ A <code>null</code> value
+ indicates the use of the default encoding. This internal method does
+ not check security.
+ @param newEncoding
+ the character encoding to set.
+ @throws UnsupportedEncodingException
+ if the specified encoding is not supported by the runtime.
+ */
 - (void)internalSetEncodingWithNSString:(NSString *)newEncoding;
 
-- (void)setEncodingWithNSString:(NSString *)charsetName;
-
-- (void)setErrorManagerWithJavaUtilLoggingErrorManager:(JavaUtilLoggingErrorManager *)newErrorManager;
-
-- (void)setFilterWithJavaUtilLoggingFilter:(id<JavaUtilLoggingFilter>)newFilter;
-
+/*!
+ @brief Sets the formatter to be used by this handler.
+ This internal method does
+ not check security.
+ @param newFormatter
+ the formatter to set.
+ */
 - (void)internalSetFormatterWithJavaUtilLoggingFormatter:(JavaUtilLoggingFormatter *)newFormatter;
 
-- (void)setFormatterWithJavaUtilLoggingFormatter:(JavaUtilLoggingFormatter *)newFormatter;
-
-- (void)setLevelWithJavaUtilLoggingLevel:(JavaUtilLoggingLevel *)newLevel;
+- (void)printInvalidPropMessageWithNSString:(NSString *)key
+                               withNSString:(NSString *)value
+                      withJavaLangException:(JavaLangException *)e;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilLoggingHandler_initialized;
 J2OBJC_STATIC_INIT(JavaUtilLoggingHandler)
 
-CF_EXTERN_C_BEGIN
-
-FOUNDATION_EXPORT JavaUtilLoggingLevel *JavaUtilLoggingHandler_DEFAULT_LEVEL_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingHandler, DEFAULT_LEVEL_, JavaUtilLoggingLevel *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilLoggingHandler_init(JavaUtilLoggingHandler *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLoggingHandler)
 
-#endif // _JavaUtilLoggingHandler_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilLoggingHandler")

@@ -8,14 +8,6 @@ import java.util.Date;
 
 import org.oss.pdfreporter.exception.NotImplementedException;
 import org.oss.pdfreporter.registry.ApiRegistry;
-import org.oss.pdfreporter.sql.IBlob;
-import org.oss.pdfreporter.sql.IDate;
-import org.oss.pdfreporter.sql.IDateTime;
-import org.oss.pdfreporter.sql.IResultMetaData;
-import org.oss.pdfreporter.sql.IResultSet;
-import org.oss.pdfreporter.sql.ITime;
-import org.oss.pdfreporter.sql.ITimestamp;
-import org.oss.pdfreporter.sql.SQLException;
 
 import android.database.Cursor;
 
@@ -96,48 +88,87 @@ public class SQLiteResultSet implements IResultSet {
     @Override
     public IDate getDate(int columnIndex) throws SQLException {
         lastColumnIndex = columnIndex;
-        try {
-            return ApiRegistry.getSqlFactory().newDate(new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1)));
-        } catch (ParseException e) {
-        }
-        return null;
+		switch (getMetaData().getColumnType(columnIndex)) {
+		case NULL:
+			return null;
+		case VARCHAR:
+			try {
+				return ApiRegistry.getSqlFactory().newDate(new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1)));
+			} catch (ParseException e) {
+				SQLException error = new SQLException("Error parsing date");
+				error.initCause(e);
+				throw error;
+			}
+		case FLOAT:
+			throw new SQLException("No Calendar support for Date as float");
+		default: // SQLITE_INTEGER:
+			return ApiRegistry.getSqlFactory().newDate(new Date(cursor.getLong(columnIndex - 1)));
+		}
     }
 
     @Override
     public ITimestamp getTimestamp(int columnIndex) throws SQLException {
         lastColumnIndex = columnIndex;
-        int type = cursor.getType(columnIndex - 1);
-        switch (type) {
-            case Cursor.FIELD_TYPE_INTEGER: {
-                return ApiRegistry.getSqlFactory().newTimestamp(cursor.getLong(columnIndex - 1));
-            }
-            case Cursor.FIELD_TYPE_STRING: {
-                try {
-                    Date date = new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1));
-                    return ApiRegistry.getSqlFactory().newTimestamp(date.getTime());
-                } catch (ParseException e) {
-                }
-                return null;
-            }
-        }
-        return null;
+		switch (getMetaData().getColumnType(columnIndex)) {
+		case NULL:
+			return null;
+		case VARCHAR:
+			try {
+                Date date = new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1));
+                return ApiRegistry.getSqlFactory().newTimestamp(date.getTime());
+                			} catch (ParseException e) {
+				SQLException error = new SQLException("Error parsing date");
+				error.initCause(e);
+				throw error;
+			}
+		case FLOAT:
+			throw new SQLException("No Calendar support for Timestamp as float");
+		default: // SQLITE_INTEGER:
+            return ApiRegistry.getSqlFactory().newTimestamp(cursor.getLong(columnIndex - 1));
+		}
     }
 
     @Override
     public ITime getTime(int columnIndex) throws SQLException {
         lastColumnIndex = columnIndex;
-        return ApiRegistry.getSqlFactory().newTime(new Date(cursor.getString(columnIndex - 1)));
+		switch (getMetaData().getColumnType(columnIndex)) {
+		case NULL:
+			return null;
+		case VARCHAR:
+			try {
+				return ApiRegistry.getSqlFactory().newTime(new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1)));
+			} catch (ParseException e) {
+				SQLException error = new SQLException("Error parsing date");
+				error.initCause(e);
+				throw error;
+			}
+		case FLOAT:
+			throw new SQLException("No Calendar support for Time as float");
+		default: // SQLITE_INTEGER:
+			return ApiRegistry.getSqlFactory().newTime(new Date(cursor.getLong(columnIndex - 1)));
+		}
     }
 
-    @Override
-    public IDateTime getDateTime(int columnIndex) throws SQLException {
-        lastColumnIndex = columnIndex;
-        try {
-            return ApiRegistry.getSqlFactory().newDateTime(new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1)));
-        } catch (ParseException e) {
-        }
-        return null;
-    }
+	@Override
+	public IDateTime getDateTime(int columnIndex) throws SQLException {
+		lastColumnIndex = columnIndex;
+		switch (getMetaData().getColumnType(columnIndex)) {
+		case NULL:
+			return null;
+		case VARCHAR:
+			try {
+				return ApiRegistry.getSqlFactory().newDateTime(new SimpleDateFormat(FORMAT_STRING).parse(cursor.getString(columnIndex - 1)));
+			} catch (ParseException e) {
+				SQLException error = new SQLException("Error parsing date");
+				error.initCause(e);
+				throw error;
+			}
+		case FLOAT:
+			throw new SQLException("No Calendar support for DateTime as float");
+		default: // SQLITE_INTEGER:
+			return ApiRegistry.getSqlFactory().newDateTime(new Date(cursor.getLong(columnIndex - 1)));
+		}
+	}
 
     @Override
     public IBlob getBlob(int columnIndex) throws SQLException {

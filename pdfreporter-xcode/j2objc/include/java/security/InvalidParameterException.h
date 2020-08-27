@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/security/InvalidParameterException.java
 //
 
-#ifndef _JavaSecurityInvalidParameterException_H_
-#define _JavaSecurityInvalidParameterException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityInvalidParameterException")
+#ifdef RESTRICT_JavaSecurityInvalidParameterException
+#define INCLUDE_ALL_JavaSecurityInvalidParameterException 0
+#else
+#define INCLUDE_ALL_JavaSecurityInvalidParameterException 1
+#endif
+#undef RESTRICT_JavaSecurityInvalidParameterException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityInvalidParameterException_) && (INCLUDE_ALL_JavaSecurityInvalidParameterException || defined(INCLUDE_JavaSecurityInvalidParameterException))
+#define JavaSecurityInvalidParameterException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaSecurityInvalidParameterException_serialVersionUID -857968536935667808LL
+/*!
+ @brief <code>InvalidParameterException</code> indicates exceptional conditions, caused by
+ invalid parameters.
+ */
+@interface JavaSecurityInvalidParameterException : JavaLangIllegalArgumentException
 
-@interface JavaSecurityInvalidParameterException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Constructs a new instance of <code>InvalidParameterException</code>.
+ */
 - (instancetype)init;
+
+/*!
+ @brief Constructs a new instance of <code>InvalidParameterException</code> with the
+ given message.
+ @param msg
+ the detail message for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityInvalidParameterException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityInvalidParameterException_initWithNSString_(JavaSecurityInvalidParameterException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityInvalidParameterException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityInvalidParameterException *new_JavaSecurityInvalidParameterException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidParameterException *create_JavaSecurityInvalidParameterException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaSecurityInvalidParameterException_init(JavaSecurityInvalidParameterException *self);
+
+FOUNDATION_EXPORT JavaSecurityInvalidParameterException *new_JavaSecurityInvalidParameterException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityInvalidParameterException *create_JavaSecurityInvalidParameterException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityInvalidParameterException)
 
-#endif // _JavaSecurityInvalidParameterException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityInvalidParameterException")

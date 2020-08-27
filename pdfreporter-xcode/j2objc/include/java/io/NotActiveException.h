@@ -3,30 +3,78 @@
 //  source: android/libcore/luni/src/main/java/java/io/NotActiveException.java
 //
 
-#ifndef _JavaIoNotActiveException_H_
-#define _JavaIoNotActiveException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoNotActiveException")
+#ifdef RESTRICT_JavaIoNotActiveException
+#define INCLUDE_ALL_JavaIoNotActiveException 0
+#else
+#define INCLUDE_ALL_JavaIoNotActiveException 1
+#endif
+#undef RESTRICT_JavaIoNotActiveException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoNotActiveException_) && (INCLUDE_ALL_JavaIoNotActiveException || defined(INCLUDE_JavaIoNotActiveException))
+#define JavaIoNotActiveException_
+
+#define RESTRICT_JavaIoObjectStreamException 1
+#define INCLUDE_JavaIoObjectStreamException 1
 #include "java/io/ObjectStreamException.h"
 
-#define JavaIoNotActiveException_serialVersionUID -3893467273049808895LL
+/*!
+ @brief Signals that a serialization-related method has been invoked in the wrong
+ place.
+ Some methods in <code>ObjectInputStream</code> and <code>ObjectOutputStream</code>
+  can only be called from a nested call to readObject() or
+ writeObject(). Any attempt to call them from another context will cause a
+ <code>NotActiveException</code> to be thrown. The list of methods that are
+ protected this way is:
+ <ul>
+ <li><code>ObjectInputStream.defaultReadObject()</code></li>
+ <li><code>ObjectInputStream.registerValidation(ObjectInputValidation,int)</code></li>
+ <li><code>ObjectOutputStream.defaultWriteObject()</code></li>
+ </ul>
+ */
+@interface JavaIoNotActiveException : JavaIoObjectStreamException
 
-@interface JavaIoNotActiveException : JavaIoObjectStreamException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>NotActiveException</code> with its stack trace filled
+ in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>NotActiveException</code> with its stack trace and
+ detail message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoNotActiveException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoNotActiveException_init(JavaIoNotActiveException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoNotActiveException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoNotActiveException *new_JavaIoNotActiveException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoNotActiveException *create_JavaIoNotActiveException_init();
+
+FOUNDATION_EXPORT void JavaIoNotActiveException_initWithNSString_(JavaIoNotActiveException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoNotActiveException *new_JavaIoNotActiveException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoNotActiveException *create_JavaIoNotActiveException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoNotActiveException)
 
-#endif // _JavaIoNotActiveException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoNotActiveException")

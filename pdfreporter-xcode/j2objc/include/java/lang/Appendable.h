@@ -3,19 +3,88 @@
 //  source: android/libcore/luni/src/main/java/java/lang/Appendable.java
 //
 
-#ifndef _JavaLangAppendable_H_
-#define _JavaLangAppendable_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangAppendable")
+#ifdef RESTRICT_JavaLangAppendable
+#define INCLUDE_ALL_JavaLangAppendable 0
+#else
+#define INCLUDE_ALL_JavaLangAppendable 1
+#endif
+#undef RESTRICT_JavaLangAppendable
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangAppendable_) && (INCLUDE_ALL_JavaLangAppendable || defined(INCLUDE_JavaLangAppendable))
+#define JavaLangAppendable_
 
 @protocol JavaLangCharSequence;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Declares methods to append characters or character sequences.
+ Any class that
+ implements this interface can receive data formatted by a
+ <code>java.util.Formatter</code>. The appended character or character sequence
+ should be valid according to the rules described in
+ <code>Unicode Character Representation</code>.
+ <p>
+ <code>Appendable</code> itself does not guarantee thread safety. This
+ responsibility is up to the implementing class.
+ <p>
+ Implementing classes can choose different exception handling mechanism. They
+ can choose to throw exceptions other than <code>IOException</code> or they do not
+ throw any exceptions at all and use error codes instead.
+ */
 @protocol JavaLangAppendable < NSObject, JavaObject >
 
+/*!
+ @brief Appends the specified character.
+ @param c
+ the character to append.
+ @return this <code>Appendable</code>.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (id<JavaLangAppendable>)appendWithChar:(jchar)c;
 
+/*!
+ @brief Appends the character sequence <code>csq</code>.
+ Implementation classes may
+ not append the whole sequence, for example if the target is a buffer with
+ limited size.
+ <p>
+ If <code>csq</code> is <code>null</code>, the characters "null" are appended.
+ @param csq
+ the character sequence to append.
+ @return this <code>Appendable</code>.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (id<JavaLangAppendable>)appendWithJavaLangCharSequence:(id<JavaLangCharSequence>)csq;
 
+/*!
+ @brief Appends a subsequence of <code>csq</code>.
+ <p>
+ If <code>csq</code> is not <code>null</code> then calling this method is equivalent
+ to calling <code>append(csq.subSequence(start, end))</code>.
+ <p>
+ If <code>csq</code> is <code>null</code>, the characters "null" are appended.
+ @param csq
+ the character sequence to append.
+ @param start
+ the first index of the subsequence of <code>csq</code> that is
+ appended.
+ @param end
+ the last index of the subsequence of <code>csq</code> that is
+ appended.
+ @return this <code>Appendable</code>.
+ @throws IndexOutOfBoundsException
+ if <code>start < 0</code>, <code>end < 0</code>, <code>start > end</code>
+ or <code>end</code> is greater than the length of <code>csq</code>.
+ @throws IOException
+ if an I/O error occurs.
+ */
 - (id<JavaLangAppendable>)appendWithJavaLangCharSequence:(id<JavaLangCharSequence>)csq
                                                  withInt:(jint)start
                                                  withInt:(jint)end;
@@ -26,4 +95,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaLangAppendable)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangAppendable)
 
-#endif // _JavaLangAppendable_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangAppendable")

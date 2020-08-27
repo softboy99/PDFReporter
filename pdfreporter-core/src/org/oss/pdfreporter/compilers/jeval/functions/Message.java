@@ -29,6 +29,10 @@ import org.oss.pdfreporter.uses.net.sourceforge.jeval.function.FunctionHelper;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.function.FunctionResult;
 
 
+/**
+ * java.util.Formatter style Messages
+ * @author donatmuller, 2015, last change 15:02:42
+ */
 public class Message implements Function {
 
 	private static final String DATE_CONVERTER = "(date)";

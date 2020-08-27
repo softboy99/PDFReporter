@@ -3,15 +3,38 @@
 //  source: android/libcore/luni/src/main/java/java/io/FileFilter.java
 //
 
-#ifndef _JavaIoFileFilter_H_
-#define _JavaIoFileFilter_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoFileFilter")
+#ifdef RESTRICT_JavaIoFileFilter
+#define INCLUDE_ALL_JavaIoFileFilter 0
+#else
+#define INCLUDE_ALL_JavaIoFileFilter 1
+#endif
+#undef RESTRICT_JavaIoFileFilter
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoFileFilter_) && (INCLUDE_ALL_JavaIoFileFilter || defined(INCLUDE_JavaIoFileFilter))
+#define JavaIoFileFilter_
 
 @class JavaIoFile;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief An interface for filtering <code>File</code> objects based on their names
+ or other information.
+ - seealso: File#listFiles(FileFilter)
+ */
 @protocol JavaIoFileFilter < NSObject, JavaObject >
 
+/*!
+ @brief Indicating whether a specific file should be included in a pathname list.
+ @param pathname
+ the abstract file to check.
+ @return <code>true</code> if the file should be included, <code>false</code>
+ otherwise.
+ */
 - (jboolean)acceptWithJavaIoFile:(JavaIoFile *)pathname;
 
 @end
@@ -20,4 +43,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaIoFileFilter)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoFileFilter)
 
-#endif // _JavaIoFileFilter_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoFileFilter")

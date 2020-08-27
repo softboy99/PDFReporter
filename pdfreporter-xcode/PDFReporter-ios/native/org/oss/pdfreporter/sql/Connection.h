@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/sql/IConnection.h"
+#include "org/oss/pdfreporter/sql/IConnection.h"
 #import <sqlite3.h>
 #import "Sqlite3Box.h"
 

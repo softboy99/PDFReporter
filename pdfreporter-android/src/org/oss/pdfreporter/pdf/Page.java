@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.oss.pdfreporter.pdf;
 
-import harmony.java.awt.geom.AffineTransform;
+//import harmony.java.awt.geom.AffineTransform;
 
 import java.io.IOException;
 
@@ -20,12 +20,17 @@ import org.oss.pdfreporter.geometry.IAffineTransformMatrix;
 import org.oss.pdfreporter.geometry.IColor;
 import org.oss.pdfreporter.image.IImage;
 
-
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Image;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfTemplate;
+import com.itextpdf.awt.geom.AffineTransform;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
+//import com.lowagie.text.BadElementException;
+//import com.lowagie.text.Image;
+//import com.lowagie.text.pdf.BaseFont;
+//import com.lowagie.text.pdf.PdfContentByte;
+//import com.lowagie.text.pdf.PdfTemplate;
 
 public class Page implements IPage {
 	private final PdfContentByte delegate;

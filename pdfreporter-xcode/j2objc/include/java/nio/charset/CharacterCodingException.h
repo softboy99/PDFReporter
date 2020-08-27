@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/charset/CharacterCodingException.java
 //
 
-#ifndef _JavaNioCharsetCharacterCodingException_H_
-#define _JavaNioCharsetCharacterCodingException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioCharsetCharacterCodingException")
+#ifdef RESTRICT_JavaNioCharsetCharacterCodingException
+#define INCLUDE_ALL_JavaNioCharsetCharacterCodingException 0
+#else
+#define INCLUDE_ALL_JavaNioCharsetCharacterCodingException 1
+#endif
+#undef RESTRICT_JavaNioCharsetCharacterCodingException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioCharsetCharacterCodingException_) && (INCLUDE_ALL_JavaNioCharsetCharacterCodingException || defined(INCLUDE_JavaNioCharsetCharacterCodingException))
+#define JavaNioCharsetCharacterCodingException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNioCharsetCharacterCodingException_serialVersionUID 8421532232154627783LL
+/*!
+ @brief A <code>CharacterCodingException</code> is thrown when an encoding or decoding
+ error occurs.
+ */
+@interface JavaNioCharsetCharacterCodingException : JavaIoIOException
 
-@interface JavaNioCharsetCharacterCodingException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>CharacterCodingException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioCharsetCharacterCodingException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioCharsetCharacterCodingException_init(JavaNioCharsetCharacterCodingException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioCharsetCharacterCodingException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioCharsetCharacterCodingException *new_JavaNioCharsetCharacterCodingException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioCharsetCharacterCodingException *create_JavaNioCharsetCharacterCodingException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioCharsetCharacterCodingException)
 
-#endif // _JavaNioCharsetCharacterCodingException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioCharsetCharacterCodingException")

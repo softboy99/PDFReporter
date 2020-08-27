@@ -32,4 +32,6 @@ public enum SqlType {
 	TIMESTAMP, // depends on implementation
 	DATETIME, // depends on implementation
 	BLOB, // depends on data
+	OBJECT, // depends on data
+	NULL, // null
 }

@@ -10,16 +10,16 @@
  ******************************************************************************/
 package org.oss.pdfreporter.image;
 
+import org.oss.pdfreporter.exception.NotImplementedException;
+
 
 public class Image implements IImage {
 	private final ImageManager imageManager;
-	private final com.lowagie.text.Image delegate;
-	private final String imagePath;
+	private final com.itextpdf.text.Image delegate;
 	
-	Image(ImageManager imageManager, com.lowagie.text.Image image, String imagePath) {
+	Image(ImageManager imageManager, com.itextpdf.text.Image image) {
 		this.imageManager = imageManager;
 		this.delegate = image;
-		this.imagePath = imagePath;
 	}
 	@Override
 	public int getWidth() {
@@ -31,12 +31,12 @@ public class Image implements IImage {
 		return (int) delegate.getPlainHeight();
 	}
 	
-	public com.lowagie.text.Image getPeer() {
+	public com.itextpdf.text.Image getPeer() {
 		return delegate;
 	}
 	@Override
 	public String getResourcePath() {
-		return imagePath;
+		throw new NotImplementedException();
 	}
 	@Override
 	public IImageManager getImageManager() {

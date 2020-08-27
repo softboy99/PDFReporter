@@ -10,10 +10,9 @@
  ******************************************************************************/
 package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.LongArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractOneArgFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
  * Double to String
@@ -37,6 +36,6 @@ public class LongStringConverter extends AbstractOneArgFunctionElement<String,Lo
 	 */
 	@Override
 	protected FunctionElementArgument<String> execute(FunctionElementArgument<Long> a) throws IllegalArgumentException {
-		return FunctionArgumentFactory.createString(((LongArgument)a).getValue().toString());
+		return FunctionArgumentFactory.createString(a.getValue().toString());
 	}
 }

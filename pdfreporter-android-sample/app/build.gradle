@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
-    mavenLocal()
+//    mavenLocal()
     maven {
-        url "https://github.com/OpenSoftwareSolutions/mvn-repo/raw/master/repository/"
+        url "https://github.com/OpenSoftwareSolutions/mvn-repo/raw/samplerepo/repository/"
     }
 }
 
@@ -25,9 +25,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
 }
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.pdfreporting:pdfreporter-android:1.2.0-SNAPSHOT'
+
+
+//    compile files('path_on_your_local_machine/pdfreporter-android-bundle-1.3.0.jar')
+    compile 'com.pdfreporting:pdfreporter-android:1.3.0-SNAPSHOT'
 }

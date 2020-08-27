@@ -166,7 +166,7 @@ public class ResultSet implements IResultSet {
 	@Override
 	public IBlob getBlob(int columnIndex) throws SQLException {
 		try {
-			return TYPE_FACTORY.newBlob(delegate.getBlob(columnIndex).getBinaryStream());
+			return TYPE_FACTORY.newBlob(delegate.getBinaryStream(columnIndex));
 		} catch (java.sql.SQLException e) {
 			throw new SQLException(e);
 		}

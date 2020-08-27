@@ -3,50 +3,89 @@
 //  source: Classes/java/lang/Runtime.java
 //
 
-#ifndef _JavaLangRuntime_H_
-#define _JavaLangRuntime_H_
-
-@class JavaLangThread;
-@protocol JavaUtilList;
-
 #include "J2ObjC_header.h"
 
-@interface JavaLangRuntime : NSObject {
-}
+#pragma push_macro("INCLUDE_ALL_JavaLangRuntime")
+#ifdef RESTRICT_JavaLangRuntime
+#define INCLUDE_ALL_JavaLangRuntime 0
+#else
+#define INCLUDE_ALL_JavaLangRuntime 1
+#endif
+#undef RESTRICT_JavaLangRuntime
 
-+ (JavaLangRuntime *)getRuntime;
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangRuntime_) && (INCLUDE_ALL_JavaLangRuntime || defined(INCLUDE_JavaLangRuntime))
+#define JavaLangRuntime_
+
+@class JavaLangThread;
+
+/*!
+ @brief Simple iOS version of java.lang.Runtime.
+ No code was shared, just its
+ public API.
+ @author Tom Ball
+ */
+@interface JavaLangRuntime : NSObject
+
+#pragma mark Public
+
+- (void)addShutdownHookWithJavaLangThread:(JavaLangThread *)hook;
 
 - (jint)availableProcessors;
 
 - (void)exitWithInt:(jint)status;
 
-- (void)haltWithInt:(jint)status;
+- (jlong)freeMemory;
 
 - (void)gc;
 
++ (JavaLangRuntime *)getRuntime;
+
+- (void)haltWithInt:(jint)status;
+
+/*!
+ @brief No-op on iOS, since all code must be linked into app bundle.
+ */
+- (void)load__WithNSString:(NSString *)absolutePath;
+
+/*!
+ @brief No-op on iOS, since all code must be linked into app bundle.
+ */
+- (void)loadLibraryWithNSString:(NSString *)nickname;
+
 - (jlong)maxMemory;
-
-- (jlong)totalMemory;
-
-- (jlong)freeMemory;
-
-- (void)addShutdownHookWithJavaLangThread:(JavaLangThread *)hook;
 
 - (jboolean)removeShutdownHookWithJavaLangThread:(JavaLangThread *)hook;
 
+/*!
+ @brief No-op on iOS, since it doesn't use garbage collection.
+ */
+- (void)runFinalization;
+
+- (jlong)totalMemory;
+
+/*!
+ @brief No-op on iOS.
+ */
+- (void)traceInstructionsWithBoolean:(jboolean)enable;
+
+/*!
+ @brief No-op on iOS.
+ */
+- (void)traceMethodCallsWithBoolean:(jboolean)enable;
+
 @end
 
-FOUNDATION_EXPORT BOOL JavaLangRuntime_initialized;
 J2OBJC_STATIC_INIT(JavaLangRuntime)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT JavaLangRuntime *JavaLangRuntime_getRuntime();
 
-FOUNDATION_EXPORT JavaLangRuntime *JavaLangRuntime_instance_;
-J2OBJC_STATIC_FIELD_GETTER(JavaLangRuntime, instance_, JavaLangRuntime *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangRuntime)
 
-#endif // _JavaLangRuntime_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangRuntime")

@@ -10,6 +10,16 @@
  ******************************************************************************/
 package test.org.oss.pdfreporter.providers;
 
+import java.io.IOException;
+
+import org.oss.pdfreporter.engine.JREmptyDataSource;
+import org.oss.pdfreporter.net.IURL;
+import org.oss.pdfreporter.pdf.IDocument;
+import org.oss.pdfreporter.registry.ApiRegistry;
+import org.oss.pdfreporter.repo.FileResourceLoader;
+
+import test.org.oss.pdfreporter.testcases.compare.Platform;
+
 public class DesktopTestProvider implements TestProviderInterface{
 
 	@Override
@@ -23,8 +33,28 @@ public class DesktopTestProvider implements TestProviderInterface{
 	}
 
 	@Override
-	public String databasePath() {
-		return "localhost/iva";
+	public Object loadImage(String name) throws IOException {
+		IURL url = FileResourceLoader.findFirstConfiguredFileResource(name);
+		return ApiRegistry.getImageFactory().getImageManager().loadImage(url.getPath());
 	}
 
+	@Override
+	public Object createEmptyDatasource(int rows) {
+		return new JREmptyDataSource(rows);
+	}
+
+	@Override
+	public int getReadAndPrintPermission() {
+		return IDocument.PERMISSION_COPY | IDocument.PERMISSION_PRINT;
+	}
+
+	@Override
+	public boolean isPlatform(Platform platform) {
+		return Platform.DESKTOP==platform;
+	}
+
+	@Override
+	public IURL getImageUrl(String name) throws IOException {
+		return FileResourceLoader.findFirstConfiguredFileResource(name);
+	}
 }

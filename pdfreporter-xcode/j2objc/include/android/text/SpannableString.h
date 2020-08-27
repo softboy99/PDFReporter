@@ -3,40 +3,77 @@
 //  source: android/frameworks/base/core/java/android/text/SpannableString.java
 //
 
-#ifndef _AndroidTextSpannableString_H_
-#define _AndroidTextSpannableString_H_
-
 #include "J2ObjC_header.h"
-#include "android/text/GetChars.h"
-#include "android/text/Spannable.h"
+
+#pragma push_macro("INCLUDE_ALL_AndroidTextSpannableString")
+#ifdef RESTRICT_AndroidTextSpannableString
+#define INCLUDE_ALL_AndroidTextSpannableString 0
+#else
+#define INCLUDE_ALL_AndroidTextSpannableString 1
+#endif
+#undef RESTRICT_AndroidTextSpannableString
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (AndroidTextSpannableString_) && (INCLUDE_ALL_AndroidTextSpannableString || defined(INCLUDE_AndroidTextSpannableString))
+#define AndroidTextSpannableString_
+
+#define RESTRICT_AndroidTextSpannableStringInternal 1
+#define INCLUDE_AndroidTextSpannableStringInternal 1
 #include "android/text/SpannableStringInternal.h"
+
+#define RESTRICT_JavaLangCharSequence 1
+#define INCLUDE_JavaLangCharSequence 1
 #include "java/lang/CharSequence.h"
 
-@interface AndroidTextSpannableString : AndroidTextSpannableStringInternal < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpannable > {
-}
+#define RESTRICT_AndroidTextGetChars 1
+#define INCLUDE_AndroidTextGetChars 1
+#include "android/text/GetChars.h"
+
+#define RESTRICT_AndroidTextSpannable 1
+#define INCLUDE_AndroidTextSpannable 1
+#include "android/text/Spannable.h"
+
+/*!
+ @brief This is the class for text whose content is immutable but to which
+ markup objects can be attached and detached.
+ For mutable text, see <code>SpannableStringBuilder</code>.
+ */
+@interface AndroidTextSpannableString : AndroidTextSpannableStringInternal < JavaLangCharSequence, AndroidTextGetChars, AndroidTextSpannable >
+
+#pragma mark Public
 
 - (instancetype)initWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
 
-+ (AndroidTextSpannableString *)valueOfWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
+- (void)removeSpanWithId:(id)what;
 
 - (void)setSpanWithId:(id)what
               withInt:(jint)start
               withInt:(jint)end
               withInt:(jint)flags;
 
-- (void)removeSpanWithId:(id)what;
+- (id<JavaLangCharSequence>)subSequenceFrom:(jint)start
+                                         to:(jint)end;
 
-- (id<JavaLangCharSequence>)subSequenceFrom:(int)start to:(int)end;
++ (AndroidTextSpannableString *)valueOfWithJavaLangCharSequence:(id<JavaLangCharSequence>)source;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(AndroidTextSpannableString)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void AndroidTextSpannableString_initWithJavaLangCharSequence_(AndroidTextSpannableString *self, id<JavaLangCharSequence> source);
+
+FOUNDATION_EXPORT AndroidTextSpannableString *new_AndroidTextSpannableString_initWithJavaLangCharSequence_(id<JavaLangCharSequence> source) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidTextSpannableString *create_AndroidTextSpannableString_initWithJavaLangCharSequence_(id<JavaLangCharSequence> source);
 
 FOUNDATION_EXPORT AndroidTextSpannableString *AndroidTextSpannableString_valueOfWithJavaLangCharSequence_(id<JavaLangCharSequence> source);
-CF_EXTERN_C_END
 
 J2OBJC_TYPE_LITERAL_HEADER(AndroidTextSpannableString)
 
-#endif // _AndroidTextSpannableString_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_AndroidTextSpannableString")

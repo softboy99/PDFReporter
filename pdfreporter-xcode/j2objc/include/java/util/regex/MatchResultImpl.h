@@ -3,19 +3,38 @@
 //  source: android/libcore/luni/src/main/java/java/util/regex/MatchResultImpl.java
 //
 
-#ifndef _JavaUtilRegexMatchResultImpl_H_
-#define _JavaUtilRegexMatchResultImpl_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilRegexMatchResultImpl")
+#ifdef RESTRICT_JavaUtilRegexMatchResultImpl
+#define INCLUDE_ALL_JavaUtilRegexMatchResultImpl 0
+#else
+#define INCLUDE_ALL_JavaUtilRegexMatchResultImpl 1
+#endif
+#undef RESTRICT_JavaUtilRegexMatchResultImpl
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilRegexMatchResultImpl_) && (INCLUDE_ALL_JavaUtilRegexMatchResultImpl || defined(INCLUDE_JavaUtilRegexMatchResultImpl))
+#define JavaUtilRegexMatchResultImpl_
+
+#define RESTRICT_JavaUtilRegexMatchResult 1
+#define INCLUDE_JavaUtilRegexMatchResult 1
+#include "java/util/regex/MatchResult.h"
 
 @class IOSIntArray;
 
-#include "J2ObjC_header.h"
-#include "java/util/regex/MatchResult.h"
+/*!
+ @brief Holds the results of a successful match of a regular expression against a
+ given string.
+ Only used internally, thus sparsely documented (though the
+ defining public interface has full documentation).
+ - seealso: java.util.regex.MatchResult
+ */
+@interface JavaUtilRegexMatchResultImpl : NSObject < JavaUtilRegexMatchResult >
 
-@interface JavaUtilRegexMatchResultImpl : NSObject < JavaUtilRegexMatchResult > {
-}
-
-- (instancetype)initWithNSString:(NSString *)text
-                    withIntArray:(IOSIntArray *)offsets;
+#pragma mark Public
 
 - (jint)end;
 
@@ -31,13 +50,25 @@
 
 - (jint)startWithInt:(jint)group;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithNSString:(NSString *)text
+                    withIntArray:(IOSIntArray *)offsets;
+
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilRegexMatchResultImpl)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilRegexMatchResultImpl_initWithNSString_withIntArray_(JavaUtilRegexMatchResultImpl *self, NSString *text, IOSIntArray *offsets);
+
+FOUNDATION_EXPORT JavaUtilRegexMatchResultImpl *new_JavaUtilRegexMatchResultImpl_initWithNSString_withIntArray_(NSString *text, IOSIntArray *offsets) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilRegexMatchResultImpl *create_JavaUtilRegexMatchResultImpl_initWithNSString_withIntArray_(NSString *text, IOSIntArray *offsets);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilRegexMatchResultImpl)
 
-#endif // _JavaUtilRegexMatchResultImpl_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilRegexMatchResultImpl")

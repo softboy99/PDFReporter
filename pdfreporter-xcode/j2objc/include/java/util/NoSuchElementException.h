@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/util/NoSuchElementException.java
 //
 
-#ifndef _JavaUtilNoSuchElementException_H_
-#define _JavaUtilNoSuchElementException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilNoSuchElementException")
+#ifdef RESTRICT_JavaUtilNoSuchElementException
+#define INCLUDE_ALL_JavaUtilNoSuchElementException 0
+#else
+#define INCLUDE_ALL_JavaUtilNoSuchElementException 1
+#endif
+#undef RESTRICT_JavaUtilNoSuchElementException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilNoSuchElementException_) && (INCLUDE_ALL_JavaUtilNoSuchElementException || defined(INCLUDE_JavaUtilNoSuchElementException))
+#define JavaUtilNoSuchElementException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaUtilNoSuchElementException_serialVersionUID 6769829250639411880LL
+/*!
+ @brief Thrown when trying to retrieve an element
+ past the end of an Enumeration or Iterator.
+ */
+@interface JavaUtilNoSuchElementException : JavaLangRuntimeException
 
-@interface JavaUtilNoSuchElementException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>NoSuchElementException</code> with the current stack
+ trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>NoSuchElementException</code> with the current stack
+ trace and message filled in.
+ @param detailMessage
+ the detail message for the exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilNoSuchElementException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilNoSuchElementException_init(JavaUtilNoSuchElementException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilNoSuchElementException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilNoSuchElementException *new_JavaUtilNoSuchElementException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilNoSuchElementException *create_JavaUtilNoSuchElementException_init();
+
+FOUNDATION_EXPORT void JavaUtilNoSuchElementException_initWithNSString_(JavaUtilNoSuchElementException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaUtilNoSuchElementException *new_JavaUtilNoSuchElementException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilNoSuchElementException *create_JavaUtilNoSuchElementException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilNoSuchElementException)
 
-#endif // _JavaUtilNoSuchElementException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilNoSuchElementException")

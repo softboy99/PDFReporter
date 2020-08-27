@@ -3,18 +3,41 @@
 //  source: android/libcore/luni/src/main/java/java/security/Permissions.java
 //
 
-#ifndef _JavaSecurityPermissions_H_
-#define _JavaSecurityPermissions_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityPermissions")
+#ifdef RESTRICT_JavaSecurityPermissions
+#define INCLUDE_ALL_JavaSecurityPermissions 0
+#else
+#define INCLUDE_ALL_JavaSecurityPermissions 1
+#endif
+#undef RESTRICT_JavaSecurityPermissions
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityPermissions_) && (INCLUDE_ALL_JavaSecurityPermissions || defined(INCLUDE_JavaSecurityPermissions))
+#define JavaSecurityPermissions_
+
+#define RESTRICT_JavaSecurityPermissionCollection 1
+#define INCLUDE_JavaSecurityPermissionCollection 1
+#include "java/security/PermissionCollection.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class JavaSecurityPermission;
 @protocol JavaUtilEnumeration;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/security/PermissionCollection.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityPermissions : JavaSecurityPermissionCollection < JavaIoSerializable >
 
-@interface JavaSecurityPermissions : JavaSecurityPermissionCollection < JavaIoSerializable > {
-}
+#pragma mark Public
+
+- (instancetype)init;
 
 - (void)addWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
 
@@ -22,15 +45,20 @@
 
 - (jboolean)impliesWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
 
-- (instancetype)init;
-
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityPermissions)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityPermissions_init(JavaSecurityPermissions *self);
+
+FOUNDATION_EXPORT JavaSecurityPermissions *new_JavaSecurityPermissions_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityPermissions *create_JavaSecurityPermissions_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityPermissions)
 
-#endif // _JavaSecurityPermissions_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityPermissions")

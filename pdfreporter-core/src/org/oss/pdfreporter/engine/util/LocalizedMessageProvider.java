@@ -28,7 +28,7 @@
  */
 package org.oss.pdfreporter.engine.util;
 
-import java.util.Locale;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,12 +37,12 @@ import java.util.Locale;
 public class LocalizedMessageProvider
 {
 	private MessageProvider messageProvider;
-	private Locale locale;
+	private StringLocale locale;
 
 	/**
 	 *
 	 */
-	public LocalizedMessageProvider(MessageProvider messageProvider, Locale locale)
+	public LocalizedMessageProvider(MessageProvider messageProvider, StringLocale locale)
 	{
 		this.messageProvider = messageProvider;
 		this.locale = locale;

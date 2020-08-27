@@ -23,6 +23,14 @@ import org.oss.pdfreporter.uses.org.apache.digester.factory.impl.DigesterFactory
 import org.oss.pdfreporter.xml.parsers.factory.IXmlParserFactory;
 
 
+/**
+ * Factory registry for XML, URL, BeanUtils and Digester support.<br>
+ * This features are already used while reading and parsing a jrxml file.<br> 
+ * TODO Move all factory definitions to the extensions module (all ApiRegistry dependent classes),<br>
+ * then move all IRegistry features to ApiRegistry. see Ticket #56
+ * @author Donat Mueller
+ *
+ */
 public class IRegistry {
 	private static IXmlParserFactory xmlParserFactory;
 	private static IBeansFactory beansFactory;

@@ -3,29 +3,49 @@
 //  source: src/main/java/org/mockito/internal/creation/jmock/ClassImposterizer.java
 //
 
-#ifndef _OrgMockitoInternalCreationJmockClassImposterizer_H_
-#define _OrgMockitoInternalCreationJmockClassImposterizer_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_OrgMockitoInternalCreationJmockClassImposterizer")
+#ifdef RESTRICT_OrgMockitoInternalCreationJmockClassImposterizer
+#define INCLUDE_ALL_OrgMockitoInternalCreationJmockClassImposterizer 0
+#else
+#define INCLUDE_ALL_OrgMockitoInternalCreationJmockClassImposterizer 1
+#endif
+#undef RESTRICT_OrgMockitoInternalCreationJmockClassImposterizer
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (OrgMockitoInternalCreationJmockClassImposterizer_) && (INCLUDE_ALL_OrgMockitoInternalCreationJmockClassImposterizer || defined(INCLUDE_OrgMockitoInternalCreationJmockClassImposterizer))
+#define OrgMockitoInternalCreationJmockClassImposterizer_
 
 @class IOSClass;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief Subset of Mockito's implementation that removes all Objenesis and CGLib
+ references (not useful on iOS).
+ */
+@interface OrgMockitoInternalCreationJmockClassImposterizer : NSObject
 
-@interface OrgMockitoInternalCreationJmockClassImposterizer : NSObject {
-}
++ (OrgMockitoInternalCreationJmockClassImposterizer *)INSTANCE;
+
+#pragma mark Public
 
 - (jboolean)canImposteriseWithIOSClass:(IOSClass *)type;
 
 @end
 
-FOUNDATION_EXPORT BOOL OrgMockitoInternalCreationJmockClassImposterizer_initialized;
 J2OBJC_STATIC_INIT(OrgMockitoInternalCreationJmockClassImposterizer)
 
-CF_EXTERN_C_BEGIN
-
-FOUNDATION_EXPORT OrgMockitoInternalCreationJmockClassImposterizer *OrgMockitoInternalCreationJmockClassImposterizer_INSTANCE_;
-J2OBJC_STATIC_FIELD_GETTER(OrgMockitoInternalCreationJmockClassImposterizer, INSTANCE_, OrgMockitoInternalCreationJmockClassImposterizer *)
-CF_EXTERN_C_END
+inline OrgMockitoInternalCreationJmockClassImposterizer *OrgMockitoInternalCreationJmockClassImposterizer_get_INSTANCE();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT OrgMockitoInternalCreationJmockClassImposterizer *OrgMockitoInternalCreationJmockClassImposterizer_INSTANCE;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(OrgMockitoInternalCreationJmockClassImposterizer, INSTANCE, OrgMockitoInternalCreationJmockClassImposterizer *)
 
 J2OBJC_TYPE_LITERAL_HEADER(OrgMockitoInternalCreationJmockClassImposterizer)
 
-#endif // _OrgMockitoInternalCreationJmockClassImposterizer_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_OrgMockitoInternalCreationJmockClassImposterizer")

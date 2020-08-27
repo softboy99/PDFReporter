@@ -3,11 +3,25 @@
 //  source: android/libcore/luni/src/main/java/java/security/PrivilegedExceptionAction.java
 //
 
-#ifndef _JavaSecurityPrivilegedExceptionAction_H_
-#define _JavaSecurityPrivilegedExceptionAction_H_
-
 #include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaSecurityPrivilegedExceptionAction")
+#ifdef RESTRICT_JavaSecurityPrivilegedExceptionAction
+#define INCLUDE_ALL_JavaSecurityPrivilegedExceptionAction 0
+#else
+#define INCLUDE_ALL_JavaSecurityPrivilegedExceptionAction 1
+#endif
+#undef RESTRICT_JavaSecurityPrivilegedExceptionAction
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityPrivilegedExceptionAction_) && (INCLUDE_ALL_JavaSecurityPrivilegedExceptionAction || defined(INCLUDE_JavaSecurityPrivilegedExceptionAction))
+#define JavaSecurityPrivilegedExceptionAction_
+
+/*!
+ @brief Legacy security code; do not use.
+ */
 @protocol JavaSecurityPrivilegedExceptionAction < NSObject, JavaObject >
 
 - (id)run;
@@ -18,4 +32,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaSecurityPrivilegedExceptionAction)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityPrivilegedExceptionAction)
 
-#endif // _JavaSecurityPrivilegedExceptionAction_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityPrivilegedExceptionAction")

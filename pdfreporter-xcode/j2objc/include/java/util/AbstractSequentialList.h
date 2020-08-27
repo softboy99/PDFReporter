@@ -3,20 +3,39 @@
 //  source: android/libcore/luni/src/main/java/java/util/AbstractSequentialList.java
 //
 
-#ifndef _JavaUtilAbstractSequentialList_H_
-#define _JavaUtilAbstractSequentialList_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilAbstractSequentialList")
+#ifdef RESTRICT_JavaUtilAbstractSequentialList
+#define INCLUDE_ALL_JavaUtilAbstractSequentialList 0
+#else
+#define INCLUDE_ALL_JavaUtilAbstractSequentialList 1
+#endif
+#undef RESTRICT_JavaUtilAbstractSequentialList
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilAbstractSequentialList_) && (INCLUDE_ALL_JavaUtilAbstractSequentialList || defined(INCLUDE_JavaUtilAbstractSequentialList))
+#define JavaUtilAbstractSequentialList_
+
+#define RESTRICT_JavaUtilAbstractList 1
+#define INCLUDE_JavaUtilAbstractList 1
+#include "java/util/AbstractList.h"
 
 @protocol JavaUtilCollection;
 @protocol JavaUtilIterator;
 @protocol JavaUtilListIterator;
 
-#include "J2ObjC_header.h"
-#include "java/util/AbstractList.h"
+/*!
+ @brief AbstractSequentialList is an abstract implementation of the List interface.
+ This implementation does not support adding. A subclass must implement the
+ abstract method listIterator().
+ @since 1.2
+ */
+@interface JavaUtilAbstractSequentialList : JavaUtilAbstractList
 
-@interface JavaUtilAbstractSequentialList : JavaUtilAbstractList {
-}
-
-- (instancetype)init;
+#pragma mark Public
 
 - (void)addWithInt:(jint)location
             withId:(id)object;
@@ -35,14 +54,25 @@
 - (id)setWithInt:(jint)location
           withId:(id)object;
 
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new instance of this AbstractSequentialList.
+ */
+- (instancetype)init;
+
+#pragma mark Package-Private
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilAbstractSequentialList)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilAbstractSequentialList_init(JavaUtilAbstractSequentialList *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilAbstractSequentialList)
 
-#endif // _JavaUtilAbstractSequentialList_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilAbstractSequentialList")

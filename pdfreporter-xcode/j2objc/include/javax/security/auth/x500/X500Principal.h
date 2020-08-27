@@ -3,31 +3,84 @@
 //  source: android/libcore/luni/src/main/java/javax/security/auth/x500/X500Principal.java
 //
 
-#ifndef _JavaxSecurityAuthX500X500Principal_H_
-#define _JavaxSecurityAuthX500X500Principal_H_
-
-@class IOSByteArray;
-@class JavaIoIOException;
-@class JavaIoInputStream;
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
-@class JavaLangIllegalArgumentException;
-@class OrgApacheHarmonySecurityX501Name;
-@protocol JavaUtilMap;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxSecurityAuthX500X500Principal")
+#ifdef RESTRICT_JavaxSecurityAuthX500X500Principal
+#define INCLUDE_ALL_JavaxSecurityAuthX500X500Principal 0
+#else
+#define INCLUDE_ALL_JavaxSecurityAuthX500X500Principal 1
+#endif
+#undef RESTRICT_JavaxSecurityAuthX500X500Principal
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxSecurityAuthX500X500Principal_) && (INCLUDE_ALL_JavaxSecurityAuthX500X500Principal || defined(INCLUDE_JavaxSecurityAuthX500X500Principal))
+#define JavaxSecurityAuthX500X500Principal_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
 #include "java/io/Serializable.h"
+
+#define RESTRICT_JavaSecurityPrincipal 1
+#define INCLUDE_JavaSecurityPrincipal 1
 #include "java/security/Principal.h"
 
-#define JavaxSecurityAuthX500X500Principal_serialVersionUID -500463348111345721LL
+@class IOSByteArray;
+@class JavaIoInputStream;
+@protocol JavaUtilMap;
 
-@interface JavaxSecurityAuthX500X500Principal : NSObject < JavaIoSerializable, JavaSecurityPrincipal > {
-}
+/*!
+ @brief Represents an X.500 principal, which holds the distinguished name of some
+ network entity.
+ An example of a distinguished name is <code>"O=SomeOrg,
+ OU=SomeOrgUnit, C=US"</code>
+ . The class can be instantiated from a byte representation
+ of an object identifier (OID), an ASN.1 DER-encoded version, or a simple
+ string holding the distinguished name. The representations must follow either
+ RFC 2253, RFC 1779, or RFC2459.
+ */
+@interface JavaxSecurityAuthX500X500Principal : NSObject < JavaIoSerializable, JavaSecurityPrincipal >
 
++ (NSString *)CANONICAL;
+
++ (NSString *)RFC1779;
+
++ (NSString *)RFC2253;
+
+#pragma mark Public
+
+/*!
+ @brief Creates a new X500Principal from a given ASN.1 DER encoding of a
+ distinguished name.
+ @param name
+ the ASN.1 DER-encoded distinguished name
+ @throws IllegalArgumentException
+ if the ASN.1 DER-encoded distinguished name is incorrect
+ */
 - (instancetype)initWithByteArray:(IOSByteArray *)name;
 
+/*!
+ @brief Creates a new X500Principal from a given ASN.1 DER encoding of a
+ distinguished name.
+ @param inArg
+ an <code>InputStream</code> holding the ASN.1 DER-encoded
+ distinguished name
+ @throws IllegalArgumentException
+ if the ASN.1 DER-encoded distinguished name is incorrect
+ */
 - (instancetype)initWithJavaIoInputStream:(JavaIoInputStream *)inArg;
 
+/*!
+ @brief Creates a new X500Principal from a string representation of a
+ distinguished name.
+ @param name
+ the string representation of the distinguished name
+ @throws IllegalArgumentException
+ if the string representation of the distinguished name is
+ incorrect
+ */
 - (instancetype)initWithNSString:(NSString *)name;
 
 - (instancetype)initWithNSString:(NSString *)name
@@ -35,10 +88,37 @@
 
 - (jboolean)isEqual:(id)o;
 
+/*!
+ @brief Returns an ASN.1 DER-encoded representation of the distinguished name
+ contained in this X.500 principal.
+ @return the ASN.1 DER-encoded representation
+ */
 - (IOSByteArray *)getEncoded;
 
+/*!
+ @brief Returns a human-readable string representation of the distinguished name
+ contained in this X.500 principal.
+ @return the string representation
+ */
 - (NSString *)getName;
 
+/*!
+ @brief Returns a string representation of the distinguished name contained in
+ this X.500 principal.
+ The format of the representation can be chosen.
+ Valid arguments are <code>RFC1779</code>, <code>RFC2253</code>, and
+ <code>CANONICAL</code>. The representations are specified in RFC 1779 and RFC
+ 2253, respectively. The canonical form is based on RFC 2253, but adds
+ some canonicalizing operations like removing leading and trailing
+ whitespace, lower-casing the whole name, and bringing it into a
+ normalized Unicode representation.
+ @param format
+ the name of the format to use for the representation
+ @return the string representation
+ @throws IllegalArgumentException
+ if the <code>format</code> argument is not one of the three
+ mentioned above
+ */
 - (NSString *)getNameWithNSString:(NSString *)format;
 
 - (NSString *)getNameWithNSString:(NSString *)format
@@ -52,20 +132,61 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxSecurityAuthX500X500Principal)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief Defines a constant for the canonical string format of distinguished
+ names.
+ */
+inline NSString *JavaxSecurityAuthX500X500Principal_get_CANONICAL();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_CANONICAL;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaxSecurityAuthX500X500Principal, CANONICAL, NSString *)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityAuthX500X500Principal, serialVersionUID, jlong)
+/*!
+ @brief Defines a constant for the RFC 1779 string format of distinguished
+ names.
+ */
+inline NSString *JavaxSecurityAuthX500X500Principal_get_RFC1779();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_RFC1779;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaxSecurityAuthX500X500Principal, RFC1779, NSString *)
 
-FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_CANONICAL_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityAuthX500X500Principal, CANONICAL_, NSString *)
+/*!
+ @brief Defines a constant for the RFC 2253 string format of distinguished
+ names.
+ */
+inline NSString *JavaxSecurityAuthX500X500Principal_get_RFC2253();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_RFC2253;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaxSecurityAuthX500X500Principal, RFC2253, NSString *)
 
-FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_RFC1779_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityAuthX500X500Principal, RFC1779_, NSString *)
+FOUNDATION_EXPORT void JavaxSecurityAuthX500X500Principal_initWithByteArray_(JavaxSecurityAuthX500X500Principal *self, IOSByteArray *name);
 
-FOUNDATION_EXPORT NSString *JavaxSecurityAuthX500X500Principal_RFC2253_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityAuthX500X500Principal, RFC2253_, NSString *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *new_JavaxSecurityAuthX500X500Principal_initWithByteArray_(IOSByteArray *name) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *create_JavaxSecurityAuthX500X500Principal_initWithByteArray_(IOSByteArray *name);
+
+FOUNDATION_EXPORT void JavaxSecurityAuthX500X500Principal_initWithJavaIoInputStream_(JavaxSecurityAuthX500X500Principal *self, JavaIoInputStream *inArg);
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *new_JavaxSecurityAuthX500X500Principal_initWithJavaIoInputStream_(JavaIoInputStream *inArg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *create_JavaxSecurityAuthX500X500Principal_initWithJavaIoInputStream_(JavaIoInputStream *inArg);
+
+FOUNDATION_EXPORT void JavaxSecurityAuthX500X500Principal_initWithNSString_(JavaxSecurityAuthX500X500Principal *self, NSString *name);
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *new_JavaxSecurityAuthX500X500Principal_initWithNSString_(NSString *name) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *create_JavaxSecurityAuthX500X500Principal_initWithNSString_(NSString *name);
+
+FOUNDATION_EXPORT void JavaxSecurityAuthX500X500Principal_initWithNSString_withJavaUtilMap_(JavaxSecurityAuthX500X500Principal *self, NSString *name, id<JavaUtilMap> keywordMap);
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *new_JavaxSecurityAuthX500X500Principal_initWithNSString_withJavaUtilMap_(NSString *name, id<JavaUtilMap> keywordMap) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityAuthX500X500Principal *create_JavaxSecurityAuthX500X500Principal_initWithNSString_withJavaUtilMap_(NSString *name, id<JavaUtilMap> keywordMap);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxSecurityAuthX500X500Principal)
 
-#endif // _JavaxSecurityAuthX500X500Principal_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxSecurityAuthX500X500Principal")

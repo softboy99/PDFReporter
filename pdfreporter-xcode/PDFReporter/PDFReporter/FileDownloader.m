@@ -42,7 +42,7 @@
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {
-    m_statusCode = [response statusCode];
+    m_statusCode = (int)[response statusCode];
     fileSize = [response expectedContentLength];
     writeSize = 0;
     

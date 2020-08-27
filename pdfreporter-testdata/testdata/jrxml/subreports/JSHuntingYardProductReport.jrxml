@@ -41,7 +41,7 @@
 		<variableExpression><![CDATA[$F{Price}]]></variableExpression>
 	</variable>
 	<variable name="ProductCount" class="java.lang.Integer" resetType="Group" resetGroup="ProductGroup" calculation="System">
-		<initialValueExpression><![CDATA[(int)ifelse(isNull($V{ProductCount}),0,$V{ProductCount}) + 1]]></initialValueExpression>
+		<initialValueExpression><![CDATA[ifelse(isNull($V{ProductCount}),0,$V{ProductCount}) + 1]]></initialValueExpression>
 	</variable>
 	<group name="ProductGroup">
 		<groupExpression><![CDATA[$F{Id}]]></groupExpression>
@@ -170,7 +170,7 @@
 				<textField>
 					<reportElement x="150" y="0" width="100" height="10" forecolor="#808000" style="Sans_Italic"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.String"><![CDATA['Page ' + '$V{PAGE_NUMBER}' + ' of ']]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA['Page ' + intString($V{PAGE_NUMBER}) + ' of ']]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement x="250" y="0" width="50" height="10" forecolor="#808000" style="Sans_Italic"/>

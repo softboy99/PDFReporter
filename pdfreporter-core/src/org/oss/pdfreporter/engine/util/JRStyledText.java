@@ -38,11 +38,12 @@ import org.oss.pdfreporter.engine.JRRuntimeException;
 import org.oss.pdfreporter.engine.JasperReportsContext;
 import org.oss.pdfreporter.engine.fonts.FontUtil;
 import org.oss.pdfreporter.font.IFont;
-import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.IFont.FontDecoration;
 import org.oss.pdfreporter.font.IFont.FontStyle;
+import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.text.TextAttribute;
 import org.oss.pdfreporter.registry.ApiRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.java.awt.text.AttributedString;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator.Attribute;
@@ -80,7 +81,7 @@ public class JRStyledText implements Cloneable
 	private AttributedString attributedString;
 	private AttributedString awtAttributedString;
 	private Map<Attribute,Object> globalAttributes;
-	private Locale locale;
+	private StringLocale locale;
 
 	
 	/**
@@ -95,7 +96,7 @@ public class JRStyledText implements Cloneable
 	/**
 	 *
 	 */
-	public JRStyledText(Locale locale)
+	public JRStyledText(StringLocale locale)
 	{
 		this.locale = locale;
 	}
@@ -140,7 +141,7 @@ public class JRStyledText implements Cloneable
 	/**
 	 *
 	 */
-	public Locale getLocale()
+	public StringLocale getLocale()
 	{
 		return locale;
 	}

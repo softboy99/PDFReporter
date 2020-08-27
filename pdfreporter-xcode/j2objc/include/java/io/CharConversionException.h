@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/io/CharConversionException.java
 //
 
-#ifndef _JavaIoCharConversionException_H_
-#define _JavaIoCharConversionException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoCharConversionException")
+#ifdef RESTRICT_JavaIoCharConversionException
+#define INCLUDE_ALL_JavaIoCharConversionException 0
+#else
+#define INCLUDE_ALL_JavaIoCharConversionException 1
+#endif
+#undef RESTRICT_JavaIoCharConversionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoCharConversionException_) && (INCLUDE_ALL_JavaIoCharConversionException || defined(INCLUDE_JavaIoCharConversionException))
+#define JavaIoCharConversionException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaIoCharConversionException_serialVersionUID -8680016352018427031LL
+/*!
+ @brief The top level class for character conversion exceptions.
+ */
+@interface JavaIoCharConversionException : JavaIoIOException
 
-@interface JavaIoCharConversionException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>CharConversionException</code> with its stack trace
+ filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>CharConversionException</code> with its stack trace and
+ detail message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoCharConversionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoCharConversionException_init(JavaIoCharConversionException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoCharConversionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoCharConversionException *new_JavaIoCharConversionException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoCharConversionException *create_JavaIoCharConversionException_init();
+
+FOUNDATION_EXPORT void JavaIoCharConversionException_initWithNSString_(JavaIoCharConversionException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoCharConversionException *new_JavaIoCharConversionException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoCharConversionException *create_JavaIoCharConversionException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoCharConversionException)
 
-#endif // _JavaIoCharConversionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoCharConversionException")

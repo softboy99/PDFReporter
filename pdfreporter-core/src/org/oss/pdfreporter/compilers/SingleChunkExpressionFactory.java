@@ -10,11 +10,10 @@
  ******************************************************************************/
 package org.oss.pdfreporter.compilers;
 
-import java.util.ResourceBundle;
-
 import org.oss.pdfreporter.engine.JRExpressionChunk;
 import org.oss.pdfreporter.engine.JRParameter;
 import org.oss.pdfreporter.engine.JRValueParameter;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
 
 
 public class SingleChunkExpressionFactory {
@@ -83,6 +82,12 @@ public class SingleChunkExpressionFactory {
 		public Object getOldValue() throws ExpressionEvaluationException {
 			return getValue();
 		}
+		
+		@Override
+		public Object getEsimatedValue() throws ExpressionEvaluationException {
+			return getValue();
+		}
+		
 	}
 
 	private static class RessourceElement extends AbstractElement {
@@ -94,12 +99,17 @@ public class SingleChunkExpressionFactory {
 		@Override
 		public Object getValue() throws ExpressionEvaluationException {
 			JRValueParameter parameter = dataholder.getParameter(JRParameter.REPORT_RESOURCE_BUNDLE);
-			ResourceBundle resourceBundle = (ResourceBundle) parameter.getValue();
+			ITextBundle resourceBundle = (ITextBundle) parameter.getValue();
 			return resourceBundle.getString(key);
 		}
 
 		@Override
 		public Object getOldValue() throws ExpressionEvaluationException {
+			return getValue();
+		}
+
+		@Override
+		public Object getEsimatedValue() throws ExpressionEvaluationException {
 			return getValue();
 		}
 	}
@@ -119,6 +129,11 @@ public class SingleChunkExpressionFactory {
 		public Object getOldValue() throws ExpressionEvaluationException {
 			return dataholder.getField(key).getOldValue();
 		}
+
+		@Override
+		public Object getEsimatedValue() throws ExpressionEvaluationException {
+			return getValue();
+		}
 	}
 
 	private static class VariableElement extends AbstractElement {
@@ -135,6 +150,10 @@ public class SingleChunkExpressionFactory {
 		@Override
 		public Object getOldValue() throws ExpressionEvaluationException {
 			return dataholder.getVariable(key).getOldValue();
+		}
+		@Override
+		public Object getEsimatedValue() throws ExpressionEvaluationException {
+			return dataholder.getVariable(key).getEstimatedValue();
 		}
 	}
 

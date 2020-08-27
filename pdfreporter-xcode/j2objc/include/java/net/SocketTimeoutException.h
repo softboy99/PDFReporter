@@ -3,37 +3,89 @@
 //  source: android/libcore/luni/src/main/java/java/net/SocketTimeoutException.java
 //
 
-#ifndef _JavaNetSocketTimeoutException_H_
-#define _JavaNetSocketTimeoutException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetSocketTimeoutException")
+#ifdef RESTRICT_JavaNetSocketTimeoutException
+#define INCLUDE_ALL_JavaNetSocketTimeoutException 0
+#else
+#define INCLUDE_ALL_JavaNetSocketTimeoutException 1
+#endif
+#undef RESTRICT_JavaNetSocketTimeoutException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetSocketTimeoutException_) && (INCLUDE_ALL_JavaNetSocketTimeoutException || defined(INCLUDE_JavaNetSocketTimeoutException))
+#define JavaNetSocketTimeoutException_
+
+#define RESTRICT_JavaIoInterruptedIOException 1
+#define INCLUDE_JavaIoInterruptedIOException 1
 #include "java/io/InterruptedIOException.h"
 
-#define JavaNetSocketTimeoutException_serialVersionUID -8846654841826352300LL
+/*!
+ @brief This exception is thrown when a timeout expired on a socket <code>read</code> or
+ <code>accept</code> operation.
+ */
+@interface JavaNetSocketTimeoutException : JavaIoInterruptedIOException
 
-@interface JavaNetSocketTimeoutException : JavaIoInterruptedIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
-
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new instance with given cause.
+  internal use only
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetSocketTimeoutException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetSocketTimeoutException_init(JavaNetSocketTimeoutException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetSocketTimeoutException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *new_JavaNetSocketTimeoutException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *create_JavaNetSocketTimeoutException_init();
+
+FOUNDATION_EXPORT void JavaNetSocketTimeoutException_initWithNSString_(JavaNetSocketTimeoutException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *new_JavaNetSocketTimeoutException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *create_JavaNetSocketTimeoutException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaNetSocketTimeoutException_initWithNSException_(JavaNetSocketTimeoutException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *new_JavaNetSocketTimeoutException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *create_JavaNetSocketTimeoutException_initWithNSException_(NSException *cause);
+
+FOUNDATION_EXPORT void JavaNetSocketTimeoutException_initWithNSString_withNSException_(JavaNetSocketTimeoutException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *new_JavaNetSocketTimeoutException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketTimeoutException *create_JavaNetSocketTimeoutException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetSocketTimeoutException)
 
-#endif // _JavaNetSocketTimeoutException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetSocketTimeoutException")

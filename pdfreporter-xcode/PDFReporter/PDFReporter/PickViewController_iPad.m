@@ -82,7 +82,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [pickResponder onPickedTest:indexPath.row];
+    [pickResponder onPickedTest:(int)indexPath.row];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

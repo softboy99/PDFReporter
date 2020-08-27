@@ -10,13 +10,12 @@
  ******************************************************************************/
 package org.oss.pdfreporter.compilers.expressionelements;
 
-import java.util.ResourceBundle;
-
 import org.oss.pdfreporter.compilers.IDataHolder;
-import org.oss.pdfreporter.compilers.IVariable;
 import org.oss.pdfreporter.compilers.IExpressionChunk.ExpresionType;
+import org.oss.pdfreporter.compilers.IVariable;
 import org.oss.pdfreporter.engine.JRParameter;
 import org.oss.pdfreporter.engine.JRValueParameter;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
 
 
 public class ExpressionRessource extends AbstractExpressionElement implements IVariable {
@@ -33,8 +32,8 @@ public class ExpressionRessource extends AbstractExpressionElement implements IV
 	@Override
 	public Object getValue() {
 		JRValueParameter parameter = getParameter();
-		ResourceBundle resourceBundle = (ResourceBundle) parameter.getValue();
-		return resourceBundle.getString(getName());
+		ITextBundle resourceBundle = (ITextBundle) parameter.getValue();
+		return resourceBundle==null ? null : resourceBundle.getString(getName());
 	}
 
 

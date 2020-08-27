@@ -3,372 +3,308 @@
 //  source: android/libcore/luni/src/main/java/java/util/Hashtable.java
 //
 
-#ifndef _JavaUtilHashtable_H_
-#define _JavaUtilHashtable_H_
-
-@class IOSObjectArray;
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
-@protocol JavaUtilCollection;
-@protocol JavaUtilSet;
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/util/AbstractCollection.h"
-#include "java/util/AbstractSet.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilHashtable")
+#ifdef RESTRICT_JavaUtilHashtable
+#define INCLUDE_ALL_JavaUtilHashtable 0
+#else
+#define INCLUDE_ALL_JavaUtilHashtable 1
+#endif
+#undef RESTRICT_JavaUtilHashtable
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilHashtable_) && (INCLUDE_ALL_JavaUtilHashtable || defined(INCLUDE_JavaUtilHashtable))
+#define JavaUtilHashtable_
+
+#define RESTRICT_JavaUtilDictionary 1
+#define INCLUDE_JavaUtilDictionary 1
 #include "java/util/Dictionary.h"
-#include "java/util/Enumeration.h"
-#include "java/util/Iterator.h"
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap 1
 #include "java/util/Map.h"
 
-#define JavaUtilHashtable_CHARS_PER_ENTRY 15
-#define JavaUtilHashtable_DEFAULT_LOAD_FACTOR 0.75f
-#define JavaUtilHashtable_MAXIMUM_CAPACITY 1073741824
-#define JavaUtilHashtable_MINIMUM_CAPACITY 4
-#define JavaUtilHashtable_serialVersionUID 1421746759512286392LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-@interface JavaUtilHashtable : JavaUtilDictionary < JavaUtilMap, NSCopying, JavaIoSerializable > {
-}
+@protocol JavaUtilCollection;
+@protocol JavaUtilEnumeration;
+@protocol JavaUtilSet;
 
+/*!
+ @brief Hashtable is a synchronized implementation of <code>Map</code>.
+ All optional operations are supported.
+ <p>Neither keys nor values can be null. (Use <code>HashMap</code> or <code>LinkedHashMap</code> if you
+ need null keys or values.)
+ - seealso: HashMap
+ */
+@interface JavaUtilHashtable : JavaUtilDictionary < JavaUtilMap, NSCopying, JavaIoSerializable >
+
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>Hashtable</code> using the default capacity and load
+ factor.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>Hashtable</code> using the specified capacity and the
+ default load factor.
+ @param capacity
+ the initial capacity.
+ */
 - (instancetype)initWithInt:(jint)capacity;
 
+/*!
+ @brief Constructs a new <code>Hashtable</code> using the specified capacity and load
+ factor.
+ @param capacity
+ the initial capacity.
+ @param loadFactor
+ the initial load factor.
+ */
 - (instancetype)initWithInt:(jint)capacity
                   withFloat:(jfloat)loadFactor;
 
+/*!
+ @brief Constructs a new instance of <code>Hashtable</code> containing the mappings
+ from the specified map.
+ @param map
+ the mappings to add.
+ */
 - (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
 
+/*!
+ @brief Removes all key/value pairs from this <code>Hashtable</code>, leaving the
+ size zero and the capacity unchanged.
+ - seealso: #isEmpty
+ - seealso: #size
+ */
+- (void)clear;
+
+/*!
+ @brief Returns a new <code>Hashtable</code> with the same key/value pairs, capacity
+ and load factor.
+ @return a shallow copy of this <code>Hashtable</code>.
+ - seealso: java.lang.Cloneable
+ */
 - (id)clone;
 
-- (jboolean)isEmpty;
-
-- (jint)size;
-
-- (id)getWithId:(id)key;
-
-- (jboolean)containsKeyWithId:(id)key;
-
-- (jboolean)containsValueWithId:(id)value;
-
+/*!
+ @brief Returns true if this <code>Hashtable</code> contains the specified object as
+ the value of at least one of the key/value pairs.
+ @param value
+ the object to look for as a value in this <code>Hashtable</code>.
+ @return <code>true</code> if object is a value in this <code>Hashtable</code>,
+ <code>false</code> otherwise.
+ - seealso: #containsKey
+ - seealso: java.lang.Object#equals
+ */
 - (jboolean)containsWithId:(id)value;
 
+/*!
+ @brief Returns true if this <code>Hashtable</code> contains the specified object as a
+ key of one of the key/value pairs.
+ @param key
+ the object to look for as a key in this <code>Hashtable</code>.
+ @return <code>true</code> if object is a key in this <code>Hashtable</code>,
+ <code>false</code> otherwise.
+ - seealso: #contains
+ - seealso: java.lang.Object#equals
+ */
+- (jboolean)containsKeyWithId:(id)key;
+
+/*!
+ @brief Searches this <code>Hashtable</code> for the specified value.
+ @param value
+ the object to search for.
+ @return <code>true</code> if <code>value</code> is a value of this
+ <code>Hashtable</code>, <code>false</code> otherwise.
+ */
+- (jboolean)containsValueWithId:(id)value;
+
+/*!
+ @brief Returns an enumeration on the values of this <code>Hashtable</code>.
+ The
+ results of the Enumeration may be affected if the contents of this
+ <code>Hashtable</code> are modified.
+ @return an enumeration of the values of this <code>Hashtable</code>.
+ - seealso: #keys
+ - seealso: #size
+ - seealso: Enumeration
+ */
+- (id<JavaUtilEnumeration>)elements;
+
+/*!
+ @brief Returns a set of the mappings contained in this <code>Hashtable</code>.
+ Each
+ element in the set is a <code>Map.Entry</code>. The set is backed by this
+ <code>Hashtable</code> so changes to one are reflected by the other. The set
+ does not support adding.
+ @return a set of the mappings.
+ */
+- (id<JavaUtilSet>)entrySet;
+
+/*!
+ @brief Compares this <code>Hashtable</code> with the specified object and indicates
+ if they are equal.
+ In order to be equal, <code>object</code> must be an
+ instance of Map and contain the same key/value pairs.
+ @param object
+ the object to compare with this object.
+ @return <code>true</code> if the specified object is equal to this Map,
+ <code>false</code> otherwise.
+ - seealso: #hashCode
+ */
+- (jboolean)isEqual:(id)object;
+
+/*!
+ @brief Returns the value associated with the specified key in this
+ <code>Hashtable</code>.
+ @param key
+ the key of the value returned.
+ @return the value associated with the specified key, or <code>null</code> if
+ the specified key does not exist.
+ - seealso: #put
+ */
+- (id)getWithId:(id)key;
+
+- (NSUInteger)hash;
+
+/*!
+ @brief Returns true if this <code>Hashtable</code> has no key/value pairs.
+ @return <code>true</code> if this <code>Hashtable</code> has no key/value pairs,
+ <code>false</code> otherwise.
+ - seealso: #size
+ */
+- (jboolean)isEmpty;
+
+/*!
+ @brief Returns an enumeration on the keys of this <code>Hashtable</code> instance.
+ The results of the enumeration may be affected if the contents of this
+ <code>Hashtable</code> are modified.
+ @return an enumeration of the keys of this <code>Hashtable</code>.
+ - seealso: #elements
+ - seealso: #size
+ - seealso: Enumeration
+ */
+- (id<JavaUtilEnumeration>)keys;
+
+/*!
+ @brief Returns a set of the keys contained in this <code>Hashtable</code>.
+ The set
+ is backed by this <code>Hashtable</code> so changes to one are reflected by
+ the other. The set does not support adding.
+ @return a set of the keys.
+ */
+- (id<JavaUtilSet>)keySet;
+
+/*!
+ @brief Associate the specified value with the specified key in this
+ <code>Hashtable</code>.
+ If the key already exists, the old value is replaced.
+ The key and value cannot be null.
+ @param key
+ the key to add.
+ @param value
+ the value to add.
+ @return the old value associated with the specified key, or <code>null</code>
+ if the key did not exist.
+ - seealso: #elements
+ - seealso: #get
+ - seealso: #keys
+ - seealso: java.lang.Object#equals
+ */
 - (id)putWithId:(id)key
          withId:(id)value;
 
+/*!
+ @brief Copies every mapping to this <code>Hashtable</code> from the specified map.
+ @param map
+ the map to copy mappings from.
+ */
 - (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
 
-- (void)rehash;
-
+/*!
+ @brief Removes the key/value pair with the specified key from this
+ <code>Hashtable</code>.
+ @param key
+ the key to remove.
+ @return the value associated with the specified key, or <code>null</code> if
+ the specified key did not exist.
+ - seealso: #get
+ - seealso: #put
+ */
 - (id)removeWithId:(id)key;
 
-- (void)clear;
+/*!
+ @brief Returns the number of key/value pairs in this <code>Hashtable</code>.
+ @return the number of key/value pairs in this <code>Hashtable</code>.
+ - seealso: #elements
+ - seealso: #keys
+ */
+- (jint)size;
 
-- (id<JavaUtilSet>)keySet;
+/*!
+ @brief Returns the string representation of this <code>Hashtable</code>.
+ @return the string representation of this <code>Hashtable</code>.
+ */
+- (NSString *)description;
 
+/*!
+ @brief Returns a collection of the values contained in this <code>Hashtable</code>.
+ The collection is backed by this <code>Hashtable</code> so changes to one are
+ reflected by the other. The collection does not support adding.
+ @return a collection of the values.
+ */
 - (id<JavaUtilCollection>)values;
 
-- (id<JavaUtilSet>)entrySet;
+#pragma mark Protected
 
-- (id<JavaUtilEnumeration>)keys;
-
-- (id<JavaUtilEnumeration>)elements;
-
-- (jboolean)isEqual:(id)object;
-
-- (NSUInteger)hash;
-
-- (NSString *)description;
+/*!
+ @brief Increases the capacity of this <code>Hashtable</code>.
+ This method is called
+ when the size of this <code>Hashtable</code> exceeds the load factor.
+ */
+- (void)rehash;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilHashtable_initialized;
 J2OBJC_STATIC_INIT(JavaUtilHashtable)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilHashtable_init(JavaUtilHashtable *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, MINIMUM_CAPACITY, jint)
+FOUNDATION_EXPORT JavaUtilHashtable *new_JavaUtilHashtable_init() NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, MAXIMUM_CAPACITY, jint)
+FOUNDATION_EXPORT JavaUtilHashtable *create_JavaUtilHashtable_init();
 
-FOUNDATION_EXPORT IOSObjectArray *JavaUtilHashtable_EMPTY_TABLE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, EMPTY_TABLE_, IOSObjectArray *)
+FOUNDATION_EXPORT void JavaUtilHashtable_initWithInt_(JavaUtilHashtable *self, jint capacity);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, DEFAULT_LOAD_FACTOR, jfloat)
+FOUNDATION_EXPORT JavaUtilHashtable *new_JavaUtilHashtable_initWithInt_(jint capacity) NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, CHARS_PER_ENTRY, jint)
+FOUNDATION_EXPORT JavaUtilHashtable *create_JavaUtilHashtable_initWithInt_(jint capacity);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, serialVersionUID, jlong)
+FOUNDATION_EXPORT void JavaUtilHashtable_initWithInt_withFloat_(JavaUtilHashtable *self, jint capacity, jfloat loadFactor);
 
-FOUNDATION_EXPORT IOSObjectArray *JavaUtilHashtable_serialPersistentFields_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashtable, serialPersistentFields_, IOSObjectArray *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilHashtable *new_JavaUtilHashtable_initWithInt_withFloat_(jint capacity, jfloat loadFactor) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashtable *create_JavaUtilHashtable_initWithInt_withFloat_(jint capacity, jfloat loadFactor);
+
+FOUNDATION_EXPORT void JavaUtilHashtable_initWithJavaUtilMap_(JavaUtilHashtable *self, id<JavaUtilMap> map);
+
+FOUNDATION_EXPORT JavaUtilHashtable *new_JavaUtilHashtable_initWithJavaUtilMap_(id<JavaUtilMap> map) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashtable *create_JavaUtilHashtable_initWithJavaUtilMap_(id<JavaUtilMap> map);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable)
 
-@interface JavaUtilHashtable_HashtableEntry : NSObject < JavaUtilMap_Entry > {
- @public
-  id key_;
-  id value_;
-  jint hash__;
-  JavaUtilHashtable_HashtableEntry *next_;
-}
+#endif
 
-- (instancetype)initWithId:(id)key
-                    withId:(id)value
-                   withInt:(jint)hash_
-withJavaUtilHashtable_HashtableEntry:(JavaUtilHashtable_HashtableEntry *)next;
 
-- (id)getKey;
-
-- (id)getValue;
-
-- (id)setValueWithId:(id)value;
-
-- (jboolean)isEqual:(id)o;
-
-- (NSUInteger)hash;
-
-- (NSString *)description;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_HashtableEntry)
-
-J2OBJC_FIELD_SETTER(JavaUtilHashtable_HashtableEntry, key_, id)
-J2OBJC_FIELD_SETTER(JavaUtilHashtable_HashtableEntry, value_, id)
-J2OBJC_FIELD_SETTER(JavaUtilHashtable_HashtableEntry, next_, JavaUtilHashtable_HashtableEntry *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_HashtableEntry)
-
-@interface JavaUtilHashtable_HashIterator : NSObject {
- @public
-  jint nextIndex_;
-  JavaUtilHashtable_HashtableEntry *nextEntry__;
-  JavaUtilHashtable_HashtableEntry *lastEntryReturned_;
-  jint expectedModCount_;
-}
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-- (jboolean)hasNext;
-
-- (JavaUtilHashtable_HashtableEntry *)nextEntry;
-
-- (JavaUtilHashtable_HashtableEntry *)nextEntryNotFailFast;
-
-- (void)remove;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_HashIterator)
-
-J2OBJC_FIELD_SETTER(JavaUtilHashtable_HashIterator, nextEntry__, JavaUtilHashtable_HashtableEntry *)
-J2OBJC_FIELD_SETTER(JavaUtilHashtable_HashIterator, lastEntryReturned_, JavaUtilHashtable_HashtableEntry *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_HashIterator)
-
-@interface JavaUtilHashtable_KeyIterator : JavaUtilHashtable_HashIterator < JavaUtilIterator > {
-}
-
-- (id)next;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_KeyIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_KeyIterator)
-
-@interface JavaUtilHashtable_ValueIterator : JavaUtilHashtable_HashIterator < JavaUtilIterator > {
-}
-
-- (id)next;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_ValueIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_ValueIterator)
-
-@interface JavaUtilHashtable_EntryIterator : JavaUtilHashtable_HashIterator < JavaUtilIterator > {
-}
-
-- (id<JavaUtilMap_Entry>)next;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_EntryIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_EntryIterator)
-
-@interface JavaUtilHashtable_KeyEnumeration : JavaUtilHashtable_HashIterator < JavaUtilEnumeration > {
-}
-
-- (jboolean)hasMoreElements;
-
-- (id)nextElement;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_KeyEnumeration)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_KeyEnumeration)
-
-@interface JavaUtilHashtable_ValueEnumeration : JavaUtilHashtable_HashIterator < JavaUtilEnumeration > {
-}
-
-- (jboolean)hasMoreElements;
-
-- (id)nextElement;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_ValueEnumeration)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_ValueEnumeration)
-
-@interface JavaUtilHashtable_KeySet : JavaUtilAbstractSet {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (jboolean)containsWithId:(id)o;
-
-- (jboolean)removeWithId:(id)o;
-
-- (void)clear;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEqual:(id)object;
-
-- (NSUInteger)hash;
-
-- (NSString *)description;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)a;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_KeySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_KeySet)
-
-@interface JavaUtilHashtable_Values : JavaUtilAbstractCollection {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (jboolean)containsWithId:(id)o;
-
-- (void)clear;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (NSString *)description;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)a;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_Values)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_Values)
-
-@interface JavaUtilHashtable_EntrySet : JavaUtilAbstractSet {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jboolean)containsWithId:(id)o;
-
-- (jboolean)removeWithId:(id)o;
-
-- (jint)size;
-
-- (void)clear;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEqual:(id)object;
-
-- (NSUInteger)hash;
-
-- (NSString *)description;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)a;
-
-- (instancetype)initWithJavaUtilHashtable:(JavaUtilHashtable *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashtable_EntrySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashtable_EntrySet)
-
-#endif // _JavaUtilHashtable_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilHashtable")

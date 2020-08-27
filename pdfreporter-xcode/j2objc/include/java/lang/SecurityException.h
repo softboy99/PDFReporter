@@ -3,37 +3,100 @@
 //  source: android/libcore/luni/src/main/java/java/lang/SecurityException.java
 //
 
-#ifndef _JavaLangSecurityException_H_
-#define _JavaLangSecurityException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangSecurityException")
+#ifdef RESTRICT_JavaLangSecurityException
+#define INCLUDE_ALL_JavaLangSecurityException 0
+#else
+#define INCLUDE_ALL_JavaLangSecurityException 1
+#endif
+#undef RESTRICT_JavaLangSecurityException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangSecurityException_) && (INCLUDE_ALL_JavaLangSecurityException || defined(INCLUDE_JavaLangSecurityException))
+#define JavaLangSecurityException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaLangSecurityException_serialVersionUID 6878364983674394167LL
+/*!
+ @brief Thrown when a security manager check fails.
+ */
+@interface JavaLangSecurityException : JavaLangRuntimeException
 
-@interface JavaLangSecurityException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>SecurityException</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>SecurityException</code> with the current stack trace
+ and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new <code>SecurityException</code> with the current stack trace,
+ the specified detail message and the specified cause.
+ @param message
+ the detail message for this exception.
+ @param cause
+ the optional cause of this exception, may be <code>null</code>.
+ @since 1.5
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new <code>SecurityException</code> with the current stack trace
+ and the specified cause.
+ @param cause
+ the optional cause of this exception, may be <code>null</code>.
+ @since 1.5
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangSecurityException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangSecurityException_init(JavaLangSecurityException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangSecurityException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangSecurityException *new_JavaLangSecurityException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangSecurityException *create_JavaLangSecurityException_init();
+
+FOUNDATION_EXPORT void JavaLangSecurityException_initWithNSString_(JavaLangSecurityException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangSecurityException *new_JavaLangSecurityException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangSecurityException *create_JavaLangSecurityException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaLangSecurityException_initWithNSString_withNSException_(JavaLangSecurityException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangSecurityException *new_JavaLangSecurityException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangSecurityException *create_JavaLangSecurityException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaLangSecurityException_initWithNSException_(JavaLangSecurityException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangSecurityException *new_JavaLangSecurityException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangSecurityException *create_JavaLangSecurityException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangSecurityException)
 
-#endif // _JavaLangSecurityException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangSecurityException")

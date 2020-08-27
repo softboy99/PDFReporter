@@ -3,30 +3,61 @@
 //  source: android/libcore/luni/src/main/java/java/lang/VirtualMachineError.java
 //
 
-#ifndef _JavaLangVirtualMachineError_H_
-#define _JavaLangVirtualMachineError_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangVirtualMachineError")
+#ifdef RESTRICT_JavaLangVirtualMachineError
+#define INCLUDE_ALL_JavaLangVirtualMachineError 0
+#else
+#define INCLUDE_ALL_JavaLangVirtualMachineError 1
+#endif
+#undef RESTRICT_JavaLangVirtualMachineError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangVirtualMachineError_) && (INCLUDE_ALL_JavaLangVirtualMachineError || defined(INCLUDE_JavaLangVirtualMachineError))
+#define JavaLangVirtualMachineError_
+
+#define RESTRICT_JavaLangError 1
+#define INCLUDE_JavaLangError 1
 #include "java/lang/Error.h"
 
-#define JavaLangVirtualMachineError_serialVersionUID 4161983926571568670LL
+/*!
+ @brief <code>VirtualMachineError</code> is the superclass of all error classes that occur
+ during the operation of the VM.
+ - seealso: Error
+ */
+@interface JavaLangVirtualMachineError : JavaLangError
 
-@interface JavaLangVirtualMachineError : JavaLangError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>VirtualMachineError</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>VirtualMachineError</code> with the current stack trace
+ and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangVirtualMachineError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangVirtualMachineError_init(JavaLangVirtualMachineError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangVirtualMachineError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaLangVirtualMachineError_initWithNSString_(JavaLangVirtualMachineError *self, NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangVirtualMachineError)
 
-#endif // _JavaLangVirtualMachineError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangVirtualMachineError")

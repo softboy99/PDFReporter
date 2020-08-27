@@ -3,37 +3,100 @@
 //  source: android/libcore/luni/src/main/java/java/lang/UnsupportedOperationException.java
 //
 
-#ifndef _JavaLangUnsupportedOperationException_H_
-#define _JavaLangUnsupportedOperationException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangUnsupportedOperationException")
+#ifdef RESTRICT_JavaLangUnsupportedOperationException
+#define INCLUDE_ALL_JavaLangUnsupportedOperationException 0
+#else
+#define INCLUDE_ALL_JavaLangUnsupportedOperationException 1
+#endif
+#undef RESTRICT_JavaLangUnsupportedOperationException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangUnsupportedOperationException_) && (INCLUDE_ALL_JavaLangUnsupportedOperationException || defined(INCLUDE_JavaLangUnsupportedOperationException))
+#define JavaLangUnsupportedOperationException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaLangUnsupportedOperationException_serialVersionUID -1242599979055084673LL
+/*!
+ @brief Thrown when an unsupported operation is attempted.
+ */
+@interface JavaLangUnsupportedOperationException : JavaLangRuntimeException
 
-@interface JavaLangUnsupportedOperationException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UnsupportedOperationException</code> that includes the
+ current stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>UnsupportedOperationException</code> with the current
+ stack trace and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new <code>UnsupportedOperationException</code> with the current
+ stack trace, the specified detail message and the specified cause.
+ @param message
+ the detail message for this exception.
+ @param cause
+ the optional cause of this exception, may be <code>null</code>.
+ @since 1.5
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new <code>UnsupportedOperationException</code> with the current
+ stack trace and the specified cause.
+ @param cause
+ the optional cause of this exception, may be <code>null</code>.
+ @since 1.5
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangUnsupportedOperationException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangUnsupportedOperationException_init(JavaLangUnsupportedOperationException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangUnsupportedOperationException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *new_JavaLangUnsupportedOperationException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *create_JavaLangUnsupportedOperationException_init();
+
+FOUNDATION_EXPORT void JavaLangUnsupportedOperationException_initWithNSString_(JavaLangUnsupportedOperationException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *new_JavaLangUnsupportedOperationException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *create_JavaLangUnsupportedOperationException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaLangUnsupportedOperationException_initWithNSString_withNSException_(JavaLangUnsupportedOperationException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *new_JavaLangUnsupportedOperationException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *create_JavaLangUnsupportedOperationException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaLangUnsupportedOperationException_initWithNSException_(JavaLangUnsupportedOperationException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *new_JavaLangUnsupportedOperationException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangUnsupportedOperationException *create_JavaLangUnsupportedOperationException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangUnsupportedOperationException)
 
-#endif // _JavaLangUnsupportedOperationException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangUnsupportedOperationException")

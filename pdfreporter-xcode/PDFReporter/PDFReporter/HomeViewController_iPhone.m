@@ -127,6 +127,7 @@
     }
     @catch (NSException *e)
     {
+        NSLog(@"Exception %@", e);
         [self performSelectorOnMainThread:@selector(finishWithException) withObject:nil waitUntilDone:NO];
     }
 }

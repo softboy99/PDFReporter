@@ -3,35 +3,78 @@
 //  source: android/libcore/luni/src/main/java/java/net/ProtocolException.java
 //
 
-#ifndef _JavaNetProtocolException_H_
-#define _JavaNetProtocolException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetProtocolException")
+#ifdef RESTRICT_JavaNetProtocolException
+#define INCLUDE_ALL_JavaNetProtocolException 0
+#else
+#define INCLUDE_ALL_JavaNetProtocolException 1
+#endif
+#undef RESTRICT_JavaNetProtocolException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetProtocolException_) && (INCLUDE_ALL_JavaNetProtocolException || defined(INCLUDE_JavaNetProtocolException))
+#define JavaNetProtocolException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNetProtocolException_serialVersionUID -6098449442062388080LL
+/*!
+ @brief Signals that either a connection attempt to a socket of the wrong type, the
+ application of an unsupported operation or that a general error in the
+ underlying protocol has occurred.
+ */
+@interface JavaNetProtocolException : JavaIoIOException
 
-@interface JavaNetProtocolException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetProtocolException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetProtocolException_init(JavaNetProtocolException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetProtocolException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetProtocolException *new_JavaNetProtocolException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetProtocolException *create_JavaNetProtocolException_init();
+
+FOUNDATION_EXPORT void JavaNetProtocolException_initWithNSString_(JavaNetProtocolException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetProtocolException *new_JavaNetProtocolException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetProtocolException *create_JavaNetProtocolException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaNetProtocolException_initWithNSString_withNSException_(JavaNetProtocolException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetProtocolException *new_JavaNetProtocolException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetProtocolException *create_JavaNetProtocolException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetProtocolException)
 
-#endif // _JavaNetProtocolException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetProtocolException")

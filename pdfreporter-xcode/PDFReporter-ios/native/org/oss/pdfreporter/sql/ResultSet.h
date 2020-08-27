@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/sql/IResultSet.h"
+#include "org/oss/pdfreporter/sql/IResultSet.h"
 #import "ResultMetaData.h"
 #import <sqlite3.h>
 

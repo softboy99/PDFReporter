@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -39,11 +38,12 @@ import org.oss.pdfreporter.engine.util.JRFontNotFoundException;
 import org.oss.pdfreporter.engine.util.JRGraphEnvInitializer;
 import org.oss.pdfreporter.engine.util.JRTextAttribute;
 import org.oss.pdfreporter.font.IFont;
-import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.IFont.FontDecoration;
 import org.oss.pdfreporter.font.IFont.FontStyle;
+import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.text.TextAttribute;
 import org.oss.pdfreporter.registry.ApiRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.java.awt.text.IAttributedCharacterIterator.Attribute;
 
 
@@ -170,7 +170,7 @@ public final class FontUtil
 	 * @param locale the locale
 	 * @return a font info object
 	 */
-	public FontInfo getFontInfo(String name, Locale locale)
+	public FontInfo getFontInfo(String name, StringLocale locale)
 	{
 		//FIXMEFONT do some cache
 		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
@@ -230,7 +230,7 @@ public final class FontUtil
 	/**
 	 *
 	 */
-	public IFont getAwtFontFromBundles(String name, FontStyle style, int size, Locale locale, boolean ignoreMissingFont)
+	public IFont getAwtFontFromBundles(String name, FontStyle style, int size, StringLocale locale, boolean ignoreMissingFont)
 	{
 		IFont awtFont = null;
 		FontInfo fontInfo = getFontInfo(name, locale);
@@ -324,7 +324,7 @@ public final class FontUtil
 	 * found in the font extensions or not. This is because we do need a font to draw with and there is no point
 	 * in raising a font missing exception here, as it is not JasperReports who does the drawing. 
 	 */
-	public IFont getAwtFont(JRFont font, Locale locale)
+	public IFont getAwtFont(JRFont font, StringLocale locale)
 	{
 		if (font == null)
 		{

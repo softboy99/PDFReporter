@@ -3,32 +3,78 @@
 //  source: android/libcore/luni/src/main/java/java/net/URLDecoder.java
 //
 
-#ifndef _JavaNetURLDecoder_H_
-#define _JavaNetURLDecoder_H_
-
 #include "J2ObjC_header.h"
 
-@interface JavaNetURLDecoder : NSObject {
-}
+#pragma push_macro("INCLUDE_ALL_JavaNetURLDecoder")
+#ifdef RESTRICT_JavaNetURLDecoder
+#define INCLUDE_ALL_JavaNetURLDecoder 0
+#else
+#define INCLUDE_ALL_JavaNetURLDecoder 1
+#endif
+#undef RESTRICT_JavaNetURLDecoder
 
-+ (NSString *)decodeWithNSString:(NSString *)s;
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-+ (NSString *)decodeWithNSString:(NSString *)s
-                    withNSString:(NSString *)charsetName;
+#if !defined (JavaNetURLDecoder_) && (INCLUDE_ALL_JavaNetURLDecoder || defined(INCLUDE_JavaNetURLDecoder))
+#define JavaNetURLDecoder_
+
+@class IOSObjectArray;
+
+/*!
+ @brief This class is used to decode a string which is encoded in the <code>application/x-www-form-urlencoded</code>
+  MIME content type.
+ */
+@interface JavaNetURLDecoder : NSObject
+
+#pragma mark Public
 
 - (instancetype)init;
+
+/*!
+ @brief Decodes the argument which is assumed to be encoded in the <code>x-www-form-urlencoded</code>
+  MIME content type.
+ <p>
+ '+' will be converted to space, '%' and two following hex digit
+ characters are converted to the equivalent byte value. All other
+ characters are passed through unmodified. For example "A+B+C %24%25" ->
+ "A B C $%".
+ @param s
+ the encoded string.
+ @return the decoded clear-text representation of the given string.
+ */
++ (NSString *)decodeWithNSString:(NSString *)s __attribute__((deprecated));
+
+/*!
+ @brief Decodes the argument which is assumed to be encoded in the <code>x-www-form-urlencoded</code>
+  MIME content type, assuming the given <code>charsetName</code>.
+ '<p>+' will be converted to space, '%' and two following hex digit
+ characters are converted to the equivalent byte value. All other
+ characters are passed through unmodified. For example "A+B+C %24%25" ->
+ "A B C $%".
+ @throws UnsupportedEncodingException if <code>charsetName</code> is not supported.
+ */
++ (NSString *)decodeWithNSString:(NSString *)s
+                    withNSString:(NSString *)charsetName;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetURLDecoder)
 
-CF_EXTERN_C_BEGIN
-
 FOUNDATION_EXPORT NSString *JavaNetURLDecoder_decodeWithNSString_(NSString *s);
 
 FOUNDATION_EXPORT NSString *JavaNetURLDecoder_decodeWithNSString_withNSString_(NSString *s, NSString *charsetName);
-CF_EXTERN_C_END
+
+FOUNDATION_EXPORT void JavaNetURLDecoder_init(JavaNetURLDecoder *self);
+
+FOUNDATION_EXPORT JavaNetURLDecoder *new_JavaNetURLDecoder_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetURLDecoder *create_JavaNetURLDecoder_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetURLDecoder)
 
-#endif // _JavaNetURLDecoder_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetURLDecoder")

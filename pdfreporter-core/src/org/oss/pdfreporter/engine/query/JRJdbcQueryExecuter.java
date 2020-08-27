@@ -108,7 +108,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected IResultSet resultSet;
 	
 	// TODO (20.06.2013, Donat, Open Software Solutions): No cached row set support
-	private boolean isCachedRowSet;
+	private final boolean isCachedRowSet;
 
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
@@ -117,9 +117,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	 * 
 	 */
 	public JRJdbcQueryExecuter(
-		JasperReportsContext jasperReportsContext, 
-		JRDataset dataset, 
-		Map<String,? extends JRValueParameter> parameters
+		final JasperReportsContext jasperReportsContext, 
+		final JRDataset dataset, 
+		final Map<String,? extends JRValueParameter> parameters
 		)
 	{
 		super(jasperReportsContext, dataset, parameters);
@@ -145,7 +145,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/**
 	 * @deprecated Replaced by {@link #JRJdbcQueryExecuter(JasperReportsContext, JRDataset, Map)}.
 	 */
-	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
+	@Deprecated
+	public JRJdbcQueryExecuter(final JRDataset dataset, final Map<String,? extends JRValueParameter> parameters)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
@@ -183,7 +184,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
-	protected String getParameterReplacement(String parameterName)
+	@Override
+	protected String getParameterReplacement(final String parameterName)
 	{
 		return "?";
 	}
@@ -192,6 +194,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#createDatasource()
 	 */
+	@Override
 	public JRDataSource createDatasource() throws JRException
 	{
 		JRResultSetDataSource dataSource = null;
@@ -207,7 +210,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
 				dataSource.setTimeZone(timeZone, timeZoneOverride);
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				throw new JRException("Error executing SQL statement for : " + dataset.getName(), e);
 			}
@@ -219,7 +222,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	
 	protected void createStatement() throws JRException
 	{
-		String queryString = getQueryString();
+		final String queryString = getQueryString();
 		
 		if (logger.isLoggable(Level.FINE))
 		{
@@ -250,7 +253,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					int paramIdx = 1;
 					
 					@Override
-					public void visit(QueryParameter queryParameter)
+					public void visit(final QueryParameter queryParameter)
 					{
 						try
 						{
@@ -264,18 +267,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 								++paramIdx;
 							}
 						}
-						catch (SQLException e)
+						catch (final SQLException e)
 						{
 							throw new VisitExceptionWrapper(e);
 						}
 					}
 					
 					@Override
-					public void visit(ValuedQueryParameter valuedQueryParameter)
+					public void visit(final ValuedQueryParameter valuedQueryParameter)
 					{
 						// assuming a single value for now
 						Class<?> type = valuedQueryParameter.getType();
-						Object value = valuedQueryParameter.getValue();
+						final Object value = valuedQueryParameter.getValue();
 						if (type == null)
 						{
 							type = value == null ? Object.class : value.getClass();
@@ -291,19 +294,19 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 							setStatementParameter(paramIdx, type, value);// using only dataset properties for now
 							++paramIdx;
 						}
-						catch (SQLException e)
+						catch (final SQLException e)
 						{
 							throw new VisitExceptionWrapper(e);
 						}
 					}
 				});
 			}
-			catch (VisitExceptionWrapper e)
+			catch (final VisitExceptionWrapper e)
 			{
 				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", 
 						e.getCause());
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", e);
 			}
@@ -316,11 +319,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
-	protected void setStatementParameter(int parameterIndex, String parameterName) throws SQLException
+	protected void setStatementParameter(final int parameterIndex, final String parameterName) throws SQLException
 	{
-		JRValueParameter parameter = getValueParameter(parameterName);
-		Class<?> clazz = parameter.getValueClass();
-		Object parameterValue = parameter.getValue();
+		final JRValueParameter parameter = getValueParameter(parameterName);
+		final Class<?> clazz = parameter.getValueClass();
+		final Object parameterValue = parameter.getValue();
 		
 		if (logger.isLoggable(Level.FINE))
 		{
@@ -331,18 +334,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
-	protected int setStatementMultiParameters(int parameterIndex, String parameterName, boolean ignoreNulls) throws SQLException
+	protected int setStatementMultiParameters(final int parameterIndex, final String parameterName, final boolean ignoreNulls) throws SQLException
 	{
-		JRValueParameter parameter = getValueParameter(parameterName);
-		Object paramValue = parameter.getValue();
+		final JRValueParameter parameter = getValueParameter(parameterName);
+		final Object paramValue = parameter.getValue();
 		int count;
 		int index = 0;
 		if (paramValue.getClass().isArray())
 		{
-			int arrayCount = Array.getLength(paramValue);
+			final int arrayCount = Array.getLength(paramValue);
 			for (count = 0; count < arrayCount; ++count)
 			{
-				Object value = Array.get(paramValue, count);
+				final Object value = Array.get(paramValue, count);
 				if(!ignoreNulls || value != null)
 				{
 					setStatementMultiParameter(parameterIndex + index, parameterName, count, value, parameter);
@@ -352,11 +355,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else if (paramValue instanceof Collection<?>)
 		{
-			Collection<?> values = (Collection<?>) paramValue;
+			final Collection<?> values = (Collection<?>) paramValue;
 			count = 0;
-			for (Iterator<?> it = values.iterator(); it.hasNext(); ++count)
+			for (final Iterator<?> it = values.iterator(); it.hasNext(); ++count)
 			{
-				Object value = it.next();
+				final Object value = it.next();
 				
 				if(!ignoreNulls || value != null)
 				{
@@ -373,15 +376,15 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 	
-	protected void setStatementMultiParameter(int parameterIndex, String parameterName, int valueIndex, Object value,
-			JRPropertiesHolder properties) throws SQLException
+	protected void setStatementMultiParameter(final int parameterIndex, final String parameterName, final int valueIndex, final Object value,
+			final JRPropertiesHolder properties) throws SQLException
 	{
 		if (value == null)
 		{
 			throw new JRRuntimeException("Multi parameters cannot contain null values.");
 		}
 		
-		Class<?> type = value.getClass();
+		final Class<?> type = value.getClass();
 		
 		if (logger.isLoggable(Level.FINE))
 		{
@@ -393,7 +396,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 	
-	protected void setStatementParameter(int parameterIndex, Class<?> parameterType, Object parameterValue) throws SQLException
+	protected void setStatementParameter(final int parameterIndex, final Class<?> parameterType, final Object parameterValue) throws SQLException
 	{
 		// NOTICE (20.06.2013, Donat, Open Software Solutions): Boolean should translate to 1 char
 		if (java.lang.Boolean.class.isAssignableFrom(parameterType))
@@ -507,12 +510,25 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			statement.setNull(parameterIndex, SqlType.DATE);
 		}
-		// NOTICE (20.06.2013, Donat, Open Software Solutions): No custom types support
+		else
+		{
+			if (parameterValue == null)
+			{
+				statement.setNull(parameterIndex, SqlType.OBJECT);
+			}
+			else
+			{
+				// HACK #84 setObject in original library but our android sqlite implementation does not support this
+				// not many databases do support java objects anyway. a proper solution could provide mapping strategies
+				// from java objects to database
+				statement.setString(parameterIndex, parameterValue.toString());
+			}
+		}
 	}
 
 
 
-	protected Calendar getParameterCalendar(JRPropertiesHolder properties)
+	protected Calendar getParameterCalendar(final JRPropertiesHolder properties)
 	{
 		TimeZone tz;
 		if (timeZoneOverride)
@@ -526,7 +542,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE))
 			{
 				// read the parameter level property
-				String timezoneId = getPropertiesUtil().getProperty(properties, 
+				final String timezoneId = getPropertiesUtil().getProperty(properties, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
 						: TimeZone.getTimeZone(timezoneId);
@@ -539,13 +555,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 
 		// using default JVM locale for the calendar
-		Calendar cal = tz == null ? null : Calendar.getInstance(tz);
+		final Calendar cal = tz == null ? null : Calendar.getInstance(tz);
 		return cal;
 	}
 	
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#close()
 	 */
+	@Override
 	public synchronized void close()
 	{
 		if (resultSet != null)
@@ -554,7 +571,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				resultSet.close();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
 				logger.log(Level.SEVERE,"Error while closing result set.", e);
 			}
@@ -570,7 +587,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				statement.close();
 			}
-			catch (IOException e)
+			catch (final IOException e)
 			{
 				logger.log(Level.SEVERE,"Error while closing statement.", e);
 			}
@@ -584,6 +601,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	/* (non-Javadoc)
 	 * @see net.sf.jasperreports.engine.util.JRQueryExecuter#cancelQuery()
 	 */
+	@Override
 	public synchronized boolean cancelQuery() throws JRException
 	{
 		if (statement != null)
@@ -593,7 +611,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				statement.cancel();
 				return true;
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				throw new JRException("Error cancelling SQL statement", e);
 			}

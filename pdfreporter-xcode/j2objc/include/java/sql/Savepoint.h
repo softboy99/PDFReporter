@@ -3,15 +3,45 @@
 //  source: android/libcore/luni/src/main/java/java/sql/Savepoint.java
 //
 
-#ifndef _JavaSqlSavepoint_H_
-#define _JavaSqlSavepoint_H_
-
 #include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaSqlSavepoint")
+#ifdef RESTRICT_JavaSqlSavepoint
+#define INCLUDE_ALL_JavaSqlSavepoint 0
+#else
+#define INCLUDE_ALL_JavaSqlSavepoint 1
+#endif
+#undef RESTRICT_JavaSqlSavepoint
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSqlSavepoint_) && (INCLUDE_ALL_JavaSqlSavepoint || defined(INCLUDE_JavaSqlSavepoint))
+#define JavaSqlSavepoint_
+
+/*!
+ @brief A savepoint is an instant during the current transaction that can be utilized
+ by a rollback via the <code>Connection.rollback</code> command.
+ Rolling back to a
+ particular savepoint means that all changes that occurred after that
+ savepoint are undone.
+ */
 @protocol JavaSqlSavepoint < NSObject, JavaObject >
 
+/*!
+ @brief Returns the constructed ID for this savepoint.
+ @return the ID for this savepoint.
+ @throws SQLException
+ if an error occurrs accessing the database.
+ */
 - (jint)getSavepointId;
 
+/*!
+ @brief Returns the name for this savepoint.
+ @return the name of this savepoint.
+ @throws SQLException
+ if an error occurrs accessing the database.
+ */
 - (NSString *)getSavepointName;
 
 @end
@@ -20,4 +50,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaSqlSavepoint)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSqlSavepoint)
 
-#endif // _JavaSqlSavepoint_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSqlSavepoint")

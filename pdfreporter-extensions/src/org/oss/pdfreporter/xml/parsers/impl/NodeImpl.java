@@ -121,7 +121,7 @@ public class NodeImpl extends NotImplNode {
 		return parent;
 	}
 
-	private static class NodeListImpl implements NodeList {
+	public static class NodeListImpl implements NodeList {
 
 		private final List<Node> delegate = new ArrayList<Node>();
 		private final Node parent;

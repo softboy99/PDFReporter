@@ -11,8 +11,8 @@
 package org.oss.pdfreporter.compilers.expressionelements;
 
 import org.oss.pdfreporter.compilers.IDataHolder;
-import org.oss.pdfreporter.compilers.IVariable;
 import org.oss.pdfreporter.compilers.IExpressionChunk.ExpresionType;
+import org.oss.pdfreporter.compilers.IVariable;
 import org.oss.pdfreporter.engine.fill.JRFillField;
 
 
@@ -37,6 +37,11 @@ public class ExpressionField implements IVariable {
 		return getField().getOldValue();
 	}
 	
+	@Override
+	public Object getEsimatedValue()  {
+		return getValue();
+	}
+
 	@Override
 	public Object getVariableHolder() {
 		return getField();

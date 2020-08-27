@@ -3,25 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/util/MissingResourceException.java
 //
 
-#ifndef _JavaUtilMissingResourceException_H_
-#define _JavaUtilMissingResourceException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilMissingResourceException")
+#ifdef RESTRICT_JavaUtilMissingResourceException
+#define INCLUDE_ALL_JavaUtilMissingResourceException 0
+#else
+#define INCLUDE_ALL_JavaUtilMissingResourceException 1
+#endif
+#undef RESTRICT_JavaUtilMissingResourceException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilMissingResourceException_) && (INCLUDE_ALL_JavaUtilMissingResourceException || defined(INCLUDE_JavaUtilMissingResourceException))
+#define JavaUtilMissingResourceException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaUtilMissingResourceException_serialVersionUID -4876345176062000401LL
-
+/*!
+ @brief A <code>MissingResourceException</code> is thrown by ResourceBundle when a
+ resource bundle cannot be found or a resource is missing from a resource
+ bundle.
+ - seealso: ResourceBundle
+ - seealso: java.lang.RuntimeException
+ */
 @interface JavaUtilMissingResourceException : JavaLangRuntimeException {
  @public
   NSString *className__, *key_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>MissingResourceException</code> with the stack trace,
+ message, the class name of the resource bundle and the name of the
+ missing resource filled in.
+ @param detailMessage
+ the detail message for the exception.
+ @param className_
+ the class name of the resource bundle.
+ @param resourceName
+ the name of the missing resource.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
                     withNSString:(NSString *)className_
                     withNSString:(NSString *)resourceName;
 
+/*!
+ @brief Returns the class name of the resource bundle from which a resource could
+ not be found, or in the case of a missing resource, the name of the
+ missing resource bundle.
+ @return the class name of the resource bundle.
+ */
 - (NSString *)getClassName;
 
+/*!
+ @brief Returns the name of the missing resource, or an empty string if the
+ resource bundle is missing.
+ @return the name of the missing resource.
+ */
 - (NSString *)getKey;
 
 @end
@@ -31,11 +74,16 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilMissingResourceException)
 J2OBJC_FIELD_SETTER(JavaUtilMissingResourceException, className__, NSString *)
 J2OBJC_FIELD_SETTER(JavaUtilMissingResourceException, key_, NSString *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilMissingResourceException_initWithNSString_withNSString_withNSString_(JavaUtilMissingResourceException *self, NSString *detailMessage, NSString *className_, NSString *resourceName);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilMissingResourceException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilMissingResourceException *new_JavaUtilMissingResourceException_initWithNSString_withNSString_withNSString_(NSString *detailMessage, NSString *className_, NSString *resourceName) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilMissingResourceException *create_JavaUtilMissingResourceException_initWithNSString_withNSString_withNSString_(NSString *detailMessage, NSString *className_, NSString *resourceName);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMissingResourceException)
 
-#endif // _JavaUtilMissingResourceException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilMissingResourceException")

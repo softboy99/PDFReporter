@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/NonWritableChannelException.java
 //
 
-#ifndef _JavaNioChannelsNonWritableChannelException_H_
-#define _JavaNioChannelsNonWritableChannelException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsNonWritableChannelException")
+#ifdef RESTRICT_JavaNioChannelsNonWritableChannelException
+#define INCLUDE_ALL_JavaNioChannelsNonWritableChannelException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsNonWritableChannelException 1
+#endif
+#undef RESTRICT_JavaNioChannelsNonWritableChannelException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsNonWritableChannelException_) && (INCLUDE_ALL_JavaNioChannelsNonWritableChannelException || defined(INCLUDE_JavaNioChannelsNonWritableChannelException))
+#define JavaNioChannelsNonWritableChannelException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsNonWritableChannelException_serialVersionUID -7071230488279011621LL
+/*!
+ @brief A <code>NonWritableChannelException</code> is thrown when attempting to write to a
+ channel that is not open for writing.
+ */
+@interface JavaNioChannelsNonWritableChannelException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsNonWritableChannelException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>NonWritableChannelException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsNonWritableChannelException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsNonWritableChannelException_init(JavaNioChannelsNonWritableChannelException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsNonWritableChannelException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsNonWritableChannelException *new_JavaNioChannelsNonWritableChannelException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsNonWritableChannelException *create_JavaNioChannelsNonWritableChannelException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsNonWritableChannelException)
 
-#endif // _JavaNioChannelsNonWritableChannelException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsNonWritableChannelException")

@@ -13,9 +13,9 @@ package org.oss.pdfreporter.compilers.jshuntingyard.functions;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractTwoArgFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractTwoArgFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 
 
@@ -25,7 +25,7 @@ import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
  */
 public class TruncateDateTo extends AbstractTwoArgFunctionElement<Date,String,Date> {
 
-	private final static String MODE_MONTH = "'M'";
+	private final static String MODE_MONTH = "M";
 
 	public TruncateDateTo() {
 		super("truncateDateTo", Precedence.USERFUNCTION);
@@ -53,6 +53,7 @@ public class TruncateDateTo extends AbstractTwoArgFunctionElement<Date,String,Da
 			calendar.set(Calendar.MONTH, month);
 		}
 		date = calendar.getTimeInMillis();
+
 		return FunctionArgumentFactory.createObject(new Date(date));
 	}
 

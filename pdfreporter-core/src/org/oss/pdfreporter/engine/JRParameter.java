@@ -77,6 +77,18 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 */
 	public static final String REPORT_LOCALE = "REPORT_LOCALE";
 
+	/**
+	 * A LocaleString (en_US) <tt>java.util.Locale.toString()</tt> instance containing the text bundle desired locale. 
+	 * Your property resource files require the prefix translation. For the locale de_CH provide a property file with
+	 * the name translation_de_CH.properties in your report folder or an extra folder.
+	 * This parameter replaces the REPORT_LANGUAGE and REPORT_RESOURCE_BUNDLE parameter.
+	 */
+	public static final String REPORT_LANGUAGE = "REPORT_LANGUAGE";
+	/**
+	 * The encoding for i18n support
+	 */
+	public static final String REPORT_ENCODING = "REPORT_ENCODING";
+
 
 	/**
 	 * The <tt>java.util.ResourceBundle</tt> containing localized messages. If the resource bundle base name is specified at

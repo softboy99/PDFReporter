@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +38,7 @@ import org.oss.pdfreporter.compilers.jeval.functions.MessageWithArg;
 import org.oss.pdfreporter.compilers.jeval.functions.NullValue;
 import org.oss.pdfreporter.compilers.jeval.functions.TruncateDateTo;
 import org.oss.pdfreporter.compilers.util.ResultUtil;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.EvaluationConstants;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.EvaluationException;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.Evaluator;
@@ -165,7 +165,7 @@ public class JEvalExpression {
 	public String evaluateValue() throws ExpressionEvaluationException {
 		try {
 			String value =  valueEvaluator.evaluate();
-			logger.log(Level.INFO, "Evaluating new exprsseion: {0} to {1} of type: {2}", new Object[] {expression,value,value.startsWith("'") ? "STRING" : "DOUBLE"});
+			logger.log(Level.FINER, "Evaluating new exprsseion: {0} to {1} of type: {2}", new Object[] {expression,value,value.startsWith("'") ? "STRING" : "DOUBLE"});
 			return value;
 		} catch (EvaluationException e) {
 			throw new ExpressionEvaluationException("Error while evaluating '" + expression + "' with variables: " + ResultUtil.getDump(variables.values()),e);
@@ -175,7 +175,7 @@ public class JEvalExpression {
 	public String evaluateOldValue() throws ExpressionEvaluationException {
 		try {
 			String value = oldValueEvaluator.evaluate();
-			logger.log(Level.INFO, "Evaluating old exprsseion: {0} to {1} of type: {2}", new Object[] {expression,value,value.startsWith("'") ? "STRING" : "DOUBLE"});
+			logger.log(Level.FINER, "Evaluating old exprsseion: {0} to {1} of type: {2}", new Object[] {expression,value,value.startsWith("'") ? "STRING" : "DOUBLE"});
 			return value;
 		} catch (EvaluationException e) {
 			throw new ExpressionEvaluationException("Error while evaluating '" + expression + "' with variables: " + ResultUtil.getDump(variables.values()),e);
@@ -214,7 +214,7 @@ public class JEvalExpression {
 			return ExpressionConstants.QUOTED_NULL;
 		} else if (value instanceof String) {
 			return EvaluationConstants.SINGLE_QUOTE + value.toString() + EvaluationConstants.SINGLE_QUOTE;
-		} else if (value instanceof Locale) {
+		} else if (value instanceof StringLocale) {
 			return EvaluationConstants.SINGLE_QUOTE + value.toString() + EvaluationConstants.SINGLE_QUOTE;
 		} else if (value instanceof Double){
 			return BigDecimal.valueOf((Double)value).toPlainString();

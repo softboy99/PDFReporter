@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/security/ProtectionDomain.java
 //
 
-#ifndef _JavaSecurityProtectionDomain_H_
-#define _JavaSecurityProtectionDomain_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityProtectionDomain")
+#ifdef RESTRICT_JavaSecurityProtectionDomain
+#define INCLUDE_ALL_JavaSecurityProtectionDomain 0
+#else
+#define INCLUDE_ALL_JavaSecurityProtectionDomain 1
+#endif
+#undef RESTRICT_JavaSecurityProtectionDomain
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityProtectionDomain_) && (INCLUDE_ALL_JavaSecurityProtectionDomain || defined(INCLUDE_JavaSecurityProtectionDomain))
+#define JavaSecurityProtectionDomain_
 
 @class IOSObjectArray;
 @class JavaLangClassLoader;
@@ -12,10 +25,12 @@
 @class JavaSecurityPermission;
 @class JavaSecurityPermissionCollection;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaSecurityProtectionDomain : NSObject
 
-@interface JavaSecurityProtectionDomain : NSObject {
-}
+#pragma mark Public
 
 - (instancetype)initWithJavaSecurityCodeSource:(JavaSecurityCodeSource *)cs
           withJavaSecurityPermissionCollection:(JavaSecurityPermissionCollection *)permissions;
@@ -39,9 +54,22 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityProtectionDomain)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_(JavaSecurityProtectionDomain *self, JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions);
+
+FOUNDATION_EXPORT JavaSecurityProtectionDomain *new_JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_(JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityProtectionDomain *create_JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_(JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions);
+
+FOUNDATION_EXPORT void JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_withJavaLangClassLoader_withJavaSecurityPrincipalArray_(JavaSecurityProtectionDomain *self, JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions, JavaLangClassLoader *cl, IOSObjectArray *principals);
+
+FOUNDATION_EXPORT JavaSecurityProtectionDomain *new_JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_withJavaLangClassLoader_withJavaSecurityPrincipalArray_(JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions, JavaLangClassLoader *cl, IOSObjectArray *principals) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityProtectionDomain *create_JavaSecurityProtectionDomain_initWithJavaSecurityCodeSource_withJavaSecurityPermissionCollection_withJavaLangClassLoader_withJavaSecurityPrincipalArray_(JavaSecurityCodeSource *cs, JavaSecurityPermissionCollection *permissions, JavaLangClassLoader *cl, IOSObjectArray *principals);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityProtectionDomain)
 
-#endif // _JavaSecurityProtectionDomain_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityProtectionDomain")

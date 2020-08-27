@@ -25,9 +25,12 @@ import org.oss.pdfreporter.compilers.IExpressionChunk.ExpresionType;
 import org.oss.pdfreporter.compilers.IVariable;
 import org.oss.pdfreporter.compilers.IVariableExpressionChunk;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.BooleanConverter;
+import org.oss.pdfreporter.compilers.jshuntingyard.functions.BytesAsStream;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.Conditional;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.CurrentDate;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.DateStringConverter;
+import org.oss.pdfreporter.compilers.jshuntingyard.functions.DecodeBase64Bytes;
+import org.oss.pdfreporter.compilers.jshuntingyard.functions.DecodeBase64String;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.DisplayName;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.DoubleStringConverter;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.FloatStringConverter;
@@ -35,13 +38,15 @@ import org.oss.pdfreporter.compilers.jshuntingyard.functions.IntegerStringConver
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.IsNull;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.LongStringConverter;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.Message;
+import org.oss.pdfreporter.compilers.jshuntingyard.functions.MessageWithArgs;
+import org.oss.pdfreporter.compilers.jshuntingyard.functions.SubDataSource;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.ToMilliseconds;
 import org.oss.pdfreporter.compilers.jshuntingyard.functions.TruncateDateTo;
 import org.oss.pdfreporter.compilers.util.ResultUtil;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.interpreter.Evaluator;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.interpreter.Variable;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.interpreter.Evaluator;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.interpreter.Variable;
 
 
 public class JSHuntingYardExpression {
@@ -74,8 +79,13 @@ public class JSHuntingYardExpression {
 		putFunction(new CurrentDate());
 		putFunction(new IsNull());
 		putFunction(new Message());
+		putFunction(new MessageWithArgs());
 		putFunction(new DisplayName());
 		putFunction(new ToMilliseconds());
+		putFunction(new SubDataSource());
+		putFunction(new BytesAsStream());
+		putFunction(new DecodeBase64Bytes());
+		putFunction(new DecodeBase64String());
 	}
 
 	private void putFunction(FunctionElement function) {
@@ -144,7 +154,7 @@ public class JSHuntingYardExpression {
 	public Object evaluateValue() throws ExpressionEvaluationException {
 		try {
 			FunctionElementArgument<?> evaluate = this.newEval.evaluate();
-			logger.log(Level.INFO, "Evaluating new exprsseion: {0} to {1} of type: {2}", new Object[] {expression,evaluate.getValue(),evaluate.getType()});
+			logger.log(Level.FINER, "Evaluating new exprsseion: {0} to {1} of type: {2}", new Object[] {expression,evaluate.getValue(),evaluate.getType()});
 			return  evaluate.getValue();
 		} catch (RuntimeException e) {
 			throw new ExpressionEvaluationException("Error while evaluating '" + expression + "' with variables: " + ResultUtil.getDump(variables.values()),e);
@@ -154,7 +164,7 @@ public class JSHuntingYardExpression {
 	public Object evaluateOldValue() throws ExpressionEvaluationException {
 		try {
 			FunctionElementArgument<?> evaluate = this.oldEval.evaluate();
-			logger.log(Level.INFO, "Evaluating old exprsseion: {0} to {1} of type: {2}", new Object[] {expression,evaluate.getValue(),evaluate.getType()});
+			logger.log(Level.FINER, "Evaluating old exprsseion: {0} to {1} of type: {2}", new Object[] {expression,evaluate.getValue(),evaluate.getType()});
 			return  evaluate.getValue();
 		} catch (RuntimeException e) {
 			throw new ExpressionEvaluationException("Error while evaluating '" + expression + "' with variables: " + ResultUtil.getDump(variables.values()),e);
@@ -188,7 +198,8 @@ public class JSHuntingYardExpression {
 		@Override
 		public Object getValue() {
 			try {
-				return delegate.getValue();
+				Object value = delegate.getValue();
+				return value==null ? delegate.getEsimatedValue() : value;
 			} catch (ExpressionEvaluationException e) {
 				throw new RuntimeException(e);
 			}
@@ -213,7 +224,8 @@ public class JSHuntingYardExpression {
 		@Override
 		public Object getValue() {
 			try {
-				return delegate.getOldValue();
+				Object value = delegate.getOldValue();
+				return value==null ? delegate.getEsimatedValue() : value;
 			} catch (ExpressionEvaluationException e) {
 				throw new RuntimeException(e);
 			}

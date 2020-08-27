@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/security/KeyFactorySpi.java
 //
 
-#ifndef _JavaSecurityKeyFactorySpi_H_
-#define _JavaSecurityKeyFactorySpi_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityKeyFactorySpi")
+#ifdef RESTRICT_JavaSecurityKeyFactorySpi
+#define INCLUDE_ALL_JavaSecurityKeyFactorySpi 0
+#else
+#define INCLUDE_ALL_JavaSecurityKeyFactorySpi 1
+#endif
+#undef RESTRICT_JavaSecurityKeyFactorySpi
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityKeyFactorySpi_) && (INCLUDE_ALL_JavaSecurityKeyFactorySpi || defined(INCLUDE_JavaSecurityKeyFactorySpi))
+#define JavaSecurityKeyFactorySpi_
 
 @class IOSClass;
 @protocol JavaSecurityKey;
@@ -12,29 +25,76 @@
 @protocol JavaSecurityPublicKey;
 @protocol JavaSecuritySpecKeySpec;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief <code>KeyFactorySpi</code> is the Service Provider Interface (SPI) definition for
+ <code>KeyFactory</code>.
+ - seealso: KeyFactory
+ */
+@interface JavaSecurityKeyFactorySpi : NSObject
 
-@interface JavaSecurityKeyFactorySpi : NSObject {
-}
+#pragma mark Public
 
-- (id<JavaSecurityPublicKey>)engineGeneratePublicWithJavaSecuritySpecKeySpec:(id<JavaSecuritySpecKeySpec>)keySpec;
+- (instancetype)init;
 
+#pragma mark Protected
+
+/*!
+ @brief Generates a instance of <code>PrivateKey</code> from the given key
+ specification.
+ @param keySpec
+ the specification of the private key.
+ @return the private key.
+ @throws InvalidKeySpecException
+ if the specified <code>keySpec</code> is invalid.
+ */
 - (id<JavaSecurityPrivateKey>)engineGeneratePrivateWithJavaSecuritySpecKeySpec:(id<JavaSecuritySpecKeySpec>)keySpec;
 
+/*!
+ @brief Generates a instance of <code>PublicKey</code> from the given key
+ specification.
+ @param keySpec
+ the specification of the public key.
+ @return the public key.
+ @throws InvalidKeySpecException
+ if the specified <code>keySpec</code> is invalid.
+ */
+- (id<JavaSecurityPublicKey>)engineGeneratePublicWithJavaSecuritySpecKeySpec:(id<JavaSecuritySpecKeySpec>)keySpec;
+
+/*!
+ @brief Returns the key specification for the specified key.
+ @param key
+ the key from which the specification is requested.
+ @param keySpec
+ the type of the requested <code>KeySpec</code>.
+ @return the key specification for the specified key.
+ @throws InvalidKeySpecException
+ if the key can not be processed, or the requested requested
+ <code>KeySpec</code> is inappropriate for the given key.
+ */
 - (id)engineGetKeySpecWithJavaSecurityKey:(id<JavaSecurityKey>)key
                              withIOSClass:(IOSClass *)keySpec;
 
+/*!
+ @brief Translates the given key into a key from this key factory.
+ @param key
+ the key to translate.
+ @return the translated key.
+ @throws InvalidKeyException
+ if the specified key can not be translated by this key
+ factory.
+ */
 - (id<JavaSecurityKey>)engineTranslateKeyWithJavaSecurityKey:(id<JavaSecurityKey>)key;
-
-- (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityKeyFactorySpi)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityKeyFactorySpi_init(JavaSecurityKeyFactorySpi *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKeyFactorySpi)
 
-#endif // _JavaSecurityKeyFactorySpi_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityKeyFactorySpi")

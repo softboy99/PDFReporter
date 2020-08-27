@@ -3,37 +3,110 @@
 //  source: android/libcore/luni/src/main/java/java/util/concurrent/ExecutionException.java
 //
 
-#ifndef _JavaUtilConcurrentExecutionException_H_
-#define _JavaUtilConcurrentExecutionException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilConcurrentExecutionException")
+#ifdef RESTRICT_JavaUtilConcurrentExecutionException
+#define INCLUDE_ALL_JavaUtilConcurrentExecutionException 0
+#else
+#define INCLUDE_ALL_JavaUtilConcurrentExecutionException 1
+#endif
+#undef RESTRICT_JavaUtilConcurrentExecutionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilConcurrentExecutionException_) && (INCLUDE_ALL_JavaUtilConcurrentExecutionException || defined(INCLUDE_JavaUtilConcurrentExecutionException))
+#define JavaUtilConcurrentExecutionException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaUtilConcurrentExecutionException_serialVersionUID 7830266012832686185LL
+/*!
+ @brief Exception thrown when attempting to retrieve the result of a task
+ that aborted by throwing an exception.
+ This exception can be
+ inspected using the <code>getCause()</code> method.
+ - seealso: Future
+ @since 1.5
+ @author Doug Lea
+ */
+@interface JavaUtilConcurrentExecutionException : JavaLangException
 
-@interface JavaUtilConcurrentExecutionException : JavaLangException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>ExecutionException</code> with the specified detail
+ message and cause.
+ @param message the detail message
+ @param cause the cause (which is saved for later retrieval by the
+ <code>getCause()</code> method)
+ */
+- (instancetype)initWithNSString:(NSString *)message
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs an <code>ExecutionException</code> with the specified cause.
+ The detail message is set to <code>(cause == null ? null :
+ cause.toString())</code>
+  (which typically contains the class and
+ detail message of <code>cause</code>).
+ @param cause the cause (which is saved for later retrieval by the
+ <code>getCause()</code> method)
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs an <code>ExecutionException</code> with no detail message.
+ The cause is not initialized, and may subsequently be
+ initialized by a call to <code>initCause</code>.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs an <code>ExecutionException</code> with the specified detail
+ message.
+ The cause is not initialized, and may subsequently be
+ initialized by a call to <code>initCause</code>.
+ @param message the detail message
+ */
 - (instancetype)initWithNSString:(NSString *)message;
-
-- (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
-
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilConcurrentExecutionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilConcurrentExecutionException_init(JavaUtilConcurrentExecutionException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilConcurrentExecutionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *new_JavaUtilConcurrentExecutionException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *create_JavaUtilConcurrentExecutionException_init();
+
+FOUNDATION_EXPORT void JavaUtilConcurrentExecutionException_initWithNSString_(JavaUtilConcurrentExecutionException *self, NSString *message);
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *new_JavaUtilConcurrentExecutionException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *create_JavaUtilConcurrentExecutionException_initWithNSString_(NSString *message);
+
+FOUNDATION_EXPORT void JavaUtilConcurrentExecutionException_initWithNSString_withNSException_(JavaUtilConcurrentExecutionException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *new_JavaUtilConcurrentExecutionException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *create_JavaUtilConcurrentExecutionException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaUtilConcurrentExecutionException_initWithNSException_(JavaUtilConcurrentExecutionException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *new_JavaUtilConcurrentExecutionException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilConcurrentExecutionException *create_JavaUtilConcurrentExecutionException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilConcurrentExecutionException)
 
-#endif // _JavaUtilConcurrentExecutionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilConcurrentExecutionException")

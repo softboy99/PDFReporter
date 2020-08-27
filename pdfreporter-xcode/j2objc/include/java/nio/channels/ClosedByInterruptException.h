@@ -3,28 +3,57 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/ClosedByInterruptException.java
 //
 
-#ifndef _JavaNioChannelsClosedByInterruptException_H_
-#define _JavaNioChannelsClosedByInterruptException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsClosedByInterruptException")
+#ifdef RESTRICT_JavaNioChannelsClosedByInterruptException
+#define INCLUDE_ALL_JavaNioChannelsClosedByInterruptException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsClosedByInterruptException 1
+#endif
+#undef RESTRICT_JavaNioChannelsClosedByInterruptException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsClosedByInterruptException_) && (INCLUDE_ALL_JavaNioChannelsClosedByInterruptException || defined(INCLUDE_JavaNioChannelsClosedByInterruptException))
+#define JavaNioChannelsClosedByInterruptException_
+
+#define RESTRICT_JavaNioChannelsAsynchronousCloseException 1
+#define INCLUDE_JavaNioChannelsAsynchronousCloseException 1
 #include "java/nio/channels/AsynchronousCloseException.h"
 
-#define JavaNioChannelsClosedByInterruptException_serialVersionUID -4488191543534286750LL
+/*!
+ @brief A <code>ClosedByInterruptException</code> is thrown when a thread is interrupted
+ in a blocking I/O operation.
+ <p>
+ When the thread is interrupted by a call to <code>interrupt()</code>, it closes
+ the channel, sets the interrupt status of the thread to <code>true</code> and
+ throws a <code>ClosedByInterruptException</code>.
+ */
+@interface JavaNioChannelsClosedByInterruptException : JavaNioChannelsAsynchronousCloseException
 
-@interface JavaNioChannelsClosedByInterruptException : JavaNioChannelsAsynchronousCloseException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>ClosedByInterruptException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsClosedByInterruptException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsClosedByInterruptException_init(JavaNioChannelsClosedByInterruptException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsClosedByInterruptException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsClosedByInterruptException *new_JavaNioChannelsClosedByInterruptException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsClosedByInterruptException *create_JavaNioChannelsClosedByInterruptException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsClosedByInterruptException)
 
-#endif // _JavaNioChannelsClosedByInterruptException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsClosedByInterruptException")

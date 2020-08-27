@@ -3,53 +3,128 @@
 //  source: android/libcore/luni/src/main/java/java/util/logging/ErrorManager.java
 //
 
-#ifndef _JavaUtilLoggingErrorManager_H_
-#define _JavaUtilLoggingErrorManager_H_
-
-@class IOSObjectArray;
-@class JavaLangException;
-
 #include "J2ObjC_header.h"
 
-#define JavaUtilLoggingErrorManager_CLOSE_FAILURE 3
-#define JavaUtilLoggingErrorManager_FLUSH_FAILURE 2
-#define JavaUtilLoggingErrorManager_FORMAT_FAILURE 5
-#define JavaUtilLoggingErrorManager_GENERIC_FAILURE 0
-#define JavaUtilLoggingErrorManager_OPEN_FAILURE 4
-#define JavaUtilLoggingErrorManager_WRITE_FAILURE 1
+#pragma push_macro("INCLUDE_ALL_JavaUtilLoggingErrorManager")
+#ifdef RESTRICT_JavaUtilLoggingErrorManager
+#define INCLUDE_ALL_JavaUtilLoggingErrorManager 0
+#else
+#define INCLUDE_ALL_JavaUtilLoggingErrorManager 1
+#endif
+#undef RESTRICT_JavaUtilLoggingErrorManager
 
-@interface JavaUtilLoggingErrorManager : NSObject {
-}
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+#if !defined (JavaUtilLoggingErrorManager_) && (INCLUDE_ALL_JavaUtilLoggingErrorManager || defined(INCLUDE_JavaUtilLoggingErrorManager))
+#define JavaUtilLoggingErrorManager_
+
+@class JavaLangException;
+
+/*!
+ @brief An error reporting facility for <code>Handler</code> implementations to record any
+ error that may happen during logging.
+ <code>Handlers</code> should report errors
+ to an <code>ErrorManager</code>, instead of throwing exceptions, which would
+ interfere with the log issuer's execution.
+ */
+@interface JavaUtilLoggingErrorManager : NSObject
+
++ (jint)GENERIC_FAILURE;
+
++ (jint)WRITE_FAILURE;
+
++ (jint)FLUSH_FAILURE;
+
++ (jint)CLOSE_FAILURE;
+
++ (jint)OPEN_FAILURE;
+
++ (jint)FORMAT_FAILURE;
+
+#pragma mark Public
+
+/*!
+ @brief Constructs an instance of <code>ErrorManager</code>.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Reports an error using the given message, exception and error code.
+ This
+ implementation will write out the message to <code>System.err</code> on the
+ first call and all subsequent calls are ignored. A subclass of this class
+ should override this method.
+ @param message
+ the error message, which may be <code>null</code>.
+ @param exception
+ the exception associated with the error, which may be
+ <code>null</code>.
+ @param errorCode
+ the error code that identifies the type of error; see the
+ constant fields of this class for possible values.
+ */
 - (void)errorWithNSString:(NSString *)message
     withJavaLangException:(JavaLangException *)exception
                   withInt:(jint)errorCode;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilLoggingErrorManager_initialized;
 J2OBJC_STATIC_INIT(JavaUtilLoggingErrorManager)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief The error code indicating a failure that does not fit in any of the
+ specific types of failures that follow.
+ */
+inline jint JavaUtilLoggingErrorManager_get_GENERIC_FAILURE();
+#define JavaUtilLoggingErrorManager_GENERIC_FAILURE 0
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, GENERIC_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, GENERIC_FAILURE, jint)
+/*!
+ @brief The error code indicating a failure when writing to an output stream.
+ */
+inline jint JavaUtilLoggingErrorManager_get_WRITE_FAILURE();
+#define JavaUtilLoggingErrorManager_WRITE_FAILURE 1
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, WRITE_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, WRITE_FAILURE, jint)
+/*!
+ @brief The error code indicating a failure when flushing an output stream.
+ */
+inline jint JavaUtilLoggingErrorManager_get_FLUSH_FAILURE();
+#define JavaUtilLoggingErrorManager_FLUSH_FAILURE 2
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, FLUSH_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, FLUSH_FAILURE, jint)
+/*!
+ @brief The error code indicating a failure when closing an output stream.
+ */
+inline jint JavaUtilLoggingErrorManager_get_CLOSE_FAILURE();
+#define JavaUtilLoggingErrorManager_CLOSE_FAILURE 3
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, CLOSE_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, CLOSE_FAILURE, jint)
+/*!
+ @brief The error code indicating a failure when opening an output stream.
+ */
+inline jint JavaUtilLoggingErrorManager_get_OPEN_FAILURE();
+#define JavaUtilLoggingErrorManager_OPEN_FAILURE 4
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, OPEN_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, OPEN_FAILURE, jint)
+/*!
+ @brief The error code indicating a failure when formatting the error messages.
+ */
+inline jint JavaUtilLoggingErrorManager_get_FORMAT_FAILURE();
+#define JavaUtilLoggingErrorManager_FORMAT_FAILURE 5
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilLoggingErrorManager, FORMAT_FAILURE, jint)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, FORMAT_FAILURE, jint)
+FOUNDATION_EXPORT void JavaUtilLoggingErrorManager_init(JavaUtilLoggingErrorManager *self);
 
-FOUNDATION_EXPORT IOSObjectArray *JavaUtilLoggingErrorManager_FAILURES_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLoggingErrorManager, FAILURES_, IOSObjectArray *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilLoggingErrorManager *new_JavaUtilLoggingErrorManager_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilLoggingErrorManager *create_JavaUtilLoggingErrorManager_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLoggingErrorManager)
 
-#endif // _JavaUtilLoggingErrorManager_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilLoggingErrorManager")

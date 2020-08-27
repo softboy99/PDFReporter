@@ -30,9 +30,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import org.oss.pdfreporter.engine.DatasetFilter;
@@ -62,6 +60,8 @@ import org.oss.pdfreporter.engine.util.FileResolver;
 import org.oss.pdfreporter.engine.util.JRCloneUtils;
 import org.oss.pdfreporter.engine.util.JRQueryExecuterUtils;
 import org.oss.pdfreporter.sql.IConnection;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
 import org.oss.pdfreporter.uses.java.util.UUID;
 
@@ -167,8 +167,8 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_CONNECTION, IConnection.class,
 		JRParameter.REPORT_MAX_COUNT, Integer.class,
 		JRParameter.REPORT_DATA_SOURCE, JRDataSource.class,
-		JRParameter.REPORT_LOCALE, Locale.class,
-		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
+		JRParameter.REPORT_LOCALE, StringLocale.class,
+		JRParameter.REPORT_RESOURCE_BUNDLE, ITextBundle.class,
 		JRParameter.REPORT_TIME_ZONE, TimeZone.class,
 		JRParameter.REPORT_FORMAT_FACTORY, IFormatFactory.class,
 		// TODO: Daniel (19.4.2013) Removed

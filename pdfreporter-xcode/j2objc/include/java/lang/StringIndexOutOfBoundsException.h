@@ -3,46 +3,133 @@
 //  source: android/libcore/luni/src/main/java/java/lang/StringIndexOutOfBoundsException.java
 //
 
-#ifndef _JavaLangStringIndexOutOfBoundsException_H_
-#define _JavaLangStringIndexOutOfBoundsException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangStringIndexOutOfBoundsException")
+#ifdef RESTRICT_JavaLangStringIndexOutOfBoundsException
+#define INCLUDE_ALL_JavaLangStringIndexOutOfBoundsException 0
+#else
+#define INCLUDE_ALL_JavaLangStringIndexOutOfBoundsException 1
+#endif
+#undef RESTRICT_JavaLangStringIndexOutOfBoundsException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangStringIndexOutOfBoundsException_) && (INCLUDE_ALL_JavaLangStringIndexOutOfBoundsException || defined(INCLUDE_JavaLangStringIndexOutOfBoundsException))
+#define JavaLangStringIndexOutOfBoundsException_
+
+#define RESTRICT_JavaLangIndexOutOfBoundsException 1
+#define INCLUDE_JavaLangIndexOutOfBoundsException 1
 #include "java/lang/IndexOutOfBoundsException.h"
 
-#define JavaLangStringIndexOutOfBoundsException_serialVersionUID -6762910422159637258LL
+/*!
+ @brief Thrown when the a string is indexed with a value less than zero, or greater
+ than or equal to the size of the array.
+ */
+@interface JavaLangStringIndexOutOfBoundsException : JavaLangIndexOutOfBoundsException
 
-@interface JavaLangStringIndexOutOfBoundsException : JavaLangIndexOutOfBoundsException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>StringIndexOutOfBoundsException</code> that includes
+ the current stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>StringIndexOutOfBoundsException</code> with the current
+ stack trace and a detail message that is based on the specified invalid
+ <code>index</code>.
+ @param index
+ the index which is out of bounds.
+ */
 - (instancetype)initWithInt:(jint)index;
 
-- (instancetype)initWithNSString:(NSString *)detailMessage;
-
-- (instancetype)initWithNSString:(NSString *)s
-                         withInt:(jint)index;
-
+/*!
+ @brief Used internally for consistent high-quality error reporting.
+ */
 - (instancetype)initWithInt:(jint)sourceLength
                     withInt:(jint)index;
 
-- (instancetype)initWithNSString:(NSString *)s
-                         withInt:(jint)offset
-                         withInt:(jint)count;
-
+/*!
+ @brief Used internally for consistent high-quality error reporting.
+ */
 - (instancetype)initWithInt:(jint)sourceLength
                     withInt:(jint)offset
                     withInt:(jint)count;
+
+/*!
+ @brief Constructs a new <code>StringIndexOutOfBoundsException</code> with the current
+ stack trace and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)detailMessage;
+
+/*!
+ @brief Used internally for consistent high-quality error reporting.
+ */
+- (instancetype)initWithNSString:(NSString *)s
+                         withInt:(jint)index;
+
+/*!
+ @brief Used internally for consistent high-quality error reporting.
+ */
+- (instancetype)initWithNSString:(NSString *)s
+                         withInt:(jint)offset
+                         withInt:(jint)count;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangStringIndexOutOfBoundsException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_init(JavaLangStringIndexOutOfBoundsException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangStringIndexOutOfBoundsException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_init();
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithInt_(JavaLangStringIndexOutOfBoundsException *self, jint index);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithInt_(jint index) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithInt_(jint index);
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithNSString_(JavaLangStringIndexOutOfBoundsException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_(JavaLangStringIndexOutOfBoundsException *self, NSString *s, jint index);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_(NSString *s, jint index) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_(NSString *s, jint index);
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_(JavaLangStringIndexOutOfBoundsException *self, jint sourceLength, jint index);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_(jint sourceLength, jint index) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_(jint sourceLength, jint index);
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_withInt_(JavaLangStringIndexOutOfBoundsException *self, NSString *s, jint offset, jint count);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_withInt_(NSString *s, jint offset, jint count) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithNSString_withInt_withInt_(NSString *s, jint offset, jint count);
+
+FOUNDATION_EXPORT void JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_withInt_(JavaLangStringIndexOutOfBoundsException *self, jint sourceLength, jint offset, jint count);
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *new_JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_withInt_(jint sourceLength, jint offset, jint count) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangStringIndexOutOfBoundsException *create_JavaLangStringIndexOutOfBoundsException_initWithInt_withInt_withInt_(jint sourceLength, jint offset, jint count);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangStringIndexOutOfBoundsException)
 
-#endif // _JavaLangStringIndexOutOfBoundsException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangStringIndexOutOfBoundsException")

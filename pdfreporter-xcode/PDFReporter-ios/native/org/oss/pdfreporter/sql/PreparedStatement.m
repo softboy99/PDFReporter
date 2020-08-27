@@ -7,12 +7,12 @@
 //
 
 #import "PreparedStatement.h"
-#import "org/oss/pdfreporter/sql/SQLException.h"
+#include "org/oss/pdfreporter/sql/SQLException.h"
 #import "ResultSet.h"
-#import "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
-#import "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
-#import "org/oss/pdfreporter/sql/factory/BlobImpl.h"
-#import "IOSPrimitiveArray.h"
+#include "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
+#include "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
+#include "org/oss/pdfreporter/sql/factory/BlobImpl.h"
+#include "IOSPrimitiveArray.h"
 
 @implementation PreparedStatement
 
@@ -49,7 +49,7 @@
     IOSByteArray *byteArray = [value getBytes];
     
     int count = [byteArray length];
-    char *array = malloc(count);
+    jbyte *array = (jbyte *)malloc(count);
     
     [byteArray getBytes:array offset:0 length:count];
     
@@ -63,9 +63,19 @@
     }
 }
 
-- (void)setBooleanWithInt:(int)columnIndex withBoolean:(BOOL)value
+- (void)setBooleanWithInt:(int)columnIndex withBoolean:(jboolean)value
 {
     int result = sqlite3_bind_int(stmt, columnIndex, value);
+    if(result != SQLITE_OK)
+    {
+        NSString *message = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+        @throw [[OrgOssPdfreporterSqlSQLException alloc] initWithNSString:message];
+    }
+}
+
+- (void)setNullWithInt:(jint)parameterIndex withOrgOssPdfreporterSqlSqlType:(OrgOssPdfreporterSqlSqlType *)type
+{
+    int result = sqlite3_bind_null(stmt, parameterIndex);
     if(result != SQLITE_OK)
     {
         NSString *message = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
@@ -229,7 +239,7 @@
     }
 }
 
-- (void)setNullWithInt:(int)columnIndex withOrgOssPdfreporterSqlSqlTypeEnum:(OrgOssPdfreporterSqlSqlTypeEnum *)type
+- (void)setNullWithInt:(int)columnIndex withOrgOssPdfreporterSqlSqlTypeEnum:(OrgOssPdfreporterSqlSqlType *)type
 {
     int result = sqlite3_bind_null(stmt, columnIndex);
     if(result != SQLITE_OK)

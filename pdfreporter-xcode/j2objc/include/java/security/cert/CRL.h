@@ -3,31 +3,75 @@
 //  source: android/libcore/luni/src/main/java/java/security/cert/CRL.java
 //
 
-#ifndef _JavaSecurityCertCRL_H_
-#define _JavaSecurityCertCRL_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityCertCRL")
+#ifdef RESTRICT_JavaSecurityCertCRL
+#define INCLUDE_ALL_JavaSecurityCertCRL 0
+#else
+#define INCLUDE_ALL_JavaSecurityCertCRL 1
+#endif
+#undef RESTRICT_JavaSecurityCertCRL
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityCertCRL_) && (INCLUDE_ALL_JavaSecurityCertCRL || defined(INCLUDE_JavaSecurityCertCRL))
+#define JavaSecurityCertCRL_
 
 @class JavaSecurityCertCertificate;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief This class represents Certificate Revocation Lists (CRLs) maintained by a
+ certificate authority.
+ They are used to indicate that a given Certificate has
+ expired and consequently has become invalid.
+ - seealso: CertificateFactory
+ */
+@interface JavaSecurityCertCRL : NSObject
 
-@interface JavaSecurityCertCRL : NSObject {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)type;
-
+/*!
+ @brief Returns the type of this CRL.
+ @return the type of this CRL.
+ */
 - (NSString *)getType;
 
+/*!
+ @brief Returns whether the specified certificate is revoked by this CRL.
+ @param cert
+ the certificate to check.
+ @return <code>true</code> if the certificate is revoked by this CRL, otherwise
+ <code>false</code>.
+ */
 - (jboolean)isRevokedWithJavaSecurityCertCertificate:(JavaSecurityCertCertificate *)cert;
 
+/*!
+ @brief Returns the string representation of this instance.
+ @return the string representation of this instance.
+ */
 - (NSString *)description;
+
+#pragma mark Protected
+
+/*!
+ @brief Creates a new certificate revocation list of the specified type.
+ @param type
+ the type for the CRL.
+ */
+- (instancetype)initWithNSString:(NSString *)type;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityCertCRL)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityCertCRL_initWithNSString_(JavaSecurityCertCRL *self, NSString *type);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityCertCRL)
 
-#endif // _JavaSecurityCertCRL_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityCertCRL")

@@ -27,15 +27,18 @@ package org.oss.pdfreporter.components;
 import java.util.HashMap;
 
 import org.oss.pdfreporter.components.list.FillListFactory;
+import org.oss.pdfreporter.components.list.ListComponent;
 import org.oss.pdfreporter.components.list.ListComponentCompiler;
+import org.oss.pdfreporter.components.table.FillTableFactory;
+import org.oss.pdfreporter.components.table.TableCompiler;
 import org.oss.pdfreporter.engine.JRPropertiesMap;
+import org.oss.pdfreporter.engine.component.ComponentsBundle;
 import org.oss.pdfreporter.engine.component.DefaultComponentXmlParser;
 import org.oss.pdfreporter.engine.component.DefaultComponentsBundle;
 import org.oss.pdfreporter.engine.component.IComponentManager;
 import org.oss.pdfreporter.extensions.ExtensionsRegistry;
 import org.oss.pdfreporter.extensions.ExtensionsRegistryFactory;
 import org.oss.pdfreporter.extensions.SingletonExtensionRegistry;
-import org.oss.pdfreporter.engine.component.ComponentsBundle;
 
 /**
  * Extension registry factory that includes built-in component element
@@ -93,12 +96,13 @@ public class ComponentsExtensionsRegistryFactory implements
 		listManager.setComponentFillFactory(new FillListFactory());
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
 
-		//ComponentsManager tableManager = new ComponentsManager();
+		ComponentsManager tableManager = new ComponentsManager();
+		// Converter is not needed since we don't provide any previews.
 		//tableManager.setDesignConverter(new TableDesignConverter());
-		//tableManager.setComponentCompiler(new TableCompiler());
+		tableManager.setComponentCompiler(new TableCompiler());
 		//tableManager.setComponentXmlWriter(xmlHandler);
-		//tableManager.setComponentFillFactory(new FillTableFactory());
-		//componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
+		tableManager.setComponentFillFactory(new FillTableFactory());
+		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
 
 		//ComponentsManager barbecueManager = new ComponentsManager();
 		//barbecueManager.setDesignConverter(new BarbecueDesignConverter());

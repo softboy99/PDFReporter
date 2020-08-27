@@ -3,46 +3,131 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/datatype/DatatypeConfigurationException.java
 //
 
-#ifndef _JavaxXmlDatatypeDatatypeConfigurationException_H_
-#define _JavaxXmlDatatypeDatatypeConfigurationException_H_
-
-@class JavaIoObjectInputStream;
-@class JavaIoPrintStream;
-@class JavaIoPrintWriter;
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxXmlDatatypeDatatypeConfigurationException")
+#ifdef RESTRICT_JavaxXmlDatatypeDatatypeConfigurationException
+#define INCLUDE_ALL_JavaxXmlDatatypeDatatypeConfigurationException 0
+#else
+#define INCLUDE_ALL_JavaxXmlDatatypeDatatypeConfigurationException 1
+#endif
+#undef RESTRICT_JavaxXmlDatatypeDatatypeConfigurationException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlDatatypeDatatypeConfigurationException_) && (INCLUDE_ALL_JavaxXmlDatatypeDatatypeConfigurationException || defined(INCLUDE_JavaxXmlDatatypeDatatypeConfigurationException))
+#define JavaxXmlDatatypeDatatypeConfigurationException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaxXmlDatatypeDatatypeConfigurationException_serialVersionUID -1699373159027047238LL
+@class JavaIoPrintStream;
+@class JavaIoPrintWriter;
 
-@interface JavaxXmlDatatypeDatatypeConfigurationException : JavaLangException {
-}
+/*!
+ @brief <p>Indicates a serious configuration error.
+ </p>
+ @author <a href="mailto:Jeff.Suttor@@Sun.com">Jeff Suttor</a>
+ @version $Revision: 569987 $, $Date: 2007-08-26 21:08:46 -0700 (Sun, 26 Aug 2007) $
+ @since 1.5
+ */
+@interface JavaxXmlDatatypeDatatypeConfigurationException : JavaLangException
 
+#pragma mark Public
+
+/*!
+ @brief <p>Create a new <code>DatatypeConfigurationException</code> with
+ no specified detail message and cause.
+ </p>
+ */
 - (instancetype)init;
 
+/*!
+ @brief <p>Create a new <code>DatatypeConfigurationException</code> with
+ the specified detail message.
+ </p>
+ @param message The detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)message;
 
+/*!
+ @brief <p>Create a new <code>DatatypeConfigurationException</code> with
+ the specified detail message and cause.
+ </p>
+ @param message The detail message.
+ @param cause The cause.  A <code>null</code> value is permitted, and indicates that the cause is nonexistent or unknown.
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief <p>Create a new <code>DatatypeConfigurationException</code> with
+ the specified cause.
+ </p>
+ @param cause The cause.  A <code>null</code> value is permitted, and indicates that the cause is nonexistent or unknown.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
+/*!
+ @brief Print the the trace of methods from where the error
+ originated.
+ This will trace all nested exception
+ objects, as well as this object.
+ */
 - (void)printStackTrace;
 
+/*!
+ @brief Print the the trace of methods from where the error
+ originated.
+ This will trace all nested exception
+ objects, as well as this object.
+ @param s The stream where the dump will be sent to.
+ */
 - (void)printStackTraceWithJavaIoPrintStream:(JavaIoPrintStream *)s;
 
+/*!
+ @brief Print the the trace of methods from where the error
+ originated.
+ This will trace all nested exception
+ objects, as well as this object.
+ @param s The writer where the dump will be sent to.
+ */
 - (void)printStackTraceWithJavaIoPrintWriter:(JavaIoPrintWriter *)s;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxXmlDatatypeDatatypeConfigurationException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaxXmlDatatypeDatatypeConfigurationException_init(JavaxXmlDatatypeDatatypeConfigurationException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlDatatypeDatatypeConfigurationException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *new_JavaxXmlDatatypeDatatypeConfigurationException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *create_JavaxXmlDatatypeDatatypeConfigurationException_init();
+
+FOUNDATION_EXPORT void JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_(JavaxXmlDatatypeDatatypeConfigurationException *self, NSString *message);
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *new_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *create_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_(NSString *message);
+
+FOUNDATION_EXPORT void JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_withNSException_(JavaxXmlDatatypeDatatypeConfigurationException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *new_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *create_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaxXmlDatatypeDatatypeConfigurationException_initWithNSException_(JavaxXmlDatatypeDatatypeConfigurationException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *new_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlDatatypeDatatypeConfigurationException *create_JavaxXmlDatatypeDatatypeConfigurationException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlDatatypeDatatypeConfigurationException)
 
-#endif // _JavaxXmlDatatypeDatatypeConfigurationException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlDatatypeDatatypeConfigurationException")

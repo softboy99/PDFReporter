@@ -29,6 +29,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.oss.pdfreporter.text.bundle.StringLocale;
+
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -40,36 +42,15 @@ public final class JRDataUtils
 	public static final double JULIAN_0000 = 1721424.5;
 	public static final double JULIAN_1900 = 2415020.5;	
 	
-	public static String getLocaleCode(Locale locale)
+	public static String getLocaleCode(StringLocale locale)
 	{
-		return locale.toString();
+		return locale.getLocaleString();
 	}
 
 	
-	public static Locale getLocale(String code)
+	public static StringLocale getLocale(String code)
 	{
-		String language;
-		String country;
-		String variant;
-		
-		int firstSep = code.indexOf('_');
-		if (firstSep < 0) {
-			language = code;
-			country = variant = "";
-		} else {
-			language = code.substring(0, firstSep);
-			
-			int secondSep = code.indexOf('_', firstSep + 1);
-			if (secondSep < 0) {
-				country = code.substring(firstSep + 1);
-				variant = "";
-			} else {
-				country = code.substring(firstSep + 1, secondSep);
-				variant = code.substring(secondSep + 1);
-			}
-		}
-		
-		return new Locale(language, country, variant);
+		return StringLocale.fromLocaleString(code);
 	}
 	
 	
@@ -85,9 +66,9 @@ public final class JRDataUtils
 	}
 	
 
-	public static double getExcelSerialDayNumber(Date date, Locale locale, TimeZone timeZone)
+	public static double getExcelSerialDayNumber(Date date, StringLocale locale, TimeZone timeZone)
 	{
-		GregorianCalendar calendar = new GregorianCalendar(timeZone,locale);
+		GregorianCalendar calendar = new GregorianCalendar(timeZone,locale.toLocale());
 		calendar.setTime(date);
 
 		int year = calendar.get(Calendar.YEAR);

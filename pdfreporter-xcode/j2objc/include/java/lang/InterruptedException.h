@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/lang/InterruptedException.java
 //
 
-#ifndef _JavaLangInterruptedException_H_
-#define _JavaLangInterruptedException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangInterruptedException")
+#ifdef RESTRICT_JavaLangInterruptedException
+#define INCLUDE_ALL_JavaLangInterruptedException 0
+#else
+#define INCLUDE_ALL_JavaLangInterruptedException 1
+#endif
+#undef RESTRICT_JavaLangInterruptedException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangInterruptedException_) && (INCLUDE_ALL_JavaLangInterruptedException || defined(INCLUDE_JavaLangInterruptedException))
+#define JavaLangInterruptedException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaLangInterruptedException_serialVersionUID 6700697376100628473LL
+/*!
+ @brief Thrown when a waiting thread is activated before the condition it was waiting
+ for has been satisfied.
+ */
+@interface JavaLangInterruptedException : JavaLangException
 
-@interface JavaLangInterruptedException : JavaLangException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>InterruptedException</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>InterruptedException</code> with the current stack
+ trace and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangInterruptedException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangInterruptedException_init(JavaLangInterruptedException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangInterruptedException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangInterruptedException *new_JavaLangInterruptedException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInterruptedException *create_JavaLangInterruptedException_init();
+
+FOUNDATION_EXPORT void JavaLangInterruptedException_initWithNSString_(JavaLangInterruptedException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangInterruptedException *new_JavaLangInterruptedException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangInterruptedException *create_JavaLangInterruptedException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangInterruptedException)
 
-#endif // _JavaLangInterruptedException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangInterruptedException")

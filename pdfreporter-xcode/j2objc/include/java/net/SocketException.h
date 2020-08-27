@@ -3,37 +3,89 @@
 //  source: android/libcore/luni/src/main/java/java/net/SocketException.java
 //
 
-#ifndef _JavaNetSocketException_H_
-#define _JavaNetSocketException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetSocketException")
+#ifdef RESTRICT_JavaNetSocketException
+#define INCLUDE_ALL_JavaNetSocketException 0
+#else
+#define INCLUDE_ALL_JavaNetSocketException 1
+#endif
+#undef RESTRICT_JavaNetSocketException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetSocketException_) && (INCLUDE_ALL_JavaNetSocketException || defined(INCLUDE_JavaNetSocketException))
+#define JavaNetSocketException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNetSocketException_serialVersionUID -5935874303556886934LL
+/*!
+ @brief This <code>SocketException</code> may be thrown during socket creation or setting
+ options, and is the superclass of all other socket related exceptions.
+ */
+@interface JavaNetSocketException : JavaIoIOException
 
-@interface JavaNetSocketException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
-
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new instance with the given cause.
+  internal use only
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetSocketException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetSocketException_init(JavaNetSocketException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetSocketException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetSocketException *new_JavaNetSocketException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketException *create_JavaNetSocketException_init();
+
+FOUNDATION_EXPORT void JavaNetSocketException_initWithNSString_(JavaNetSocketException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaNetSocketException *new_JavaNetSocketException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketException *create_JavaNetSocketException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaNetSocketException_initWithNSException_(JavaNetSocketException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetSocketException *new_JavaNetSocketException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketException *create_JavaNetSocketException_initWithNSException_(NSException *cause);
+
+FOUNDATION_EXPORT void JavaNetSocketException_initWithNSString_withNSException_(JavaNetSocketException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaNetSocketException *new_JavaNetSocketException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetSocketException *create_JavaNetSocketException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetSocketException)
 
-#endif // _JavaNetSocketException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetSocketException")

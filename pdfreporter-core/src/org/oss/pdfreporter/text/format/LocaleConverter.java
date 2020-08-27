@@ -18,12 +18,14 @@ import java.util.Locale;
 import org.oss.pdfreporter.exception.ConversionException;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.text.ParseException;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
 
 
 public class LocaleConverter {
 
-	public static Object convert(String valueString, Class<?> valueClass, Locale locale, String pattern) {
+	public static Object convert(String valueString, Class<?> valueClass, StringLocale localestring, String pattern) {
+		Locale locale = localestring==null ? null : localestring.toLocale();
 		try {
 			IFormatFactory factory = ApiRegistry.getIFormatFactory(IFormatFactory.FormatType.SIMPLE);
 			if (valueClass.isAssignableFrom(Date.class)) {

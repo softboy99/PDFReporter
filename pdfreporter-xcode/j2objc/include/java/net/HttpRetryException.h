@@ -3,39 +3,98 @@
 //  source: android/libcore/luni/src/main/java/java/net/HttpRetryException.java
 //
 
-#ifndef _JavaNetHttpRetryException_H_
-#define _JavaNetHttpRetryException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetHttpRetryException")
+#ifdef RESTRICT_JavaNetHttpRetryException
+#define INCLUDE_ALL_JavaNetHttpRetryException 0
+#else
+#define INCLUDE_ALL_JavaNetHttpRetryException 1
+#endif
+#undef RESTRICT_JavaNetHttpRetryException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetHttpRetryException_) && (INCLUDE_ALL_JavaNetHttpRetryException || defined(INCLUDE_JavaNetHttpRetryException))
+#define JavaNetHttpRetryException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaNetHttpRetryException_serialVersionUID -9186022286469111381LL
+/*!
+ @brief If a HTTP request has to be retried, this exception will be thrown if the
+ request cannot be retried automatically.
+ */
+@interface JavaNetHttpRetryException : JavaIoIOException
 
-@interface JavaNetHttpRetryException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Creates a new <code>HttpRetryException</code> instance with the specified
+ response code and the given detail message.
+ @param detail
+ the detail message for this exception.
+ @param code
+ the HTTP response code from target host.
+ */
 - (instancetype)initWithNSString:(NSString *)detail
                          withInt:(jint)code;
 
+/*!
+ @brief Creates a new <code>HttpRetryException</code> instance with the specified
+ response code, the given detail message and the value of the location
+ field from the response header.
+ @param detail
+ the detail message for this exception.
+ @param code
+ the HTTP response code from target host.
+ @param location
+ the destination URL of the redirection.
+ */
 - (instancetype)initWithNSString:(NSString *)detail
                          withInt:(jint)code
                     withNSString:(NSString *)location;
 
+/*!
+ @brief Gets the location value.
+ @return the stored location from the HTTP header.
+ */
 - (NSString *)getLocation;
 
+/*!
+ @brief Gets the detail message.
+ @return the detail message.
+ */
 - (NSString *)getReason;
 
+/*!
+ @brief Gets the response code.
+ @return the HTTP response code.
+ */
 - (jint)responseCode;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetHttpRetryException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetHttpRetryException_initWithNSString_withInt_(JavaNetHttpRetryException *self, NSString *detail, jint code);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNetHttpRetryException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetHttpRetryException *new_JavaNetHttpRetryException_initWithNSString_withInt_(NSString *detail, jint code) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetHttpRetryException *create_JavaNetHttpRetryException_initWithNSString_withInt_(NSString *detail, jint code);
+
+FOUNDATION_EXPORT void JavaNetHttpRetryException_initWithNSString_withInt_withNSString_(JavaNetHttpRetryException *self, NSString *detail, jint code, NSString *location);
+
+FOUNDATION_EXPORT JavaNetHttpRetryException *new_JavaNetHttpRetryException_initWithNSString_withInt_withNSString_(NSString *detail, jint code, NSString *location) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetHttpRetryException *create_JavaNetHttpRetryException_initWithNSString_withInt_withNSString_(NSString *detail, jint code, NSString *location);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetHttpRetryException)
 
-#endif // _JavaNetHttpRetryException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetHttpRetryException")

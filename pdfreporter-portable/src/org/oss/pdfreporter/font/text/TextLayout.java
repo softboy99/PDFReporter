@@ -24,13 +24,13 @@ public class TextLayout implements ITextLayout {
 	private Float descent = null;
 	private Float leading = null;
 	
-	TextLayout(Paragraph paragraph, int characterCount) {
+	TextLayout(final Paragraph paragraph, final int characterCount) {
 		this.paragraph = paragraph;
 		this.characterCount = characterCount;
 	}
 	
 	@Override
-	public ITextLayout getJustifiedLayout(float justificationWidth) {
+	public ITextLayout getJustifiedLayout(final float justificationWidth) {
 		return this;
 	}
 
@@ -88,13 +88,22 @@ public class TextLayout implements ITextLayout {
 	public Paragraph getParagraph() {
 		return paragraph;
 	}
+	
+	@Override
+	public String toString() {
+		return "TextLayout [characterCount: " + getCharacterCount()
+				+ ", advance: " + getAdvance() + ", ascent: "
+				+ getAscent() + ", descent: " + getDescent()
+				+ ", leading: " + getLeading() + ", text: '"
+				+ getParagraph().getText() + "']";
+	}
 
 	private void calcMetric() {
 		float calcAscent = 0;
 		float calcDescent = 0;
 		float calcLeading = 0;
-		for (ParagraphText text : paragraph) {
-			IFontMetric metric = text.getFont().getMetric();
+		for (final ParagraphText text : paragraph) {
+			final IFontMetric metric = text.getFont().getMetric();
 			calcAscent= Math.max(calcAscent, metric.getAscent());
 			calcDescent = Math.max(calcDescent, metric.getDescent());
 			calcLeading = Math.max(calcLeading, metric.getLeading());
@@ -105,18 +114,18 @@ public class TextLayout implements ITextLayout {
 	}
 	
 	private void calcAdvance() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		float totalAdvance = 0;
-		for (ParagraphText text  : paragraph) {
+		for (final ParagraphText text  : paragraph) {
 			totalAdvance += text.getWidth();
 			builder.append(text.getText());
 		}
-		float invisibleAdvance = new ParagraphText(TextLayout.invisibleCharsAtEnd(builder.toString()),paragraph.getLastParagraphText()).getWidth();
+		final float invisibleAdvance = new ParagraphText(TextLayout.invisibleCharsAtEnd(builder.toString()),paragraph.getLastParagraphText()).getWidth();
 		this.advance = totalAdvance;
 		this.visibleAdvance = totalAdvance - invisibleAdvance;		
 	}
 		
-	private static String invisibleCharsAtEnd(String text) {
+	private static String invisibleCharsAtEnd(final String text) {
 		int begin = text.length();
 		while (begin > 0 && text.charAt(begin - 1) <= ' ') {
 			begin--;

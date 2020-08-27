@@ -19,6 +19,10 @@ import org.oss.pdfreporter.uses.net.sourceforge.jeval.function.FunctionConstants
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.function.FunctionException;
 import org.oss.pdfreporter.uses.net.sourceforge.jeval.function.FunctionResult;
 
+/**
+ * java.text.MessageFormat style Messages
+ * @author donatmuller, 2015, last change 15:08:34
+ */
 public class MessageWithArg implements Function {
 
 	@Override

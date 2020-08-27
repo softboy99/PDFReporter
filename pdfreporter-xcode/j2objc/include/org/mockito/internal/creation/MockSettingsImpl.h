@@ -3,8 +3,33 @@
 //  source: src/main/java/org/mockito/internal/creation/MockSettingsImpl.java
 //
 
-#ifndef _OrgMockitoInternalCreationMockSettingsImpl_H_
-#define _OrgMockitoInternalCreationMockSettingsImpl_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_OrgMockitoInternalCreationMockSettingsImpl")
+#ifdef RESTRICT_OrgMockitoInternalCreationMockSettingsImpl
+#define INCLUDE_ALL_OrgMockitoInternalCreationMockSettingsImpl 0
+#else
+#define INCLUDE_ALL_OrgMockitoInternalCreationMockSettingsImpl 1
+#endif
+#undef RESTRICT_OrgMockitoInternalCreationMockSettingsImpl
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (OrgMockitoInternalCreationMockSettingsImpl_) && (INCLUDE_ALL_OrgMockitoInternalCreationMockSettingsImpl || defined(INCLUDE_OrgMockitoInternalCreationMockSettingsImpl))
+#define OrgMockitoInternalCreationMockSettingsImpl_
+
+#define RESTRICT_OrgMockitoInternalCreationSettingsCreationSettings 1
+#define INCLUDE_OrgMockitoInternalCreationSettingsCreationSettings 1
+#include "org/mockito/internal/creation/settings/CreationSettings.h"
+
+#define RESTRICT_OrgMockitoMockSettings 1
+#define INCLUDE_OrgMockitoMockSettings 1
+#include "org/mockito/MockSettings.h"
+
+#define RESTRICT_OrgMockitoMockMockCreationSettings 1
+#define INCLUDE_OrgMockitoMockMockCreationSettings 1
+#include "org/mockito/mock/MockCreationSettings.h"
 
 @class IOSClass;
 @class IOSObjectArray;
@@ -13,59 +38,58 @@
 @protocol OrgMockitoMockMockName;
 @protocol OrgMockitoStubbingAnswer;
 
-#include "J2ObjC_header.h"
-#include "org/mockito/MockSettings.h"
-#include "org/mockito/internal/creation/settings/CreationSettings.h"
-#include "org/mockito/mock/MockCreationSettings.h"
+@interface OrgMockitoInternalCreationMockSettingsImpl : OrgMockitoInternalCreationSettingsCreationSettings < OrgMockitoMockSettings, OrgMockitoMockMockCreationSettings >
 
-#define OrgMockitoInternalCreationMockSettingsImpl_serialVersionUID 4475297236197939568LL
+#pragma mark Public
 
-@interface OrgMockitoInternalCreationMockSettingsImpl : OrgMockitoInternalCreationSettingsCreationSettings < OrgMockitoMockSettings, OrgMockitoMockMockCreationSettings > {
-}
-
-- (id<OrgMockitoMockSettings>)serializable;
-
-- (id<OrgMockitoMockSettings>)extraInterfacesWithIOSClassArray:(IOSObjectArray *)extraInterfaces;
-
-- (id<OrgMockitoMockMockName>)getMockName;
-
-- (id<JavaUtilSet>)getExtraInterfaces;
-
-- (id)getSpiedInstance;
-
-- (id<OrgMockitoMockSettings>)nameWithNSString:(NSString *)name;
-
-- (id<OrgMockitoMockSettings>)spiedInstanceWithId:(id)spiedInstance;
-
-- (id<OrgMockitoMockSettings>)defaultAnswerWithOrgMockitoStubbingAnswer:(id<OrgMockitoStubbingAnswer>)defaultAnswer;
-
-- (id<OrgMockitoStubbingAnswer>)getDefaultAnswer;
-
-- (jboolean)isSerializable;
-
-- (id<OrgMockitoMockSettings>)verboseLogging;
-
-- (id<OrgMockitoMockSettings>)invocationListenersWithOrgMockitoListenersInvocationListenerArray:(IOSObjectArray *)listeners;
-
-- (id<JavaUtilList>)getInvocationListeners;
-
-- (jboolean)hasInvocationListeners;
-
-- (IOSClass *)getTypeToMock;
+- (instancetype)init;
 
 - (id<OrgMockitoMockMockCreationSettings>)confirmWithIOSClass:(IOSClass *)typeToMock;
 
-- (instancetype)init;
+- (id<OrgMockitoMockSettings>)defaultAnswerWithOrgMockitoStubbingAnswer:(id<OrgMockitoStubbingAnswer>)defaultAnswer;
+
+- (id<OrgMockitoMockSettings>)extraInterfacesWithIOSClassArray:(IOSObjectArray *)extraInterfaces;
+
+- (id<OrgMockitoStubbingAnswer>)getDefaultAnswer;
+
+- (id<JavaUtilSet>)getExtraInterfaces;
+
+- (id<JavaUtilList>)getInvocationListeners;
+
+- (id<OrgMockitoMockMockName>)getMockName;
+
+- (id)getSpiedInstance;
+
+- (IOSClass *)getTypeToMock;
+
+- (jboolean)hasInvocationListeners;
+
+- (id<OrgMockitoMockSettings>)invocationListenersWithOrgMockitoListenersInvocationListenerArray:(IOSObjectArray *)listeners;
+
+- (jboolean)isSerializable;
+
+- (id<OrgMockitoMockSettings>)nameWithNSString:(NSString *)name;
+
+- (id<OrgMockitoMockSettings>)serializable;
+
+- (id<OrgMockitoMockSettings>)spiedInstanceWithId:(id)spiedInstance;
+
+- (id<OrgMockitoMockSettings>)verboseLogging;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(OrgMockitoInternalCreationMockSettingsImpl)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void OrgMockitoInternalCreationMockSettingsImpl_init(OrgMockitoInternalCreationMockSettingsImpl *self);
 
-J2OBJC_STATIC_FIELD_GETTER(OrgMockitoInternalCreationMockSettingsImpl, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT OrgMockitoInternalCreationMockSettingsImpl *new_OrgMockitoInternalCreationMockSettingsImpl_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT OrgMockitoInternalCreationMockSettingsImpl *create_OrgMockitoInternalCreationMockSettingsImpl_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(OrgMockitoInternalCreationMockSettingsImpl)
 
-#endif // _OrgMockitoInternalCreationMockSettingsImpl_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_OrgMockitoInternalCreationMockSettingsImpl")

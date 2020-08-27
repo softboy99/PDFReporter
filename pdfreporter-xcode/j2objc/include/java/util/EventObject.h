@@ -3,23 +3,54 @@
 //  source: android/libcore/luni/src/main/java/java/util/EventObject.java
 //
 
-#ifndef _JavaUtilEventObject_H_
-#define _JavaUtilEventObject_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilEventObject")
+#ifdef RESTRICT_JavaUtilEventObject
+#define INCLUDE_ALL_JavaUtilEventObject 0
+#else
+#define INCLUDE_ALL_JavaUtilEventObject 1
+#endif
+#undef RESTRICT_JavaUtilEventObject
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilEventObject_) && (INCLUDE_ALL_JavaUtilEventObject || defined(INCLUDE_JavaUtilEventObject))
+#define JavaUtilEventObject_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
 #include "java/io/Serializable.h"
 
-#define JavaUtilEventObject_serialVersionUID 5516075349620653480LL
-
+/*!
+ @brief <code>EventObject</code>s represent events.
+ Typically applications subclass this class to
+ add event specific information.
+ - seealso: EventListener
+ */
 @interface JavaUtilEventObject : NSObject < JavaIoSerializable > {
  @public
   id source_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new instance of this class.
+ @param source
+ the object which fired the event.
+ */
 - (instancetype)initWithId:(id)source;
 
+/*!
+ @brief Returns the object which fired the event.
+ */
 - (id)getSource;
 
+/*!
+ @brief Returns the string representation of this <code>EventObject</code>.
+ */
 - (NSString *)description;
 
 @end
@@ -28,11 +59,16 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilEventObject)
 
 J2OBJC_FIELD_SETTER(JavaUtilEventObject, source_, id)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilEventObject_initWithId_(JavaUtilEventObject *self, id source);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilEventObject, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilEventObject *new_JavaUtilEventObject_initWithId_(id source) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilEventObject *create_JavaUtilEventObject_initWithId_(id source);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilEventObject)
 
-#endif // _JavaUtilEventObject_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilEventObject")

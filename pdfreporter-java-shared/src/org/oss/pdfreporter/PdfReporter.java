@@ -13,9 +13,7 @@ package org.oss.pdfreporter;
 import java.io.Closeable;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.oss.pdfreporter.engine.JRDataSource;
 import org.oss.pdfreporter.engine.JREmptyDataSource;
@@ -39,18 +37,18 @@ import org.oss.pdfreporter.engine.xml.JRXmlLoader;
 import org.oss.pdfreporter.json.IJsonDataSource;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.repo.FileResourceLoader;
-import org.oss.pdfreporter.repo.RepositoryManager;
 import org.oss.pdfreporter.repo.SubreportUtil;
 import org.oss.pdfreporter.sql.IConnection;
 import org.oss.pdfreporter.sql.factory.ISqlFactory;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.org.w3c.dom.Document;
 
 
-public class PdfReporter {
+public class PdfReporter implements IPdfReporter<JRExporterParameter> {
 
     private final String mPdfOutputFolder;
-    private final String mPdfOutputName;
     private final String mJrxmlFilePath;
+    private final IOutputFilenameCallback mFileNameCallback;
     private Map<JRExporterParameter, Object> mExportParameters = new HashMap<JRExporterParameter, Object>();
     private Map<String,Object> mFillParameters = new HashMap<String,Object>();
     private String mSubreportName;
@@ -65,7 +63,8 @@ public class PdfReporter {
     private String mXmlXPath;
 
     //sql report
-    private String mSqlPath;
+    private String mJdbcDriver;
+    private String mJdbcConnection;
     private String mSqlUsername;
     private String mSqlPassword;
 
@@ -73,29 +72,37 @@ public class PdfReporter {
     private String mJsonDataFile;
     private String mJsonExpression;
 
-    public PdfReporter(String jrxmlFilePath, String outputFolder, String outputPdfName) {
+    public PdfReporter(String jrxmlFilePath, String outputFolder, IOutputFilenameCallback fileNameCallback) {
         mPdfOutputFolder = outputFolder;
-        mPdfOutputName = outputPdfName;
         mJrxmlFilePath = jrxmlFilePath;
+        mFileNameCallback = fileNameCallback;
     }
 
-    public void setExportParameters(Map<JRExporterParameter, Object> exporterParameters) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setExportParameters(java.util.Map)
+	 */
+    @Override
+	public void setExportParameters(Map<JRExporterParameter, Object> exporterParameters) {
         mExportParameters.putAll(exporterParameters);
     }
 
-    public void setFillParameters(Map<String,Object> fillParameters) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setFillParameters(java.util.Map)
+	 */
+    @Override
+	public void setFillParameters(Map<String,Object> fillParameters) {
         mFillParameters.putAll(fillParameters);
-    }
-
-    public static RepositoryManager getRepositoryManager() {
-        return RepositoryManager.getInstance();
     }
 
     private String exportWithoutDataSource() throws Exception{
         return exportFromXml(null, null);
     }
 
-    public PdfReporter setXmlSource(String xmlDataFile, String xmlXpath) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setXmlSource(java.lang.String, java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> setXmlSource(String xmlDataFile, String xmlXpath) {
         if (mSqlReport || mJsonReport) {
             throw new RuntimeException("Can't change report type, data source already set");
         }
@@ -107,33 +114,45 @@ public class PdfReporter {
         return this;
     }
 
-    public PdfReporter setSqlSource(String databasePath, String username, String password) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setSqlSource(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> setSqlSource(String jdbcDriver, String jdbcConnection, String username, String password) {
         if (mXmlReport || mJsonReport) {
             throw new RuntimeException("Can't change report type, data source already set");
         }
         mSqlReport = true;
 
-        this.mSqlPath = databasePath;
+        this.mJdbcDriver = jdbcDriver;
+        this.mJdbcConnection = jdbcConnection;
         this.mSqlUsername = username;
         this.mSqlPassword = password;
 
         return this;
     }
 
-    /**
-     * Use this in case your JSON datasource is defined as a property (net.sf.jasperreports.json.source)
-     *  inside the JRXML file.
-     * @return
-     */
-    public PdfReporter setJsonSource() {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setJsonSource()
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> setJsonSource() {
         return setJsonSource(null, null);
     }
 
-    public PdfReporter setJsonSource(String jsonDataFile) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setJsonSource(java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> setJsonSource(String jsonDataFile) {
         return setJsonSource(jsonDataFile, null);
     }
 
-    public PdfReporter setJsonSource(String jsonDataFile, String selectExpression) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#setJsonSource(java.lang.String, java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> setJsonSource(String jsonDataFile, String selectExpression) {
         if (mXmlReport || mSqlReport) {
             throw new RuntimeException("Can't change report type, data source already set");
         }
@@ -145,11 +164,15 @@ public class PdfReporter {
         return this;
     }
 
-    public String exportPdf() throws Exception {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#exportPdf()
+	 */
+    @Override
+	public String exportPdf() throws Exception {
         if (mXmlReport) {
             return exportFromXml(mXmlDataFile, mXmlXPath);
         } else if (mSqlReport) {
-            return exportSqlReport(mSqlPath, mSqlUsername, mSqlPassword);
+            return exportSqlReport(mJdbcConnection, mSqlUsername, mSqlPassword);
         } else  if (mJsonReport) {
             return exportJsonReport();
         } else {
@@ -157,18 +180,39 @@ public class PdfReporter {
         }
     }
 
-    private String exportFromXml(String xmlDataFile, String xmlXpath) throws Exception {
-        ApiRegistry.initSession();
-        try {
-            JasperDesign design = loadReport(mJrxmlFilePath);
-            JasperReport report = JasperCompileManager.compileReport(design);
-            return exportReport(report, xmlDataFile, xmlXpath);
-        } finally {
-            ApiRegistry.dispose();
-        }
+	private String exportFromXml(String xmlDataFile, String xmlXpath)
+			throws Exception {
+		ApiRegistry.initSession();
+		JRDataSource dataSource = null;
+		InputStream isXmlData = null;
+		try {
+			JasperDesign design = loadReport(mJrxmlFilePath);
+			JasperReport compiledReport = JasperCompileManager.compileReport(design);
+			if (xmlDataFile == null) {
+				dataSource = new JREmptyDataSource();
+			} else {
+				isXmlData = FileResourceLoader.getInputStream(xmlDataFile);
+				JRXmlDataSource xmlDataSource = new JRXmlDataSource(isXmlData,
+						xmlXpath);
+				xmlDataSource.setDatePattern("yyyy-MM-dd");
+				dataSource = xmlDataSource;
+			}
+			processSubreport();
+			JasperPrint printReport = JasperFillManager.fillReport(compiledReport, mFillParameters, dataSource);
+			String pathToPdfFile = pathToPdfFile(printReport);
+			JasperExportManager.exportReportToPdfFile(printReport, pathToPdfFile, mExportParameters);
+			return pathToPdfFile;
+		} finally {
+			close(isXmlData);
+			ApiRegistry.dispose();
+		}
+	}
+    
+    private String getOutputFileName(JasperPrint print) {
+    	return mFileNameCallback.getOutputFileName(print.getName());
     }
 
-    private String exportSqlReport(String databasePath, String username, String password) throws Exception {
+    private String exportSqlReport(String jdbcConnection, String username, String password) throws Exception {
         ApiRegistry.initSession();
         IConnection sqlDataSource = null;
         try {
@@ -178,10 +222,11 @@ public class PdfReporter {
 
             ISqlFactory sqlFactory = ApiRegistry.getSqlFactory();
 
-            sqlDataSource = sqlFactory.newConnection(databasePath, username, password);
+			Class.forName(mJdbcDriver);  // for compatibility better register the jdbc 4.0 style
+			sqlDataSource = sqlFactory.newConnection(jdbcConnection, username, password);
             processSubreport();
             JasperPrint printReport = JasperFillManager.fillReport(report, mFillParameters, sqlDataSource);
-            String pathToPdfFile = mPdfOutputFolder + "/" + mPdfOutputName + ".pdf";
+            String pathToPdfFile = pathToPdfFile(printReport);
             JasperExportManager.exportReportToPdfFile(printReport, pathToPdfFile, mExportParameters);
             return pathToPdfFile;
         } finally {
@@ -190,29 +235,10 @@ public class PdfReporter {
         }
     }
 
-    private String exportReport(JasperReport compiledReport, String xmlDataFile, String xmlXpath) throws Exception {
-        ApiRegistry.initSession();
-        JRDataSource dataSource = null;
-        InputStream isXmlData = null;
-        try {
-            if (xmlDataFile == null) {
-                dataSource = new JREmptyDataSource();
-            } else {
-                isXmlData = FileResourceLoader.getInputStream(xmlDataFile);
-                JRXmlDataSource xmlDataSource = new JRXmlDataSource(isXmlData, xmlXpath);
-                xmlDataSource.setDatePattern("yyyy-MM-dd");
-                dataSource = xmlDataSource;
-            }
-            processSubreport();
-            JasperPrint printReport = JasperFillManager.fillReport(compiledReport, mFillParameters, dataSource);
-            String pathToPdfFile = mPdfOutputFolder + "/" + printReport.getName() + ".pdf";
-            JasperExportManager.exportReportToPdfFile(printReport, pathToPdfFile, mExportParameters);
-            return pathToPdfFile;
-        } finally {
-            close(isXmlData);
-            ApiRegistry.dispose();
-        }
-    }
+	private String pathToPdfFile(JasperPrint printReport) {
+		return mPdfOutputFolder + "/" + getOutputFileName(printReport) + ".pdf";
+	}
+
 
     private String exportJsonReport() throws Exception {
         ApiRegistry.initSession();
@@ -233,7 +259,7 @@ public class PdfReporter {
                 printReport = JasperFillManager.fillReport(report, mFillParameters, jsonDataSource);
             }
 
-            String pathToPdfFile = mPdfOutputFolder + "/" + printReport.getName() + ".pdf";
+            String pathToPdfFile = pathToPdfFile(printReport);
             JasperExportManager.exportReportToPdfFile(printReport, pathToPdfFile, mExportParameters);
             return pathToPdfFile;
         } finally {
@@ -242,28 +268,34 @@ public class PdfReporter {
         }
     }
 
-    public PdfReporter addSubreport(String subreportName, String location) throws JRException {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addSubreport(java.lang.String, java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addSubreport(String subreportName, String location) {
         mSubreportName = subreportName;
         mSubreportLocation = location;
 
         return this;
     }
 
-    private void processSubreport() throws JRException{
+    @Override
+	public IPdfReporter<JRExporterParameter> compileSubreports() {
+		return this;
+	}
+
+	private void processSubreport() throws JRException{
         if (mSubreportLocation != null && mSubreportName != null) {
             JasperReport subreport = SubreportUtil.loadSubreport(mSubreportLocation);
             mFillParameters.put(mSubreportName, subreport);
         }
     }
 
-    /**
-     *
-     * @param is128bitKey {@link JRPdfExporterParameter#IS_128_BIT_KEY}
-     * @param userPassword {@link JRPdfExporterParameter#USER_PASSWORD}
-     * @param ownerPassword {@link JRPdfExporterParameter#OWNER_PASSWORD}
-     * @param permissions {@link JRPdfExporterParameter#PERMISSIONS}
-     */
-    public PdfReporter addEncryption(boolean is128bitKey, String userPassword, String ownerPassword, int permissions) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addEncryption(boolean, java.lang.String, java.lang.String, int)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addEncryption(boolean is128bitKey, String userPassword, String ownerPassword, int permissions) {
         mExportParameters.put(JRPdfExporterParameter.IS_ENCRYPTED, Boolean.TRUE);
         mExportParameters.put(JRPdfExporterParameter.IS_128_BIT_KEY, is128bitKey ? Boolean.TRUE : Boolean.FALSE);
         mExportParameters.put(JRPdfExporterParameter.USER_PASSWORD, userPassword);
@@ -273,37 +305,64 @@ public class PdfReporter {
         return this;
     }
 
-    public PdfReporter addJSONParams(String datePattern, String numberPattern, Locale jsonLocale, Locale country) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addJSONParams(java.lang.String, java.lang.String, java.util.Locale, java.util.Locale)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addJSONParams(String datePattern, String numberPattern, String jsonLocale, String country) {
         mFillParameters.put(JsonQueryExecuterFactory.JSON_DATE_PATTERN, datePattern);
         mFillParameters.put(JsonQueryExecuterFactory.JSON_NUMBER_PATTERN,numberPattern);
-        mFillParameters.put(JsonQueryExecuterFactory.JSON_LOCALE, jsonLocale);
-        mFillParameters.put(JRParameter.REPORT_LOCALE, country);
+        mFillParameters.put(JsonQueryExecuterFactory.JSON_LOCALE, StringLocale.fromLocaleString(jsonLocale));
+        mFillParameters.put(JRParameter.REPORT_LOCALE, StringLocale.fromLocaleString(country));
 
         return this;
     }
 
-    public PdfReporter addXMLParams(String datePattern, String numberPattern, Locale xmlLocale, Locale country) {
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addXMLParams(java.lang.String, java.lang.String, java.util.Locale, java.util.Locale)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addXMLParams(String datePattern, String numberPattern, String xmlLocale, String country) {
         mFillParameters.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, datePattern);
         mFillParameters.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, numberPattern);
-        mFillParameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, xmlLocale);
-        mFillParameters.put(JRParameter.REPORT_LOCALE, country);
+        mFillParameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, StringLocale.fromLocaleString(xmlLocale));
+        mFillParameters.put(JRParameter.REPORT_LOCALE, StringLocale.fromLocaleString(country));
         return this;
     }
 
-    public PdfReporter addSubReportXMLDocument(String xmlDataFile) throws JRException {
-    	Document document = JRXmlUtils.parse(JRLoader.getLocationInputStream(xmlDataFile));
+    /* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addSubReportXMLDocument(java.lang.String)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addSubReportXMLDocument(String xmlDataFile) {
+    	Document document;
+		try {
+			document = JRXmlUtils.parse(JRLoader.getLocationInputStream(xmlDataFile));
+		} catch (JRException e) {
+			throw new RuntimeException("Error locating xml file: " + xmlDataFile,e);
+		}
         mFillParameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
         return this;
     }
 
-    public PdfReporter newResourceBundle(String classPath, Locale locale) {
-        mFillParameters.put(JRParameter.REPORT_LOCALE, locale);
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(classPath, locale);
-        mFillParameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, resourceBundle);
-        return this;
-    }
 
-    public PdfReporter addFillParameter(String key, Object value) {
+    @Override
+	public IPdfReporter<JRExporterParameter> selectLanguage(String language)  {
+    	mFillParameters.put(JRParameter.REPORT_LANGUAGE, language);
+    	return this;
+	}
+    
+	@Override
+	public IPdfReporter<JRExporterParameter> setEncoding(String charset) {
+    	mFillParameters.put(JRParameter.REPORT_ENCODING, charset);
+    	return this;
+	}
+  
+	/* (non-Javadoc)
+	 * @see org.oss.pdfreporter.IPdfReporter#addFillParameter(java.lang.String, java.lang.Object)
+	 */
+    @Override
+	public IPdfReporter<JRExporterParameter> addFillParameter(String key, Object value) {
     	mFillParameters.put(key, value);
     	return this;
     }
@@ -323,5 +382,6 @@ public class PdfReporter {
             stream.close();
         }
     }
+
 
 }

@@ -7,21 +7,23 @@
 //
 
 #import "URL.h"
+#include "J2ObjC_source.h"
 
-@interface OrgOssPdfreporterNetURL ()
-@property (nonatomic, strong) NSString *urlString;
+@interface OrgOssPdfreporterNetURL () {
+    @public
+    NSString *urlString;
+}
 @end
 
 @implementation OrgOssPdfreporterNetURL
 
--(id)initWithNSString:(NSString *)urlString
+J2OBJC_IGNORE_DESIGNATED_BEGIN
+-(instancetype)initWithNSString:(NSString *)_urlString
 {
-    self = [super init];
-    if (self) {
-        self.urlString = urlString;
-    }
+    OrgOssPdfreporterNetURL_initWithNSString_(self, _urlString);
     return self;
 }
+J2OBJC_IGNORE_DESIGNATED_END
 
 - (JavaIoInputStream *)openStream
 {
@@ -30,12 +32,30 @@
 
 -(NSString *)description
 {
-    return self.urlString;
+    return self->urlString;
 }
 
 - (NSString *)getPath
 {
-    return self.urlString;
+    return self->urlString;
 }
 
 @end
+
+void OrgOssPdfreporterNetURL_initWithNSString_(OrgOssPdfreporterNetURL *self, NSString *url)
+{
+    NSObject_init(self);
+    self->urlString = url;
+}
+
+OrgOssPdfreporterNetURL *new_OrgOssPdfreporterNetURL_initWithNSString_(NSString *url)
+{
+    OrgOssPdfreporterNetURL *self = [OrgOssPdfreporterNetURL alloc];
+    OrgOssPdfreporterNetURL_initWithNSString_(self, url);
+    return self;
+}
+
+OrgOssPdfreporterNetURL *create_OrgOssPdfreporterNetURL_initWithNSString_(NSString *url)
+{
+    return new_OrgOssPdfreporterNetURL_initWithNSString_(url);
+}

@@ -3,29 +3,81 @@
 //  source: android/libcore/luni/src/main/java/java/security/Key.java
 //
 
-#ifndef _JavaSecurityKey_H_
-#define _JavaSecurityKey_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityKey")
+#ifdef RESTRICT_JavaSecurityKey
+#define INCLUDE_ALL_JavaSecurityKey 0
+#else
+#define INCLUDE_ALL_JavaSecurityKey 1
+#endif
+#undef RESTRICT_JavaSecurityKey
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityKey_) && (INCLUDE_ALL_JavaSecurityKey || defined(INCLUDE_JavaSecurityKey))
+#define JavaSecurityKey_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSByteArray;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-
-#define JavaSecurityKey_serialVersionUID 6603384152749567654LL
-
+/*!
+ @brief <code>Key</code> is the common interface for all keys.
+ - seealso: PublicKey
+ - seealso: PrivateKey
+ */
 @protocol JavaSecurityKey < JavaIoSerializable, NSObject, JavaObject >
+
+/*!
+ @brief Returns the name of the algorithm of this key.
+ If the algorithm is
+ unknown, <code>null</code> is returned.
+ @return the name of the algorithm of this key or <code>null</code> if the
+ algorithm is unknown.
+ */
 - (NSString *)getAlgorithm;
 
+/*!
+ @brief Returns the name of the format used to encode this key, or <code>null</code>
+ if it can not be encoded.
+ @return the name of the format used to encode this key, or <code>null</code>
+ if it can not be encoded.
+ */
 - (NSString *)getFormat;
 
+/*!
+ @brief Returns the encoded form of this key, or <code>null</code> if encoding is not
+ supported by this key.
+ @return the encoded form of this key, or <code>null</code> if encoding is not
+ supported by this key.
+ */
 - (IOSByteArray *)getEncoded;
+
+@end
+
+@interface JavaSecurityKey : NSObject
+
++ (jlong)serialVersionUID;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityKey)
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKey, serialVersionUID, jlong)
+/*!
+ @brief The <code>serialVersionUID</code> to be compatible with JDK1.1.
+ */
+inline jlong JavaSecurityKey_get_serialVersionUID();
+#define JavaSecurityKey_serialVersionUID 6603384152749567654LL
+J2OBJC_STATIC_FIELD_CONSTANT(JavaSecurityKey, serialVersionUID, jlong)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKey)
 
-#endif // _JavaSecurityKey_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityKey")

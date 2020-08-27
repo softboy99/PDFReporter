@@ -3,19 +3,47 @@
 //  source: android/libcore/luni/src/main/java/java/util/UnknownFormatConversionException.java
 //
 
-#ifndef _JavaUtilUnknownFormatConversionException_H_
-#define _JavaUtilUnknownFormatConversionException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilUnknownFormatConversionException")
+#ifdef RESTRICT_JavaUtilUnknownFormatConversionException
+#define INCLUDE_ALL_JavaUtilUnknownFormatConversionException 0
+#else
+#define INCLUDE_ALL_JavaUtilUnknownFormatConversionException 1
+#endif
+#undef RESTRICT_JavaUtilUnknownFormatConversionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilUnknownFormatConversionException_) && (INCLUDE_ALL_JavaUtilUnknownFormatConversionException || defined(INCLUDE_JavaUtilUnknownFormatConversionException))
+#define JavaUtilUnknownFormatConversionException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilUnknownFormatConversionException_serialVersionUID 19060418LL
+/*!
+ @brief An <code>UnknownFormatConversionException</code> will be thrown if the format
+ conversion is unknown.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilUnknownFormatConversionException : JavaUtilIllegalFormatException
 
-@interface JavaUtilUnknownFormatConversionException : JavaUtilIllegalFormatException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>UnknownFormatConversionException</code> with the unknown
+ format conversion.
+ @param s
+ the unknown format conversion.
+ */
 - (instancetype)initWithNSString:(NSString *)s;
 
+/*!
+ @brief Returns the conversion associated with the exception.
+ @return the conversion associated with the exception.
+ */
 - (NSString *)getConversion;
 
 - (NSString *)getMessage;
@@ -24,11 +52,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilUnknownFormatConversionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilUnknownFormatConversionException_initWithNSString_(JavaUtilUnknownFormatConversionException *self, NSString *s);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilUnknownFormatConversionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilUnknownFormatConversionException *new_JavaUtilUnknownFormatConversionException_initWithNSString_(NSString *s) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilUnknownFormatConversionException *create_JavaUtilUnknownFormatConversionException_initWithNSString_(NSString *s);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilUnknownFormatConversionException)
 
-#endif // _JavaUtilUnknownFormatConversionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilUnknownFormatConversionException")

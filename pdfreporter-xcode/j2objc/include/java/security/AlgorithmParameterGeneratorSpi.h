@@ -3,35 +3,85 @@
 //  source: android/libcore/luni/src/main/java/java/security/AlgorithmParameterGeneratorSpi.java
 //
 
-#ifndef _JavaSecurityAlgorithmParameterGeneratorSpi_H_
-#define _JavaSecurityAlgorithmParameterGeneratorSpi_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityAlgorithmParameterGeneratorSpi")
+#ifdef RESTRICT_JavaSecurityAlgorithmParameterGeneratorSpi
+#define INCLUDE_ALL_JavaSecurityAlgorithmParameterGeneratorSpi 0
+#else
+#define INCLUDE_ALL_JavaSecurityAlgorithmParameterGeneratorSpi 1
+#endif
+#undef RESTRICT_JavaSecurityAlgorithmParameterGeneratorSpi
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityAlgorithmParameterGeneratorSpi_) && (INCLUDE_ALL_JavaSecurityAlgorithmParameterGeneratorSpi || defined(INCLUDE_JavaSecurityAlgorithmParameterGeneratorSpi))
+#define JavaSecurityAlgorithmParameterGeneratorSpi_
 
 @class JavaSecurityAlgorithmParameters;
 @class JavaSecuritySecureRandom;
 @protocol JavaSecuritySpecAlgorithmParameterSpec;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief <code>AlgorithmParameterGeneratorSpi</code> is the Service Provider Interface
+ (SPI) definition for <code>AlgorithmParameterGenerator</code>.
+ - seealso: AlgorithmParameterGenerator
+ */
+@interface JavaSecurityAlgorithmParameterGeneratorSpi : NSObject
 
-@interface JavaSecurityAlgorithmParameterGeneratorSpi : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new instance of <code>AlgorithmParameterGeneratorSpi</code> .
+ */
 - (instancetype)init;
 
-- (void)engineInitWithInt:(jint)size
-withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random;
+#pragma mark Protected
 
+/*!
+ @brief Computes and returns <code>AlgorithmParameters</code> for this generator's
+ algorithm.
+ @return <code>AlgorithmParameters</code> for this generator's algorithm.
+ */
+- (JavaSecurityAlgorithmParameters *)engineGenerateParameters;
+
+/*!
+ @brief Initializes this <code>AlgorithmParameterGeneratorSpi</code> with the given
+ <code>AlgorithmParameterSpec</code> and the given <code>SecureRandom</code>.
+ @param genParamSpec
+ the parameters to use.
+ @param random
+ the source of randomness.
+ @throws InvalidAlgorithmParameterException
+ if the specified parameters are not supported.
+ */
 - (void)engineInitWithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)genParamSpec
                                 withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random;
 
-- (JavaSecurityAlgorithmParameters *)engineGenerateParameters;
+/*!
+ @brief Initializes this <code>AlgorithmParameterGeneratorSpi</code> with the given
+ size and the given <code>SecureRandom</code>.
+ The default parameter set
+ will be used.
+ @param size
+ the size (in number of bits).
+ @param random
+ the source of randomness.
+ */
+- (void)engineInitWithInt:(jint)size
+withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityAlgorithmParameterGeneratorSpi)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecurityAlgorithmParameterGeneratorSpi_init(JavaSecurityAlgorithmParameterGeneratorSpi *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityAlgorithmParameterGeneratorSpi)
 
-#endif // _JavaSecurityAlgorithmParameterGeneratorSpi_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityAlgorithmParameterGeneratorSpi")

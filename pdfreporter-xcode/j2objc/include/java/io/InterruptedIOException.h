@@ -3,37 +3,85 @@
 //  source: android/libcore/luni/src/main/java/java/io/InterruptedIOException.java
 //
 
-#ifndef _JavaIoInterruptedIOException_H_
-#define _JavaIoInterruptedIOException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoInterruptedIOException")
+#ifdef RESTRICT_JavaIoInterruptedIOException
+#define INCLUDE_ALL_JavaIoInterruptedIOException 0
+#else
+#define INCLUDE_ALL_JavaIoInterruptedIOException 1
+#endif
+#undef RESTRICT_JavaIoInterruptedIOException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoInterruptedIOException_) && (INCLUDE_ALL_JavaIoInterruptedIOException || defined(INCLUDE_JavaIoInterruptedIOException))
+#define JavaIoInterruptedIOException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaIoInterruptedIOException_serialVersionUID 4020568460727500567LL
-
+/*!
+ @brief Signals that a blocking I/O operation has been interrupted.
+ The number of
+ bytes that were transferred successfully before the interruption took place
+ is stored in a field of the exception.
+ */
 @interface JavaIoInterruptedIOException : JavaIoIOException {
  @public
+  /*!
+   @brief The number of bytes transferred before the I/O interrupt occurred.
+   */
   jint bytesTransferred_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance with the given detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
+/*!
+ @brief Constructs a new instance with given detail message and cause.
+  internal use only
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoInterruptedIOException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoInterruptedIOException_init(JavaIoInterruptedIOException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoInterruptedIOException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoInterruptedIOException *new_JavaIoInterruptedIOException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoInterruptedIOException *create_JavaIoInterruptedIOException_init();
+
+FOUNDATION_EXPORT void JavaIoInterruptedIOException_initWithNSString_(JavaIoInterruptedIOException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoInterruptedIOException *new_JavaIoInterruptedIOException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoInterruptedIOException *create_JavaIoInterruptedIOException_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaIoInterruptedIOException_initWithNSString_withNSException_(JavaIoInterruptedIOException *self, NSString *detailMessage, NSException *cause);
+
+FOUNDATION_EXPORT JavaIoInterruptedIOException *new_JavaIoInterruptedIOException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoInterruptedIOException *create_JavaIoInterruptedIOException_initWithNSString_withNSException_(NSString *detailMessage, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoInterruptedIOException)
 
-#endif // _JavaIoInterruptedIOException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoInterruptedIOException")

@@ -11,10 +11,13 @@
 package org.oss.pdfreporter.engine.fill;
 
 import org.oss.pdfreporter.engine.JRDefaultStyleProvider;
+import org.oss.pdfreporter.engine.JasperReport;
 
 public interface IJRBaseFiller extends JRDefaultStyleProvider{
 
 	public abstract IJRFillContext getFillContext();
 
 	public abstract int getCurrentPageCount();
+	
+	public abstract JasperReport getJasperReport();
 }

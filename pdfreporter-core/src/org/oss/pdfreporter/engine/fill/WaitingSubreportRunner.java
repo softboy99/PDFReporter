@@ -97,7 +97,8 @@ public class WaitingSubreportRunner extends JRSubreportRunnable implements JRSub
 
 	@Override
 	public void cancel() throws JRException {
-		throw new JRException("UNSUPPORTED CANCEL OPERATION CALLED");
+		logger.warning("Unsupported cancel operation called");
+//		throw new JRException("UNSUPPORTED CANCEL OPERATION CALLED");
 	}
 
 	@Override

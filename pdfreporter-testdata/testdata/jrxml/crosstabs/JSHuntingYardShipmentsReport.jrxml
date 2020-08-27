@@ -119,7 +119,7 @@
 				</rowGroup>
 				<columnGroup name="ShipYear" height="25" totalPosition="End" headerPosition="Stretch">
 					<bucket>
-						<bucketExpression class="java.util.Date"><![CDATA[(DATE)truncateDateTo('Y',$F{ShippedDate})]]></bucketExpression>
+						<bucketExpression class="java.util.Date"><![CDATA[truncateDateTo('Y',$F{ShippedDate})]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
@@ -154,7 +154,7 @@
 				</columnGroup>
 				<columnGroup name="ShipMonth" height="25" totalPosition="End">
 					<bucket>
-						<bucketExpression class="java.util.Date"><![CDATA[(DATE)truncateDateTo('M',$F{ShippedDate})]]></bucketExpression>
+						<bucketExpression class="java.util.Date"><![CDATA[truncateDateTo('M',$F{ShippedDate})]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
 						<cellContents>
@@ -269,7 +269,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression class="java.lang.String"><![CDATA[floatString($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100) + ' %']]></textFieldExpression>
+							<textFieldExpression class="java.lang.String"><![CDATA[intString((int)($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100)) + ' %']]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -286,7 +286,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression class="java.lang.String"><![CDATA[floatString($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100) + ' %']]></textFieldExpression>
+							<textFieldExpression class="java.lang.String"><![CDATA[intString((int)($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100)) + ' %']]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
@@ -303,7 +303,7 @@
 						<textField>
 							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
 							<textElement textAlignment="Right"/>
-							<textFieldExpression class="java.lang.String"><![CDATA[floatString($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100) + ' %']]></textFieldExpression>
+							<textFieldExpression class="java.lang.String"><![CDATA[intString((int)($V{FreightSum} / $V{FreightSum_ShipYear_ALL} * 100)) + ' %']]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>

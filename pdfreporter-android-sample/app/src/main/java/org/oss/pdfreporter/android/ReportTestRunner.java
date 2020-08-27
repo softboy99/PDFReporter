@@ -152,7 +152,7 @@ public class ReportTestRunner {
         final String rootFolder = getRootFolder();
         final String resourceFolder = getResourcesFolder();
 
-        RepositoryManager repo = PdfReporter.getRepositoryManager();
+        RepositoryManager repo = RepositoryManager.getInstance();
         repo.reset();
         repo.setDefaultResourceFolder(resourceFolder);
         repo.setDefaulReportFolder(rootFolder + RepositoryManager.PATH_DELIMITER + "jrxml" + RepositoryManager.PATH_DELIMITER + reportFolder);
@@ -161,7 +161,7 @@ public class ReportTestRunner {
         }
         repo.addExtraReportFolder(resourceFolder);
 
-        PdfReporter reporter = new PdfReporter(jrxmlPath, getOuputPdfFolder(), getFilenameFromJrxml(jrxmlPath));
+        PdfReporter reporter = new PdfReporter(jrxmlPath, getOuputPdfFolder(), new NullOutputFilenameCallback());
 
         return  reporter;
     }
@@ -171,18 +171,18 @@ public class ReportTestRunner {
     }
 
     private String exportShippment() throws Exception {
-        return getExporter(DESIGN_REPORT_SHIPMENTS, "crosstabs", "extra-fonts").setSqlSource(getDatabasePath(), null, null).exportPdf();
+        return getExporter(DESIGN_REPORT_SHIPMENTS, "crosstabs", "extra-fonts").setSqlSource(getDummySqlDriver(),getDatabasePath(), null, null).exportPdf();
     }
 
     private String exportMasterReport() throws Exception {
         return getExporter(DESIGN_REPORT_MASTER, "subreports", "extra-fonts")
                 .addSubreport("ProductsSubreport", "ProductReport.jasper")
-                .setSqlSource(getDatabasePath(), null, null)
+                .setSqlSource(getDummySqlDriver(),getDatabasePath(), null, null)
                 .exportPdf();
     }
 
     private String exportProducts() throws Exception {
-        return getExporter(DESIGN_REPORT_PRODUCTS, "crosstabs", "extra-fonts").setSqlSource(getDatabasePath(), null, null).exportPdf();
+        return getExporter(DESIGN_REPORT_PRODUCTS, "crosstabs", "extra-fonts").setSqlSource(getDummySqlDriver(),getDatabasePath(), null, null).exportPdf();
     }
 
     private String exportStretch() throws Exception {
@@ -233,14 +233,14 @@ public class ReportTestRunner {
         return getExporter(DESIGN_REPORT_CDBOOCKLET, "cdbooklet", "extra-fonts").setXmlSource(getResourcesFolder() + "/" + XML_DATA_CDBOOKLET, XPATH_DATA_CDBOOKLET).exportPdf();
     }
 
-    private String getFilenameFromJrxml(String jrxml) {
-        return jrxml.replace(".jrxml", "");
+    private String getDummySqlDriver() {
+        return "java.lang.Object";
     }
 
     private String exportJsonDataSource() throws Exception{
         return getExporter(DESIGN_REPORT_JSON, "jsondatasource","extra-fonts")
                 .addSubreport("JsonOrdersReport", "JsonOrdersReport.jasper")
-                .addJSONParams("yyyy-MM-dd", "#,##0.##", Locale.ENGLISH, Locale.US)
+                .addJSONParams("yyyy-MM-dd", "#,##0.##", "en", "en_US")
                 .setJsonSource()
                 .exportPdf();
     }

@@ -3,39 +3,66 @@
 //  source: android/frameworks/base/core/java/android/util/Base64InputStream.java
 //
 
-#ifndef _AndroidUtilBase64InputStream_H_
-#define _AndroidUtilBase64InputStream_H_
+#include "J2ObjC_header.h"
 
-@class AndroidUtilBase64_Coder;
+#pragma push_macro("INCLUDE_ALL_AndroidUtilBase64InputStream")
+#ifdef RESTRICT_AndroidUtilBase64InputStream
+#define INCLUDE_ALL_AndroidUtilBase64InputStream 0
+#else
+#define INCLUDE_ALL_AndroidUtilBase64InputStream 1
+#endif
+#undef RESTRICT_AndroidUtilBase64InputStream
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (AndroidUtilBase64InputStream_) && (INCLUDE_ALL_AndroidUtilBase64InputStream || defined(INCLUDE_AndroidUtilBase64InputStream))
+#define AndroidUtilBase64InputStream_
+
+#define RESTRICT_JavaIoFilterInputStream 1
+#define INCLUDE_JavaIoFilterInputStream 1
+#include "java/io/FilterInputStream.h"
+
 @class IOSByteArray;
 @class JavaIoInputStream;
 
-#include "J2ObjC_header.h"
-#include "java/io/FilterInputStream.h"
+/*!
+ @brief An InputStream that does Base64 decoding on the data read through
+ it.
+ */
+@interface AndroidUtilBase64InputStream : JavaIoFilterInputStream
 
-#define AndroidUtilBase64InputStream_BUFFER_SIZE 2048
+#pragma mark Public
 
-@interface AndroidUtilBase64InputStream : JavaIoFilterInputStream {
-}
-
+/*!
+ @brief An InputStream that performs Base64 decoding on the data read
+ from the wrapped stream.
+ @param inArg the InputStream to read the source data from
+ @param flags bit flags for controlling the decoder; see the
+ constants in <code>Base64</code>
+ */
 - (instancetype)initWithJavaIoInputStream:(JavaIoInputStream *)inArg
                                   withInt:(jint)flags;
 
+/*!
+ @brief Performs Base64 encoding or decoding on the data read from the
+ wrapped InputStream.
+ @param inArg the InputStream to read the source data from
+ @param flags bit flags for controlling the decoder; see the
+ constants in <code>Base64</code>
+ @param encode true to encode, false to decode
+ */
 - (instancetype)initWithJavaIoInputStream:(JavaIoInputStream *)inArg
                                   withInt:(jint)flags
                               withBoolean:(jboolean)encode;
 
-- (jboolean)markSupported;
-
-- (void)markWithInt:(jint)readlimit;
-
-- (void)reset;
+- (jint)available;
 
 - (void)close;
 
-- (jint)available;
+- (void)markWithInt:(jint)readlimit;
 
-- (jlong)skipWithLong:(jlong)n;
+- (jboolean)markSupported;
 
 - (jint)read;
 
@@ -43,20 +70,30 @@
                   withInt:(jint)off
                   withInt:(jint)len;
 
+- (void)reset;
+
+- (jlong)skipWithLong:(jlong)n;
+
 @end
 
-FOUNDATION_EXPORT BOOL AndroidUtilBase64InputStream_initialized;
 J2OBJC_STATIC_INIT(AndroidUtilBase64InputStream)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_(AndroidUtilBase64InputStream *self, JavaIoInputStream *inArg, jint flags);
 
-FOUNDATION_EXPORT IOSByteArray *AndroidUtilBase64InputStream_EMPTY_;
-J2OBJC_STATIC_FIELD_GETTER(AndroidUtilBase64InputStream, EMPTY_, IOSByteArray *)
-J2OBJC_STATIC_FIELD_SETTER(AndroidUtilBase64InputStream, EMPTY_, IOSByteArray *)
+FOUNDATION_EXPORT AndroidUtilBase64InputStream *new_AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_(JavaIoInputStream *inArg, jint flags) NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(AndroidUtilBase64InputStream, BUFFER_SIZE, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT AndroidUtilBase64InputStream *create_AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_(JavaIoInputStream *inArg, jint flags);
+
+FOUNDATION_EXPORT void AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_withBoolean_(AndroidUtilBase64InputStream *self, JavaIoInputStream *inArg, jint flags, jboolean encode);
+
+FOUNDATION_EXPORT AndroidUtilBase64InputStream *new_AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_withBoolean_(JavaIoInputStream *inArg, jint flags, jboolean encode) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT AndroidUtilBase64InputStream *create_AndroidUtilBase64InputStream_initWithJavaIoInputStream_withInt_withBoolean_(JavaIoInputStream *inArg, jint flags, jboolean encode);
 
 J2OBJC_TYPE_LITERAL_HEADER(AndroidUtilBase64InputStream)
 
-#endif // _AndroidUtilBase64InputStream_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_AndroidUtilBase64InputStream")

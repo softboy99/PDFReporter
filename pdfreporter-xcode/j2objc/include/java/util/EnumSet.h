@@ -3,74 +3,265 @@
 //  source: android/libcore/luni/src/main/java/java/util/EnumSet.java
 //
 
-#ifndef _JavaUtilEnumSet_H_
-#define _JavaUtilEnumSet_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilEnumSet")
+#ifdef RESTRICT_JavaUtilEnumSet
+#define INCLUDE_ALL_JavaUtilEnumSet 0
+#else
+#define INCLUDE_ALL_JavaUtilEnumSet 1
+#endif
+#undef RESTRICT_JavaUtilEnumSet
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilEnumSet_) && (INCLUDE_ALL_JavaUtilEnumSet || defined(INCLUDE_JavaUtilEnumSet))
+#define JavaUtilEnumSet_
+
+#define RESTRICT_JavaUtilAbstractSet 1
+#define INCLUDE_JavaUtilAbstractSet 1
+#include "java/util/AbstractSet.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSClass;
 @class IOSObjectArray;
 @class JavaLangEnum;
 @protocol JavaUtilCollection;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/util/AbstractSet.h"
-
-#define JavaUtilEnumSet_serialVersionUID 1009687484059888093LL
-
+/*!
+ @brief An EnumSet is a specialized Set to be used with enums as keys.
+ */
 @interface JavaUtilEnumSet : JavaUtilAbstractSet < NSCopying, JavaIoSerializable > {
  @public
   IOSClass *elementClass_;
 }
 
-- (instancetype)initWithIOSClass:(IOSClass *)cls;
+#pragma mark Public
 
-+ (JavaUtilEnumSet *)noneOfWithIOSClass:(IOSClass *)elementType;
-
+/*!
+ @brief Creates an enum set filled with all the enum elements of the specified
+ <code>elementType</code>.
+ @param elementType
+ the class object for the elements contained.
+ @return an enum set with elements solely from the specified element type.
+ @throws ClassCastException
+ if the specified element type is not and enum type.
+ */
 + (JavaUtilEnumSet *)allOfWithIOSClass:(IOSClass *)elementType;
 
-+ (JavaUtilEnumSet *)copyOfWithJavaUtilEnumSet:(JavaUtilEnumSet *)s OBJC_METHOD_FAMILY_NONE;
+/*!
+ @brief Creates a new enum set with the same elements as those contained in this
+ enum set.
+ @return a new enum set with the same elements as those contained in this
+ enum set.
+ */
+- (JavaUtilEnumSet *)clone;
 
-+ (JavaUtilEnumSet *)copyOfWithJavaUtilCollection:(id<JavaUtilCollection>)c OBJC_METHOD_FAMILY_NONE;
-
+/*!
+ @brief Creates an enum set.
+ All the contained elements complement those from the
+ specified enum set.
+ @param s
+ the specified enum set.
+ @return an enum set with all the elements complementary to those from the
+ specified enum set.
+ @throws NullPointerException
+ if <code>s</code> is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)complementOfWithJavaUtilEnumSet:(JavaUtilEnumSet *)s;
 
-- (void)complement;
+/*!
+ @brief Creates an enum set.
+ The contained elements are the same as those
+ contained in collection <code>c</code>. If c is an enum set, invoking this
+ method is the same as invoking <code>copyOf(EnumSet)</code>.
+ @param c
+ the collection from which to copy. if it is not an enum set,
+ it must not be empty.
+ @return an enum set with all the elements from the specified collection.
+ @throws IllegalArgumentException
+ if c is not an enum set and contains no elements at all.
+ @throws NullPointerException
+ if <code>c</code> is <code>null</code>.
+ */
++ (JavaUtilEnumSet *)copyOfWithJavaUtilCollection:(id<JavaUtilCollection>)c OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Creates an enum set.
+ All the contained elements are of type
+ Class&lt;E&gt;, and the contained elements are the same as those
+ contained in <code>s</code>.
+ @param s
+ the enum set from which to copy.
+ @return an enum set with all the elements from the specified enum set.
+ @throws ClassCastException
+ if the specified element type is not and enum type.
+ */
++ (JavaUtilEnumSet *)copyOfWithJavaUtilEnumSet:(JavaUtilEnumSet *)s OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Creates an empty enum set.
+ The permitted elements are of type
+ Class&lt;E&gt;.
+ @param elementType
+ the class object for the elements contained.
+ @return an empty enum set, with permitted elements of type <code>elementType</code>
+ .
+ @throws ClassCastException
+ if the specified element type is not and enum type.
+ */
++ (JavaUtilEnumSet *)noneOfWithIOSClass:(IOSClass *)elementType;
+
+/*!
+ @brief Creates a new enum set, containing only the specified element.
+ There are
+ six overloadings of the method. They accept from one to five elements
+ respectively. The sixth one receives an arbitrary number of elements, and
+ runs slower than those that only receive a fixed number of elements.
+ @param e
+ the element to be initially contained.
+ @return an enum set containing the specified element.
+ @throws NullPointerException
+ if <code>e</code> is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)e;
 
+/*!
+ @brief Creates a new enum set, containing only the specified elements.
+ There are
+ six overloadings of the method. They accept from one to five elements
+ respectively. The sixth one receives an arbitrary number of elements, and
+ runs slower than those that only receive a fixed number of elements.
+ @param e1
+ the initially contained element.
+ @param e2
+ another initially contained element.
+ @return an enum set containing the specified elements.
+ @throws NullPointerException
+ if any of the specified elements is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)e1
                        withJavaLangEnum:(JavaLangEnum *)e2;
 
+/*!
+ @brief Creates a new enum set, containing only the specified elements.
+ It can
+ receive an arbitrary number of elements, and runs slower than those only
+ receiving a fixed number of elements.
+ @param start
+ the first initially contained element.
+ @param others
+ the other initially contained elements.
+ @return an enum set containing the specified elements.
+ @throws NullPointerException
+ if any of the specified elements is <code>null</code>.
+ */
++ (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)start
+                  withJavaLangEnumArray:(IOSObjectArray *)others;
+
+/*!
+ @brief Creates a new enum set, containing only the specified elements.
+ There are
+ six overloadings of the method. They accept from one to five elements
+ respectively. The sixth one receives an arbitrary number of elements, and
+ runs slower than those that only receive a fixed number of elements.
+ @param e1
+ the initially contained element.
+ @param e2
+ another initially contained element.
+ @param e3
+ another initially contained element.
+ @return an enum set containing the specified elements.
+ @throws NullPointerException
+ if any of the specified elements is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)e1
                        withJavaLangEnum:(JavaLangEnum *)e2
                        withJavaLangEnum:(JavaLangEnum *)e3;
 
+/*!
+ @brief Creates a new enum set, containing only the specified elements.
+ There are
+ six overloadings of the method. They accept from one to five elements
+ respectively. The sixth one receives an arbitrary number of elements, and
+ runs slower than those that only receive a fixed number of elements.
+ @param e1
+ the initially contained element.
+ @param e2
+ another initially contained element.
+ @param e3
+ another initially contained element.
+ @param e4
+ another initially contained element.
+ @return an enum set containing the specified elements.
+ @throws NullPointerException
+ if any of the specified elements is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)e1
                        withJavaLangEnum:(JavaLangEnum *)e2
                        withJavaLangEnum:(JavaLangEnum *)e3
                        withJavaLangEnum:(JavaLangEnum *)e4;
 
+/*!
+ @brief Creates a new enum set, containing only the specified elements.
+ There are
+ six overloadings of the method. They accept from one to five elements
+ respectively. The sixth one receives an arbitrary number of elements, and
+ runs slower than those that only receive a fixed number of elements.
+ @param e1
+ the initially contained element.
+ @param e2
+ another initially contained element.
+ @param e3
+ another initially contained element.
+ @param e4
+ another initially contained element.
+ @param e5
+ another initially contained element.
+ @return an enum set containing the specified elements.
+ @throws NullPointerException
+ if any of the specified elements is <code>null</code>.
+ */
 + (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)e1
                        withJavaLangEnum:(JavaLangEnum *)e2
                        withJavaLangEnum:(JavaLangEnum *)e3
                        withJavaLangEnum:(JavaLangEnum *)e4
                        withJavaLangEnum:(JavaLangEnum *)e5;
 
-+ (JavaUtilEnumSet *)ofWithJavaLangEnum:(JavaLangEnum *)start
-                  withJavaLangEnumArray:(IOSObjectArray *)others;
-
+/*!
+ @brief Creates an enum set containing all the elements within the range defined
+ by <code>start</code> and <code>end</code> (inclusive).
+ All the elements must be in
+ order.
+ @param start
+ the element used to define the beginning of the range.
+ @param end
+ the element used to define the end of the range.
+ @return an enum set with elements in the range from start to end.
+ @throws NullPointerException
+ if any one of <code>start</code> or <code>end</code> is <code>null</code>.
+ @throws IllegalArgumentException
+ if <code>start</code> is behind <code>end</code>.
+ */
 + (JavaUtilEnumSet *)rangeWithJavaLangEnum:(JavaLangEnum *)start
                           withJavaLangEnum:(JavaLangEnum *)end;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithIOSClass:(IOSClass *)cls;
+
+- (void)complement;
+
+- (jboolean)isValidTypeWithIOSClass:(IOSClass *)cls;
 
 - (void)setRangeWithJavaLangEnum:(JavaLangEnum *)start
                 withJavaLangEnum:(JavaLangEnum *)end;
 
-- (JavaUtilEnumSet *)clone;
-
-- (jboolean)isValidTypeWithIOSClass:(IOSClass *)cls;
-
 - (id)writeReplace;
-
 
 @end
 
@@ -78,7 +269,7 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilEnumSet)
 
 J2OBJC_FIELD_SETTER(JavaUtilEnumSet, elementClass_, IOSClass *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilEnumSet_initWithIOSClass_(JavaUtilEnumSet *self, IOSClass *cls);
 
 FOUNDATION_EXPORT JavaUtilEnumSet *JavaUtilEnumSet_noneOfWithIOSClass_(IOSClass *elementType);
 
@@ -104,25 +295,10 @@ FOUNDATION_EXPORT JavaUtilEnumSet *JavaUtilEnumSet_ofWithJavaLangEnum_withJavaLa
 
 FOUNDATION_EXPORT JavaUtilEnumSet *JavaUtilEnumSet_rangeWithJavaLangEnum_withJavaLangEnum_(JavaLangEnum *start, JavaLangEnum *end);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilEnumSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilEnumSet)
 
-#define JavaUtilEnumSet_SerializationProxy_serialVersionUID 362491234563181265LL
+#endif
 
-@interface JavaUtilEnumSet_SerializationProxy : NSObject < JavaIoSerializable > {
-}
 
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilEnumSet_SerializationProxy)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilEnumSet_SerializationProxy, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilEnumSet_SerializationProxy)
-
-#endif // _JavaUtilEnumSet_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilEnumSet")

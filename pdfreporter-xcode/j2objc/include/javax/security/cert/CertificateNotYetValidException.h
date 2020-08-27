@@ -3,30 +3,72 @@
 //  source: android/libcore/luni/src/main/java/javax/security/cert/CertificateNotYetValidException.java
 //
 
-#ifndef _JavaxSecurityCertCertificateNotYetValidException_H_
-#define _JavaxSecurityCertCertificateNotYetValidException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxSecurityCertCertificateNotYetValidException")
+#ifdef RESTRICT_JavaxSecurityCertCertificateNotYetValidException
+#define INCLUDE_ALL_JavaxSecurityCertCertificateNotYetValidException 0
+#else
+#define INCLUDE_ALL_JavaxSecurityCertCertificateNotYetValidException 1
+#endif
+#undef RESTRICT_JavaxSecurityCertCertificateNotYetValidException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxSecurityCertCertificateNotYetValidException_) && (INCLUDE_ALL_JavaxSecurityCertCertificateNotYetValidException || defined(INCLUDE_JavaxSecurityCertCertificateNotYetValidException))
+#define JavaxSecurityCertCertificateNotYetValidException_
+
+#define RESTRICT_JavaxSecurityCertCertificateException 1
+#define INCLUDE_JavaxSecurityCertCertificateException 1
 #include "javax/security/cert/CertificateException.h"
 
-#define JavaxSecurityCertCertificateNotYetValidException_serialVersionUID -8976172474266822818LL
+/*!
+ @brief The exception that is thrown when a <code>Certificate</code> is not yet valid.
+ <p>
+ Note: This package is provided only for compatibility reasons. It contains a
+ simplified version of the java.security.cert package that was previously used
+ by JSSE (Java SSL package). All applications that do not have to be
+ compatible with older versions of JSSE (that is before Java SDK 1.5) should
+ only use java.security.cert.
+ */
+@interface JavaxSecurityCertCertificateNotYetValidException : JavaxSecurityCertCertificateException
 
-@interface JavaxSecurityCertCertificateNotYetValidException : JavaxSecurityCertCertificateException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Creates a new <code>CertificateNotYetValidException</code>.
+ */
 - (instancetype)init;
+
+/*!
+ @brief Creates a new <code>CertificateNotYetValidException</code> with the specified
+ message.
+ @param msg
+ the detail message for the exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxSecurityCertCertificateNotYetValidException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaxSecurityCertCertificateNotYetValidException_initWithNSString_(JavaxSecurityCertCertificateNotYetValidException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxSecurityCertCertificateNotYetValidException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxSecurityCertCertificateNotYetValidException *new_JavaxSecurityCertCertificateNotYetValidException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateNotYetValidException *create_JavaxSecurityCertCertificateNotYetValidException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaxSecurityCertCertificateNotYetValidException_init(JavaxSecurityCertCertificateNotYetValidException *self);
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateNotYetValidException *new_JavaxSecurityCertCertificateNotYetValidException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxSecurityCertCertificateNotYetValidException *create_JavaxSecurityCertCertificateNotYetValidException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxSecurityCertCertificateNotYetValidException)
 
-#endif // _JavaxSecurityCertCertificateNotYetValidException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxSecurityCertCertificateNotYetValidException")

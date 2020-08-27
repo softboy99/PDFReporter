@@ -27,10 +27,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.oss.pdfreporter.engine.JRPropertiesMap;
+import org.oss.pdfreporter.engine.export.GenericElementHandler;
+import org.oss.pdfreporter.engine.export.GenericElementHandlerBundle;
 import org.oss.pdfreporter.engine.query.DefaultQueryExecuterFactoryBundle;
 import org.oss.pdfreporter.engine.query.JRQueryExecuterFactoryBundle;
 import org.oss.pdfreporter.engine.util.MessageProviderFactory;
 import org.oss.pdfreporter.engine.util.ResourceBundleMessageProviderFactory;
+import org.oss.pdfreporter.engine.xml.JRXmlConstants;
 
 
 
@@ -41,6 +44,22 @@ import org.oss.pdfreporter.engine.util.ResourceBundleMessageProviderFactory;
 public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 
+	private static final GenericElementHandlerBundle HANDLER_BUNDLE = 
+			new GenericElementHandlerBundle()
+			{
+
+				@Override
+				public String getNamespace() {
+					return JRXmlConstants.JASPERREPORTS_NAMESPACE;
+				}
+
+				@Override
+				public GenericElementHandler getHandler(String elementName,
+						String exporterKey) {
+					return null;
+				}
+			};
+			
 	private static final ExtensionsRegistry defaultExtensionsRegistry =
 		new ExtensionsRegistry()
 		{
@@ -54,6 +73,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				else if (MessageProviderFactory.class.equals(extensionType))
 				{
 					return (List<T>) Collections.singletonList((Object) new ResourceBundleMessageProviderFactory());
+				}
+				else if (GenericElementHandlerBundle.class.equals(extensionType))
+				{
+					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
 				}
 				return null;
 			}

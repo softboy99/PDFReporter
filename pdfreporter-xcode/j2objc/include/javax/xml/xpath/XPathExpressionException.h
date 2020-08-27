@@ -3,32 +3,76 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/xpath/XPathExpressionException.java
 //
 
-#ifndef _JavaxXmlXpathXPathExpressionException_H_
-#define _JavaxXmlXpathXPathExpressionException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxXmlXpathXPathExpressionException")
+#ifdef RESTRICT_JavaxXmlXpathXPathExpressionException
+#define INCLUDE_ALL_JavaxXmlXpathXPathExpressionException 0
+#else
+#define INCLUDE_ALL_JavaxXmlXpathXPathExpressionException 1
+#endif
+#undef RESTRICT_JavaxXmlXpathXPathExpressionException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlXpathXPathExpressionException_) && (INCLUDE_ALL_JavaxXmlXpathXPathExpressionException || defined(INCLUDE_JavaxXmlXpathXPathExpressionException))
+#define JavaxXmlXpathXPathExpressionException_
+
+#define RESTRICT_JavaxXmlXpathXPathException 1
+#define INCLUDE_JavaxXmlXpathXPathException 1
 #include "javax/xml/xpath/XPathException.h"
 
-#define JavaxXmlXpathXPathExpressionException_serialVersionUID -1837080260374986980LL
+/*!
+ @brief <code>XPathExpressionException</code> represents an error in an XPath expression.
+ </p>
+ @author <a href="mailto:Norman.Walsh@@Sun.com">Norman Walsh</a>
+ @author <a href="mailto:Jeff.Suttor@@Sun.com">Jeff Suttor</a>
+ @version $Revision: 446598 $, $Date: 2006-09-15 05:55:40 -0700 (Fri, 15 Sep 2006) $
+ @since 1.5
+ */
+@interface JavaxXmlXpathXPathExpressionException : JavaxXmlXpathXPathException
 
-@interface JavaxXmlXpathXPathExpressionException : JavaxXmlXpathXPathException {
-}
+#pragma mark Public
 
+/*!
+ @brief <p>Constructs a new <code>XPathExpressionException</code> with the specified detail <code>message</code>.
+ </p>
+ <p>The <code>cause</code> is not initialized.</p>
+ <p>If <code>message</code> is <code>null</code>, then a <code>NullPointerException</code> is thrown.</p>
+ @param message The detail message.
+ */
 - (instancetype)initWithNSString:(NSString *)message;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief <p>Constructs a new <code>XPathExpressionException</code> with the specified <code>cause</code>.
+ </p>
+ <p>If <code>cause</code> is <code>null</code>, then a <code>NullPointerException</code> is thrown.</p>
+ @param cause The cause.
+ @throws NullPointerException if <code>cause</code> is <code>null</code>.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaxXmlXpathXPathExpressionException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaxXmlXpathXPathExpressionException_initWithNSString_(JavaxXmlXpathXPathExpressionException *self, NSString *message);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathExpressionException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxXmlXpathXPathExpressionException *new_JavaxXmlXpathXPathExpressionException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlXpathXPathExpressionException *create_JavaxXmlXpathXPathExpressionException_initWithNSString_(NSString *message);
+
+FOUNDATION_EXPORT void JavaxXmlXpathXPathExpressionException_initWithNSException_(JavaxXmlXpathXPathExpressionException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaxXmlXpathXPathExpressionException *new_JavaxXmlXpathXPathExpressionException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaxXmlXpathXPathExpressionException *create_JavaxXmlXpathXPathExpressionException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlXpathXPathExpressionException)
 
-#endif // _JavaxXmlXpathXPathExpressionException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlXpathXPathExpressionException")

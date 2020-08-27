@@ -71,9 +71,9 @@ import org.oss.pdfreporter.engine.type.RenderableTypeEnum;
 import org.oss.pdfreporter.engine.type.RotationEnum;
 import org.oss.pdfreporter.engine.util.JRPdfaIccProfileNotFoundException;
 import org.oss.pdfreporter.engine.util.JRStyledText;
-import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.IFont.FontDecoration;
 import org.oss.pdfreporter.font.IFont.FontStyle;
+import org.oss.pdfreporter.font.IFontManager;
 import org.oss.pdfreporter.font.factory.IFontFactory;
 import org.oss.pdfreporter.font.text.TextAttribute;
 import org.oss.pdfreporter.geometry.IAffineTransformMatrix;
@@ -84,13 +84,13 @@ import org.oss.pdfreporter.geometry.factory.IGeometryFactory.Rotate90;
 import org.oss.pdfreporter.image.IImage;
 import org.oss.pdfreporter.pdf.DocumentException;
 import org.oss.pdfreporter.pdf.IDocument;
-import org.oss.pdfreporter.pdf.IEncryption;
-import org.oss.pdfreporter.pdf.IPage;
-import org.oss.pdfreporter.pdf.ParagraphRenderer;
 import org.oss.pdfreporter.pdf.IDocument.ConformanceLevel;
 import org.oss.pdfreporter.pdf.IDocument.PageOrientation;
+import org.oss.pdfreporter.pdf.IEncryption;
+import org.oss.pdfreporter.pdf.IPage;
 import org.oss.pdfreporter.pdf.IPage.LineCap;
 import org.oss.pdfreporter.pdf.IPage.ScaleMode;
+import org.oss.pdfreporter.pdf.ParagraphRenderer;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.text.HorizontalAlignment;
 import org.oss.pdfreporter.text.IPositionedLine;
@@ -146,6 +146,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
 	{
+		@Override
 		public String getExportPropertiesPrefix()
 		{
 			return PDF_EXPORTER_PROPERTIES_PREFIX;
@@ -221,7 +222,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public JRPdfExporter(JasperReportsContext jasperReportsContext)
+	public JRPdfExporter(final JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
 	}
@@ -254,6 +255,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	@Override
 	public void exportReport() throws JRException
 	{
 		registerFonts();
@@ -329,7 +331,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					JRPdfExporterParameter.PROPERTY_OWNER_PASSWORD
 					);
 
-			Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
+			final Integer permissionsParameter = (Integer)parameters.get(JRPdfExporterParameter.PERMISSIONS);
 			if (permissionsParameter != null)
 			{
 				permissions = permissionsParameter.intValue();
@@ -371,7 +373,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			String fileName = (String)parameters.get(JRExporterParameter.OUTPUT_FILE_NAME);
 			if (fileName==null) {
-				File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
+				final File destFile = (File)parameters.get(JRExporterParameter.OUTPUT_FILE);
 				if (destFile == null) {
 					throw new JRException("Only export to file by file or filename is supported.");
 				}
@@ -386,6 +388,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void setFontMap()
 	{
@@ -396,7 +399,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected void setSplitCharacter()
 	{
 		boolean useFillSplitCharacter;
-		Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
+		final Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
 		if (useFillSplitCharacterParam == null)
 		{
 			useFillSplitCharacter = 
@@ -421,10 +424,10 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportToFile(String fileName) throws JRException
+	protected void exportToFile(final String fileName) throws JRException
 	{
 
-		boolean sizePageToContent = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, JRPdfExporterParameter.PROPERTY_SIZE_PAGE_TO_CONTENT, false);
+		final boolean sizePageToContent = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, JRPdfExporterParameter.PROPERTY_SIZE_PAGE_TO_CONTENT, false);
 		boolean closeDocuments = true;
 		try
 		{
@@ -462,38 +465,38 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			// Add meta-data parameters to generated PDF document
 			// mtclough@users.sourceforge.net 2005-12-05
-			String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
+			final String title = (String)parameters.get(JRPdfExporterParameter.METADATA_TITLE);
 			if( title != null )
 			{
 				document.setTitle(title);
 			}
-			String author = (String)parameters.get(JRPdfExporterParameter.METADATA_AUTHOR);
+			final String author = (String)parameters.get(JRPdfExporterParameter.METADATA_AUTHOR);
 			if( author != null )
 			{
 				document.setAuthor(author);
 			}
-			String subject = (String)parameters.get(JRPdfExporterParameter.METADATA_SUBJECT);
+			final String subject = (String)parameters.get(JRPdfExporterParameter.METADATA_SUBJECT);
 			if( subject != null )
 			{
 				document.setSubject(subject);
 			}
-			String keywords = (String)parameters.get(JRPdfExporterParameter.METADATA_KEYWORDS);
+			final String keywords = (String)parameters.get(JRPdfExporterParameter.METADATA_KEYWORDS);
 			if( keywords != null )
 			{
 				document.setKeywords(keywords);
 			}
-			String creator = (String)parameters.get(JRPdfExporterParameter.METADATA_CREATOR);
+			final String creator = (String)parameters.get(JRPdfExporterParameter.METADATA_CREATOR);
 			if( creator != null )
 			{
 				document.setCreator(creator);
 			}
 			else
 			{
-				document.setCreator("JasperReports (" + jasperPrint.getName() + ")");
+				document.setCreator("PDFReporter (" + jasperPrint.getName() + ")");
 			}
 			
 			// BEGIN: PDF/A support
-			String pdfaConformance = getStringParameter( JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PROPERTY_PDFA_CONFORMANCE);
+			final String pdfaConformance = getStringParameter( JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PROPERTY_PDFA_CONFORMANCE);
 			boolean gotPdfa = false;
 			if (pdfaConformance != null && !JRPdfExporterParameter.PDFA_CONFORMANCE_NONE.equalsIgnoreCase(pdfaConformance)) 
 			{
@@ -522,7 +525,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			
 			// BEGIN: PDF/A support
 			if (gotPdfa) {
-				String iccProfilePath = getStringParameter( JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, JRPdfExporterParameter.PROPERTY_PDFA_ICC_PROFILE_PATH);
+				final String iccProfilePath = getStringParameter( JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, JRPdfExporterParameter.PROPERTY_PDFA_ICC_PROFILE_PATH);
 				if (iccProfilePath != null) {
 //					PdfDictionary pdfDictionary = new PdfDictionary(PdfName.OUTPUTINTENT);
 //					pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
@@ -572,7 +575,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					);
 				
 
-				List<JRPrintPage> pages = jasperPrint.getPages();
+				final List<JRPrintPage> pages = jasperPrint.getPages();
 				if (pages != null && pages.size() > 0)
 				{
 					if (isModeBatch)
@@ -597,7 +600,7 @@ public class JRPdfExporter extends JRAbstractExporter
 							throw new JRException("Current thread interrupted.");
 						}
 
-						JRPrintPage page = pages.get(pageIndex);
+						final JRPrintPage page = pages.get(pageIndex);
 
 						if (sizePageToContent)
 						{
@@ -627,11 +630,11 @@ public class JRPdfExporter extends JRAbstractExporter
 			document.close();
 //			imageTesterDocument.close();
 		}
-		catch(DocumentException e)
+		catch(final DocumentException e)
 		{
 			throw new JRException("PDF Document error : " + jasperPrint.getName(), e);
 		}
-		catch(IOException e)
+		catch(final IOException e)
 		{
 			throw new JRException("Error generating PDF report : " + jasperPrint.getName(), e);
 		}
@@ -643,7 +646,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 					document.close();
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					// ignore, let the original exception propagate
 				}
@@ -652,7 +655,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				{
 //					imageTesterDocument.close();
 				}
-				catch (Exception e)
+				catch (final Exception e)
 				{
 					// ignore, let the original exception propagate
 				}
@@ -663,7 +666,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	protected void writePageAnchor(int pageIndex) throws DocumentException 
+	protected void writePageAnchor(final int pageIndex) throws DocumentException 
 	{
 //		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
 //		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
@@ -696,18 +699,18 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 * Creates a new PDFPage for the JRPrintPage
 	 */
-	protected void newPage(JRPrintPage page) throws JRException, DocumentException, IOException
+	protected void newPage(final JRPrintPage page) throws JRException, DocumentException, IOException
 	{
 		int pageWidth = jasperPrint.getPageWidth(); 
 		int pageHeight = jasperPrint.getPageHeight();
 		
 		if (page != null)
 		{
-			Collection<JRPrintElement> elements = page.getElements();
-			for (JRPrintElement element : elements)
+			final Collection<JRPrintElement> elements = page.getElements();
+			for (final JRPrintElement element : elements)
 			{
-				int elementRight = element.getX() + element.getWidth();
-				int elementBottom = element.getY() + element.getHeight();
+				final int elementRight = element.getX() + element.getWidth();
+				final int elementBottom = element.getY() + element.getHeight();
 				pageWidth = pageWidth < elementRight ? elementRight : pageWidth;
 				pageHeight = pageHeight < elementBottom ? elementBottom : pageHeight;
 			}
@@ -730,11 +733,11 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPage(JRPrintPage page) throws JRException, DocumentException, IOException
+	protected void exportPage(final JRPrintPage page) throws JRException, DocumentException, IOException
 	{
 //		tagHelper.startPage();
 		
-		Collection<JRPrintElement> elements = page.getElements();
+		final Collection<JRPrintElement> elements = page.getElements();
 		exportElements(elements);
 		
 //		tagHelper.endPage();
@@ -745,13 +748,13 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 	}
 
-	protected void exportElements(Collection<JRPrintElement> elements) throws DocumentException, IOException, JRException
+	protected void exportElements(final Collection<JRPrintElement> elements) throws DocumentException, IOException, JRException
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
+			for(final Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = it.next();
+				final JRPrintElement element = it.next();
 
 				if (filter == null || filter.isToExport(element))
 				{
@@ -796,9 +799,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLine(JRPrintLine line)
+	protected void exportLine(final JRPrintLine line)
 	{
-		float lineWidth = line.getLinePen().getLineWidth().floatValue(); 
+		final float lineWidth = line.getLinePen().getLineWidth().floatValue(); 
 		if (lineWidth > 0f)
 		{
 			preparePen(pdfPage, line.getLinePen(), LineCap.BUTT_END);
@@ -889,8 +892,8 @@ public class JRPdfExporter extends JRAbstractExporter
 					{
 						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
-							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
-							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
+							final double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
+							final double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
 							
 							pdfPage.moveTo(
 								line.getX() + getOffsetX() + (float)xtrans,
@@ -928,8 +931,8 @@ public class JRPdfExporter extends JRAbstractExporter
 					{
 						if (line.getLinePen().getLineStyleValue() == LineStyleEnum.DOUBLE)
 						{
-							double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
-							double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
+							final double xtrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getWidth(), 2) / Math.pow(line.getHeight(), 2))); 
+							final double ytrans = lineWidth / (3 * Math.sqrt(1 + Math.pow(line.getHeight(), 2) / Math.pow(line.getWidth(), 2))); 
 							
 							pdfPage.moveTo(
 								line.getX() + getOffsetX() + (float)xtrans,
@@ -977,14 +980,14 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRectangle(JRPrintRectangle rectangle)
+	protected void exportRectangle(final JRPrintRectangle rectangle)
 	{
 		pdfPage.setRGBColorFill(rectangle.getBackcolor());
 
 		preparePen(pdfPage, rectangle.getLinePen(), LineCap.PROJECTING_SCUARE_END);
 
-		float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
-		float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
+		final float lineWidth = rectangle.getLinePen().getLineWidth().floatValue();
+		final float lineOffset = BorderOffset.getOffset(rectangle.getLinePen());
 		
 		if (rectangle.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -1045,14 +1048,14 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportEllipse(JRPrintEllipse ellipse)
+	protected void exportEllipse(final JRPrintEllipse ellipse)
 	{
 		pdfPage.setRGBColorFill(ellipse.getBackcolor());
 
 		preparePen(pdfPage, ellipse.getLinePen(), LineCap.PROJECTING_SCUARE_END);
 
-		float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
-		float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
+		final float lineWidth = ellipse.getLinePen().getLineWidth().floatValue();
+		final float lineOffset = BorderOffset.getOffset(ellipse.getLinePen());
 		
 		if (ellipse.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -1109,7 +1112,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	// TODO (15.06.2013, Donat, Open Software Solutions): Replace Image loading with new Factory
-	public void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
+	public void exportImage(final JRPrintImage printImage) throws DocumentException, IOException,  JRException
 	{
 		if (printImage.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -1123,10 +1126,10 @@ public class JRPdfExporter extends JRAbstractExporter
 			pdfPage.fill();
 		}
 
-		int topPadding = printImage.getLineBox().getTopPadding().intValue();
-		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
-		int rightPadding = printImage.getLineBox().getRightPadding().intValue();
+		final int topPadding = printImage.getLineBox().getTopPadding().intValue();
+		final int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
+		final int bottomPadding = printImage.getLineBox().getBottomPadding().intValue();
+		final int rightPadding = printImage.getLineBox().getRightPadding().intValue();
 
 		int availableImageWidth = printImage.getWidth() - leftPadding - rightPadding;
 		availableImageWidth = (availableImageWidth < 0)?0:availableImageWidth;
@@ -1134,7 +1137,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 
-		Renderable renderer = printImage.getRenderable();
+		final Renderable renderer = printImage.getRenderable();
 
 
 		if (renderer != null)
@@ -1143,13 +1146,13 @@ public class JRPdfExporter extends JRAbstractExporter
 			int yoffset = 0;
 			ScaleMode scaleMode = null;
 
-			IDimension imageDimension = renderer.getDimension(jasperReportsContext);
+			final IDimension imageDimension = renderer.getDimension(jasperReportsContext);
 
 			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 
-				float xalignFactor = getXAlignFactor(printImage);
-				float yalignFactor = getYAlignFactor(printImage);
+				final float xalignFactor = getXAlignFactor(printImage);
+				final float yalignFactor = getYAlignFactor(printImage);
 
 				
 				switch(printImage.getScaleImageValue())
@@ -1177,11 +1180,11 @@ public class JRPdfExporter extends JRAbstractExporter
 						scaleMode = ScaleMode.SIZE;
 						
 						// calc image scale factors to retain aspect ratio and fit into boundaries
-						float scaleX = availableImageWidth * 1.0f / imageDimension.getWidth();
-						float scaleY = availableImageHeight * 1.0f / imageDimension.getHeight();
-						float scale = Math.min(scaleX, scaleY);
-						float scaledWidth = imageDimension.getWidth() * scale ;
-						float scaledHeight = imageDimension.getHeight() * scale ;
+						final float scaleX = availableImageWidth * 1.0f / imageDimension.getWidth();
+						final float scaleY = availableImageHeight * 1.0f / imageDimension.getHeight();
+						final float scale = Math.min(scaleX, scaleY);
+						final float scaledWidth = imageDimension.getWidth() * scale ;
+						final float scaledHeight = imageDimension.getHeight() * scale ;
 						
 						// horizontal and vertical alignment offset for scaled image						
 						xoffset = (int)(xalignFactor * (availableImageWidth - scaledWidth));
@@ -1201,11 +1204,11 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 
 			
-			float x = printImage.getX() + getOffsetX() + leftPadding;
-			float y = jasperPrint.getPageHeight() - printImage.getY() - printImage.getHeight() - getOffsetY() + topPadding;
-			float width = printImage.getWidth() - leftPadding - rightPadding;
-			float height = printImage.getHeight() - topPadding - bottomPadding;
-			IImage image = renderer.getImage(jasperReportsContext);
+			final float x = printImage.getX() + getOffsetX() + leftPadding;
+			final float y = jasperPrint.getPageHeight() - printImage.getY() - printImage.getHeight() - getOffsetY() + topPadding;
+			final float width = printImage.getWidth() - leftPadding - rightPadding;
+			final float height = printImage.getHeight() - topPadding - bottomPadding;
+			final IImage image = renderer.getImage(jasperReportsContext);
 			logger.finest("drawImage(x: " + x + "(+" + xoffset + "), y: " + y + "(+" + yoffset + "), width: " + width + ", height: " +  height + ", mode: " + scaleMode ); 
 			if (xoffset>=0 && yoffset>=0) {
 				pdfPage.draw(
@@ -1247,7 +1250,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	private float getXAlignFactor(JRPrintImage printImage)
+	private float getXAlignFactor(final JRPrintImage printImage)
 	{
 		float xalignFactor = 0f;
 		switch (printImage.getHorizontalAlignmentValue())
@@ -1273,7 +1276,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	private float getYAlignFactor(JRPrintImage printImage)
+	private float getYAlignFactor(final JRPrintImage printImage)
 	{
 		float yalignFactor = 0f;
 		switch (printImage.getVerticalAlignmentValue())
@@ -1425,12 +1428,12 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Paragraph getParagraph(AttributedString as, String text, JRPrintText textElement)
+	protected Paragraph getParagraph(final AttributedString as, final String text, final JRPrintText textElement)
 	{
-		Paragraph paragraph = new Paragraph();
+		final Paragraph paragraph = new Paragraph();
 		int runLimit = 0;
 
-		IAttributedCharacterIterator iterator = as.getIterator();
+		final IAttributedCharacterIterator iterator = as.getIterator();
 		
 		// TODO (15.06.2013, Donat, Open Software Solutions): Add locale support later
 //		Locale locale = getTextLocale(textElement);
@@ -1438,8 +1441,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		boolean firstText = true;
 		while(runLimit < text.length() && (runLimit = iterator.getRunLimit()) <= text.length())
 		{
-			Map<Attribute,Object> attributes = iterator.getAttributes();
-			ParagraphText paragraphText = getParagrapghText(attributes, text.substring(iterator.getIndex(), runLimit));
+			final Map<Attribute,Object> attributes = iterator.getAttributes();
+			final ParagraphText paragraphText = getParagrapghText(attributes, text.substring(iterator.getIndex(), runLimit));
 			
 			// TODO (15.06.2013, Donat, Open Software Solutions): Add Bookmark support later
 			if (firstText)
@@ -1469,16 +1472,19 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 * Returns a decorated Text to render a text paragraph
 	 */
-	protected ParagraphText getParagrapghText(Map<Attribute,Object> attributes, String text)
+	protected ParagraphText getParagrapghText(final Map<Attribute,Object> attributes, final String text)
 	{
 		// TODO (27.06.2013, Donat, Open Software Solutions): Use AttributedStringConverter
 		// size, style, underline and strikethrough are set on the font below
-		org.oss.pdfreporter.font.IFont font = getFont(attributes);
-		IColor forecolor = (IColor)attributes.get(TextAttribute.FOREGROUND);
-		IColor backcolor = (IColor)attributes.get(TextAttribute.BACKGROUND);
-		boolean underline = hasUnderline(attributes);
-		boolean strikethrough = hasStrikethrough(attributes);
-		IPositionedLine line = underline ? PositionedLined.newUnderline() : strikethrough ? PositionedLined.newStrikethrough() : null;
+		final org.oss.pdfreporter.font.IFont font = getFont(attributes);
+		final IColor forecolor = (IColor)attributes.get(TextAttribute.FOREGROUND);
+		final IColor backcolor = (IColor)attributes.get(TextAttribute.BACKGROUND);
+		final boolean underline = hasUnderline(attributes);
+		final boolean strikethrough = hasStrikethrough(attributes);
+		final IPositionedLine line = underline ? PositionedLined.newUnderline() : strikethrough ? PositionedLined.newStrikethrough() : null;
+		if (logger.isLoggable(Level.FINEST)) {
+			logger.finest(String.format("text: %s, fontName: %s, fontStyle: %s, fontDecoration: %s, fontSize: %s ", text, font.getName(), font.getStyle(), font.getDecoration(), font.getSize()));
+		}
 		return new ParagraphText(text,font,forecolor,backcolor,line);
 		
 // TODO (15.04.2013, Donat, Open Software Solutions): Add text raise to the IPage API (use leadingfactor 1.25 * fontsize to calc offset)
@@ -1496,35 +1502,35 @@ public class JRPdfExporter extends JRAbstractExporter
 //		}
 	}
 
-	protected boolean hasUnderline(Map<Attribute,Object> textAttributes)
+	protected boolean hasUnderline(final Map<Attribute,Object> textAttributes)
 	{
-		Integer underline = (Integer) textAttributes.get(TextAttribute.UNDERLINE);
+		final Integer underline = (Integer) textAttributes.get(TextAttribute.UNDERLINE);
 		return TextAttribute.UNDERLINE_ON.equals(underline);
 	}
 
-	protected boolean hasStrikethrough(Map<Attribute,Object> textAttributes)
+	protected boolean hasStrikethrough(final Map<Attribute,Object> textAttributes)
 	{
-		Boolean strike = (Boolean) textAttributes.get(TextAttribute.STRIKETHROUGH);
+		final Boolean strike = (Boolean) textAttributes.get(TextAttribute.STRIKETHROUGH);
 		return TextAttribute.STRIKETHROUGH_ON.equals(strike);
 	}
 
-	private boolean hasSuperscipt(Map<Attribute, Object> attributes) {
-		Integer scriptStyle = (Integer) attributes.get(TextAttribute.SUPERSCRIPT);
+	private boolean hasSuperscipt(final Map<Attribute, Object> attributes) {
+		final Integer scriptStyle = (Integer) attributes.get(TextAttribute.SUPERSCRIPT);
 		return (scriptStyle != null && TextAttribute.SUPERSCRIPT_SUPER.equals(scriptStyle));
 	}
 	
-	private boolean hasSubscipt(Map<Attribute, Object> attributes) {
-		Integer scriptStyle = (Integer) attributes.get(TextAttribute.SUPERSCRIPT);
+	private boolean hasSubscipt(final Map<Attribute, Object> attributes) {
+		final Integer scriptStyle = (Integer) attributes.get(TextAttribute.SUPERSCRIPT);
 		return (scriptStyle != null && TextAttribute.SUPERSCRIPT_SUB.equals(scriptStyle));
 	}
 	
 
-	protected org.oss.pdfreporter.font.IFont getFont(Map<Attribute,Object> attributes)
+	protected org.oss.pdfreporter.font.IFont getFont(final Map<Attribute,Object> attributes)
 	{
 		// TODO (15.06.2013, Donat, Open Software Solutions): Font loading is done elsewhere so the following translation is not required here
 		// FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
 		
-		JRFont jrFont = new JRBaseFont(attributes);
+		final JRFont jrFont = new JRBaseFont(attributes);
 		return toPdfFont(jrFont,hasUnderline(attributes), hasStrikethrough(attributes), hasSuperscipt(attributes), hasSubscipt(attributes));
 	}
 
@@ -1533,13 +1539,13 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public void exportText(JRPrintText text) throws DocumentException
+	public void exportText(final JRPrintText text) throws DocumentException
 	{
 		if (logger.isLoggable(Level.FINEST)) {
 			logger.finest("X: " + text.getX() + ", Y: " + text.getY() + ", Width: " + text.getWidth() + ", Height: " + text.getTextHeight() + ", Text: ['" + text.getFullText() + "']");
 		}
 		// NOTICE (04.07.2013, Donat, Open Software Solutions): SimpleTextLineWrapper lead to SimplePdfTextRenderer and ComplexTExtLineWrapper lead to PdfTextRenderer
-		AbstractPdfTextRenderer textRenderer = 
+		final AbstractPdfTextRenderer textRenderer = 
 			text.getLeadingOffset() == 0 
 			? new PdfTextRenderer(
 				jasperReportsContext,
@@ -1552,7 +1558,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		
 		textRenderer.initialize(this, pdfPage, text, getOffsetX(), getOffsetY());
 		
-		JRStyledText styledText = textRenderer.getStyledText();
+		final JRStyledText styledText = textRenderer.getStyledText();
 
 		if (styledText == null)
 		{
@@ -1586,14 +1592,14 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		boolean doRestoreState = false;
 		if (text.getRotationValue()!=RotationEnum.NONE) {	
-			IAffineTransformMatrix matrix = ApiRegistry.getGeometryFactory().newAffineTransformMatrix(textRenderer.getX(), jasperPrint.getPageHeight() - textRenderer.getY(), angle);
+			final IAffineTransformMatrix matrix = ApiRegistry.getGeometryFactory().newAffineTransformMatrix(textRenderer.getX(), jasperPrint.getPageHeight() - textRenderer.getY(), angle);
 			pdfPage.transform(matrix);
 			doRestoreState = true;
 		}
 
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
-			IColor backcolor = text.getBackcolor();
+			final IColor backcolor = text.getBackcolor();
 			pdfPage.setRGBColorFill(backcolor);
 			pdfPage.rectangle(
 				textRenderer.getX(),
@@ -1633,7 +1639,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportBox(JRLineBox box, JRPrintElement element)
+	protected void exportBox(final JRLineBox box, final JRPrintElement element)
 	{
 		exportTopPen(box.getTopPen(), box.getLeftPen(), box.getRightPen(), element);
 		exportLeftPen(box.getTopPen(), box.getLeftPen(), box.getBottomPen(), element);
@@ -1648,7 +1654,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportPen(JRPen pen, JRPrintElement element)
+	protected void exportPen(final JRPen pen, final JRPrintElement element)
 	{
 		exportTopPen(pen, pen, pen, element);
 		exportLeftPen(pen, pen, pen, element);
@@ -1664,21 +1670,21 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected void exportTopPen(
-		JRPen topPen, 
-		JRPen leftPen, 
-		JRPen rightPen, 
-		JRPrintElement element)
+		final JRPen topPen, 
+		final JRPen leftPen, 
+		final JRPen rightPen, 
+		final JRPrintElement element)
 	{
 		if (topPen.getLineWidth().floatValue() > 0f)
 		{
-			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
-			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			final float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+			final float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 			
 			preparePen(pdfPage, topPen, LineCap.BUTT_END);
 			
 			if (topPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float topOffset = topPen.getLineWidth().floatValue();
+				final float topOffset = topPen.getLineWidth().floatValue();
 
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
@@ -1702,7 +1708,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float topOffset =  BorderOffset.getOffset(topPen);
+				final float topOffset =  BorderOffset.getOffset(topPen);
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - topOffset
@@ -1720,18 +1726,18 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportLeftPen(JRPen topPen, JRPen leftPen, JRPen bottomPen, JRPrintElement element)
+	protected void exportLeftPen(final JRPen topPen, final JRPen leftPen, final JRPen bottomPen, final JRPrintElement element)
 	{
 		if (leftPen.getLineWidth().floatValue() > 0f)
 		{
-			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
-			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+			final float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+			final float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 
 			preparePen(pdfPage, leftPen, LineCap.BUTT_END);
 
 			if (leftPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float leftOffset = leftPen.getLineWidth().floatValue();
+				final float leftOffset = leftPen.getLineWidth().floatValue();
 
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() - leftOffset / 3,
@@ -1755,7 +1761,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float leftOffset =  BorderOffset.getOffset(leftPen);
+				final float leftOffset =  BorderOffset.getOffset(leftPen);
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() + leftOffset,
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
@@ -1773,18 +1779,18 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportBottomPen(JRPen leftPen, JRPen bottomPen, JRPen rightPen, JRPrintElement element)
+	protected void exportBottomPen(final JRPen leftPen, final JRPen bottomPen, final JRPen rightPen, final JRPrintElement element)
 	{
 		if (bottomPen.getLineWidth().floatValue() > 0f)
 		{
-			float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
-			float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
+			final float leftOffset = leftPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(leftPen);
+			final float rightOffset = rightPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(rightPen);
 			
 			preparePen(pdfPage, bottomPen, LineCap.BUTT_END);
 			
 			if (bottomPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float bottomOffset = bottomPen.getLineWidth().floatValue();
+				final float bottomOffset = bottomPen.getLineWidth().floatValue();
 
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
@@ -1808,7 +1814,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float bottomOffset =  BorderOffset.getOffset(bottomPen);
+				final float bottomOffset =  BorderOffset.getOffset(bottomPen);
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() - leftOffset,
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() - element.getHeight() + bottomOffset
@@ -1826,18 +1832,18 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportRightPen(JRPen topPen, JRPen bottomPen, JRPen rightPen, JRPrintElement element)
+	protected void exportRightPen(final JRPen topPen, final JRPen bottomPen, final JRPen rightPen, final JRPrintElement element)
 	{
 		if (rightPen.getLineWidth().floatValue() > 0f)
 		{
-			float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
-			float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
+			final float topOffset = topPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(topPen);
+			final float bottomOffset = bottomPen.getLineWidth().floatValue() / 2 - BorderOffset.getOffset(bottomPen);
 
 			preparePen(pdfPage, rightPen, LineCap.BUTT_END);
 
 			if (rightPen.getLineStyleValue() == LineStyleEnum.DOUBLE)
 			{
-				float rightOffset = rightPen.getLineWidth().floatValue();
+				final float rightOffset = rightPen.getLineWidth().floatValue();
 
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() + element.getWidth() + rightOffset / 3,
@@ -1861,7 +1867,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 			else
 			{
-				float rightOffset =  BorderOffset.getOffset(rightPen);
+				final float rightOffset =  BorderOffset.getOffset(rightPen);
 				pdfPage.moveTo(
 					element.getX() + getOffsetX() + element.getWidth() - rightOffset,
 					jasperPrint.getPageHeight() - element.getY() - getOffsetY() + topOffset
@@ -1882,39 +1888,39 @@ public class JRPdfExporter extends JRAbstractExporter
 	 * @param off
 	 * @return
 	 */
-	private static int[] toDashPattern(float on, float off) {
+	private static int[] toDashPattern(final float on, final float off) {
 		return new int[] {(int)on, (int)off};
 	}
 
-	private static void drawRoundRect(IPage aPdfPage, float x, float y, float width, float height, int radius ) {
+	private static void drawRoundRect(final IPage aPdfPage, final float x, final float y, final float width, final float height, final int radius ) {
 		aPdfPage.roundRectangle((int)x, (int)y, (int)width, (int)height, radius);
 	}
 	
-    private static void drawEllipse(IPage aPdfPage, float x1, float y1, float x2, float y2) {
+    private static void drawEllipse(final IPage aPdfPage, final float x1, final float y1, final float x2, final float y2) {
     	aPdfPage.ellipse((int)x1, (int)y1, (int)x2, (int)y2);
     }
 
 	
-    private static org.oss.pdfreporter.font.IFont toPdfFont(JRFont font, boolean underline, boolean strikethrough, boolean superscript, boolean subscript) {
-    	IFontFactory fontFactory = ApiRegistry.getFontFactory();
-    	IFontManager fontManager = fontFactory.getFontManager();
-    	FontStyle style = font.isBold() && font.isItalic() ? FontStyle.BOLD_OBLIQUE : font.isBold() ? FontStyle.BOLD : font.isItalic() ? FontStyle.OBLIQUE : FontStyle.PLAIN;
+    private static org.oss.pdfreporter.font.IFont toPdfFont(final JRFont font, final boolean underline, final boolean strikethrough, final boolean superscript, final boolean subscript) {
+    	final IFontFactory fontFactory = ApiRegistry.getFontFactory();
+    	final IFontManager fontManager = fontFactory.getFontManager();
+    	final FontStyle style = font.isBold() && font.isItalic() ? FontStyle.BOLD_OBLIQUE : font.isBold() ? FontStyle.BOLD : font.isItalic() ? FontStyle.OBLIQUE : FontStyle.PLAIN;
     	org.oss.pdfreporter.font.IFont pdfFont = fontManager.getFont(font.getFontName(), style);
     	// TODO (27.06.2013, Donat, Open Software Solutions): Remove find font after migration of code
     	if (pdfFont==null) {
     		pdfFont = fontManager.findFont(font.getFontName(), style);
     	}
-    	FontDecoration decoration = underline ? FontDecoration.UNDERLINE : strikethrough ? FontDecoration.STRIKE_THROUGH : superscript ? FontDecoration.SUPERSCRIPT : subscript ? FontDecoration.SUBSCRIPT : FontDecoration.NONE;
-		float fontSizeScale = superscript || subscript ? 2f / 3 : 1f;
+    	final FontDecoration decoration = underline ? FontDecoration.UNDERLINE : strikethrough ? FontDecoration.STRIKE_THROUGH : superscript ? FontDecoration.SUPERSCRIPT : subscript ? FontDecoration.SUBSCRIPT : FontDecoration.NONE;
+		final float fontSizeScale = superscript || subscript ? 2f / 3 : 1f;
 		return fontManager.getModifiedFont(pdfFont, font.getFontSize() * fontSizeScale, decoration);
     }
     
-	static void drawParagraph(IPage aPdfPage, Paragraph paragraph, float llx, float lly, float urx, float ury, float leading, HorizontalAlignment alignment) {
+	static void drawParagraph(final IPage aPdfPage, final Paragraph paragraph, final float llx, final float lly, final float urx, final float ury, final float leading, final HorizontalAlignment alignment) {
 		logger.finest("drawParagraph('" + paragraph.getText() + "', " + llx + ", " + lly + ", " + urx + ", " + ury + ", " + leading + ", " + alignment); 
 		logger.finest("Pos(x=" + (int)llx + ", y=" + (int)lly + ", width=" + (int)(urx - llx) + ", height=" +  (int)(lly - ury)); 
-		float verticalAlignmentHack = paragraph.getFirstParagraphText().getFont().getSize(); 
-		IRectangle rect = ApiRegistry.getGeometryFactory().newRectangle((int)llx, (int)(lly - verticalAlignmentHack), (int)(urx - llx), (int)(lly - ury));
-		ParagraphRenderer renderer = new ParagraphRenderer(paragraph, alignment, rect);
+		final float verticalAlignmentHack = paragraph.getFirstParagraphText().getFont().getSize(); 
+		final IRectangle rect = ApiRegistry.getGeometryFactory().newRectangle((int)llx, (int)(lly - verticalAlignmentHack), (int)(urx - llx), (int)(lly - ury));
+		final ParagraphRenderer renderer = new ParagraphRenderer(paragraph, alignment, rect);
 		renderer.render(aPdfPage, true);
 	}
 
@@ -1923,9 +1929,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	 *
 	 */
 	// TODO (15.06.2013, Donat, Open Software Solutions): Add support for all LineCap styles
-	private static void preparePen(IPage aPdfPage, JRPen pen, LineCap lineCap)
+	private static void preparePen(final IPage aPdfPage, final JRPen pen, final LineCap lineCap)
 	{
-		float lineWidth = pen.getLineWidth().floatValue();
+		final float lineWidth = pen.getLineWidth().floatValue();
 
 		if (lineWidth <= 0)
 		{
@@ -1935,7 +1941,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		aPdfPage.setLineWidth(lineWidth);
 		aPdfPage.setLineCap(lineCap);
 
-		IColor color = pen.getLineColor();
+		final IColor color = pen.getLineColor();
 		aPdfPage.setRGBColorStroke(color);
 
 		switch (pen.getLineStyleValue())
@@ -2132,14 +2138,14 @@ public class JRPdfExporter extends JRAbstractExporter
 
 */
 
-	protected void exportFrame(JRPrintFrame frame) throws DocumentException, IOException, JRException
+	protected void exportFrame(final JRPrintFrame frame) throws DocumentException, IOException, JRException
 	{
 		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{
-			int x = frame.getX() + getOffsetX();
-			int y = frame.getY() + getOffsetY();
+			final int x = frame.getX() + getOffsetX();
+			final int y = frame.getY() + getOffsetY();
 
-			IColor backcolor = frame.getBackcolor();
+			final IColor backcolor = frame.getBackcolor();
 			pdfPage.setRGBColorFill(backcolor);
 			pdfPage.rectangle(
 				x,
@@ -2173,17 +2179,20 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 		}
 
-		public void write(int b)
+		@Override
+		public void write(final int b)
 		{
 			// discard the data
 		}
 
-		public void write(byte[] b, int off, int len)
+		@Override
+		public void write(final byte[] b, final int off, final int len)
 		{
 			// discard the data
 		}
 
-		public void write(byte[] b)
+		@Override
+		public void write(final byte[] b)
 		{
 			// discard the data
 		}
@@ -2195,9 +2204,9 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGenericElement(JRGenericPrintElement element)
+	protected void exportGenericElement(final JRGenericPrintElement element)
 	{
-		GenericElementPdfHandler handler = (GenericElementPdfHandler) 
+		final GenericElementPdfHandler handler = (GenericElementPdfHandler) 
 				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
 						element.getGenericType(), PDF_EXPORTER_KEY);
 		
@@ -2215,6 +2224,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	@Override
 	protected String getExporterKey()
 	{
 		return PDF_EXPORTER_KEY;

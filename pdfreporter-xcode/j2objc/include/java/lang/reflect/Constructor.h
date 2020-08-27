@@ -33,7 +33,6 @@
 // limited to those that can be derived from an Objective-C Method instance,
 // so instances can be created and released as needed.
 @interface JavaLangReflectConstructor : ExecutableMember
-    < JavaLangReflectGenericDeclaration, JavaLangReflectMember >
 
 + (instancetype)constructorWithMethodSignature:(NSMethodSignature *)methodSignature
                                       selector:(SEL)selector
@@ -42,6 +41,10 @@
 
 // Create a new instance using this constructor.
 - (id)newInstanceWithNSObjectArray:(IOSObjectArray *)initArgs OBJC_METHOD_FAMILY_NONE;
+
+// Faster version of Constructor.newInstance() for JNI code. This does not
+// require boxing arguments.
+- (id)jniNewInstance:(const J2ObjcRawValue *)args;
 
 @end
 

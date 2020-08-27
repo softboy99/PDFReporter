@@ -3,20 +3,51 @@
 //  source: android/libcore/luni/src/main/java/java/util/IllegalFormatFlagsException.java
 //
 
-#ifndef _JavaUtilIllegalFormatFlagsException_H_
-#define _JavaUtilIllegalFormatFlagsException_H_
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilIllegalFormatFlagsException")
+#ifdef RESTRICT_JavaUtilIllegalFormatFlagsException
+#define INCLUDE_ALL_JavaUtilIllegalFormatFlagsException 0
+#else
+#define INCLUDE_ALL_JavaUtilIllegalFormatFlagsException 1
+#endif
+#undef RESTRICT_JavaUtilIllegalFormatFlagsException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilIllegalFormatFlagsException_) && (INCLUDE_ALL_JavaUtilIllegalFormatFlagsException || defined(INCLUDE_JavaUtilIllegalFormatFlagsException))
+#define JavaUtilIllegalFormatFlagsException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilIllegalFormatFlagsException_serialVersionUID 790824LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-@interface JavaUtilIllegalFormatFlagsException : JavaUtilIllegalFormatException < JavaIoSerializable > {
-}
+/*!
+ @brief An <code>IllegalFormatFlagsException</code> will be thrown if the combination of
+ the format flags is illegal.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilIllegalFormatFlagsException : JavaUtilIllegalFormatException < JavaIoSerializable >
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>IllegalFormatFlagsException</code> with the specified
+ flags.
+ @param flags
+ the specified flags.
+ */
 - (instancetype)initWithNSString:(NSString *)flags;
 
+/*!
+ @brief Returns the flags that are illegal.
+ @return the flags that are illegal.
+ */
 - (NSString *)getFlags;
 
 - (NSString *)getMessage;
@@ -25,11 +56,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilIllegalFormatFlagsException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilIllegalFormatFlagsException_initWithNSString_(JavaUtilIllegalFormatFlagsException *self, NSString *flags);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilIllegalFormatFlagsException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilIllegalFormatFlagsException *new_JavaUtilIllegalFormatFlagsException_initWithNSString_(NSString *flags) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilIllegalFormatFlagsException *create_JavaUtilIllegalFormatFlagsException_initWithNSString_(NSString *flags);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilIllegalFormatFlagsException)
 
-#endif // _JavaUtilIllegalFormatFlagsException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilIllegalFormatFlagsException")

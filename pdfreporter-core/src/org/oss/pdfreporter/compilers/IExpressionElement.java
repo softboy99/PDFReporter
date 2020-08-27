@@ -17,4 +17,5 @@ package org.oss.pdfreporter.compilers;
 public interface IExpressionElement {
 	Object getValue() throws ExpressionEvaluationException;
 	Object getOldValue() throws ExpressionEvaluationException;
+	Object getEsimatedValue() throws ExpressionEvaluationException;
 }

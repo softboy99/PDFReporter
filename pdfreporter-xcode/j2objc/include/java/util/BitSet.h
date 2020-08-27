@@ -3,109 +3,295 @@
 //  source: android/libcore/luni/src/main/java/java/util/BitSet.java
 //
 
-#ifndef _JavaUtilBitSet_H_
-#define _JavaUtilBitSet_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilBitSet")
+#ifdef RESTRICT_JavaUtilBitSet
+#define INCLUDE_ALL_JavaUtilBitSet 0
+#else
+#define INCLUDE_ALL_JavaUtilBitSet 1
+#endif
+#undef RESTRICT_JavaUtilBitSet
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilBitSet_) && (INCLUDE_ALL_JavaUtilBitSet || defined(INCLUDE_JavaUtilBitSet))
+#define JavaUtilBitSet_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSByteArray;
 @class IOSLongArray;
-@class JavaIoObjectInputStream;
 @class JavaNioByteBuffer;
 @class JavaNioLongBuffer;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+/*!
+ @brief The <code>BitSet</code> class implements a
+ <a href="http://en.wikipedia.org/wiki/Bit_array">bit array</a>.
+ Each element is either true or false. A <code>BitSet</code> is created with a given size and grows
+ automatically if this size is exceeded.
+ */
+@interface JavaUtilBitSet : NSObject < JavaIoSerializable, NSCopying >
 
-#define JavaUtilBitSet_ALL_ONES -1LL
-#define JavaUtilBitSet_serialVersionUID 7997698588986878753LL
+#pragma mark Public
 
-@interface JavaUtilBitSet : NSObject < JavaIoSerializable, NSCopying > {
-}
-
+/*!
+ @brief Creates a new <code>BitSet</code> with size equal to 64 bits.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Creates a new <code>BitSet</code> with size equal to <code>bitCount</code>, rounded up to
+ a multiple of 64.
+ @throws NegativeArraySizeException if <code>bitCount < 0</code>.
+ */
 - (instancetype)initWithInt:(jint)bitCount;
+
+/*!
+ @brief Logically ands the bits of this <code>BitSet</code> with <code>bs</code>.
+ */
+- (void)and__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
+
+/*!
+ @brief Clears all bits in this <code>BitSet</code> which are also set in <code>bs</code>.
+ */
+- (void)andNotWithJavaUtilBitSet:(JavaUtilBitSet *)bs;
+
+/*!
+ @brief Returns the number of bits that are <code>true</code> in this <code>BitSet</code>.
+ */
+- (jint)cardinality;
+
+/*!
+ @brief Clears all the bits in this <code>BitSet</code>.
+ This method does not change the capacity.
+ Use <code>clear</code> if you want to reuse this <code>BitSet</code> with the same capacity, but
+ create a new <code>BitSet</code> if you're trying to potentially reclaim memory.
+ */
+- (void)clear;
+
+/*!
+ @brief Clears the bit at index <code>index</code>.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
+- (void)clearWithInt:(jint)index;
+
+/*!
+ @brief Clears the range of bits <code>[fromIndex, toIndex)</code>.
+ @throws IndexOutOfBoundsException
+ if <code>fromIndex</code> or <code>toIndex</code> is negative, or if
+ <code>toIndex</code> is smaller than <code>fromIndex</code>.
+ */
+- (void)clearWithInt:(jint)fromIndex
+             withInt:(jint)toIndex;
 
 - (id)clone;
 
 - (jboolean)isEqual:(id)o;
 
-- (NSUInteger)hash;
-
-- (jboolean)getWithInt:(jint)index;
-
-- (void)setWithInt:(jint)index;
-
-- (void)clearWithInt:(jint)index;
-
+/*!
+ @brief Flips the bit at index <code>index</code>.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
 - (void)flipWithInt:(jint)index;
 
+/*!
+ @brief Flips the range of bits <code>[fromIndex, toIndex)</code>.
+ @throws IndexOutOfBoundsException
+ if <code>fromIndex</code> or <code>toIndex</code> is negative, or if
+ <code>toIndex</code> is smaller than <code>fromIndex</code>.
+ */
+- (void)flipWithInt:(jint)fromIndex
+            withInt:(jint)toIndex;
+
+/*!
+ @brief Returns the bit at index <code>index</code>.
+ Indexes greater than the current length return false.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
+- (jboolean)getWithInt:(jint)index;
+
+/*!
+ @brief Returns a new <code>BitSet</code> containing the
+ range of bits <code>[fromIndex, toIndex)</code>, shifted down so that the bit
+ at <code>fromIndex</code> is at bit 0 in the new <code>BitSet</code>.
+ @throws IndexOutOfBoundsException
+ if <code>fromIndex</code> or <code>toIndex</code> is negative, or if
+ <code>toIndex</code> is smaller than <code>fromIndex</code>.
+ */
 - (JavaUtilBitSet *)getWithInt:(jint)fromIndex
                        withInt:(jint)toIndex;
 
+- (NSUInteger)hash;
+
+/*!
+ @brief Returns true if <code>this.and(bs)</code> is non-empty, but may be faster than computing that.
+ */
+- (jboolean)intersectsWithJavaUtilBitSet:(JavaUtilBitSet *)bs;
+
+/*!
+ @brief Returns true if all the bits in this <code>BitSet</code> are set to false, false otherwise.
+ */
+- (jboolean)isEmpty;
+
+/*!
+ @brief Returns the number of bits up to and including the highest bit set.
+ This is unrelated to
+ the <code>size</code> of the <code>BitSet</code>.
+ */
+- (jint)length;
+
+/*!
+ @brief Returns the index of the first bit that is clear on or after <code>index</code>.
+ Since all bits past the end are implicitly clear, this never returns -1.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
+- (jint)nextClearBitWithInt:(jint)index;
+
+/*!
+ @brief Returns the index of the first bit that is set on or after <code>index</code>, or -1
+ if no higher bits are set.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
+- (jint)nextSetBitWithInt:(jint)index;
+
+/*!
+ @brief Logically ors the bits of this <code>BitSet</code> with <code>bs</code>.
+ */
+- (void)or__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
+
+/*!
+ @brief Returns the index of the first bit that is clear on or before <code>index</code>, or -1 if
+ no lower bits are clear or <code>index == -1</code>.
+ @throws IndexOutOfBoundsException if <code>index < -1</code>.
+ @since 1.7
+ */
+- (jint)previousClearBitWithInt:(jint)index;
+
+/*!
+ @brief Returns the index of the first bit that is set on or before <code>index</code>, or -1 if
+ no lower bits are set or <code>index == -1</code>.
+ @throws IndexOutOfBoundsException if <code>index < -1</code>.
+ @since 1.7
+ */
+- (jint)previousSetBitWithInt:(jint)index;
+
+/*!
+ @brief Sets the bit at index <code>index</code> to true.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
+- (void)setWithInt:(jint)index;
+
+/*!
+ @brief Sets the bit at index <code>index</code> to <code>state</code>.
+ @throws IndexOutOfBoundsException if <code>index < 0</code>.
+ */
 - (void)setWithInt:(jint)index
        withBoolean:(jboolean)state;
 
+/*!
+ @brief Sets the range of bits <code>[fromIndex, toIndex)</code>.
+ @throws IndexOutOfBoundsException
+ if <code>fromIndex</code> or <code>toIndex</code> is negative, or if
+ <code>toIndex</code> is smaller than <code>fromIndex</code>.
+ */
+- (void)setWithInt:(jint)fromIndex
+           withInt:(jint)toIndex;
+
+/*!
+ @brief Sets the range of bits <code>[fromIndex, toIndex)</code> to <code>state</code>.
+ @throws IndexOutOfBoundsException
+ if <code>fromIndex</code> or <code>toIndex</code> is negative, or if
+ <code>toIndex</code> is smaller than <code>fromIndex</code>.
+ */
 - (void)setWithInt:(jint)fromIndex
            withInt:(jint)toIndex
        withBoolean:(jboolean)state;
 
-- (void)clear;
-
-- (void)setWithInt:(jint)fromIndex
-           withInt:(jint)toIndex;
-
-- (void)clearWithInt:(jint)fromIndex
-             withInt:(jint)toIndex;
-
-- (void)flipWithInt:(jint)fromIndex
-            withInt:(jint)toIndex;
-
-- (jboolean)intersectsWithJavaUtilBitSet:(JavaUtilBitSet *)bs;
-
-- (void)and__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
-
-- (void)andNotWithJavaUtilBitSet:(JavaUtilBitSet *)bs;
-
-- (void)or__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
-
-- (void)xor__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
-
+/*!
+ @brief Returns the capacity in bits of the array implementing this <code>BitSet</code>.
+ This is
+ unrelated to the length of the <code>BitSet</code>, and not generally useful.
+ Use <code>nextSetBit</code> to iterate, or <code>length</code> to find the highest set bit.
+ */
 - (jint)size;
 
-- (jint)length;
+/*!
+ @brief Returns a new <code>byte[]</code> containing a little-endian representation the bits of
+ this <code>BitSet</code>, suitable for passing to <code>valueOf</code> to reconstruct
+ this <code>BitSet</code>.
+ @since 1.7
+ */
+- (IOSByteArray *)toByteArray;
 
-- (NSString *)description;
-
-- (jint)nextSetBitWithInt:(jint)index;
-
-- (jint)nextClearBitWithInt:(jint)index;
-
-- (jint)previousSetBitWithInt:(jint)index;
-
-- (jint)previousClearBitWithInt:(jint)index;
-
-- (jboolean)isEmpty;
-
-- (jint)cardinality;
-
-+ (JavaUtilBitSet *)valueOfWithLongArray:(IOSLongArray *)longs;
-
-+ (JavaUtilBitSet *)valueOfWithJavaNioLongBuffer:(JavaNioLongBuffer *)longBuffer;
-
-+ (JavaUtilBitSet *)valueOfWithByteArray:(IOSByteArray *)bytes;
-
-+ (JavaUtilBitSet *)valueOfWithJavaNioByteBuffer:(JavaNioByteBuffer *)byteBuffer;
-
+/*!
+ @brief Returns a new <code>long[]</code> containing a little-endian representation of the bits of
+ this <code>BitSet</code>, suitable for passing to <code>valueOf</code> to reconstruct
+ this <code>BitSet</code>.
+ @since 1.7
+ */
 - (IOSLongArray *)toLongArray;
 
-- (IOSByteArray *)toByteArray;
+/*!
+ @brief Returns a string containing a concise, human-readable description of the
+ receiver: a comma-delimited list of the indexes of all set bits.
+ For example: <code></code> "0,1,8}"}.
+ */
+- (NSString *)description;
+
+/*!
+ @brief Equivalent to <code>BitSet.valueOf(ByteBuffer.wrap(bytes))</code>.
+ @since 1.7
+ */
++ (JavaUtilBitSet *)valueOfWithByteArray:(IOSByteArray *)bytes;
+
+/*!
+ @brief Returns a <code>BitSet</code> corresponding to <code>byteBuffer</code>, interpreted as a little-endian
+ sequence of bits.
+ This method does not alter the <code>ByteBuffer</code>.
+ @since 1.7
+ */
++ (JavaUtilBitSet *)valueOfWithJavaNioByteBuffer:(JavaNioByteBuffer *)byteBuffer;
+
+/*!
+ @brief Equivalent to <code>BitSet.valueOf(LongBuffer.wrap(longs))</code>, but likely to be faster.
+ This is likely to be the fastest way to create a <code>BitSet</code> because it's closest
+ to the internal representation.
+ @since 1.7
+ */
++ (JavaUtilBitSet *)valueOfWithLongArray:(IOSLongArray *)longs;
+
+/*!
+ @brief Returns a <code>BitSet</code> corresponding to <code>longBuffer</code>, interpreted as a little-endian
+ sequence of bits.
+ This method does not alter the <code>LongBuffer</code>.
+ @since 1.7
+ */
++ (JavaUtilBitSet *)valueOfWithJavaNioLongBuffer:(JavaNioLongBuffer *)longBuffer;
+
+/*!
+ @brief Logically xors the bits of this <code>BitSet</code> with <code>bs</code>.
+ */
+- (void)xor__WithJavaUtilBitSet:(JavaUtilBitSet *)bs;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilBitSet_initialized;
-J2OBJC_STATIC_INIT(JavaUtilBitSet)
+J2OBJC_EMPTY_STATIC_INIT(JavaUtilBitSet)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilBitSet_init(JavaUtilBitSet *self);
+
+FOUNDATION_EXPORT JavaUtilBitSet *new_JavaUtilBitSet_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilBitSet *create_JavaUtilBitSet_init();
+
+FOUNDATION_EXPORT void JavaUtilBitSet_initWithInt_(JavaUtilBitSet *self, jint bitCount);
+
+FOUNDATION_EXPORT JavaUtilBitSet *new_JavaUtilBitSet_initWithInt_(jint bitCount) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilBitSet *create_JavaUtilBitSet_initWithInt_(jint bitCount);
 
 FOUNDATION_EXPORT JavaUtilBitSet *JavaUtilBitSet_valueOfWithLongArray_(IOSLongArray *longs);
 
@@ -115,14 +301,10 @@ FOUNDATION_EXPORT JavaUtilBitSet *JavaUtilBitSet_valueOfWithByteArray_(IOSByteAr
 
 FOUNDATION_EXPORT JavaUtilBitSet *JavaUtilBitSet_valueOfWithJavaNioByteBuffer_(JavaNioByteBuffer *byteBuffer);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilBitSet, serialVersionUID, jlong)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilBitSet, ALL_ONES, jlong)
-
-FOUNDATION_EXPORT jint JavaUtilBitSet_SIZEOF_LONG_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilBitSet, SIZEOF_LONG_, jint)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilBitSet)
 
-#endif // _JavaUtilBitSet_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilBitSet")

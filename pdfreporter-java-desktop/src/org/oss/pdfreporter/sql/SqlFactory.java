@@ -17,40 +17,14 @@ import org.oss.pdfreporter.sql.factory.AbstractSqlFactory;
 
 public class SqlFactory extends AbstractSqlFactory {
 
-	private final String driverClass;
-	private final String connectionPrefix;
-
-	private SqlFactory(String driverClass, String connectionPrefix) {
-		super();
-		this.driverClass = driverClass;
-		this.connectionPrefix = connectionPrefix;
-	}
-
-	private SqlFactory(String driverClass) {
-		super();
-		this.driverClass = driverClass;
-		this.connectionPrefix = null;
-	}
-
-	public static void registerFactory(String driverClass, String connectionPrefix) {
-		ApiRegistry.register(new SqlFactory(driverClass,connectionPrefix));
-	}
-
-	public static void registerFactory(String driverClass) {
-		ApiRegistry.register(new SqlFactory(driverClass));
-	}
-
-	/**
-	 * only for desktop testing
-	 */
 	public static void registerFactory() {
-		registerFactory("org.hsqldb.jdbcDriver", "jdbc:hsqldb:hsql://localhost/iva");
+		ApiRegistry.register(new SqlFactory());
 	}
 
 	@Override
 	public IConnection newConnection(String url, String user,
 			String password) throws SQLException {
-		return new Connection(driverClass, connectionPrefix, url, user, password);
+		return new Connection(url, user, password);
 	}
 
 	/**
@@ -66,7 +40,7 @@ public class SqlFactory extends AbstractSqlFactory {
 	@Override
 	public IConnection createConnection(String url, String user,
 			String password) throws SQLException {
-		return new Connection(driverClass, url, user, password);
+		return new Connection(url, user, password);
 	}
 
 }

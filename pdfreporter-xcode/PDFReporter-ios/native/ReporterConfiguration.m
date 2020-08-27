@@ -56,12 +56,16 @@
 
 - (void)addEncryptionIs128bitKey:(BOOL)is128bitKey userPassword:(NSString *)userPassword ownerPassword:(NSString *)ownerPassword permissions:(int)permissions
 {
-    [self addExportParameterValue:JavaLangBoolean_get_TRUE__() forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_IS_ENCRYPTED_()];
-    [self addExportParameterValue:is128bitKey ? JavaLangBoolean_get_TRUE__() : JavaLangBoolean_get_FALSE__() forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_IS_128_BIT_KEY_()];
-    [self addExportParameterValue:@"jasper" forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_USER_PASSWORD_()];
-    [self addExportParameterValue:@"reports" forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_OWNER_PASSWORD_()];
-    [self addExportParameterValue:JavaLangInteger_valueOfWithInt_(permissions) forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_PERMISSIONS_()];
+    [self addExportParameterValue:JavaLangBoolean_TRUE forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_IS_ENCRYPTED()];
+    [self addExportParameterValue:is128bitKey ? JavaLangBoolean_TRUE : JavaLangBoolean_FALSE forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_IS_128_BIT_KEY()];
+    [self addExportParameterValue:@"jasper" forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_USER_PASSWORD()];
+    [self addExportParameterValue:@"reports" forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_OWNER_PASSWORD()];
+    [self addExportParameterValue:JavaLangInteger_valueOfWithInt_(permissions) forKey:OrgOssPdfreporterEngineExportJRPdfExporterParameter_get_PERMISSIONS()];
 }
 
+- (void)setLanguage:(NSString *)language;
+{
+    _language = language;
+}
 
 @end

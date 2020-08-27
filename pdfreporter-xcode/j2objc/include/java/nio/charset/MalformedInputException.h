@@ -3,19 +3,45 @@
 //  source: android/libcore/luni/src/main/java/java/nio/charset/MalformedInputException.java
 //
 
-#ifndef _JavaNioCharsetMalformedInputException_H_
-#define _JavaNioCharsetMalformedInputException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioCharsetMalformedInputException")
+#ifdef RESTRICT_JavaNioCharsetMalformedInputException
+#define INCLUDE_ALL_JavaNioCharsetMalformedInputException 0
+#else
+#define INCLUDE_ALL_JavaNioCharsetMalformedInputException 1
+#endif
+#undef RESTRICT_JavaNioCharsetMalformedInputException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioCharsetMalformedInputException_) && (INCLUDE_ALL_JavaNioCharsetMalformedInputException || defined(INCLUDE_JavaNioCharsetMalformedInputException))
+#define JavaNioCharsetMalformedInputException_
+
+#define RESTRICT_JavaNioCharsetCharacterCodingException 1
+#define INCLUDE_JavaNioCharsetCharacterCodingException 1
 #include "java/nio/charset/CharacterCodingException.h"
 
-#define JavaNioCharsetMalformedInputException_serialVersionUID -3438823399834806194LL
+/*!
+ @brief A <code>MalformedInputException</code> is thrown when a malformed input is
+ encountered, for example if a byte sequence is illegal for the given charset.
+ */
+@interface JavaNioCharsetMalformedInputException : JavaNioCharsetCharacterCodingException
 
-@interface JavaNioCharsetMalformedInputException : JavaNioCharsetCharacterCodingException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>MalformedInputException</code>.
+ @param length
+ the length of the malformed input.
+ */
 - (instancetype)initWithInt:(jint)length;
 
+/*!
+ @brief Gets the length of the malformed input.
+ @return the length of the malformed input.
+ */
 - (jint)getInputLength;
 
 - (NSString *)getMessage;
@@ -24,11 +50,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioCharsetMalformedInputException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioCharsetMalformedInputException_initWithInt_(JavaNioCharsetMalformedInputException *self, jint length);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioCharsetMalformedInputException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioCharsetMalformedInputException *new_JavaNioCharsetMalformedInputException_initWithInt_(jint length) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioCharsetMalformedInputException *create_JavaNioCharsetMalformedInputException_initWithInt_(jint length);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioCharsetMalformedInputException)
 
-#endif // _JavaNioCharsetMalformedInputException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioCharsetMalformedInputException")

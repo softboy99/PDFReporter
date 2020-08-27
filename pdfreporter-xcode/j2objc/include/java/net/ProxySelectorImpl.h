@@ -3,21 +3,34 @@
 //  source: android/libcore/luni/src/main/java/java/net/ProxySelectorImpl.java
 //
 
-#ifndef _JavaNetProxySelectorImpl_H_
-#define _JavaNetProxySelectorImpl_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetProxySelectorImpl")
+#ifdef RESTRICT_JavaNetProxySelectorImpl
+#define INCLUDE_ALL_JavaNetProxySelectorImpl 0
+#else
+#define INCLUDE_ALL_JavaNetProxySelectorImpl 1
+#endif
+#undef RESTRICT_JavaNetProxySelectorImpl
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetProxySelectorImpl_) && (INCLUDE_ALL_JavaNetProxySelectorImpl || defined(INCLUDE_JavaNetProxySelectorImpl))
+#define JavaNetProxySelectorImpl_
+
+#define RESTRICT_JavaNetProxySelector 1
+#define INCLUDE_JavaNetProxySelector 1
+#include "java/net/ProxySelector.h"
 
 @class JavaIoIOException;
-@class JavaNetProxy;
-@class JavaNetProxy_TypeEnum;
 @class JavaNetSocketAddress;
 @class JavaNetURI;
 @protocol JavaUtilList;
 
-#include "J2ObjC_header.h"
-#include "java/net/ProxySelector.h"
+@interface JavaNetProxySelectorImpl : JavaNetProxySelector
 
-@interface JavaNetProxySelectorImpl : JavaNetProxySelector {
-}
+#pragma mark Public
 
 - (void)connectFailedWithJavaNetURI:(JavaNetURI *)uri
            withJavaNetSocketAddress:(JavaNetSocketAddress *)sa
@@ -25,15 +38,24 @@
 
 - (id<JavaUtilList>)selectWithJavaNetURI:(JavaNetURI *)uri;
 
+#pragma mark Package-Private
+
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetProxySelectorImpl)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaNetProxySelectorImpl_init(JavaNetProxySelectorImpl *self);
+
+FOUNDATION_EXPORT JavaNetProxySelectorImpl *new_JavaNetProxySelectorImpl_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetProxySelectorImpl *create_JavaNetProxySelectorImpl_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetProxySelectorImpl)
 
-#endif // _JavaNetProxySelectorImpl_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetProxySelectorImpl")

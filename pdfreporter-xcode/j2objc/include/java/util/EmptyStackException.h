@@ -3,28 +3,55 @@
 //  source: android/libcore/luni/src/main/java/java/util/EmptyStackException.java
 //
 
-#ifndef _JavaUtilEmptyStackException_H_
-#define _JavaUtilEmptyStackException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilEmptyStackException")
+#ifdef RESTRICT_JavaUtilEmptyStackException
+#define INCLUDE_ALL_JavaUtilEmptyStackException 0
+#else
+#define INCLUDE_ALL_JavaUtilEmptyStackException 1
+#endif
+#undef RESTRICT_JavaUtilEmptyStackException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilEmptyStackException_) && (INCLUDE_ALL_JavaUtilEmptyStackException || defined(INCLUDE_JavaUtilEmptyStackException))
+#define JavaUtilEmptyStackException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaUtilEmptyStackException_serialVersionUID 5084686378493302095LL
+/*!
+ @brief An <code>EmptyStackException</code> is thrown if the pop/peek method of a stack is
+ executed on an empty stack.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilEmptyStackException : JavaLangRuntimeException
 
-@interface JavaUtilEmptyStackException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>EmptyStackException</code> with the stack trace filled
+ in.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilEmptyStackException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilEmptyStackException_init(JavaUtilEmptyStackException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilEmptyStackException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilEmptyStackException *new_JavaUtilEmptyStackException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilEmptyStackException *create_JavaUtilEmptyStackException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilEmptyStackException)
 
-#endif // _JavaUtilEmptyStackException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilEmptyStackException")

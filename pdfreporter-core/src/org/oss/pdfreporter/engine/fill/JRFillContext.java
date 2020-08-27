@@ -26,7 +26,6 @@ package org.oss.pdfreporter.engine.fill;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,6 +45,7 @@ import org.oss.pdfreporter.engine.ReportContext;
 import org.oss.pdfreporter.engine.query.JRQueryExecuter;
 import org.oss.pdfreporter.engine.util.DeduplicableRegistry;
 import org.oss.pdfreporter.engine.util.Pair;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
 
 
@@ -81,7 +81,7 @@ public class JRFillContext implements IJRFillContext
 	private JRVirtualizationContext virtualizationContext;
 	
 	private IFormatFactory masterFormatFactory;
-	private Locale masterLocale;
+	private StringLocale masterLocale;
 	private TimeZone masterTimeZone;
 	
 	private volatile boolean canceled;
@@ -355,13 +355,13 @@ public class JRFillContext implements IJRFillContext
 	}
 
 	
-	public Locale getMasterLocale()
+	public StringLocale getMasterLocale()
 	{
 		return masterLocale;
 	}
 
 	
-	public void setMasterLocale(Locale masterLocale)
+	public void setMasterLocale(StringLocale masterLocale)
 	{
 		this.masterLocale = masterLocale;
 	}

@@ -102,7 +102,7 @@ public final class JRXmlConstants
 	/**
 	 * DTD location for template XMLs.
 	 */
-	public static final String JASPERTEMPLATE_DTD = "net/sf/jasperreports/engine/dtds/jaspertemplate.dtd";
+	public static final String JASPERTEMPLATE_DTD = "dtds/jaspertemplate.dtd";
 
 	/**
 	 *	JasperDesignFactory associated constants

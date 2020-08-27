@@ -3,31 +3,71 @@
 //  source: android/libcore/luni/src/main/java/java/util/ListResourceBundle.java
 //
 
-#ifndef _JavaUtilListResourceBundle_H_
-#define _JavaUtilListResourceBundle_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilListResourceBundle")
+#ifdef RESTRICT_JavaUtilListResourceBundle
+#define INCLUDE_ALL_JavaUtilListResourceBundle 0
+#else
+#define INCLUDE_ALL_JavaUtilListResourceBundle 1
+#endif
+#undef RESTRICT_JavaUtilListResourceBundle
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilListResourceBundle_) && (INCLUDE_ALL_JavaUtilListResourceBundle || defined(INCLUDE_JavaUtilListResourceBundle))
+#define JavaUtilListResourceBundle_
+
+#define RESTRICT_JavaUtilResourceBundle 1
+#define INCLUDE_JavaUtilResourceBundle 1
+#include "java/util/ResourceBundle.h"
 
 @class IOSObjectArray;
 @class JavaUtilHashMap;
-@protocol JavaUtilIterator;
+@protocol JavaUtilEnumeration;
 @protocol JavaUtilSet;
 
-#include "J2ObjC_header.h"
-#include "java/util/Enumeration.h"
-#include "java/util/ResourceBundle.h"
-
+/*!
+ @brief <code>ListResourceBundle</code> is the abstract superclass of classes which provide
+ resources by implementing the <code>getContents()</code> method to return
+ the list of resources.
+ - seealso: ResourceBundle
+ @since 1.1
+ */
 @interface JavaUtilListResourceBundle : JavaUtilResourceBundle {
  @public
   JavaUtilHashMap *table_;
 }
 
-- (instancetype)init;
+#pragma mark Public
 
-- (IOSObjectArray *)getContents;
+/*!
+ @brief Constructs a new instance of this class.
+ */
+- (instancetype)init;
 
 - (id<JavaUtilEnumeration>)getKeys;
 
 - (id)handleGetObjectWithNSString:(NSString *)key;
 
+#pragma mark Protected
+
+/*!
+ @brief Returns an <code>Object</code> array containing the resources of this
+ <code>ListResourceBundle</code>.
+ Each element in the array is an array of two
+ elements, the first is the resource key string and the second is the
+ resource.
+ @return a <code>Object</code> array containing the resources.
+ */
+- (IOSObjectArray *)getContents;
+
+/*!
+ @brief Returns a set of the keys in this ResourceBundle but not in its parents.
+ @return a set of the keys in this ResourceBundle but not in its parents.
+ @since 1.6
+ */
 - (id<JavaUtilSet>)handleKeySet;
 
 @end
@@ -36,57 +76,12 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilListResourceBundle)
 
 J2OBJC_FIELD_SETTER(JavaUtilListResourceBundle, table_, JavaUtilHashMap *)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilListResourceBundle_init(JavaUtilListResourceBundle *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilListResourceBundle)
 
-@interface JavaUtilListResourceBundle_$1 : NSObject < JavaUtilEnumeration > {
- @public
-  id<JavaUtilIterator> local_;
-  id<JavaUtilEnumeration> pEnum_;
-  NSString *nextElement__;
-}
+#endif
 
-- (jboolean)hasMoreElements;
 
-- (NSString *)nextElement;
-
-- (instancetype)initWithJavaUtilListResourceBundle:(JavaUtilListResourceBundle *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilListResourceBundle_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilListResourceBundle_$1, local_, id<JavaUtilIterator>)
-J2OBJC_FIELD_SETTER(JavaUtilListResourceBundle_$1, pEnum_, id<JavaUtilEnumeration>)
-J2OBJC_FIELD_SETTER(JavaUtilListResourceBundle_$1, nextElement__, NSString *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilListResourceBundle_$1)
-
-@interface JavaUtilListResourceBundle_$2 : NSObject < JavaUtilEnumeration > {
- @public
-  id<JavaUtilIterator> it_;
-}
-
-- (jboolean)hasMoreElements;
-
-- (NSString *)nextElement;
-
-- (instancetype)initWithJavaUtilListResourceBundle:(JavaUtilListResourceBundle *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilListResourceBundle_$2)
-
-J2OBJC_FIELD_SETTER(JavaUtilListResourceBundle_$2, it_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilListResourceBundle_$2)
-
-#endif // _JavaUtilListResourceBundle_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilListResourceBundle")

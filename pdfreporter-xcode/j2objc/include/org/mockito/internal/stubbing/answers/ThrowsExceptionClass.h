@@ -3,19 +3,36 @@
 //  source: src/main/java/org/mockito/internal/stubbing/answers/ThrowsExceptionClass.java
 //
 
-#ifndef _OrgMockitoInternalStubbingAnswersThrowsExceptionClass_H_
-#define _OrgMockitoInternalStubbingAnswersThrowsExceptionClass_H_
-
-@class IOSClass;
-@class OrgMockitoInternalExceptionsStacktraceConditionalStackTraceFilter;
-@protocol OrgMockitoInvocationInvocationOnMock;
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_OrgMockitoInternalStubbingAnswersThrowsExceptionClass")
+#ifdef RESTRICT_OrgMockitoInternalStubbingAnswersThrowsExceptionClass
+#define INCLUDE_ALL_OrgMockitoInternalStubbingAnswersThrowsExceptionClass 0
+#else
+#define INCLUDE_ALL_OrgMockitoInternalStubbingAnswersThrowsExceptionClass 1
+#endif
+#undef RESTRICT_OrgMockitoInternalStubbingAnswersThrowsExceptionClass
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (OrgMockitoInternalStubbingAnswersThrowsExceptionClass_) && (INCLUDE_ALL_OrgMockitoInternalStubbingAnswersThrowsExceptionClass || defined(INCLUDE_OrgMockitoInternalStubbingAnswersThrowsExceptionClass))
+#define OrgMockitoInternalStubbingAnswersThrowsExceptionClass_
+
+#define RESTRICT_OrgMockitoStubbingAnswer 1
+#define INCLUDE_OrgMockitoStubbingAnswer 1
 #include "org/mockito/stubbing/Answer.h"
 
-@interface OrgMockitoInternalStubbingAnswersThrowsExceptionClass : NSObject < OrgMockitoStubbingAnswer, JavaIoSerializable > {
-}
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
+
+@class IOSClass;
+@protocol OrgMockitoInvocationInvocationOnMock;
+
+@interface OrgMockitoInternalStubbingAnswersThrowsExceptionClass : NSObject < OrgMockitoStubbingAnswer, JavaIoSerializable >
+
+#pragma mark Public
 
 - (instancetype)initWithIOSClass:(IOSClass *)throwableClass;
 
@@ -27,9 +44,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(OrgMockitoInternalStubbingAnswersThrowsExceptionClass)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void OrgMockitoInternalStubbingAnswersThrowsExceptionClass_initWithIOSClass_(OrgMockitoInternalStubbingAnswersThrowsExceptionClass *self, IOSClass *throwableClass);
+
+FOUNDATION_EXPORT OrgMockitoInternalStubbingAnswersThrowsExceptionClass *new_OrgMockitoInternalStubbingAnswersThrowsExceptionClass_initWithIOSClass_(IOSClass *throwableClass) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT OrgMockitoInternalStubbingAnswersThrowsExceptionClass *create_OrgMockitoInternalStubbingAnswersThrowsExceptionClass_initWithIOSClass_(IOSClass *throwableClass);
 
 J2OBJC_TYPE_LITERAL_HEADER(OrgMockitoInternalStubbingAnswersThrowsExceptionClass)
 
-#endif // _OrgMockitoInternalStubbingAnswersThrowsExceptionClass_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_OrgMockitoInternalStubbingAnswersThrowsExceptionClass")

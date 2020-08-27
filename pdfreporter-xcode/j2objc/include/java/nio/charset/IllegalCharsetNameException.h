@@ -3,30 +3,61 @@
 //  source: android/libcore/luni/src/main/java/java/nio/charset/IllegalCharsetNameException.java
 //
 
-#ifndef _JavaNioCharsetIllegalCharsetNameException_H_
-#define _JavaNioCharsetIllegalCharsetNameException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioCharsetIllegalCharsetNameException")
+#ifdef RESTRICT_JavaNioCharsetIllegalCharsetNameException
+#define INCLUDE_ALL_JavaNioCharsetIllegalCharsetNameException 0
+#else
+#define INCLUDE_ALL_JavaNioCharsetIllegalCharsetNameException 1
+#endif
+#undef RESTRICT_JavaNioCharsetIllegalCharsetNameException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioCharsetIllegalCharsetNameException_) && (INCLUDE_ALL_JavaNioCharsetIllegalCharsetNameException || defined(INCLUDE_JavaNioCharsetIllegalCharsetNameException))
+#define JavaNioCharsetIllegalCharsetNameException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaNioCharsetIllegalCharsetNameException_serialVersionUID 1457525358470002989LL
+/*!
+ @brief An <code>IllegalCharsetNameException</code> is thrown when an illegal charset name
+ is encountered.
+ */
+@interface JavaNioCharsetIllegalCharsetNameException : JavaLangIllegalArgumentException
 
-@interface JavaNioCharsetIllegalCharsetNameException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>IllegalCharsetNameException</code> with the supplied
+ charset name.
+ @param charsetName
+ the encountered illegal charset name.
+ */
 - (instancetype)initWithNSString:(NSString *)charsetName;
 
+/*!
+ @brief Returns the encountered illegal charset name.
+ */
 - (NSString *)getCharsetName;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioCharsetIllegalCharsetNameException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioCharsetIllegalCharsetNameException_initWithNSString_(JavaNioCharsetIllegalCharsetNameException *self, NSString *charsetName);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioCharsetIllegalCharsetNameException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioCharsetIllegalCharsetNameException *new_JavaNioCharsetIllegalCharsetNameException_initWithNSString_(NSString *charsetName) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioCharsetIllegalCharsetNameException *create_JavaNioCharsetIllegalCharsetNameException_initWithNSString_(NSString *charsetName);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioCharsetIllegalCharsetNameException)
 
-#endif // _JavaNioCharsetIllegalCharsetNameException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioCharsetIllegalCharsetNameException")

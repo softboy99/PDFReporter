@@ -112,7 +112,7 @@
 				<textField>
 					<reportElement x="100" y="0" width="50" height="10" forecolor="#8080" style="Sans_Italic"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.String"><![CDATA['Page ' + '$V{PAGE_NUMBER}' + ' of ']]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA['Page ' + intString($V{PAGE_NUMBER}) + ' of ']]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement x="150" y="0" width="20" height="10" forecolor="#8080" style="Sans_Italic"/>

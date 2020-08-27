@@ -24,12 +24,13 @@
 package org.oss.pdfreporter.engine.util;
 
 import java.io.File;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import org.oss.pdfreporter.net.IURL;
 import org.oss.pdfreporter.net.MalformedURLException;
 import org.oss.pdfreporter.registry.IRegistry;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
+import org.oss.pdfreporter.text.bundle.TextBundle;
 
 
 
@@ -92,59 +93,15 @@ public final class JRResourcesUtil
 	/**
 	 * Loads a resource bundle for a given base name and locale.
 	 *
-	 * <p>
-	 * This methods calls {@link #loadResourceBundle(String, Locale, ClassLoader)} with a null classloader.
-	 * </p>
-	 *
 	 * @param baseName the base name
 	 * @param locale the locale
 	 * @return the resource bundle for the given base name and locale
 	 */
-	public static ResourceBundle loadResourceBundle(String baseName, Locale locale)
+	public static ITextBundle loadResourceBundle(String baseName, StringLocale locale)
 	{
-		return loadResourceBundle(baseName, locale, null);
+		return TextBundle.getInstance(baseName, locale);
 	}
 
-	/**
-	 * Loads a resource bundle for a given base name and locale.
-	 *
-	 * <p>
-	 * The method attempts to load the resource bundle using the following classloaders
-	 * (and stops at the first successful attempt):
-	 * <ul>
-	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
-	 * 	<li>the context class loader</li>
-	 * 	<li><code>JRClassLoader.class.getClassLoader()</code></li>
-	 * </ul>
-	 * </p>
-	 *
-	 * @param baseName the base name
-	 * @param locale the locale
-	 * @param clsLoader
-	 * @return the resource bundle for the given base name and locale
-	 * @see ResourceBundle#getBundle(String, Locale, ClassLoader)
-	 */
-	private static ResourceBundle loadResourceBundle(String baseName, Locale locale, ClassLoader clsLoader)
-	{
-		ResourceBundle resourceBundle = null;
-
-		ClassLoader classLoader = clsLoader;
-
-		if (resourceBundle == null)
-		{
-			classLoader = JRClassLoader.class.getClassLoader();
-			if (classLoader == null)
-			{
-				resourceBundle = ResourceBundle.getBundle(baseName, locale);
-			}
-			else
-			{
-				resourceBundle = ResourceBundle.getBundle(baseName, locale, classLoader);
-			}
-		}
-
-		return resourceBundle;
-	}
 
 	private JRResourcesUtil()
 	{

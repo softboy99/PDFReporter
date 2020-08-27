@@ -23,9 +23,8 @@
  */
 package org.oss.pdfreporter.engine.fill;
 
-import java.util.Locale;
-
 import org.oss.pdfreporter.engine.EvaluationType;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 /**
@@ -66,5 +65,5 @@ public interface DatasetFillContext
 	/**
 	 * Returns the locale used by the dataset.
 	 */
-	Locale getLocale();
+	StringLocale getLocale();
 }

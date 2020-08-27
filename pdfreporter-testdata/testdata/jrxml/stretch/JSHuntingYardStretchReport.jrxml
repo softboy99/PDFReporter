@@ -99,7 +99,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA['Page ' + '$V{PAGE_NUMBER}']]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA['Page ' + intString($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -320,7 +320,7 @@ This sentence might not fit fully in the space reserved for the element.]]></tex
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA['Page ' + '$V{PAGE_NUMBER}']]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA['Page ' + intString($V{PAGE_NUMBER})]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

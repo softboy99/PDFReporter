@@ -13,19 +13,24 @@ package org.oss.pdfreporter.pdf;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfStream;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfStream;
+import com.itextpdf.text.pdf.PdfWriter;
+//import com.lowagie.text.FontFactory;
+//import com.lowagie.text.PageSize;
+//import com.lowagie.text.Rectangle;
+//import com.lowagie.text.pdf.PdfStream;
+//import com.lowagie.text.pdf.PdfWriter;
 
 public class Document extends AbstractDocument {
 
-	private final com.lowagie.text.Document delegate;
+	private final com.itextpdf.text.Document delegate;
 	private final OutputStream outputStream;
 	private final PdfWriter pdfWriter;
 	
-	private Document(com.lowagie.text.Document document, String fileName) throws DocumentException {
+	private Document(com.itextpdf.text.Document document, String fileName) throws DocumentException {
 		super();
 		try {
 			this.delegate = document;
@@ -37,11 +42,11 @@ public class Document extends AbstractDocument {
 	}
 	
 	public Document(String fileName) throws DocumentException {
-		this(new com.lowagie.text.Document(),fileName);
+		this(new com.itextpdf.text.Document(),fileName);
 	}
 	
 	public Document(String fileName, int width, int height) throws DocumentException {
-		this(new com.lowagie.text.Document(new Rectangle(width,height)),fileName);
+		this(new com.itextpdf.text.Document(new Rectangle(width,height)),fileName);
 	}
 	
 	@Override
@@ -73,7 +78,12 @@ public class Document extends AbstractDocument {
 	@Override
 	public void setCompression(boolean compress) {
 		if (compress) {
-			pdfWriter.setFullCompression();
+			try {
+				pdfWriter.setFullCompression();
+			} catch (com.itextpdf.text.DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {			
 			pdfWriter.setCompressionLevel(PdfStream.NO_COMPRESSION);
 		}
@@ -90,7 +100,7 @@ public class Document extends AbstractDocument {
 			String ownerPasswrod, int permission) throws DocumentException {
 		try {
 			pdfWriter.setEncryption(keyLength==IEncryption.KeyLength.ENCRYPTION_128, userPassword, ownerPasswrod,convertPermission(permission));
-		} catch (com.lowagie.text.DocumentException e) {
+		} catch (com.itextpdf.text.DocumentException e) {
 			throw new DocumentException(e);
 		}
 	}
@@ -100,16 +110,16 @@ public class Document extends AbstractDocument {
 		if ((permission & PERMISSION_COPY) == PERMISSION_COPY ) {
 			translated |= PdfWriter.ALLOW_COPY;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_EDIT ) {
+		if ((permission & PERMISSION_EDIT) == PERMISSION_EDIT ) {
 			translated |= PdfWriter.ALLOW_MODIFY_ANNOTATIONS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_EDIT_ALL ) {
+		if ((permission & PERMISSION_EDIT_ALL) == PERMISSION_EDIT_ALL ) {
 			translated |= PdfWriter.ALLOW_MODIFY_CONTENTS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_READ) {
+		if ((permission & PERMISSION_READ) == PERMISSION_READ) {
 			translated |= PdfWriter.ALLOW_SCREENREADERS;
 		}
-		if ((permission & PERMISSION_COPY) == PERMISSION_PRINT ) {
+		if ((permission & PERMISSION_PRINT) == PERMISSION_PRINT ) {
 			translated |= PdfWriter.ALLOW_PRINTING;
 		}
 		return translated;
@@ -117,7 +127,8 @@ public class Document extends AbstractDocument {
 	
 	@Override
 	public void setPdfConformance(ConformanceLevel level) {
-		pdfWriter.setPDFXConformance(level==ConformanceLevel.PDF_1A ? PdfWriter.PDFA1A : PdfWriter.PDFA1B);
+		//pdfWriter.setPDFXConformance(level==ConformanceLevel.PDF_1A ? PdfWriter.PDFA1A : PdfWriter.PDFA1B);
+		pdfWriter.setPDFXConformance(level==ConformanceLevel.PDF_1A ? PdfWriter.PDFX1A2001 : PdfWriter.PDFX32002);
 	}
 
 	@Override

@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/NotYetConnectedException.java
 //
 
-#ifndef _JavaNioChannelsNotYetConnectedException_H_
-#define _JavaNioChannelsNotYetConnectedException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsNotYetConnectedException")
+#ifdef RESTRICT_JavaNioChannelsNotYetConnectedException
+#define INCLUDE_ALL_JavaNioChannelsNotYetConnectedException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsNotYetConnectedException 1
+#endif
+#undef RESTRICT_JavaNioChannelsNotYetConnectedException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsNotYetConnectedException_) && (INCLUDE_ALL_JavaNioChannelsNotYetConnectedException || defined(INCLUDE_JavaNioChannelsNotYetConnectedException))
+#define JavaNioChannelsNotYetConnectedException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsNotYetConnectedException_serialVersionUID 4697316551909513464LL
+/*!
+ @brief A <code>NotYetConnectedException</code> is thrown if the socket channel is not
+ connected before an I/O operation is invoked.
+ */
+@interface JavaNioChannelsNotYetConnectedException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsNotYetConnectedException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>NotYetConnectedException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsNotYetConnectedException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsNotYetConnectedException_init(JavaNioChannelsNotYetConnectedException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsNotYetConnectedException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsNotYetConnectedException *new_JavaNioChannelsNotYetConnectedException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsNotYetConnectedException *create_JavaNioChannelsNotYetConnectedException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsNotYetConnectedException)
 
-#endif // _JavaNioChannelsNotYetConnectedException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsNotYetConnectedException")

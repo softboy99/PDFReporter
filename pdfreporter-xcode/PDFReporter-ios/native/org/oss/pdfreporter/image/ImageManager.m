@@ -8,8 +8,17 @@
 
 #import "ImageManager.h"
 #import "Image.h"
+#include "J2ObjC_source.h"
+#include "org/oss/pdfreporter/net/IURL.h"
 
 @implementation OrgOssPdfreporterImageImageManager
+
+J2OBJC_IGNORE_DESIGNATED_BEGIN
+- (instancetype)init {
+    OrgOssPdfreporterImageImageManager_init(self);
+    return self;
+}
+J2OBJC_IGNORE_DESIGNATED_END
 
 - (id<OrgOssPdfreporterImageIImage>)loadImageInternalWithNSString:(NSString *)filePath
                                                    withFloat:(float)quality
@@ -24,6 +33,32 @@
     return image;
 }
 
+- (id<OrgOssPdfreporterImageIImage>)loadImageWithJavaIoInputStream:(JavaIoInputStream *)imageStream {
+  	return [[InputStreamImage alloc] initWithJavaIoInputStream:imageStream manager:self];
+}
+
+- (id<OrgOssPdfreporterImageIImage>)loadImageWithOrgOssPdfreporterNetIURL:(id<OrgOssPdfreporterNetIURL>)fileURL {
+    JavaIoInputStream *is = [fileURL openStream];
+    return [self loadImageWithJavaIoInputStream:is];
+}
+
 - (void)disposeInternal {
 }
+
 @end
+
+void OrgOssPdfreporterImageImageManager_init(OrgOssPdfreporterImageImageManager *self) {
+    OrgOssPdfreporterImageAbstractImageManager_init(self);
+}
+
+OrgOssPdfreporterImageImageManager *new_OrgOssPdfreporterImageImageManager_init() {
+    OrgOssPdfreporterImageImageManager *self = [OrgOssPdfreporterImageImageManager alloc];
+    OrgOssPdfreporterImageImageManager_init(self);
+    return self;
+}
+
+OrgOssPdfreporterImageImageManager *create_OrgOssPdfreporterImageImageManager_init() {
+    return new_OrgOssPdfreporterImageImageManager_init();
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(OrgOssPdfreporterImageImageManager)

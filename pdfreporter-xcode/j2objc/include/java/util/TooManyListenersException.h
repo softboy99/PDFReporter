@@ -3,30 +3,70 @@
 //  source: android/libcore/luni/src/main/java/java/util/TooManyListenersException.java
 //
 
-#ifndef _JavaUtilTooManyListenersException_H_
-#define _JavaUtilTooManyListenersException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilTooManyListenersException")
+#ifdef RESTRICT_JavaUtilTooManyListenersException
+#define INCLUDE_ALL_JavaUtilTooManyListenersException 0
+#else
+#define INCLUDE_ALL_JavaUtilTooManyListenersException 1
+#endif
+#undef RESTRICT_JavaUtilTooManyListenersException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilTooManyListenersException_) && (INCLUDE_ALL_JavaUtilTooManyListenersException || defined(INCLUDE_JavaUtilTooManyListenersException))
+#define JavaUtilTooManyListenersException_
+
+#define RESTRICT_JavaLangException 1
+#define INCLUDE_JavaLangException 1
 #include "java/lang/Exception.h"
 
-#define JavaUtilTooManyListenersException_serialVersionUID 5074640544770687831LL
+/*!
+ @brief A <code>TooManyListenersException</code> is thrown when an attempt is made to add
+ more than one listener to an event source which only supports a single
+ listener.
+ It is also thrown when the same listener is added more than once.
+ */
+@interface JavaUtilTooManyListenersException : JavaLangException
 
-@interface JavaUtilTooManyListenersException : JavaLangException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>TooManyListenersException</code> with the current stack
+ trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>TooManyListenersException</code> with the stack trace
+ and message filled in.
+ @param detailMessage
+ the detail message for the exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilTooManyListenersException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilTooManyListenersException_init(JavaUtilTooManyListenersException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilTooManyListenersException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilTooManyListenersException *new_JavaUtilTooManyListenersException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTooManyListenersException *create_JavaUtilTooManyListenersException_init();
+
+FOUNDATION_EXPORT void JavaUtilTooManyListenersException_initWithNSString_(JavaUtilTooManyListenersException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaUtilTooManyListenersException *new_JavaUtilTooManyListenersException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilTooManyListenersException *create_JavaUtilTooManyListenersException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilTooManyListenersException)
 
-#endif // _JavaUtilTooManyListenersException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilTooManyListenersException")

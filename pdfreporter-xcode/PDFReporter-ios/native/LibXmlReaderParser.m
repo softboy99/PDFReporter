@@ -11,12 +11,12 @@
 #import <libxml/xmlIO.h>
 #import <libxml/parserInternals.h>
 #import "InputStreamMarshaller.h"
-#import "org/oss/pdfreporter/xml/parsers/IInputSource.h"
-#import "org/oss/pdfreporter/xml/parsers/IContentHandler.h"
+#include "org/oss/pdfreporter/xml/parsers/IInputSource.h"
+#include "org/oss/pdfreporter/xml/parsers/IContentHandler.h"
 #import "Attributes.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLErrorHandler.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLParseException.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLErrorHandler.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLParseException.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
 #import "NSString+JavaString.h"
 
 @implementation LibXmlReaderParser
@@ -74,7 +74,7 @@ id thisClass;
     
     //reader = xmlReaderForFile([jrxmlString cStringUsingEncoding:NSUTF8StringEncoding], NULL,
     //                          options); /* force load the DTD*/
-    reader = xmlReaderForMemory([data bytes], [data length], NULL,
+    reader = xmlReaderForMemory([data bytes], (int)[data length], NULL,
                              IANAEncodingCStringFromNSStringEncoding(NSUTF8StringEncoding),
                              options);
     
@@ -128,7 +128,7 @@ xmlParserInputPtr customXmlExternalEntityLoader (const char * URL,
     id<OrgOssPdfreporterXmlParsersIInputSource> inputSource = [[thisClass getEntityResolver] resolveEntityWithNSString:pubId withNSString:systemID];
 
     NSData *parserData = [InputStreamMarshaller convertInputSourceToNSData:inputSource];
-    xmlParserInputBufferPtr buffer = xmlParserInputBufferCreateMem([parserData bytes], [parserData length],                                                                  XML_CHAR_ENCODING_UTF8);
+    xmlParserInputBufferPtr buffer = xmlParserInputBufferCreateMem([parserData bytes], (int)[parserData length],                                                                  XML_CHAR_ENCODING_UTF8);
     xmlParserInputPtr fileInput= xmlNewIOInputStream(context, buffer, XML_CHAR_ENCODING_UTF8);
     
     return fileInput;

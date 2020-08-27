@@ -3,30 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/lang/NoSuchFieldException.java
 //
 
-#ifndef _JavaLangNoSuchFieldException_H_
-#define _JavaLangNoSuchFieldException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangNoSuchFieldException")
+#ifdef RESTRICT_JavaLangNoSuchFieldException
+#define INCLUDE_ALL_JavaLangNoSuchFieldException 0
+#else
+#define INCLUDE_ALL_JavaLangNoSuchFieldException 1
+#endif
+#undef RESTRICT_JavaLangNoSuchFieldException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangNoSuchFieldException_) && (INCLUDE_ALL_JavaLangNoSuchFieldException || defined(INCLUDE_JavaLangNoSuchFieldException))
+#define JavaLangNoSuchFieldException_
+
+#define RESTRICT_JavaLangReflectiveOperationException 1
+#define INCLUDE_JavaLangReflectiveOperationException 1
 #include "java/lang/ReflectiveOperationException.h"
 
-#define JavaLangNoSuchFieldException_serialVersionUID -6143714805279938260LL
+/*!
+ @brief Thrown when the VM notices that a program tries to reference,
+ on a class or object, a field that does not exist.
+ */
+@interface JavaLangNoSuchFieldException : JavaLangReflectiveOperationException
 
-@interface JavaLangNoSuchFieldException : JavaLangReflectiveOperationException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>NoSuchFieldException</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>NoSuchFieldException</code> with the current stack
+ trace and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangNoSuchFieldException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangNoSuchFieldException_init(JavaLangNoSuchFieldException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangNoSuchFieldException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangNoSuchFieldException *new_JavaLangNoSuchFieldException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangNoSuchFieldException *create_JavaLangNoSuchFieldException_init();
+
+FOUNDATION_EXPORT void JavaLangNoSuchFieldException_initWithNSString_(JavaLangNoSuchFieldException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangNoSuchFieldException *new_JavaLangNoSuchFieldException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangNoSuchFieldException *create_JavaLangNoSuchFieldException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangNoSuchFieldException)
 
-#endif // _JavaLangNoSuchFieldException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangNoSuchFieldException")

@@ -3,55 +3,184 @@
 //  source: android/libcore/luni/src/main/java/java/security/AlgorithmParameterGenerator.java
 //
 
-#ifndef _JavaSecurityAlgorithmParameterGenerator_H_
-#define _JavaSecurityAlgorithmParameterGenerator_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityAlgorithmParameterGenerator")
+#ifdef RESTRICT_JavaSecurityAlgorithmParameterGenerator
+#define INCLUDE_ALL_JavaSecurityAlgorithmParameterGenerator 0
+#else
+#define INCLUDE_ALL_JavaSecurityAlgorithmParameterGenerator 1
+#endif
+#undef RESTRICT_JavaSecurityAlgorithmParameterGenerator
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityAlgorithmParameterGenerator_) && (INCLUDE_ALL_JavaSecurityAlgorithmParameterGenerator || defined(INCLUDE_JavaSecurityAlgorithmParameterGenerator))
+#define JavaSecurityAlgorithmParameterGenerator_
 
 @class JavaSecurityAlgorithmParameterGeneratorSpi;
 @class JavaSecurityAlgorithmParameters;
 @class JavaSecurityProvider;
 @class JavaSecuritySecureRandom;
-@class OrgApacheHarmonySecurityFortressEngine;
 @protocol JavaSecuritySpecAlgorithmParameterSpec;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief <code>AlgorithmParameterGenerator</code> is an engine class which is capable of
+ generating parameters for the algorithm it was initialized with.
+ */
+@interface JavaSecurityAlgorithmParameterGenerator : NSObject
 
-@interface JavaSecurityAlgorithmParameterGenerator : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief Computes and returns <code>AlgorithmParameters</code> for this generator's
+ algorithm.
+ @return <code>AlgorithmParameters</code> for this generator's algorithm.
+ */
+- (JavaSecurityAlgorithmParameters *)generateParameters;
+
+/*!
+ @brief Returns the name of the algorithm.
+ @return the name of the algorithm.
+ */
+- (NSString *)getAlgorithm;
+
+/*!
+ @brief Returns a new instance of <code>AlgorithmParameterGenerator</code> for the
+ specified algorithm.
+ @param algorithm
+ the name of the algorithm to use.
+ @return a new instance of <code>AlgorithmParameterGenerator</code> for the
+ specified algorithm.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ */
++ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm;
+
+/*!
+ @brief Returns a new instance of <code>AlgorithmParameterGenerator</code> from the
+ specified provider for the specified algorithm.
+ The <code>provider</code>
+ supplied does not have to be registered.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ the provider of the <code>AlgorithmParameterGenerator</code>.
+ @return a new instance of <code>AlgorithmParameterGenerator</code> for the
+ specified algorithm.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ @throws IllegalArgumentException if <code>provider == null</code>
+ */
++ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm
+                                            withJavaSecurityProvider:(JavaSecurityProvider *)provider;
+
+/*!
+ @brief Returns a new instance of <code>AlgorithmParameterGenerator</code> from the
+ specified provider for the specified algorithm.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ name of the provider of the <code>AlgorithmParameterGenerator</code>
+ .
+ @return a new instance of <code>AlgorithmParameterGenerator</code> for the
+ specified algorithm.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NoSuchProviderException
+ if the specified provider is not available.
+ @throws IllegalArgumentException if <code>provider == null || provider.isEmpty()</code>
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ */
++ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm
+                                                        withNSString:(NSString *)provider;
+
+/*!
+ @brief Returns the provider associated with this <code>AlgorithmParameterGenerator</code>
+ .
+ @return the provider associated with this <code>AlgorithmParameterGenerator</code>
+ .
+ */
+- (JavaSecurityProvider *)getProvider;
+
+/*!
+ @brief Initializes this <code>AlgorithmParameterGenerator</code> with the given <code>AlgorithmParameterSpec</code>
+ .
+ A default <code>SecureRandom</code> instance will be
+ used.
+ @param genParamSpec
+ the parameters to use.
+ @throws InvalidAlgorithmParameterException
+ if the specified parameters are not supported.
+ */
+- (void)init__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)genParamSpec OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Initializes this <code>AlgorithmParameterGenerator</code> with the given
+ <code>AlgorithmParameterSpec</code> and the given <code>SecureRandom</code>.
+ @param genParamSpec
+ the parameters to use.
+ @param random
+ the source of randomness.
+ @throws InvalidAlgorithmParameterException
+ if the specified parameters are not supported.
+ */
+- (void)init__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)genParamSpec
+                            withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Initializes this <code>AlgorithmParameterGenerator</code> with the given size.
+ The default parameter set and a default <code>SecureRandom</code> instance
+ will be used.
+ @param size
+ the size (in number of bits).
+ */
+- (void)init__WithInt:(jint)size OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Initializes this <code>AlgorithmParameterGenerator</code> with the given size
+ and the given <code>SecureRandom</code>.
+ The default parameter set will be
+ used.
+ @param size
+ the size (in number of bits).
+ @param random
+ the source of randomness.
+ */
+- (void)init__WithInt:(jint)size
+withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new instance of <code>AlgorithmParameterGenerator</code> with the
+ given arguments.
+ @param paramGenSpi
+ a concrete implementation, this engine instance delegates to.
+ @param provider
+ the provider.
+ @param algorithm
+ the name of the algorithm.
+ */
 - (instancetype)initWithJavaSecurityAlgorithmParameterGeneratorSpi:(JavaSecurityAlgorithmParameterGeneratorSpi *)paramGenSpi
                                           withJavaSecurityProvider:(JavaSecurityProvider *)provider
                                                       withNSString:(NSString *)algorithm;
 
-- (NSString *)getAlgorithm;
-
-+ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm;
-
-+ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm
-                                                        withNSString:(NSString *)provider;
-
-+ (JavaSecurityAlgorithmParameterGenerator *)getInstanceWithNSString:(NSString *)algorithm
-                                            withJavaSecurityProvider:(JavaSecurityProvider *)provider;
-
-- (JavaSecurityProvider *)getProvider;
-
-- (void)init__WithInt:(jint)size OBJC_METHOD_FAMILY_NONE;
-
-- (void)init__WithInt:(jint)size
-withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
-
-- (void)init__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)genParamSpec OBJC_METHOD_FAMILY_NONE;
-
-- (void)init__WithJavaSecuritySpecAlgorithmParameterSpec:(id<JavaSecuritySpecAlgorithmParameterSpec>)genParamSpec
-                            withJavaSecuritySecureRandom:(JavaSecuritySecureRandom *)random OBJC_METHOD_FAMILY_NONE;
-
-- (JavaSecurityAlgorithmParameters *)generateParameters;
-
 @end
 
-FOUNDATION_EXPORT BOOL JavaSecurityAlgorithmParameterGenerator_initialized;
 J2OBJC_STATIC_INIT(JavaSecurityAlgorithmParameterGenerator)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityAlgorithmParameterGenerator_initWithJavaSecurityAlgorithmParameterGeneratorSpi_withJavaSecurityProvider_withNSString_(JavaSecurityAlgorithmParameterGenerator *self, JavaSecurityAlgorithmParameterGeneratorSpi *paramGenSpi, JavaSecurityProvider *provider, NSString *algorithm);
+
+FOUNDATION_EXPORT JavaSecurityAlgorithmParameterGenerator *new_JavaSecurityAlgorithmParameterGenerator_initWithJavaSecurityAlgorithmParameterGeneratorSpi_withJavaSecurityProvider_withNSString_(JavaSecurityAlgorithmParameterGeneratorSpi *paramGenSpi, JavaSecurityProvider *provider, NSString *algorithm) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityAlgorithmParameterGenerator *create_JavaSecurityAlgorithmParameterGenerator_initWithJavaSecurityAlgorithmParameterGeneratorSpi_withJavaSecurityProvider_withNSString_(JavaSecurityAlgorithmParameterGeneratorSpi *paramGenSpi, JavaSecurityProvider *provider, NSString *algorithm);
 
 FOUNDATION_EXPORT JavaSecurityAlgorithmParameterGenerator *JavaSecurityAlgorithmParameterGenerator_getInstanceWithNSString_(NSString *algorithm);
 
@@ -59,16 +188,10 @@ FOUNDATION_EXPORT JavaSecurityAlgorithmParameterGenerator *JavaSecurityAlgorithm
 
 FOUNDATION_EXPORT JavaSecurityAlgorithmParameterGenerator *JavaSecurityAlgorithmParameterGenerator_getInstanceWithNSString_withJavaSecurityProvider_(NSString *algorithm, JavaSecurityProvider *provider);
 
-FOUNDATION_EXPORT NSString *JavaSecurityAlgorithmParameterGenerator_SERVICE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityAlgorithmParameterGenerator, SERVICE_, NSString *)
-
-FOUNDATION_EXPORT OrgApacheHarmonySecurityFortressEngine *JavaSecurityAlgorithmParameterGenerator_ENGINE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityAlgorithmParameterGenerator, ENGINE_, OrgApacheHarmonySecurityFortressEngine *)
-
-FOUNDATION_EXPORT JavaSecuritySecureRandom *JavaSecurityAlgorithmParameterGenerator_RANDOM_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityAlgorithmParameterGenerator, RANDOM_, JavaSecuritySecureRandom *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityAlgorithmParameterGenerator)
 
-#endif // _JavaSecurityAlgorithmParameterGenerator_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityAlgorithmParameterGenerator")

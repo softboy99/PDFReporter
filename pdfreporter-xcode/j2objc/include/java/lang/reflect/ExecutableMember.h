@@ -36,12 +36,14 @@
 // Common parent of Member and Constructor with their shared functionality.
 // This class isn't directly called from translated Java, since Java's
 // Method and Constructor classes just duplicate their common code.
-@interface ExecutableMember : JavaLangReflectAccessibleObject {
+@interface ExecutableMember : JavaLangReflectAccessibleObject
+    < JavaLangReflectGenericDeclaration, JavaLangReflectMember > {
  @protected
   IOSClass *class_;
   SEL selector_;
   NSMethodSignature *methodSignature_;
   JavaMethodMetadata *metadata_;
+  const char *binaryParameterTypes_;
 }
 
 @property (readonly) NSMethodSignature *signature;
@@ -70,27 +72,26 @@
 - (IOSObjectArray *)getGenericExceptionTypes;
 
 // Returns the parameter types for this executable member.
-//
-// @return an array of strings.
 - (IOSObjectArray *)getParameterTypes;
 - (IOSObjectArray *)getGenericParameterTypes;
 
-// Empty array always returned for iOS.
 - (IOSObjectArray *)getTypeParameters;
-
-// Always false for iOS.
-- (BOOL)isSynthetic;
 
 - (IOSObjectArray *)getParameterAnnotations;
 
 // Returns true if this method has variable arguments.
-- (BOOL)isVarArgs;
+- (jboolean)isVarArgs;
 
 // Returns true if this is a bridge method.
-- (BOOL)isBridge;
+- (jboolean)isBridge;
 
-// Protected methods.
+// Returns true if this method was added by j2objc.
+- (jboolean)isSynthetic;
+
+// Internal methods.
 - (NSString *)internalName;
+- (jint)getNumParams;
+- (const char *)getBinaryParameterTypes;
 
 @end
 

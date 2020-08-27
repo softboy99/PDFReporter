@@ -14,24 +14,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Types;
 
-import org.oss.pdfreporter.exception.NotImplementedException;
-import org.oss.pdfreporter.sql.IBlob;
-import org.oss.pdfreporter.sql.IDate;
-import org.oss.pdfreporter.sql.IDateTime;
-import org.oss.pdfreporter.sql.IPreparedStatement;
-import org.oss.pdfreporter.sql.IResultSet;
-import org.oss.pdfreporter.sql.ITime;
-import org.oss.pdfreporter.sql.ITimestamp;
-import org.oss.pdfreporter.sql.SQLException;
-import org.oss.pdfreporter.sql.SqlType;
-
 
 public class PreparedStatement implements IPreparedStatement {
 
 	private final java.sql.PreparedStatement delegate;
 	
 	
-	PreparedStatement(java.sql.PreparedStatement delegate) {
+	PreparedStatement(final java.sql.PreparedStatement delegate) {
 		super();
 		this.delegate = delegate;
 	}
@@ -40,153 +29,157 @@ public class PreparedStatement implements IPreparedStatement {
 	public IResultSet executeQuery() throws SQLException {
 		try {
 			return new ResultSet(delegate.executeQuery());
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setBlob(int parameterIndex, IBlob value) throws SQLException {
+	public void setBlob(final int parameterIndex, final IBlob value) throws SQLException {
 		try {
 			delegate.setBlob(parameterIndex, value.getInputStream());
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setBoolean(int parameterIndex, boolean value)
+	public void setBoolean(final int parameterIndex, final boolean value)
 			throws SQLException {
 		try {
 			delegate.setBoolean(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}		
 	}
 
 	@Override
-	public void setByte(int parameterIndex, byte value) throws SQLException {
+	public void setByte(final int parameterIndex, final byte value) throws SQLException {
 		try {
 			delegate.setByte(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	
 	@Override
-	public void setDate(int parameterIndex, IDate value) throws SQLException {
+	public void setDate(final int parameterIndex, final IDate value) throws SQLException {
 		try {
 			delegate.setDate(parameterIndex,toDate(value.getDate()));
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setDateTime(int parameterIndex, IDateTime value)
+	public void setDateTime(final int parameterIndex, final IDateTime value)
 			throws SQLException {
 		try {
 			delegate.setDate(parameterIndex,toDate(value.getDate()));
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setDecimal(int parameterIndex, BigDecimal value)
+	public void setDecimal(final int parameterIndex, final BigDecimal value)
 			throws SQLException {
 		try {
 			delegate.setBigDecimal(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setDouble(int parameterIndex, double value) throws SQLException {
+	public void setDouble(final int parameterIndex, final double value) throws SQLException {
 		try {
 			delegate.setDouble(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setFloat(int parameterIndex, float value) throws SQLException {
+	public void setFloat(final int parameterIndex, final float value) throws SQLException {
 		try {
 			delegate.setFloat(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setInt(int parameterIndex, int value) throws SQLException {
+	public void setInt(final int parameterIndex, final int value) throws SQLException {
 		try {
 			delegate.setInt(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setLong(int parameterIndex, long value) throws SQLException {
+	public void setLong(final int parameterIndex, final long value) throws SQLException {
 		try {
 			delegate.setLong(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setObject(int parameterIndex, Object value) throws SQLException {
-		throw new NotImplementedException();
+	public void setObject(final int parameterIndex, final Object value) throws SQLException {
+		try {
+			delegate.setObject(parameterIndex, value);
+		} catch (final java.sql.SQLException e) {
+			throw new SQLException(e);
+		}
 		
 	}
 
 	@Override
-	public void setShort(int parameterIndex, short value) throws SQLException {
+	public void setShort(final int parameterIndex, final short value) throws SQLException {
 		try {
 			delegate.setShort(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setString(int parameterIndex, String value) throws SQLException {
+	public void setString(final int parameterIndex, final String value) throws SQLException {
 		try {
 			delegate.setString(parameterIndex, value);
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setTime(int parameterIndex, ITime value) throws SQLException {
+	public void setTime(final int parameterIndex, final ITime value) throws SQLException {
 		try {
 			delegate.setTime(parameterIndex, toTime(value.getDate()));
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setTimestamp(int parameterIndex, ITimestamp value)
+	public void setTimestamp(final int parameterIndex, final ITimestamp value)
 			throws SQLException {
 		try {
 			delegate.setTimestamp(parameterIndex, toTimestamp(value.getMilliseconds()));
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 
 	@Override
-	public void setNull(int parameterIndex, SqlType type) throws SQLException {
+	public void setNull(final int parameterIndex, final SqlType type) throws SQLException {
 		try {
 			delegate.setNull(parameterIndex, toSqlType(type));
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
@@ -195,7 +188,7 @@ public class PreparedStatement implements IPreparedStatement {
 	public void close() throws IOException {
 		try {
 			delegate.close();
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new IOException(e);
 		}
 	}
@@ -204,24 +197,24 @@ public class PreparedStatement implements IPreparedStatement {
 	public void cancel() throws SQLException {
 		try {
 			delegate.cancel();
-		} catch (java.sql.SQLException e) {
+		} catch (final java.sql.SQLException e) {
 			throw new SQLException(e);
 		}
 	}
 	
-	private static java.sql.Date toDate(java.util.Date date) {
+	private static java.sql.Date toDate(final java.util.Date date) {
 		return new java.sql.Date(date.getTime());
 	}
 	
-	private static java.sql.Time toTime(java.util.Date date) {
+	private static java.sql.Time toTime(final java.util.Date date) {
 		return new java.sql.Time(date.getTime());
 	}
 	
-	private static java.sql.Timestamp toTimestamp(long milliseconds) {
+	private static java.sql.Timestamp toTimestamp(final long milliseconds) {
 		return new java.sql.Timestamp(milliseconds);
 	}
 	
-	private static int toSqlType(SqlType type) throws SQLException {
+	private static int toSqlType(final SqlType type) throws SQLException {
 		switch(type) {
 		case BIGINT:
 			return Types.BIGINT;

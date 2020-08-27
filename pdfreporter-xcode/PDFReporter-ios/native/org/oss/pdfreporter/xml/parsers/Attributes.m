@@ -33,7 +33,7 @@
 
 - (int)getLength
 {
-    return [self.attributeDict.allKeys count];
+    return (int)[self.attributeDict.allKeys count];
 }
 - (NSString *)getURIWithInt:(int)index
 {

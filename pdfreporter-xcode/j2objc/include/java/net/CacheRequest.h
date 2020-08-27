@@ -3,29 +3,71 @@
 //  source: android/libcore/luni/src/main/java/java/net/CacheRequest.java
 //
 
-#ifndef _JavaNetCacheRequest_H_
-#define _JavaNetCacheRequest_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetCacheRequest")
+#ifdef RESTRICT_JavaNetCacheRequest
+#define INCLUDE_ALL_JavaNetCacheRequest 0
+#else
+#define INCLUDE_ALL_JavaNetCacheRequest 1
+#endif
+#undef RESTRICT_JavaNetCacheRequest
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetCacheRequest_) && (INCLUDE_ALL_JavaNetCacheRequest || defined(INCLUDE_JavaNetCacheRequest))
+#define JavaNetCacheRequest_
 
 @class JavaIoOutputStream;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief <code>CacheRequest</code> is a kind of channel for storing resource data in the
+ <code>ResponseCache</code>.
+ A protocol handler calls the <code>OutputStream</code>
+ which is provided by the <code>CacheRequest</code> object, to store the resource
+ data into the cache. It also allows the user to interrupt and abort the
+ current store operation by calling the method <code>abort</code>. If an <code>IOException</code>
+  occurs while reading the response or writing data to the cache,
+ the current cache store operation is abandoned.
+ - seealso: ResponseCache
+ */
+@interface JavaNetCacheRequest : NSObject
 
-@interface JavaNetCacheRequest : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief This implementation does nothing.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Aborts the current cache operation.
+ If an <code>IOException</code> occurs
+ while reading the response or writing resource data to the cache, the
+ current cache store operation is aborted.
+ */
 - (void)abort;
 
+/*!
+ @brief Returns an <code>OutputStream</code> which is used to write the response body.
+ @return an <code>OutputStream</code> which is used to write the response body.
+ @throws IOException
+ if an I/O error is encountered during writing response body
+ operation.
+ */
 - (JavaIoOutputStream *)getBody;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetCacheRequest)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaNetCacheRequest_init(JavaNetCacheRequest *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetCacheRequest)
 
-#endif // _JavaNetCacheRequest_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetCacheRequest")

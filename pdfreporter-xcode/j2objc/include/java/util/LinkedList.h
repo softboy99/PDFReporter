@@ -3,119 +3,386 @@
 //  source: android/libcore/luni/src/main/java/java/util/LinkedList.java
 //
 
-#ifndef _JavaUtilLinkedList_H_
-#define _JavaUtilLinkedList_H_
-
-@class IOSObjectArray;
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
-@class JavaUtilLinkedList_Link;
-@protocol JavaUtilCollection;
-
 #include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilLinkedList")
+#ifdef RESTRICT_JavaUtilLinkedList
+#define INCLUDE_ALL_JavaUtilLinkedList 0
+#else
+#define INCLUDE_ALL_JavaUtilLinkedList 1
+#endif
+#undef RESTRICT_JavaUtilLinkedList
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilLinkedList_) && (INCLUDE_ALL_JavaUtilLinkedList || defined(INCLUDE_JavaUtilLinkedList))
+#define JavaUtilLinkedList_
+
+#define RESTRICT_JavaUtilAbstractSequentialList 1
+#define INCLUDE_JavaUtilAbstractSequentialList 1
 #include "java/util/AbstractSequentialList.h"
-#include "java/util/Deque.h"
-#include "java/util/Iterator.h"
+
+#define RESTRICT_JavaUtilList 1
+#define INCLUDE_JavaUtilList 1
 #include "java/util/List.h"
-#include "java/util/ListIterator.h"
+
+#define RESTRICT_JavaUtilDeque 1
+#define INCLUDE_JavaUtilDeque 1
+#include "java/util/Deque.h"
+
+#define RESTRICT_JavaUtilQueue 1
+#define INCLUDE_JavaUtilQueue 1
 #include "java/util/Queue.h"
 
-#define JavaUtilLinkedList_serialVersionUID 876323262645176354LL
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
+@class IOSObjectArray;
+@class JavaUtilLinkedList_Link;
+@protocol JavaUtilCollection;
+@protocol JavaUtilIterator;
+@protocol JavaUtilListIterator;
+
+/*!
+ @brief LinkedList is an implementation of <code>List</code>, backed by a doubly-linked list.
+ All optional operations including adding, removing, and replacing elements are supported.
+ <p>All elements are permitted, including null.
+ <p>This class is primarily useful if you need queue-like behavior. It may also be useful
+ as a list if you expect your lists to contain zero or one element, but still require the
+ ability to scale to slightly larger numbers of elements. In general, though, you should
+ probably use <code>ArrayList</code> if you don't need the queue-like behavior.
+ @since 1.2
+ */
 @interface JavaUtilLinkedList : JavaUtilAbstractSequentialList < JavaUtilList, JavaUtilDeque, JavaUtilQueue, NSCopying, JavaIoSerializable > {
  @public
-  jint size__;
+  jint size_;
   JavaUtilLinkedList_Link *voidLink_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new empty instance of <code>LinkedList</code>.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new instance of <code>LinkedList</code> that holds all of the
+ elements contained in the specified <code>collection</code>.
+ The order of the
+ elements in this new <code>LinkedList</code> will be determined by the
+ iteration order of <code>collection</code>.
+ @param collection
+ the collection of elements to add.
+ */
 - (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
+/*!
+ @brief Adds the specified object at the end of this <code>LinkedList</code>.
+ @param object
+ the object to add.
+ @return always true
+ */
+- (jboolean)addWithId:(id)object;
+
+/*!
+ @brief Inserts the specified object into this <code>LinkedList</code> at the
+ specified location.
+ The object is inserted before any previous element at
+ the specified location. If the location is equal to the size of this
+ <code>LinkedList</code>, the object is added at the end.
+ @param location
+ the index at which to insert.
+ @param object
+ the object to add.
+ @throws IndexOutOfBoundsException
+ if <code>location < 0 || location > size()</code>
+ */
 - (void)addWithInt:(jint)location
             withId:(id)object;
 
-- (jboolean)addWithId:(id)object;
+/*!
+ @brief Adds the objects in the specified Collection to this <code>LinkedList</code>.
+ @param collection
+ the collection of objects.
+ @return <code>true</code> if this <code>LinkedList</code> is modified,
+ <code>false</code> otherwise.
+ */
+- (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
+/*!
+ @brief Inserts the objects in the specified collection at the specified location
+ in this <code>LinkedList</code>.
+ The objects are added in the order they are
+ returned from the collection's iterator.
+ @param location
+ the index at which to insert.
+ @param collection
+ the collection of objects
+ @return <code>true</code> if this <code>LinkedList</code> is modified,
+ <code>false</code> otherwise.
+ @throws ClassCastException
+ if the class of an object is inappropriate for this list.
+ @throws IllegalArgumentException
+ if an object cannot be added to this list.
+ @throws IndexOutOfBoundsException
+ if <code>location < 0 || location > size()</code>
+ */
 - (jboolean)addAllWithInt:(jint)location
    withJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
-- (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
+/*!
+ @brief Adds the specified object at the beginning of this <code>LinkedList</code>.
+ @param object
+ the object to add.
+ */
 - (void)addFirstWithId:(id)object;
 
+/*!
+ @brief Adds the specified object at the end of this <code>LinkedList</code>.
+ @param object
+ the object to add.
+ */
 - (void)addLastWithId:(id)object;
 
+/*!
+ @brief Removes all elements from this <code>LinkedList</code>, leaving it empty.
+ - seealso: List#isEmpty
+ - seealso: #size
+ */
 - (void)clear;
 
+/*!
+ @brief Returns a new <code>LinkedList</code> with the same elements and size as this
+ <code>LinkedList</code>.
+ @return a shallow copy of this <code>LinkedList</code>.
+ - seealso: java.lang.Cloneable
+ */
 - (id)clone;
 
+/*!
+ @brief Searches this <code>LinkedList</code> for the specified object.
+ @param object
+ the object to search for.
+ @return <code>true</code> if <code>object</code> is an element of this
+ <code>LinkedList</code>, <code>false</code> otherwise
+ */
 - (jboolean)containsWithId:(id)object;
+
+/*!
+ 
+ - seealso: java.util.Deque#descendingIterator()
+ @since 1.6
+ */
+- (id<JavaUtilIterator>)descendingIterator;
+
+- (id)element;
 
 - (id)getWithInt:(jint)location;
 
+/*!
+ @brief Returns the first element in this <code>LinkedList</code>.
+ @return the first element.
+ @throws NoSuchElementException
+ if this <code>LinkedList</code> is empty.
+ */
 - (id)getFirst;
 
+/*!
+ @brief Returns the last element in this <code>LinkedList</code>.
+ @return the last element
+ @throws NoSuchElementException
+ if this <code>LinkedList</code> is empty
+ */
 - (id)getLast;
 
 - (jint)indexOfWithId:(id)object;
 
+/*!
+ @brief Searches this <code>LinkedList</code> for the specified object and returns the
+ index of the last occurrence.
+ @param object
+ the object to search for
+ @return the index of the last occurrence of the object, or -1 if it was
+ not found.
+ */
 - (jint)lastIndexOfWithId:(id)object;
 
+/*!
+ @brief Returns a ListIterator on the elements of this <code>LinkedList</code>.
+ The
+ elements are iterated in the same order that they occur in the
+ <code>LinkedList</code>. The iteration starts at the specified location.
+ @param location
+ the index at which to start the iteration
+ @return a ListIterator on the elements of this <code>LinkedList</code>
+ @throws IndexOutOfBoundsException
+ if <code>location < 0 || location > size()</code>
+ - seealso: ListIterator
+ */
 - (id<JavaUtilListIterator>)listIteratorWithInt:(jint)location;
 
+- (jboolean)offerWithId:(id)o;
+
+/*!
+ 
+ - seealso: java.util.Deque#offerFirst(java.lang.Object)
+ @since 1.6
+ */
+- (jboolean)offerFirstWithId:(id)e;
+
+/*!
+ 
+ - seealso: java.util.Deque#offerLast(java.lang.Object)
+ @since 1.6
+ */
+- (jboolean)offerLastWithId:(id)e;
+
+- (id)peek;
+
+/*!
+ 
+ - seealso: java.util.Deque#peekFirst()
+ @since 1.6
+ */
+- (id)peekFirst;
+
+/*!
+ 
+ - seealso: java.util.Deque#peekLast()
+ @since 1.6
+ */
+- (id)peekLast;
+
+- (id)poll;
+
+/*!
+ 
+ - seealso: java.util.Deque#pollFirst()
+ @since 1.6
+ */
+- (id)pollFirst;
+
+/*!
+ 
+ - seealso: java.util.Deque#pollLast()
+ @since 1.6
+ */
+- (id)pollLast;
+
+/*!
+ 
+ - seealso: java.util.Deque#pop()
+ @since 1.6
+ */
+- (id)pop;
+
+/*!
+ 
+ - seealso: java.util.Deque#push(java.lang.Object)
+ @since 1.6
+ */
+- (void)pushWithId:(id)e;
+
+- (id)remove;
+
+/*!
+ @brief Removes the object at the specified location from this <code>LinkedList</code>.
+ @param location
+ the index of the object to remove
+ @return the removed object
+ @throws IndexOutOfBoundsException
+ if <code>location < 0 || location >= size()</code>
+ */
 - (id)removeWithInt:(jint)location;
 
 - (jboolean)removeWithId:(id)object;
 
+/*!
+ @brief Removes the first object from this <code>LinkedList</code>.
+ @return the removed object.
+ @throws NoSuchElementException
+ if this <code>LinkedList</code> is empty.
+ */
 - (id)removeFirst;
 
-- (id)removeLast;
-
-- (id<JavaUtilIterator>)descendingIterator;
-
-- (jboolean)offerFirstWithId:(id)e;
-
-- (jboolean)offerLastWithId:(id)e;
-
-- (id)peekFirst;
-
-- (id)peekLast;
-
-- (id)pollFirst;
-
-- (id)pollLast;
-
-- (id)pop;
-
-- (void)pushWithId:(id)e;
-
+/*!
+ 
+ - seealso: java.util.Deque#removeFirstOccurrence(java.lang.Object)
+ @since 1.6
+ */
 - (jboolean)removeFirstOccurrenceWithId:(id)o;
 
+/*!
+ @brief Removes the last object from this <code>LinkedList</code>.
+ @return the removed object.
+ @throws NoSuchElementException
+ if this <code>LinkedList</code> is empty.
+ */
+- (id)removeLast;
+
+/*!
+ 
+ - seealso: java.util.Deque#removeLastOccurrence(java.lang.Object)
+ @since 1.6
+ */
 - (jboolean)removeLastOccurrenceWithId:(id)o;
 
+/*!
+ @brief Replaces the element at the specified location in this <code>LinkedList</code>
+ with the specified object.
+ @param location
+ the index at which to put the specified object.
+ @param object
+ the object to add.
+ @return the previous element at the index.
+ @throws ClassCastException
+ if the class of an object is inappropriate for this list.
+ @throws IllegalArgumentException
+ if an object cannot be added to this list.
+ @throws IndexOutOfBoundsException
+ if <code>location < 0 || location >= size()</code>
+ */
 - (id)setWithInt:(jint)location
           withId:(id)object;
 
+/*!
+ @brief Returns the number of elements in this <code>LinkedList</code>.
+ @return the number of elements in this <code>LinkedList</code>.
+ */
 - (jint)size;
 
-- (jboolean)offerWithId:(id)o;
-
-- (id)poll;
-
-- (id)remove;
-
-- (id)peek;
-
-- (id)element;
-
+/*!
+ @brief Returns a new array containing all elements contained in this
+ <code>LinkedList</code>.
+ @return an array of the elements from this <code>LinkedList</code>.
+ */
 - (IOSObjectArray *)toArray;
 
+/*!
+ @brief Returns an array containing all elements contained in this
+ <code>LinkedList</code>.
+ If the specified array is large enough to hold the
+ elements, the specified array is used, otherwise an array of the same
+ type is created. If the specified array is used and is larger than this
+ <code>LinkedList</code>, the array element following the collection elements
+ is set to null.
+ @param contents
+ the array.
+ @return an array of the elements from this <code>LinkedList</code>.
+ @throws ArrayStoreException
+ if the type of an element in this <code>LinkedList</code> cannot
+ be stored in the type of the specified array.
+ */
 - (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)contents;
 
-- (void)dealloc;
+#pragma mark Protected
 
+- (void)javaFinalize;
+
+#pragma mark Package-Private
 
 @end
 
@@ -123,19 +390,33 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilLinkedList)
 
 J2OBJC_FIELD_SETTER(JavaUtilLinkedList, voidLink_, JavaUtilLinkedList_Link *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilLinkedList_init(JavaUtilLinkedList *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilLinkedList, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilLinkedList *new_JavaUtilLinkedList_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilLinkedList *create_JavaUtilLinkedList_init();
+
+FOUNDATION_EXPORT void JavaUtilLinkedList_initWithJavaUtilCollection_(JavaUtilLinkedList *self, id<JavaUtilCollection> collection);
+
+FOUNDATION_EXPORT JavaUtilLinkedList *new_JavaUtilLinkedList_initWithJavaUtilCollection_(id<JavaUtilCollection> collection) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilLinkedList *create_JavaUtilLinkedList_initWithJavaUtilCollection_(id<JavaUtilCollection> collection);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLinkedList)
+
+#endif
+
+#if !defined (JavaUtilLinkedList_Link_) && (INCLUDE_ALL_JavaUtilLinkedList || defined(INCLUDE_JavaUtilLinkedList_Link))
+#define JavaUtilLinkedList_Link_
 
 @interface JavaUtilLinkedList_Link : NSObject {
  @public
   id data_;
-  __weak JavaUtilLinkedList_Link *previous_;
+  __unsafe_unretained JavaUtilLinkedList_Link *previous_;
   JavaUtilLinkedList_Link *next_;
 }
+
+#pragma mark Package-Private
 
 - (instancetype)initWithId:(id)o
 withJavaUtilLinkedList_Link:(JavaUtilLinkedList_Link *)p
@@ -148,69 +429,16 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilLinkedList_Link)
 J2OBJC_FIELD_SETTER(JavaUtilLinkedList_Link, data_, id)
 J2OBJC_FIELD_SETTER(JavaUtilLinkedList_Link, next_, JavaUtilLinkedList_Link *)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilLinkedList_Link_initWithId_withJavaUtilLinkedList_Link_withJavaUtilLinkedList_Link_(JavaUtilLinkedList_Link *self, id o, JavaUtilLinkedList_Link *p, JavaUtilLinkedList_Link *n);
+
+FOUNDATION_EXPORT JavaUtilLinkedList_Link *new_JavaUtilLinkedList_Link_initWithId_withJavaUtilLinkedList_Link_withJavaUtilLinkedList_Link_(id o, JavaUtilLinkedList_Link *p, JavaUtilLinkedList_Link *n) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilLinkedList_Link *create_JavaUtilLinkedList_Link_initWithId_withJavaUtilLinkedList_Link_withJavaUtilLinkedList_Link_(id o, JavaUtilLinkedList_Link *p, JavaUtilLinkedList_Link *n);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLinkedList_Link)
 
-@interface JavaUtilLinkedList_LinkIterator : NSObject < JavaUtilListIterator > {
- @public
-  jint pos_, expectedModCount_;
-  JavaUtilLinkedList *list_;
-  __weak JavaUtilLinkedList_Link *link_, *lastLink_;
-}
+#endif
 
-- (instancetype)initWithJavaUtilLinkedList:(JavaUtilLinkedList *)object
-                                   withInt:(jint)location;
 
-- (void)addWithId:(id)object;
-
-- (jboolean)hasNext;
-
-- (jboolean)hasPrevious;
-
-- (id)next;
-
-- (jint)nextIndex;
-
-- (id)previous;
-
-- (jint)previousIndex;
-
-- (void)remove;
-
-- (void)setWithId:(id)object;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilLinkedList_LinkIterator)
-
-J2OBJC_FIELD_SETTER(JavaUtilLinkedList_LinkIterator, list_, JavaUtilLinkedList *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLinkedList_LinkIterator)
-
-@interface JavaUtilLinkedList_ReverseLinkIterator : NSObject < JavaUtilIterator > {
-}
-
-- (instancetype)initWithJavaUtilLinkedList:(JavaUtilLinkedList *)outer$
-                    withJavaUtilLinkedList:(JavaUtilLinkedList *)linkedList;
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilLinkedList_ReverseLinkIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLinkedList_ReverseLinkIterator)
-
-#endif // _JavaUtilLinkedList_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilLinkedList")

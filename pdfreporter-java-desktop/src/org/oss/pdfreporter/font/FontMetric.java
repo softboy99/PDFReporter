@@ -11,22 +11,25 @@
 package org.oss.pdfreporter.font;
 
 import java.awt.FontMetrics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FontMetric implements IFontMetric {
+	private final static Logger logger = Logger.getLogger(FontMetric.class.getName());
 
 	private final FontMetrics delegate;
 	
-	public FontMetric(FontMetrics delegate) {
+	public FontMetric(final FontMetrics delegate) {
 		this.delegate = delegate;
 	}
 	
 	@Override
-	public int measureText(String text, int width, boolean wordwrap) {
+	public int measureText(final String text, final int width, final boolean wordwrap) {
 		int remainingWidth = width;
 		int idx=0;
 		int lastWordPos = 0;
 		while (remainingWidth>0 && idx<text.length()) {
-			char ch = text.charAt(idx);
+			final char ch = text.charAt(idx);
 			if (ch<=' ') {
 				lastWordPos = idx + 1;
 			}
@@ -34,12 +37,15 @@ public class FontMetric implements IFontMetric {
 			idx++;
 		}
 		if(remainingWidth<0) idx--;
-		int result = !wordwrap || text.length()==idx ? idx : lastWordPos;
+		final int result = !wordwrap || text.length()==idx ? idx : lastWordPos;
+		if (logger.isLoggable(Level.FINEST)) {			
+			logger.finest(String.format("%s measureText %s %s %s", result,text,width,wordwrap));
+		}		
 		return result;
 	}
 
 	@Override
-	public int getWidth(String text) {
+	public int getWidth(final String text) {
 		return delegate.stringWidth(text);
 	}
 

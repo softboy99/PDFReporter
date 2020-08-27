@@ -3,30 +3,70 @@
 //  source: android/libcore/luni/src/main/java/java/lang/AbstractMethodError.java
 //
 
-#ifndef _JavaLangAbstractMethodError_H_
-#define _JavaLangAbstractMethodError_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangAbstractMethodError")
+#ifdef RESTRICT_JavaLangAbstractMethodError
+#define INCLUDE_ALL_JavaLangAbstractMethodError 0
+#else
+#define INCLUDE_ALL_JavaLangAbstractMethodError 1
+#endif
+#undef RESTRICT_JavaLangAbstractMethodError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangAbstractMethodError_) && (INCLUDE_ALL_JavaLangAbstractMethodError || defined(INCLUDE_JavaLangAbstractMethodError))
+#define JavaLangAbstractMethodError_
+
+#define RESTRICT_JavaLangIncompatibleClassChangeError 1
+#define INCLUDE_JavaLangIncompatibleClassChangeError 1
 #include "java/lang/IncompatibleClassChangeError.h"
 
-#define JavaLangAbstractMethodError_serialVersionUID -1654391082989018462LL
+/*!
+ @brief Thrown by the VM when an abstract method is called.
+ <p>
+ Note that this can only occur when inconsistent class files have been loaded,
+ since invoking an abstract method is a compile time error.
+ */
+@interface JavaLangAbstractMethodError : JavaLangIncompatibleClassChangeError
 
-@interface JavaLangAbstractMethodError : JavaLangIncompatibleClassChangeError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>AbstractMethodError</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>AbstractMethodError</code> with the current stack trace
+ and the specified detail message.
+ @param detailMessage
+ the detail message for this error.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangAbstractMethodError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangAbstractMethodError_init(JavaLangAbstractMethodError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangAbstractMethodError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangAbstractMethodError *new_JavaLangAbstractMethodError_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangAbstractMethodError *create_JavaLangAbstractMethodError_init();
+
+FOUNDATION_EXPORT void JavaLangAbstractMethodError_initWithNSString_(JavaLangAbstractMethodError *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangAbstractMethodError *new_JavaLangAbstractMethodError_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangAbstractMethodError *create_JavaLangAbstractMethodError_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangAbstractMethodError)
 
-#endif // _JavaLangAbstractMethodError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangAbstractMethodError")

@@ -3,12 +3,34 @@
 //  source: android/libcore/luni/src/main/java/java/lang/SafeVarargs.java
 //
 
-#ifndef _JavaLangSafeVarargs_H_
-#define _JavaLangSafeVarargs_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangSafeVarargs")
+#ifdef RESTRICT_JavaLangSafeVarargs
+#define INCLUDE_ALL_JavaLangSafeVarargs 0
+#else
+#define INCLUDE_ALL_JavaLangSafeVarargs 1
+#endif
+#undef RESTRICT_JavaLangSafeVarargs
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangSafeVarargs_) && (INCLUDE_ALL_JavaLangSafeVarargs || defined(INCLUDE_JavaLangSafeVarargs))
+#define JavaLangSafeVarargs_
+
+#define RESTRICT_JavaLangAnnotationAnnotation 1
+#define INCLUDE_JavaLangAnnotationAnnotation 1
 #include "java/lang/annotation/Annotation.h"
 
+@class IOSClass;
+@class IOSObjectArray;
+
+/*!
+ @brief Claims to the compiler that the annotation target does nothing potentially unsafe
+ to its varargs argument.
+ @since 1.7
+ */
 @protocol JavaLangSafeVarargs < JavaLangAnnotationAnnotation >
 
 @end
@@ -19,6 +41,12 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangSafeVarargs)
 
+FOUNDATION_EXPORT id<JavaLangSafeVarargs> create_JavaLangSafeVarargs();
+
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangSafeVarargs)
 
-#endif // _JavaLangSafeVarargs_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangSafeVarargs")

@@ -3,18 +3,42 @@
 //  source: android/libcore/luni/src/main/java/java/util/logging/LoggingPermission.java
 //
 
-#ifndef _JavaUtilLoggingLoggingPermission_H_
-#define _JavaUtilLoggingLoggingPermission_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilLoggingLoggingPermission")
+#ifdef RESTRICT_JavaUtilLoggingLoggingPermission
+#define INCLUDE_ALL_JavaUtilLoggingLoggingPermission 0
+#else
+#define INCLUDE_ALL_JavaUtilLoggingLoggingPermission 1
+#endif
+#undef RESTRICT_JavaUtilLoggingLoggingPermission
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilLoggingLoggingPermission_) && (INCLUDE_ALL_JavaUtilLoggingLoggingPermission || defined(INCLUDE_JavaUtilLoggingLoggingPermission))
+#define JavaUtilLoggingLoggingPermission_
+
+#define RESTRICT_JavaSecurityBasicPermission 1
+#define INCLUDE_JavaSecurityBasicPermission 1
+#include "java/security/BasicPermission.h"
+
+#define RESTRICT_JavaSecurityGuard 1
+#define INCLUDE_JavaSecurityGuard 1
+#include "java/security/Guard.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class JavaSecurityPermission;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/security/BasicPermission.h"
-#include "java/security/Guard.h"
+/*!
+ @brief Legacy security code; do not use.
+ */
+@interface JavaUtilLoggingLoggingPermission : JavaSecurityBasicPermission < JavaSecurityGuard, JavaIoSerializable >
 
-@interface JavaUtilLoggingLoggingPermission : JavaSecurityBasicPermission < JavaSecurityGuard, JavaIoSerializable > {
-}
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)name
                     withNSString:(NSString *)actions;
@@ -27,9 +51,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilLoggingLoggingPermission)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilLoggingLoggingPermission_initWithNSString_withNSString_(JavaUtilLoggingLoggingPermission *self, NSString *name, NSString *actions);
+
+FOUNDATION_EXPORT JavaUtilLoggingLoggingPermission *new_JavaUtilLoggingLoggingPermission_initWithNSString_withNSString_(NSString *name, NSString *actions) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilLoggingLoggingPermission *create_JavaUtilLoggingLoggingPermission_initWithNSString_withNSString_(NSString *name, NSString *actions);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilLoggingLoggingPermission)
 
-#endif // _JavaUtilLoggingLoggingPermission_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilLoggingLoggingPermission")

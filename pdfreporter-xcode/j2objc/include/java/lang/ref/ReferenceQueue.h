@@ -3,45 +3,111 @@
 //  source: android/libcore/luni/src/main/java/java/lang/ref/ReferenceQueue.java
 //
 
-#ifndef _JavaLangRefReferenceQueue_H_
-#define _JavaLangRefReferenceQueue_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangRefReferenceQueue")
+#ifdef RESTRICT_JavaLangRefReferenceQueue
+#define INCLUDE_ALL_JavaLangRefReferenceQueue 0
+#else
+#define INCLUDE_ALL_JavaLangRefReferenceQueue 1
+#endif
+#undef RESTRICT_JavaLangRefReferenceQueue
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangRefReferenceQueue_) && (INCLUDE_ALL_JavaLangRefReferenceQueue || defined(INCLUDE_JavaLangRefReferenceQueue))
+#define JavaLangRefReferenceQueue_
 
 @class JavaLangRefReference;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief The <code>ReferenceQueue</code> is the container on which reference objects are
+ enqueued when the garbage collector detects the reachability type specified
+ for the referent.
+ @since 1.2
+ */
+@interface JavaLangRefReferenceQueue : NSObject
 
-#define JavaLangRefReferenceQueue_NANOS_PER_MILLI 1000000
++ (JavaLangRefReference *)unenqueued;
 
-@interface JavaLangRefReferenceQueue : NSObject {
-}
++ (void)setUnenqueued:(JavaLangRefReference *)value;
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new instance of this class.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Returns the next available reference from the queue, removing it in the
+ process.
+ Does not wait for a reference to become available.
+ @return the next available reference, or <code>null</code> if no reference is
+ immediately available
+ */
 - (JavaLangRefReference *)poll;
 
+/*!
+ @brief Returns the next available reference from the queue, removing it in the
+ process.
+ Waits indefinitely for a reference to become available.
+ @throws InterruptedException if the blocking call was interrupted
+ */
 - (JavaLangRefReference *)remove;
 
+/*!
+ @brief Returns the next available reference from the queue, removing it in the
+ process.
+ Waits for a reference to become available or the given timeout
+ period to elapse, whichever happens first.
+ @param timeoutMillis maximum time to spend waiting for a reference object
+ to become available. A value of <code>0</code> results in the method
+ waiting indefinitely.
+ @return the next available reference, or <code>null</code> if no reference
+ becomes available within the timeout period
+ @throws IllegalArgumentException if <code>timeoutMillis < 0</code>.
+ @throws InterruptedException if the blocking call was interrupted
+ */
 - (JavaLangRefReference *)removeWithLong:(jlong)timeoutMillis;
 
-- (void)enqueueWithJavaLangRefReference:(JavaLangRefReference *)reference;
+#pragma mark Package-Private
 
 + (void)addWithJavaLangRefReference:(JavaLangRefReference *)list;
 
+/*!
+ @brief Enqueue the reference object on the receiver.
+ @param reference
+ reference object to be enqueued.
+ */
+- (void)enqueueWithJavaLangRefReference:(JavaLangRefReference *)reference;
+
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JavaLangRefReferenceQueue)
+J2OBJC_STATIC_INIT(JavaLangRefReferenceQueue)
 
-CF_EXTERN_C_BEGIN
+/*!
+  
+ */
+inline JavaLangRefReference *JavaLangRefReferenceQueue_get_unenqueued();
+inline JavaLangRefReference *JavaLangRefReferenceQueue_set_unenqueued(JavaLangRefReference *value);
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT JavaLangRefReference *JavaLangRefReferenceQueue_unenqueued;
+J2OBJC_STATIC_FIELD_OBJ(JavaLangRefReferenceQueue, unenqueued, JavaLangRefReference *)
+
+FOUNDATION_EXPORT void JavaLangRefReferenceQueue_init(JavaLangRefReferenceQueue *self);
+
+FOUNDATION_EXPORT JavaLangRefReferenceQueue *new_JavaLangRefReferenceQueue_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangRefReferenceQueue *create_JavaLangRefReferenceQueue_init();
 
 FOUNDATION_EXPORT void JavaLangRefReferenceQueue_addWithJavaLangRefReference_(JavaLangRefReference *list);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangRefReferenceQueue, NANOS_PER_MILLI, jint)
-
-FOUNDATION_EXPORT JavaLangRefReference *JavaLangRefReferenceQueue_unenqueued_;
-J2OBJC_STATIC_FIELD_GETTER(JavaLangRefReferenceQueue, unenqueued_, JavaLangRefReference *)
-J2OBJC_STATIC_FIELD_SETTER(JavaLangRefReferenceQueue, unenqueued_, JavaLangRefReference *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangRefReferenceQueue)
 
-#endif // _JavaLangRefReferenceQueue_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangRefReferenceQueue")

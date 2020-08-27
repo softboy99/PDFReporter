@@ -7,17 +7,17 @@
 	<style name="ColumnHeader" isDefault="false" style="Sans_Bold" forecolor="#FFFFFF"/>
 	<style name="CellStyle" isDefault="false" mode="Opaque">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
 			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
 	<style name="Detail" isDefault="false">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)!isNull($V{DeliveryDelay})]]></conditionExpression>
+			<conditionExpression><![CDATA[!isNull($V{DeliveryDelay})]]></conditionExpression>
 			<style>
 				<pen lineWidth="0.5" lineColor="#FF0000"/>
 			</style>
@@ -49,7 +49,7 @@
 		<fieldDescription><![CDATA[ShippedDate]]></fieldDescription>
 	</field>
 	<variable name="DeliveryDelay" class="java.lang.Integer">
-		<variableExpression><![CDATA[(int)ifelse($F{ShippedDate} > $F{RequiredDate},1 + ((toMilliseconds($F{ShippedDate}) - toMilliseconds($F{RequiredDate}) - 1) / 3600000),null())]]></variableExpression>
+		<variableExpression><![CDATA[ifelse($F{ShippedDate} > $F{RequiredDate},1 + ((toMilliseconds($F{ShippedDate}) - toMilliseconds($F{RequiredDate}) - 1) / 3600000),null())]]></variableExpression>
 	</variable>
 	<title>
 		<band height="40">
@@ -155,7 +155,7 @@
 				<reportElement x="0" y="40" width="555" height="60"/>
 				<crosstabDataset>
 					<dataset>
-						<incrementWhenExpression><![CDATA[(boolean)!isNull($V{DeliveryDelay})]]></incrementWhenExpression>
+						<incrementWhenExpression><![CDATA[!isNull($V{DeliveryDelay})]]></incrementWhenExpression>
 					</dataset>
 				</crosstabDataset>
 				<rowGroup name="CountryRow" width="80" totalPosition="End">
@@ -201,7 +201,7 @@
 							<textField>
 								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression class="java.lang.String"><![CDATA[intString($V{FreightColumn} * 100) + '-' + intString(($V{FreightColumn} + 1) * 100)]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[intString((int)($V{FreightColumn} * 100)) + '-' + intString((int)(($V{FreightColumn} + 1) * 100))]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabColumnHeader>

@@ -58,7 +58,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private JRGroup evaluationGroup;
+	private final JRGroup evaluationGroup;
 
 	/**
 	 *
@@ -89,9 +89,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	protected JRFillTextField(
-		JRBaseFiller filler,
-		JRTextField textField, 
-		JRFillObjectFactory factory
+		final JRBaseFiller filler,
+		final JRTextField textField, 
+		final JRFillObjectFactory factory
 		)
 	{
 		super(filler, textField, factory);
@@ -101,7 +101,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 	
-	protected JRFillTextField(JRFillTextField textField, JRFillCloneFactory factory)
+	protected JRFillTextField(final JRFillTextField textField, final JRFillCloneFactory factory)
 	{
 		super(textField, factory);
 		logger.finest("Expression: " + getExpression().getId());
@@ -113,6 +113,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 * 
 	 */
+	@Override
 	public boolean isStretchWithOverflow()
 	{
 		return ((JRTextField)parent).isStretchWithOverflow();
@@ -121,13 +122,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void setStretchWithOverflow(boolean isStretchWithOverflow)
+	@Override
+	public void setStretchWithOverflow(final boolean isStretchWithOverflow)
 	{
 	}
 
 	/**
 	 *
 	 */
+	@Override
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return ((JRTextField)parent).getEvaluationTimeValue();
@@ -144,6 +147,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public String getPattern()
 	{
 		if (getPatternExpression() == null)
@@ -153,6 +157,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return pattern;
 	}
 		
+	@Override
 	public String getOwnPattern()
 	{
 		return providerStyle == null || providerStyle.getOwnPattern() == null ? ((JRTextField)this.parent).getOwnPattern() : providerStyle.getOwnPattern();
@@ -161,13 +166,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void setPattern(String pattern)
+	@Override
+	public void setPattern(final String pattern)
 	{
 	}
 		
 	/**
 	 *
 	 */
+	@Override
 	public boolean isBlankWhenNull()
 	{
 		return JRStyleResolver.isBlankWhenNull(this);
@@ -176,6 +183,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public Boolean isOwnBlankWhenNull()
 	{
 		return providerStyle == null || providerStyle.isOwnBlankWhenNull() == null ? ((JRTextField)this.parent).isOwnBlankWhenNull() : providerStyle.isOwnBlankWhenNull();
@@ -184,20 +192,24 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void setBlankWhenNull(boolean isBlank)
+	@Override
+	public void setBlankWhenNull(final boolean isBlank)
 	{
 	}
 
 	/**
 	 *
 	 */
-	public void setBlankWhenNull(Boolean isBlank)
+	@Override
+	public void setBlankWhenNull(final Boolean isBlank)
 	{
 	}
 
 	/**
 	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
 	 */
+	@Deprecated
+	@Override
 	public byte getHyperlinkType()
 	{
 		return getHyperlinkTypeValue().getValue();
@@ -206,6 +218,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
 	{
 		return ((JRTextField)parent).getHyperlinkTypeValue();
@@ -214,6 +227,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public byte getHyperlinkTarget()
 	{
 		return ((JRTextField)parent).getHyperlinkTarget();
@@ -222,6 +236,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public String getLinkTarget()
 	{
 		return ((JRTextField)parent).getLinkTarget();
@@ -230,6 +245,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRGroup getEvaluationGroup()
 	{
 		return evaluationGroup;
@@ -238,6 +254,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getExpression()
 	{
 		return ((JRTextField)parent).getExpression();
@@ -246,6 +263,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getPatternExpression()
 	{
 		return ((JRTextField)parent).getPatternExpression();
@@ -254,6 +272,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getAnchorNameExpression()
 	{
 		return ((JRTextField)parent).getAnchorNameExpression();
@@ -262,6 +281,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getHyperlinkReferenceExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkReferenceExpression();
@@ -270,6 +290,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getHyperlinkAnchorExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkAnchorExpression();
@@ -278,6 +299,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	public JRExpression getHyperlinkPageExpression()
 	{
 		return ((JRTextField)parent).getHyperlinkPageExpression();
@@ -340,9 +362,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	protected JRTemplateElement createElementTemplate()
 	{
-		JRTemplateText template = 
+		final JRTemplateText template = 
 			new JRTemplateText(
 				getElementOrigin(), 
 				filler.getJasperPrint().getDefaultStyleProvider(), 
@@ -352,18 +375,18 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	protected void evaluateTextFormat(IFormat format, Object value, TimeZone ownTimeZone)
+	protected void evaluateTextFormat(final IFormat format, final Object value, final TimeZone ownTimeZone)
 	{
 		if (value != null)
 //		if (getExpression() != null)
 		{
 			if (!(value instanceof String))
 			{
-				SimpleTextFormat simpleTextFormat = new SimpleTextFormat();
+				final SimpleTextFormat simpleTextFormat = new SimpleTextFormat();
 				
 				simpleTextFormat.setValueClassName(value.getClass().getName());
 
-				String pattern = getTemplatePattern(format, value);
+				final String pattern = getTemplatePattern(format, value);
 				if (pattern != null)
 				{
 					simpleTextFormat.setPattern(pattern);
@@ -382,7 +405,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				if (value instanceof java.util.Date)
 				{
 					// the element's format timezone property has precedence over the report timezone
-					TimeZone formatTimeZone = ownTimeZone == null ? filler.getTimeZone() : ownTimeZone;
+					final TimeZone formatTimeZone = ownTimeZone == null ? filler.getTimeZone() : ownTimeZone;
 					// check if the current format timezone differs from the master report timezone
 					if (!formatTimeZone.equals(filler.fillContext.getMasterTimeZone()))
 					{
@@ -396,7 +419,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
-	protected TimeZone toFormatTimeZone(String timezoneId)
+	protected TimeZone toFormatTimeZone(final String timezoneId)
 	{
 		if (timezoneId == null || timezoneId.isEmpty())
 		{
@@ -417,8 +440,9 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	protected void evaluate(
-		byte evaluation
+		final byte evaluation
 		) throws JRException
 	{
 		initDelayedEvaluations();
@@ -441,7 +465,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 *
 	 */
 	protected void evaluateText(
-		byte evaluation
+		final byte evaluation
 		) throws JRException
 	{
 		evaluateProperties(evaluation);
@@ -470,11 +494,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			if (value instanceof java.util.Date)
 			{
 				// read the element's format timezone property
-				String ownTimezoneId = hasProperties() ? getPropertiesMap().getProperty(PROPERTY_FORMAT_TIMEZONE) : null;
+				final String ownTimezoneId = hasProperties() ? getPropertiesMap().getProperty(PROPERTY_FORMAT_TIMEZONE) : null;
 				ownTimeZone = toFormatTimeZone(ownTimezoneId);
 			}
 			
-			IFormat format = getFormat(value, ownTimeZone);
+			final IFormat format = getFormat(value, ownTimeZone);
 
 			evaluateTextFormat(format, value, ownTimeZone);
 
@@ -488,8 +512,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			}
 		}
 
-		String oldRawText = getRawText();
-		String newRawText = processMarkupText(String.valueOf(strValue));
+		final String oldRawText = getRawText();
+		final String newRawText = processMarkupText(String.valueOf(strValue));
 
 		setRawText(newRawText);
 		resetTextChunk();
@@ -511,9 +535,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	protected boolean prepare(
-		int availableHeight,
-		boolean isOverflow
+		final int availableHeight,
+		final boolean isOverflow
 		) throws JRException
 	{
 		boolean willOverflow = false;
@@ -713,9 +738,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	@Override
 	protected JRPrintElement fill() throws JRException
 	{
-		EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
+		final EvaluationTimeEnum evaluationTime = getEvaluationTimeValue();
 		
 		JRTemplatePrintText text;
 		JRRecordedValuesPrintText recordedValuesText;
@@ -763,7 +789,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected void copy(JRPrintText text)
+	protected void copy(final JRPrintText text)
 	{
 		text.setLineSpacingFactor(getLineSpacingFactor());
 		text.setLeadingOffset(getLeadingOffset());
@@ -790,7 +816,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected IFormat getFormat(Object value, TimeZone ownTimeZone)//FIXMEFORMAT optimize this with an interface
+	protected IFormat getFormat(final Object value, final TimeZone ownTimeZone)//FIXMEFORMAT optimize this with an interface
 	{
 		IFormat format = null;
 
@@ -809,10 +835,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected String getTemplatePattern(IFormat format, Object value)//FIXMEFORMAT optimize this with an interface
+	protected String getTemplatePattern(final IFormat format, final Object value)//FIXMEFORMAT optimize this with an interface
 	{
 		String pattern = null;
-		String originalPattern = getPattern();
+		final String originalPattern = getPattern();
 
 // TODO (23.05.2013, Donat, Open Software Solutions): Verify impact of disabling support for concrete IFormat implementations, perhaps IFormat should support toPattern()
 // TODO (23.05.2013, Donat, Open Software Solutions): Refactoring simplify handling of formatting factories
@@ -843,7 +869,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void collectExpressions(JRExpressionCollector collector)
+	@Override
+	public void collectExpressions(final JRExpressionCollector collector)
 	{
 		collector.collect(this);
 	}
@@ -851,13 +878,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	public void visit(JRVisitor visitor)
+	@Override
+	public void visit(final JRVisitor visitor)
 	{
 		visitor.visitTextField(this);
 	}
 	
 
-	protected void resolveElement(JRPrintElement element, byte evaluation) throws JRException
+	@Override
+	protected void resolveElement(final JRPrintElement element, final byte evaluation) throws JRException
 	{
 		evaluateText(evaluation);
 
@@ -867,17 +896,20 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	public int getBookmarkLevel()
 	{
 		return ((JRTextField)parent).getBookmarkLevel();
 	}
 
 
-	public JRFillCloneable createClone(JRFillCloneFactory factory)
+	@Override
+	public JRFillCloneable createClone(final JRFillCloneFactory factory)
 	{
 		return new JRFillTextField(this, factory);
 	}
 	
+	@Override
 	protected void collectDelayedEvaluations()
 	{
 		super.collectDelayedEvaluations();
@@ -891,30 +923,40 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 
+	@Override
 	public JRHyperlinkParameter[] getHyperlinkParameters()
 	{
 		return ((JRTextField) parent).getHyperlinkParameters();
 	}
 
 
+	@Override
 	public String getLinkType()
 	{
 		return ((JRTextField) parent).getLinkType();
 	}
 
 
+	@Override
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return ((JRTextField) parent).getHyperlinkTooltipExpression();
 	}
 
 
+	@Override
 	protected boolean canOverflow()
 	{
 		return isStretchWithOverflow()
 				&& getRotationValue().equals(RotationEnum.NONE)
 				&& isEvaluateNow()
 				&& filler.isBandOverFlowAllowed();
+	}
+
+
+	@Override
+	public String toString() {
+		return getRawText();
 	}
 	
 }

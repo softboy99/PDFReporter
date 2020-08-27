@@ -3,28 +3,54 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/ConnectionPendingException.java
 //
 
-#ifndef _JavaNioChannelsConnectionPendingException_H_
-#define _JavaNioChannelsConnectionPendingException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsConnectionPendingException")
+#ifdef RESTRICT_JavaNioChannelsConnectionPendingException
+#define INCLUDE_ALL_JavaNioChannelsConnectionPendingException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsConnectionPendingException 1
+#endif
+#undef RESTRICT_JavaNioChannelsConnectionPendingException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsConnectionPendingException_) && (INCLUDE_ALL_JavaNioChannelsConnectionPendingException || defined(INCLUDE_JavaNioChannelsConnectionPendingException))
+#define JavaNioChannelsConnectionPendingException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsConnectionPendingException_serialVersionUID 2008393366501760879LL
+/*!
+ @brief A <code>ConnectionPendingException</code> is thrown when an attempt is made to
+ connect a <code>SocketChannel</code> that has a non-blocking connection already
+ underway.
+ */
+@interface JavaNioChannelsConnectionPendingException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsConnectionPendingException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>ConnectionPendingException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsConnectionPendingException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsConnectionPendingException_init(JavaNioChannelsConnectionPendingException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsConnectionPendingException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsConnectionPendingException *new_JavaNioChannelsConnectionPendingException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsConnectionPendingException *create_JavaNioChannelsConnectionPendingException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsConnectionPendingException)
 
-#endif // _JavaNioChannelsConnectionPendingException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsConnectionPendingException")

@@ -7,8 +7,8 @@
 //
 
 #import "CustomJavaUtilLoggingHandler.h"
-#import "java/util/logging/LogRecord.h"
-#import "java/util/logging/Level.h"
+#include "java/util/logging/LogRecord.h"
+#include "java/util/logging/Level.h"
 
 @implementation CustomJavaUtilLoggingHandler
 

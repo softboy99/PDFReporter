@@ -31,9 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -85,6 +83,8 @@ import org.oss.pdfreporter.engine.util.LocalJasperReportsContext;
 import org.oss.pdfreporter.engine.util.UniformPrintElementVisitor;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.sql.IConnection;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.IFormat;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory.FormatType;
@@ -1377,7 +1377,7 @@ public abstract class JRBaseFiller implements IJRBaseFiller, JRDefaultStyleProvi
 	 *
 	 * @return the report locale
 	 */
-	protected Locale getLocale()
+	protected StringLocale getLocale()
 	{
 		return mainDataset.getLocale();
 	}
@@ -1397,11 +1397,10 @@ public abstract class JRBaseFiller implements IJRBaseFiller, JRDefaultStyleProvi
 	 * Returns the report resource bundle.
 	 *
 	 * @return the report resource bundle
-	 * // TODO (29.04.2013, Donat, Open Software Solutions AG): Notice ResourceBundle support was removed
 	 */
-	protected ResourceBundle getResourceBundle()
+	protected ITextBundle getResourceBundle()
 	{
-		return mainDataset.resourceBundle;
+		return mainDataset.textBundle;
 	}
 
 	/**
@@ -1425,13 +1424,13 @@ public abstract class JRBaseFiller implements IJRBaseFiller, JRDefaultStyleProvi
 
 	protected IFormat getDateFormat(String pattern, TimeZone timeZone)
 	{
-		Locale lc = getLocale();
+		StringLocale lc = getLocale();
 		TimeZone tz = timeZone == null ? getTimeZone() : timeZone;// default to filler timezone
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc) + "|" + JRDataUtils.getTimeZoneId(tz);
 		IFormat format = dateFormatCache.get(key);
 		if (format == null)
 		{
-			format = getFormatFactory().newDateFormat(pattern, lc, tz);
+			format = getFormatFactory().newDateFormat(pattern, lc.toLocale(), tz);
 			if (format != null)
 			{
 				dateFormatCache.put(key, format);
@@ -1446,12 +1445,12 @@ public abstract class JRBaseFiller implements IJRBaseFiller, JRDefaultStyleProvi
 	 */
 	public IFormat getNumberFormat(String pattern)
 	{
-		Locale lc = getLocale();
+		StringLocale lc = getLocale();
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc);
 		IFormat format = numberFormatCache.get(key);
 		if (format == null)
 		{
-			format = getFormatFactory().newNumberFormat(pattern, lc);
+			format = getFormatFactory().newNumberFormat(pattern, lc.toLocale());
 			if (format != null)
 			{
 				numberFormatCache.put(key, format);

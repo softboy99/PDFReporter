@@ -25,7 +25,6 @@ package org.oss.pdfreporter.engine.query;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -36,6 +35,7 @@ import org.oss.pdfreporter.engine.JRException;
 import org.oss.pdfreporter.engine.JRValueParameter;
 import org.oss.pdfreporter.engine.JasperReportsContext;
 import org.oss.pdfreporter.engine.data.JRXmlDataSource;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.uses.org.w3c.dom.Document;
 
 
@@ -123,7 +123,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 
 			if (datasource != null)
 			{
-				datasource.setLocale((Locale)getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE, true));
+				datasource.setLocale((StringLocale)getParameterValue(JRXPathQueryExecuterFactory.XML_LOCALE, true));
 				datasource.setDatePattern(getStringParameter(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, JRXPathQueryExecuterFactory.PROPERTY_XML_DATE_PATTERN));
 				datasource.setNumberPattern(getStringParameter(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, JRXPathQueryExecuterFactory.PROPERTY_XML_NUMBER_PATTERN));
 				datasource.setTimeZone((TimeZone)getParameterValue(JRXPathQueryExecuterFactory.XML_TIME_ZONE, true));

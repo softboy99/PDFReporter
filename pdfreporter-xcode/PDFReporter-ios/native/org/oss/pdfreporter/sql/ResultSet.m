@@ -7,21 +7,30 @@
 //
 
 #import "ResultSet.h"
-#import "org/oss/pdfreporter/sql/SQLException.h"
-#import "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
-#import "org/oss/pdfreporter/sql/factory/DateImpl.h"
-#import "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
-#import "org/oss/pdfreporter/sql/factory/TimeImpl.h"
-#import "org/oss/pdfreporter/sql/factory/BlobImpl.h"
-#import "java/math/BigDecimal.h"
-#import "java/lang/Double.h"
-#import "java/lang/Integer.h"
-#import "java/util/Date.h"
-#import "java/util/Calendar.h"
-#import "java/util/TimeZone.h"
-#import "IOSPrimitiveArray.h"
+#include "org/oss/pdfreporter/sql/SQLException.h"
+#include "org/oss/pdfreporter/sql/factory/DateTimeImpl.h"
+#include "org/oss/pdfreporter/sql/factory/DateImpl.h"
+#include "org/oss/pdfreporter/sql/factory/TimestampImpl.h"
+#include "org/oss/pdfreporter/sql/factory/TimeImpl.h"
+#include "org/oss/pdfreporter/sql/factory/BlobImpl.h"
+#include "java/math/BigDecimal.h"
+#include "java/lang/Double.h"
+#include "java/lang/Integer.h"
+#include "java/util/Date.h"
+#include "java/util/Calendar.h"
+#include "java/util/TimeZone.h"
+#include "IOSPrimitiveArray.h"
 
 #define FORMAT_STRING @"yyyy-MM-dd HH:mm:ss"
+
+static NSCalendarUnit calendarUnitFlags = (
+      NSCalendarUnitSecond
+    | NSCalendarUnitMinute
+    | NSCalendarUnitHour
+    | NSCalendarUnitDay
+    | NSCalendarUnitMonth
+    | NSCalendarUnitYear
+);
 
 @implementation ResultSet
 
@@ -48,7 +57,7 @@
     }
 }
 
-- (BOOL)next
+- (jboolean)next
 {
     if(!next) return false;
     
@@ -75,13 +84,13 @@
     return next;
 }
 
-- (BOOL)getBooleanWithInt:(int)columnIndex
+- (jboolean)getBooleanWithInt:(int)columnIndex
 {
     lastColumnIndex = columnIndex;
     return sqlite3_column_int(mStmt, columnIndex-1) != 0;
 }
 
-- (char)getByteWithInt:(int)columnIndex
+- (jbyte)getByteWithInt:(int)columnIndex
 {
     lastColumnIndex = columnIndex;
     return sqlite3_column_int(mStmt, columnIndex-1);
@@ -141,9 +150,9 @@
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     //[df setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [df setDateFormat:FORMAT_STRING];
-    NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[df dateFromString:[NSString stringWithUTF8String:text]]];
+    NSDateComponents *comp = [[NSCalendar currentCalendar] components:calendarUnitFlags fromDate:[df dateFromString:[NSString stringWithUTF8String:text]]];
     
-    return [[OrgOssPdfreporterSqlFactoryDateImpl alloc] initWithInt:[comp year] withInt:[comp month] withInt:[comp day]];
+    return [[OrgOssPdfreporterSqlFactoryDateImpl alloc] initWithInt:(jint)[comp year] withInt:(jint)[comp month] withInt:(jint)[comp day]];
 }
 
 - (id<OrgOssPdfreporterSqlITimestamp>)getTimestampWithInt:(int)columnIndex
@@ -185,9 +194,9 @@
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     //[df setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     [df setDateFormat:FORMAT_STRING];
-    NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[df dateFromString:[NSString stringWithUTF8String:text]]];
+    NSDateComponents *comp = [[NSCalendar currentCalendar] components:calendarUnitFlags fromDate:[df dateFromString:[NSString stringWithUTF8String:text]]];
     
-    return [[OrgOssPdfreporterSqlFactoryTimeImpl alloc] initWithInt:[comp hour] withInt:[comp minute] withInt:[comp second]];
+    return [[OrgOssPdfreporterSqlFactoryTimeImpl alloc] initWithInt:(jint)[comp hour] withInt:(jint)[comp minute] withInt:(jint)[comp second]];
 }
 
 - (id<OrgOssPdfreporterSqlIDateTime>)getDateTimeWithInt:(int)columnIndex
@@ -201,9 +210,9 @@
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:FORMAT_STRING];
     //[df setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-    NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[df dateFromString:[NSString stringWithUTF8String:text] ]];
+    NSDateComponents *comp = [[NSCalendar currentCalendar] components:calendarUnitFlags fromDate:[df dateFromString:[NSString stringWithUTF8String:text] ]];
     
-    return [[OrgOssPdfreporterSqlFactoryDateTimeImpl alloc] initWithInt:[comp year] withInt:[comp month] withInt:[comp day] withInt:[comp hour] withInt:[comp minute] withInt:[comp second]];
+    return [[OrgOssPdfreporterSqlFactoryDateTimeImpl alloc] initWithInt:(jint)[comp year] withInt:(jint)[comp month] withInt:(jint)[comp day] withInt:(jint)[comp hour] withInt:(jint)[comp minute] withInt:(jint)[comp second]];
 }
 
 - (id<OrgOssPdfreporterSqlIBlob>)getBlobWithInt:(int)columnIndex
@@ -249,7 +258,7 @@
     return metaData;
 }
 
-- (BOOL)wasNull
+- (jboolean)wasNull
 {
     int type = sqlite3_column_type(mStmt, lastColumnIndex-1);
     return type == SQLITE_NULL;

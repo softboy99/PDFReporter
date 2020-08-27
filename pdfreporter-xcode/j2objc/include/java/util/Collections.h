@@ -3,196 +3,810 @@
 //  source: android/libcore/luni/src/main/java/java/util/Collections.java
 //
 
-#ifndef _JavaUtilCollections_H_
-#define _JavaUtilCollections_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilCollections")
+#ifdef RESTRICT_JavaUtilCollections
+#define INCLUDE_ALL_JavaUtilCollections 0
+#else
+#define INCLUDE_ALL_JavaUtilCollections 1
+#endif
+#undef RESTRICT_JavaUtilCollections
+#ifdef INCLUDE_JavaUtilCollections_SynchronizedSortedSet
+#define INCLUDE_JavaUtilCollections_SynchronizedSet 1
+#endif
+#ifdef INCLUDE_JavaUtilCollections_SynchronizedSortedMap
+#define INCLUDE_JavaUtilCollections_SynchronizedMap 1
+#endif
+#ifdef INCLUDE_JavaUtilCollections_SynchronizedSet
+#define INCLUDE_JavaUtilCollections_SynchronizedCollection 1
+#endif
+#ifdef INCLUDE_JavaUtilCollections_SynchronizedRandomAccessList
+#define INCLUDE_JavaUtilCollections_SynchronizedList 1
+#endif
+#ifdef INCLUDE_JavaUtilCollections_SynchronizedList
+#define INCLUDE_JavaUtilCollections_SynchronizedCollection 1
+#endif
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilCollections_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections))
+#define JavaUtilCollections_
 
 @class IOSClass;
 @class IOSObjectArray;
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
 @class JavaUtilArrayList;
-@class JavaUtilCollections_UnmodifiableCollection;
 @class JavaUtilRandom;
 @protocol JavaLangComparable;
+@protocol JavaUtilCollection;
+@protocol JavaUtilComparator;
 @protocol JavaUtilDeque;
+@protocol JavaUtilEnumeration;
+@protocol JavaUtilIterator;
+@protocol JavaUtilList;
+@protocol JavaUtilListIterator;
+@protocol JavaUtilMap;
 @protocol JavaUtilQueue;
+@protocol JavaUtilSet;
+@protocol JavaUtilSortedMap;
+@protocol JavaUtilSortedSet;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/util/AbstractList.h"
-#include "java/util/AbstractMap.h"
-#include "java/util/AbstractQueue.h"
-#include "java/util/AbstractSet.h"
-#include "java/util/Collection.h"
-#include "java/util/Comparator.h"
-#include "java/util/Enumeration.h"
-#include "java/util/Iterator.h"
-#include "java/util/List.h"
-#include "java/util/ListIterator.h"
-#include "java/util/Map.h"
-#include "java/util/MapEntry.h"
-#include "java/util/RandomAccess.h"
-#include "java/util/Set.h"
-#include "java/util/SortedMap.h"
-#include "java/util/SortedSet.h"
+/*!
+ @brief <code>Collections</code> contains static methods which operate on
+ <code>Collection</code> classes.
+ @since 1.2
+ */
+@interface JavaUtilCollections : NSObject
 
-@interface JavaUtilCollections : NSObject {
-}
++ (id<JavaUtilList>)EMPTY_LIST;
 
++ (id<JavaUtilSet>)EMPTY_SET;
+
++ (id<JavaUtilMap>)EMPTY_MAP;
+
+#pragma mark Public
+
+/*!
+ @brief Adds all the specified elements to the specified collection.
+ @param c
+ the collection the elements are to be inserted into.
+ @param a
+ the elements to insert.
+ @return true if the collection changed during insertion.
+ @throws UnsupportedOperationException
+ when the method is not supported.
+ @throws NullPointerException
+ when <code>c</code> or <code>a</code> is <code>null</code>, or <code>a</code>
+ contains one or more <code>null</code> elements and <code>c</code>
+ doesn't support <code>null</code> elements.
+ @throws IllegalArgumentException
+ if at least one of the elements can't be inserted into the
+ collection.
+ */
++ (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)c
+                       withNSObjectArray:(IOSObjectArray *)a;
+
+/*!
+ @brief Returns a last-in, first-out queue as a view of <code>deque</code>.
+ @since 1.6
+ */
++ (id<JavaUtilQueue>)asLifoQueueWithJavaUtilDeque:(id<JavaUtilDeque>)deque;
+
+/*!
+ @brief Performs a binary search for the specified element in the specified
+ sorted list.
+ The list needs to be already sorted in natural sorting
+ order. Searching in an unsorted array has an undefined result. It's also
+ undefined which element is found if there are multiple occurrences of the
+ same element.
+ @param list
+ the sorted list to search.
+ @param object
+ the element to find.
+ @return the non-negative index of the element, or a negative index which
+ is the <code>-index - 1</code> where the element would be inserted
+ @throws ClassCastException
+ if an element in the List or the search element does not
+ implement Comparable, or cannot be compared to each other.
+ */
 + (jint)binarySearchWithJavaUtilList:(id<JavaUtilList>)list
                               withId:(id)object;
 
+/*!
+ @brief Performs a binary search for the specified element in the specified
+ sorted list using the specified comparator.
+ The list needs to be already
+ sorted according to the comparator passed. Searching in an unsorted array
+ has an undefined result. It's also undefined which element is found if
+ there are multiple occurrences of the same element.
+ @param list
+ the sorted List to search.
+ @param object
+ the element to find.
+ @param comparator
+ the comparator. If the comparator is <code>null</code> then the
+ search uses the objects' natural ordering.
+ @return the non-negative index of the element, or a negative index which
+ is the <code>-index - 1</code> where the element would be inserted.
+ @throws ClassCastException
+ when an element in the list and the searched element cannot
+ be compared to each other using the comparator.
+ */
 + (jint)binarySearchWithJavaUtilList:(id<JavaUtilList>)list
                               withId:(id)object
               withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
 
-+ (void)copy__WithJavaUtilList:(id<JavaUtilList>)destination
-              withJavaUtilList:(id<JavaUtilList>)source OBJC_METHOD_FAMILY_NONE;
-
-+ (id<JavaUtilEnumeration>)enumerationWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-+ (void)fillWithJavaUtilList:(id<JavaUtilList>)list
-                      withId:(id)object;
-
-+ (id)maxWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-+ (id)maxWithJavaUtilCollection:(id<JavaUtilCollection>)collection
-         withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
-
-+ (id)minWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-+ (id)minWithJavaUtilCollection:(id<JavaUtilCollection>)collection
-         withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
-
-+ (id<JavaUtilList>)nCopiesWithInt:(jint)length
-                            withId:(id)object;
-
-+ (void)reverseWithJavaUtilList:(id<JavaUtilList>)list;
-
-+ (id<JavaUtilComparator>)reverseOrder;
-
-+ (id<JavaUtilComparator>)reverseOrderWithJavaUtilComparator:(id<JavaUtilComparator>)c;
-
-+ (void)shuffleWithJavaUtilList:(id<JavaUtilList>)list;
-
-+ (void)shuffleWithJavaUtilList:(id<JavaUtilList>)list
-             withJavaUtilRandom:(JavaUtilRandom *)random;
-
-+ (id<JavaUtilSet>)singletonWithId:(id)object;
-
-+ (id<JavaUtilList>)singletonListWithId:(id)object;
-
-+ (id<JavaUtilMap>)singletonMapWithId:(id)key
-                               withId:(id)value;
-
-+ (void)sortWithJavaUtilList:(id<JavaUtilList>)list;
-
-+ (void)sortWithJavaUtilList:(id<JavaUtilList>)list
-      withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
-
-+ (void)swapWithJavaUtilList:(id<JavaUtilList>)list
-                     withInt:(jint)index1
-                     withInt:(jint)index2;
-
-+ (jboolean)replaceAllWithJavaUtilList:(id<JavaUtilList>)list
-                                withId:(id)obj
-                                withId:(id)obj2;
-
-+ (void)rotateWithJavaUtilList:(id<JavaUtilList>)lst
-                       withInt:(jint)dist;
-
-+ (jint)indexOfSubListWithJavaUtilList:(id<JavaUtilList>)list
-                      withJavaUtilList:(id<JavaUtilList>)sublist;
-
-+ (jint)lastIndexOfSubListWithJavaUtilList:(id<JavaUtilList>)list
-                          withJavaUtilList:(id<JavaUtilList>)sublist;
-
-+ (JavaUtilArrayList *)listWithJavaUtilEnumeration:(id<JavaUtilEnumeration>)enumeration;
-
-+ (id<JavaUtilCollection>)synchronizedCollectionWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-+ (id<JavaUtilList>)synchronizedListWithJavaUtilList:(id<JavaUtilList>)list;
-
-+ (id<JavaUtilMap>)synchronizedMapWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-+ (id<JavaUtilSet>)synchronizedSetWithJavaUtilSet:(id<JavaUtilSet>)set;
-
-+ (id<JavaUtilSortedMap>)synchronizedSortedMapWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
-
-+ (id<JavaUtilSortedSet>)synchronizedSortedSetWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
-
-+ (id<JavaUtilCollection>)unmodifiableCollectionWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-+ (id<JavaUtilList>)unmodifiableListWithJavaUtilList:(id<JavaUtilList>)list;
-
-+ (id<JavaUtilMap>)unmodifiableMapWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-+ (id<JavaUtilSet>)unmodifiableSetWithJavaUtilSet:(id<JavaUtilSet>)set;
-
-+ (id<JavaUtilSortedMap>)unmodifiableSortedMapWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
-
-+ (id<JavaUtilSortedSet>)unmodifiableSortedSetWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
-
-+ (jint)frequencyWithJavaUtilCollection:(id<JavaUtilCollection>)c
-                                 withId:(id)o;
-
-+ (id<JavaUtilList>)emptyList;
-
-+ (id<JavaUtilSet>)emptySet;
-
-+ (id<JavaUtilMap>)emptyMap;
-
-+ (id<JavaUtilEnumeration>)emptyEnumeration;
-
-+ (id<JavaUtilIterator>)emptyIterator;
-
-+ (id<JavaUtilListIterator>)emptyListIterator;
-
+/*!
+ @brief Returns a dynamically typesafe view of the specified collection.
+ Trying
+ to insert an element of the wrong type into this collection throws a
+ <code>ClassCastException</code>. At creation time the types in <code>c</code> are
+ not checked for correct type.
+ @param c
+ the collection to be wrapped in a typesafe collection.
+ @param type
+ the type of the elements permitted to insert.
+ @return a typesafe collection.
+ */
 + (id<JavaUtilCollection>)checkedCollectionWithJavaUtilCollection:(id<JavaUtilCollection>)c
                                                      withIOSClass:(IOSClass *)type;
 
+/*!
+ @brief Returns a dynamically typesafe view of the specified list.
+ Trying to
+ insert an element of the wrong type into this list throws a
+ <code>ClassCastException</code>. At creation time the types in <code>list</code>
+ are not checked for correct type.
+ @param list
+ the list to be wrapped in a typesafe list.
+ @param type
+ the type of the elements permitted to insert.
+ @return a typesafe list.
+ */
++ (id<JavaUtilList>)checkedListWithJavaUtilList:(id<JavaUtilList>)list
+                                   withIOSClass:(IOSClass *)type;
+
+/*!
+ @brief Returns a dynamically typesafe view of the specified map.
+ Trying to
+ insert an element of the wrong type into this map throws a
+ <code>ClassCastException</code>. At creation time the types in <code>m</code> are
+ not checked for correct type.
+ @param m
+ the map to be wrapped in a typesafe map.
+ @param keyType
+ the type of the keys permitted to insert.
+ @param valueType
+ the type of the values permitted to insert.
+ @return a typesafe map.
+ */
 + (id<JavaUtilMap>)checkedMapWithJavaUtilMap:(id<JavaUtilMap>)m
                                 withIOSClass:(IOSClass *)keyType
                                 withIOSClass:(IOSClass *)valueType;
 
-+ (id<JavaUtilList>)checkedListWithJavaUtilList:(id<JavaUtilList>)list
-                                   withIOSClass:(IOSClass *)type;
-
+/*!
+ @brief Returns a dynamically typesafe view of the specified set.
+ Trying to
+ insert an element of the wrong type into this set throws a
+ <code>ClassCastException</code>. At creation time the types in <code>s</code> are
+ not checked for correct type.
+ @param s
+ the set to be wrapped in a typesafe set.
+ @param type
+ the type of the elements permitted to insert.
+ @return a typesafe set.
+ */
 + (id<JavaUtilSet>)checkedSetWithJavaUtilSet:(id<JavaUtilSet>)s
                                 withIOSClass:(IOSClass *)type;
 
+/*!
+ @brief Returns a dynamically typesafe view of the specified sorted map.
+ Trying
+ to insert an element of the wrong type into this sorted map throws a
+ <code>ClassCastException</code>. At creation time the types in <code>m</code> are
+ not checked for correct type.
+ @param m
+ the sorted map to be wrapped in a typesafe sorted map.
+ @param keyType
+ the type of the keys permitted to insert.
+ @param valueType
+ the type of the values permitted to insert.
+ @return a typesafe sorted map.
+ */
 + (id<JavaUtilSortedMap>)checkedSortedMapWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)m
                                                   withIOSClass:(IOSClass *)keyType
                                                   withIOSClass:(IOSClass *)valueType;
 
+/*!
+ @brief Returns a dynamically typesafe view of the specified sorted set.
+ Trying
+ to insert an element of the wrong type into this sorted set throws a
+ <code>ClassCastException</code>. At creation time the types in <code>s</code> are
+ not checked for correct type.
+ @param s
+ the sorted set to be wrapped in a typesafe sorted set.
+ @param type
+ the type of the elements permitted to insert.
+ @return a typesafe sorted set.
+ */
 + (id<JavaUtilSortedSet>)checkedSortedSetWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)s
                                                   withIOSClass:(IOSClass *)type;
 
-+ (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)c
-                       withNSObjectArray:(IOSObjectArray *)a;
+/*!
+ @brief Copies the elements from the source list to the destination list.
+ At the
+ end both lists will have the same objects at the same index. If the
+ destination array is larger than the source list, the elements in the
+ destination list with <code>index >= source.size()</code> will be unchanged.
+ @param destination
+ the list whose elements are set from the source list.
+ @param source
+ the list with the elements to be copied into the destination.
+ @throws IndexOutOfBoundsException
+ when the destination list is smaller than the source list.
+ @throws UnsupportedOperationException
+ when replacing an element in the destination list is not
+ supported.
+ */
++ (void)copy__WithJavaUtilList:(id<JavaUtilList>)destination
+              withJavaUtilList:(id<JavaUtilList>)source OBJC_METHOD_FAMILY_NONE;
 
+/*!
+ @brief Returns whether the specified collections have no elements in common.
+ @param c1
+ the first collection.
+ @param c2
+ the second collection.
+ @return <code>true</code> if the collections have no elements in common,
+ <code>false</code> otherwise.
+ @throws NullPointerException
+ if one of the collections is <code>null</code>.
+ */
 + (jboolean)disjointWithJavaUtilCollection:(id<JavaUtilCollection>)c1
                     withJavaUtilCollection:(id<JavaUtilCollection>)c2;
 
+/*!
+ @brief Returns an enumeration containing no elements.
+ @since 1.7
+ */
++ (id<JavaUtilEnumeration>)emptyEnumeration;
+
+/*!
+ @brief Returns an iterator containing no elements.
+ @since 1.7
+ */
++ (id<JavaUtilIterator>)emptyIterator;
+
+/*!
+ @brief Returns a type-safe empty, immutable <code>List</code>.
+ @return an empty <code>List</code>.
+ @since 1.5
+ - seealso: #EMPTY_LIST
+ */
++ (id<JavaUtilList>)emptyList;
+
+/*!
+ @brief Returns a list iterator containing no elements.
+ @since 1.7
+ */
++ (id<JavaUtilListIterator>)emptyListIterator;
+
+/*!
+ @brief Returns a type-safe empty, immutable <code>Map</code>.
+ @return an empty <code>Map</code>.
+ @since 1.5
+ - seealso: #EMPTY_MAP
+ */
++ (id<JavaUtilMap>)emptyMap;
+
+/*!
+ @brief Returns a type-safe empty, immutable <code>Set</code>.
+ @return an empty <code>Set</code>.
+ @since 1.5
+ - seealso: #EMPTY_SET
+ */
++ (id<JavaUtilSet>)emptySet;
+
+/*!
+ @brief Returns an <code>Enumeration</code> on the specified collection.
+ @param collection
+ the collection to enumerate.
+ @return an Enumeration.
+ */
++ (id<JavaUtilEnumeration>)enumerationWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+/*!
+ @brief Fills the specified list with the specified element.
+ @param list
+ the list to fill.
+ @param object
+ the element to fill the list with.
+ @throws UnsupportedOperationException
+ when replacing an element in the List is not supported.
+ */
++ (void)fillWithJavaUtilList:(id<JavaUtilList>)list
+                      withId:(id)object;
+
+/*!
+ @brief Returns the number of elements in the <code>Collection</code> that match the
+ <code>Object</code> passed.
+ If the <code>Object</code> is <code>null</code>, then the
+ number of <code>null</code> elements is returned.
+ @param c
+ the <code>Collection</code> to search.
+ @param o
+ the <code>Object</code> to search for.
+ @return the number of matching elements.
+ @throws NullPointerException
+ if the <code>Collection</code> parameter is <code>null</code>.
+ @since 1.5
+ */
++ (jint)frequencyWithJavaUtilCollection:(id<JavaUtilCollection>)c
+                                 withId:(id)o;
+
+/*!
+ @brief Searches the <code>list</code> for <code>sublist</code> and returns the beginning
+ index of the first occurrence.
+ <p>
+ -1 is returned if the <code>sublist</code> does not exist in <code>list</code>.
+ @param list
+ the List to search <code>sublist</code> in.
+ @param sublist
+ the List to search in <code>list</code>.
+ @return the beginning index of the first occurrence of <code>sublist</code> in
+ <code>list</code>, or -1.
+ */
++ (jint)indexOfSubListWithJavaUtilList:(id<JavaUtilList>)list
+                      withJavaUtilList:(id<JavaUtilList>)sublist;
+
+/*!
+ @brief Searches the <code>list</code> for <code>sublist</code> and returns the beginning
+ index of the last occurrence.
+ <p>
+ -1 is returned if the <code>sublist</code> does not exist in <code>list</code>.
+ @param list
+ the list to search <code>sublist</code> in.
+ @param sublist
+ the list to search in <code>list</code>.
+ @return the beginning index of the last occurrence of <code>sublist</code> in
+ <code>list</code>, or -1.
+ */
++ (jint)lastIndexOfSubListWithJavaUtilList:(id<JavaUtilList>)list
+                          withJavaUtilList:(id<JavaUtilList>)sublist;
+
+/*!
+ @brief Returns an <code>ArrayList</code> with all the elements in the <code>enumeration</code>
+ .
+ The elements in the returned <code>ArrayList</code> are in the
+ same order as in the <code>enumeration</code>.
+ @param enumeration
+ the source <code>Enumeration</code>.
+ @return an <code>ArrayList</code> from <code>enumeration</code>.
+ */
++ (JavaUtilArrayList *)listWithJavaUtilEnumeration:(id<JavaUtilEnumeration>)enumeration;
+
+/*!
+ @brief Searches the specified collection for the maximum element.
+ @param collection
+ the collection to search.
+ @return the maximum element in the Collection.
+ @throws ClassCastException
+ when an element in the collection does not implement
+ <code>Comparable</code> or elements cannot be compared to each
+ other.
+ */
++ (id)maxWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+/*!
+ @brief Searches the specified collection for the maximum element using the
+ specified comparator.
+ @param collection
+ the collection to search.
+ @param comparator
+ the comparator.
+ @return the maximum element in the Collection.
+ @throws ClassCastException
+ when elements in the collection cannot be compared to each
+ other using the <code>Comparator</code>.
+ */
++ (id)maxWithJavaUtilCollection:(id<JavaUtilCollection>)collection
+         withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
+
+/*!
+ @brief Searches the specified collection for the minimum element.
+ @param collection
+ the collection to search.
+ @return the minimum element in the collection.
+ @throws ClassCastException
+ when an element in the collection does not implement
+ <code>Comparable</code> or elements cannot be compared to each
+ other.
+ */
++ (id)minWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+/*!
+ @brief Searches the specified collection for the minimum element using the
+ specified comparator.
+ @param collection
+ the collection to search.
+ @param comparator
+ the comparator.
+ @return the minimum element in the collection.
+ @throws ClassCastException
+ when elements in the collection cannot be compared to each
+ other using the <code>Comparator</code>.
+ */
++ (id)minWithJavaUtilCollection:(id<JavaUtilCollection>)collection
+         withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
+
+/*!
+ @brief Returns a list containing the specified number of the specified element.
+ The list cannot be modified. The list is serializable.
+ @param length
+ the size of the returned list.
+ @param object
+ the element to be added <code>length</code> times to a list.
+ @return a list containing <code>length</code> copies of the element.
+ @throws IllegalArgumentException
+ when <code>length < 0</code>.
+ */
++ (id<JavaUtilList>)nCopiesWithInt:(jint)length
+                            withId:(id)object;
+
+/*!
+ @brief Returns a set backed by <code>map</code>.
+ @throws IllegalArgumentException if the map is not empty
+ @since 1.6
+ */
++ (id<JavaUtilSet>)newSetFromMapWithJavaUtilMap:(id<JavaUtilMap>)map OBJC_METHOD_FAMILY_NONE;
+
+/*!
+ @brief Replaces all occurrences of Object <code>obj</code> in <code>list</code> with
+ <code>newObj</code>.
+ If the <code>obj</code> is <code>null</code>, then all
+ occurrences of <code>null</code> are replaced with <code>newObj</code>.
+ @param list
+ the list to modify.
+ @param obj
+ the object to find and replace occurrences of.
+ @param obj2
+ the object to replace all occurrences of <code>obj</code> in
+ <code>list</code>.
+ @return true, if at least one occurrence of <code>obj</code> has been found in
+ <code>list</code>.
+ @throws UnsupportedOperationException
+ if the list does not support setting elements.
+ */
++ (jboolean)replaceAllWithJavaUtilList:(id<JavaUtilList>)list
+                                withId:(id)obj
+                                withId:(id)obj2;
+
+/*!
+ @brief Modifies the specified <code>List</code> by reversing the order of the
+ elements.
+ @param list
+ the list to reverse.
+ @throws UnsupportedOperationException
+ when replacing an element in the List is not supported.
+ */
++ (void)reverseWithJavaUtilList:(id<JavaUtilList>)list;
+
+/*!
+ @brief A comparator which reverses the natural order of the elements.
+ The
+ <code>Comparator</code> that's returned is <code>Serializable</code>.
+ @return a <code>Comparator</code> instance.
+ */
++ (id<JavaUtilComparator>)reverseOrder;
+
+/*!
+ @brief Returns a <code>Comparator</code> that reverses the order of the
+ <code>Comparator</code> passed.
+ If the <code>Comparator</code> passed is
+ <code>null</code>, then this method is equivalent to <code>reverseOrder()</code>.
+ <p>
+ The <code>Comparator</code> that's returned is <code>Serializable</code> if the
+ <code>Comparator</code> passed is serializable or <code>null</code>.
+ @param c
+ the <code>Comparator</code> to reverse or <code>null</code>.
+ @return a <code>Comparator</code> instance.
+ @since 1.5
+ */
++ (id<JavaUtilComparator>)reverseOrderWithJavaUtilComparator:(id<JavaUtilComparator>)c;
+
+/*!
+ @brief Rotates the elements in <code>list</code> by the distance <code>dist</code>
+ <p>
+ e.g. for a given list with elements [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+ calling rotate(list, 3) or rotate(list, -7) would modify the list to look
+ like this: [8, 9, 0, 1, 2, 3, 4, 5, 6, 7]
+ @param lst
+ the list whose elements are to be rotated.
+ @param dist
+ is the distance the list is rotated. This can be any valid
+ integer. Negative values rotate the list backwards.
+ */
++ (void)rotateWithJavaUtilList:(id<JavaUtilList>)lst
+                       withInt:(jint)dist;
+
+/*!
+ @brief Returns the smallest power of two >= its argument, with several caveats:
+ If the argument is negative but not Integer.MIN_VALUE, the method returns
+ zero.
+ If the argument is > 2^30 or equal to Integer.MIN_VALUE, the method
+ returns Integer.MIN_VALUE. If the argument is zero, the method returns
+ zero.
+ */
++ (jint)roundUpToPowerOfTwoWithInt:(jint)i;
+
+/*!
+ @brief Computes a hash code and applies a supplemental hash function to defend
+ against poor quality hash functions.
+ This is critical because HashMap
+ uses power-of-two length hash tables, that otherwise encounter collisions
+ for hash codes that do not differ in lower or upper bits.
+ Routine taken from java.util.concurrent.ConcurrentHashMap.hash(int).
+ */
++ (jint)secondaryHashWithId:(id)key;
+
+/*!
+ @brief Computes an identity hash code and applies a supplemental hash function to defend
+ against poor quality hash functions.
+ This is critical because identity hash codes
+ are currently implemented as object addresses, which will have been aligned by the
+ underlying memory allocator causing all hash codes to have the same bottom bits.
+ */
++ (jint)secondaryIdentityHashWithId:(id)key;
+
+/*!
+ @brief Moves every element of the list to a random new position in the list.
+ @param list
+ the List to shuffle.
+ @throws UnsupportedOperationException
+ when replacing an element in the List is not supported.
+ */
++ (void)shuffleWithJavaUtilList:(id<JavaUtilList>)list;
+
+/*!
+ @brief Moves every element of the list to a random new position in the list
+ using the specified random number generator.
+ @param list
+ the list to shuffle.
+ @param random
+ the random number generator.
+ @throws UnsupportedOperationException
+ when replacing an element in the list is not supported.
+ */
++ (void)shuffleWithJavaUtilList:(id<JavaUtilList>)list
+             withJavaUtilRandom:(JavaUtilRandom *)random;
+
+/*!
+ @brief Returns a set containing the specified element.
+ The set cannot be
+ modified. The set is serializable.
+ @param object
+ the element.
+ @return a set containing the element.
+ */
++ (id<JavaUtilSet>)singletonWithId:(id)object;
+
+/*!
+ @brief Returns a list containing the specified element.
+ The list cannot be
+ modified. The list is serializable.
+ @param object
+ the element.
+ @return a list containing the element.
+ */
++ (id<JavaUtilList>)singletonListWithId:(id)object;
+
+/*!
+ @brief Returns a Map containing the specified key and value.
+ The map cannot be
+ modified. The map is serializable.
+ @param key
+ the key.
+ @param value
+ the value.
+ @return a Map containing the key and value.
+ */
++ (id<JavaUtilMap>)singletonMapWithId:(id)key
+                               withId:(id)value;
+
+/*!
+ @brief Sorts the given list in ascending natural order.
+ The algorithm is
+ stable which means equal elements don't get reordered.
+ @throws ClassCastException if any element does not implement <code>Comparable</code>,
+ or if <code>compareTo</code> throws for any pair of elements.
+ */
++ (void)sortWithJavaUtilList:(id<JavaUtilList>)list;
+
+/*!
+ @brief Sorts the given list using the given comparator.
+ The algorithm is
+ stable which means equal elements don't get reordered.
+ @throws ClassCastException if any element does not implement <code>Comparable</code>,
+ or if <code>compareTo</code> throws for any pair of elements.
+ */
++ (void)sortWithJavaUtilList:(id<JavaUtilList>)list
+      withJavaUtilComparator:(id<JavaUtilComparator>)comparator;
+
+/*!
+ @brief Swaps the elements of list <code>list</code> at indices <code>index1</code> and
+ <code>index2</code>.
+ @param list
+ the list to manipulate.
+ @param index1
+ position of the first element to swap with the element in
+ index2.
+ @param index2
+ position of the other element.
+ @throws IndexOutOfBoundsException
+ if index1 or index2 is out of range of this list.
+ @since 1.4
+ */
++ (void)swapWithJavaUtilList:(id<JavaUtilList>)list
+                     withInt:(jint)index1
+                     withInt:(jint)index2;
+
+/*!
+ @brief Returns a wrapper on the specified collection which synchronizes all
+ access to the collection.
+ @param collection
+ the Collection to wrap in a synchronized collection.
+ @return a synchronized Collection.
+ */
++ (id<JavaUtilCollection>)synchronizedCollectionWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+/*!
+ @brief Returns a wrapper on the specified List which synchronizes all access to
+ the List.
+ @param list
+ the List to wrap in a synchronized list.
+ @return a synchronized List.
+ */
++ (id<JavaUtilList>)synchronizedListWithJavaUtilList:(id<JavaUtilList>)list;
+
+/*!
+ @brief Returns a wrapper on the specified map which synchronizes all access to
+ the map.
+ @param map
+ the map to wrap in a synchronized map.
+ @return a synchronized Map.
+ */
++ (id<JavaUtilMap>)synchronizedMapWithJavaUtilMap:(id<JavaUtilMap>)map;
+
+/*!
+ @brief Returns a wrapper on the specified set which synchronizes all access to
+ the set.
+ @param set
+ the set to wrap in a synchronized set.
+ @return a synchronized set.
+ */
++ (id<JavaUtilSet>)synchronizedSetWithJavaUtilSet:(id<JavaUtilSet>)set;
+
+/*!
+ @brief Returns a wrapper on the specified sorted map which synchronizes all
+ access to the sorted map.
+ @param map
+ the sorted map to wrap in a synchronized sorted map.
+ @return a synchronized sorted map.
+ */
++ (id<JavaUtilSortedMap>)synchronizedSortedMapWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
+
+/*!
+ @brief Returns a wrapper on the specified sorted set which synchronizes all
+ access to the sorted set.
+ @param set
+ the sorted set to wrap in a synchronized sorted set.
+ @return a synchronized sorted set.
+ */
++ (id<JavaUtilSortedSet>)synchronizedSortedSetWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
+
+/*!
+ @brief Returns a wrapper on the specified collection which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the collection.
+ @param collection
+ the collection to wrap in an unmodifiable collection.
+ @return an unmodifiable collection.
+ */
++ (id<JavaUtilCollection>)unmodifiableCollectionWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+/*!
+ @brief Returns a wrapper on the specified list which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the list.
+ @param list
+ the list to wrap in an unmodifiable list.
+ @return an unmodifiable List.
+ */
++ (id<JavaUtilList>)unmodifiableListWithJavaUtilList:(id<JavaUtilList>)list;
+
+/*!
+ @brief Returns a wrapper on the specified map which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the map.
+ @param map
+ the map to wrap in an unmodifiable map.
+ @return a unmodifiable map.
+ */
++ (id<JavaUtilMap>)unmodifiableMapWithJavaUtilMap:(id<JavaUtilMap>)map;
+
+/*!
+ @brief Returns a wrapper on the specified set which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the set.
+ @param set
+ the set to wrap in an unmodifiable set.
+ @return a unmodifiable set
+ */
++ (id<JavaUtilSet>)unmodifiableSetWithJavaUtilSet:(id<JavaUtilSet>)set;
+
+/*!
+ @brief Returns a wrapper on the specified sorted map which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the sorted map.
+ @param map
+ the sorted map to wrap in an unmodifiable sorted map.
+ @return a unmodifiable sorted map
+ */
++ (id<JavaUtilSortedMap>)unmodifiableSortedMapWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
+
+/*!
+ @brief Returns a wrapper on the specified sorted set which throws an
+ <code>UnsupportedOperationException</code> whenever an attempt is made to
+ modify the sorted set.
+ @param set
+ the sorted set to wrap in an unmodifiable sorted set.
+ @return a unmodifiable sorted set.
+ */
++ (id<JavaUtilSortedSet>)unmodifiableSortedSetWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
+
+#pragma mark Package-Private
+
+/*!
+ @brief Checks if specified object is instance of specified class.
+ Used for a
+ dynamically typesafe view of the collections.
+ @param obj -
+ object is to be checked
+ @param type -
+ class of object that should be
+ @return specified object
+ */
 + (id)checkTypeWithId:(id)obj
          withIOSClass:(IOSClass *)type;
 
-+ (id<JavaUtilSet>)newSetFromMapWithJavaUtilMap:(id<JavaUtilMap>)map OBJC_METHOD_FAMILY_NONE;
-
-+ (id<JavaUtilQueue>)asLifoQueueWithJavaUtilDeque:(id<JavaUtilDeque>)deque;
-
-+ (jint)secondaryHashWithId:(id)key;
-
-+ (jint)secondaryIdentityHashWithId:(id)key;
-
-+ (jint)roundUpToPowerOfTwoWithInt:(jint)i;
-
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilCollections_initialized;
 J2OBJC_STATIC_INIT(JavaUtilCollections)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief An empty immutable instance of <code>List</code>.
+ */
+inline id<JavaUtilList> JavaUtilCollections_get_EMPTY_LIST();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaUtilList> JavaUtilCollections_EMPTY_LIST;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaUtilCollections, EMPTY_LIST, id<JavaUtilList>)
+
+/*!
+ @brief An empty immutable instance of <code>Set</code>.
+ */
+inline id<JavaUtilSet> JavaUtilCollections_get_EMPTY_SET();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaUtilSet> JavaUtilCollections_EMPTY_SET;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaUtilCollections, EMPTY_SET, id<JavaUtilSet>)
+
+/*!
+ @brief An empty immutable instance of <code>Map</code>.
+ */
+inline id<JavaUtilMap> JavaUtilCollections_get_EMPTY_MAP();
+/*! INTERNAL ONLY - Use accessor function from above. */
+FOUNDATION_EXPORT id<JavaUtilMap> JavaUtilCollections_EMPTY_MAP;
+J2OBJC_STATIC_FIELD_OBJ_FINAL(JavaUtilCollections, EMPTY_MAP, id<JavaUtilMap>)
 
 FOUNDATION_EXPORT jint JavaUtilCollections_binarySearchWithJavaUtilList_withId_(id<JavaUtilList> list, id object);
 
@@ -312,348 +926,23 @@ FOUNDATION_EXPORT jint JavaUtilCollections_secondaryIdentityHashWithId_(id key);
 
 FOUNDATION_EXPORT jint JavaUtilCollections_roundUpToPowerOfTwoWithInt_(jint i);
 
-FOUNDATION_EXPORT id<JavaUtilIterator> JavaUtilCollections_EMPTY_ITERATOR_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections, EMPTY_ITERATOR_, id<JavaUtilIterator>)
-
-FOUNDATION_EXPORT id<JavaUtilEnumeration> JavaUtilCollections_EMPTY_ENUMERATION_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections, EMPTY_ENUMERATION_, id<JavaUtilEnumeration>)
-
-FOUNDATION_EXPORT id<JavaUtilList> JavaUtilCollections_EMPTY_LIST_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections, EMPTY_LIST_, id<JavaUtilList>)
-
-FOUNDATION_EXPORT id<JavaUtilSet> JavaUtilCollections_EMPTY_SET_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections, EMPTY_SET_, id<JavaUtilSet>)
-
-FOUNDATION_EXPORT id<JavaUtilMap> JavaUtilCollections_EMPTY_MAP_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections, EMPTY_MAP_, id<JavaUtilMap>)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections)
 
-#define JavaUtilCollections_CopiesList_serialVersionUID 2739099268398711800LL
+#endif
 
-@interface JavaUtilCollections_CopiesList : JavaUtilAbstractList < JavaIoSerializable > {
-}
+#if !defined (JavaUtilCollections_SynchronizedCollection_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedCollection))
+#define JavaUtilCollections_SynchronizedCollection_
 
-- (instancetype)initWithInt:(jint)length
-                     withId:(id)object;
+#define RESTRICT_JavaUtilCollection 1
+#define INCLUDE_JavaUtilCollection 1
+#include "java/util/Collection.h"
 
-- (jboolean)containsWithId:(id)object;
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
-- (jint)size;
-
-- (id)getWithInt:(jint)location;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CopiesList)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CopiesList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CopiesList)
-
-#define JavaUtilCollections_EmptyList_serialVersionUID 8842843931221139166LL
-
-@interface JavaUtilCollections_EmptyList : JavaUtilAbstractList < JavaUtilRandomAccess, JavaIoSerializable > {
-}
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (id)getWithInt:(jint)location;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_EmptyList)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_EmptyList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_EmptyList)
-
-#define JavaUtilCollections_EmptySet_serialVersionUID 1582296315990362920LL
-
-@interface JavaUtilCollections_EmptySet : JavaUtilAbstractSet < JavaIoSerializable > {
-}
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (id<JavaUtilIterator>)iterator;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_EmptySet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_EmptySet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_EmptySet)
-
-#define JavaUtilCollections_EmptyMap_serialVersionUID 6428348081105594320LL
-
-@interface JavaUtilCollections_EmptyMap : JavaUtilAbstractMap < JavaIoSerializable > {
-}
-
-- (jboolean)containsKeyWithId:(id)key;
-
-- (jboolean)containsValueWithId:(id)value;
-
-- (id<JavaUtilSet>)entrySet;
-
-- (id)getWithId:(id)key;
-
-- (id<JavaUtilSet>)keySet;
-
-- (id<JavaUtilCollection>)values;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_EmptyMap)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_EmptyMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_EmptyMap)
-
-#define JavaUtilCollections_ReverseComparator_serialVersionUID 7207038068494060240LL
-
-@interface JavaUtilCollections_ReverseComparator : NSObject < JavaUtilComparator, JavaIoSerializable > {
-}
-
-- (jint)compareWithId:(id)o1
-               withId:(id)o2;
-
-@end
-
-FOUNDATION_EXPORT BOOL JavaUtilCollections_ReverseComparator_initialized;
-J2OBJC_STATIC_INIT(JavaUtilCollections_ReverseComparator)
-
-CF_EXTERN_C_BEGIN
-
-FOUNDATION_EXPORT JavaUtilCollections_ReverseComparator *JavaUtilCollections_ReverseComparator_INSTANCE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_ReverseComparator, INSTANCE_, JavaUtilCollections_ReverseComparator *)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_ReverseComparator, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_ReverseComparator)
-
-#define JavaUtilCollections_ReverseComparator2_serialVersionUID 4374092139857LL
-
-@interface JavaUtilCollections_ReverseComparator2 : NSObject < JavaUtilComparator, JavaIoSerializable > {
-}
-
-- (instancetype)initWithJavaUtilComparator:(id<JavaUtilComparator>)comparator;
-
-- (jint)compareWithId:(id)o1
-               withId:(id)o2;
-
-- (jboolean)isEqual:(id)o;
-
-- (NSUInteger)hash;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_ReverseComparator2)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_ReverseComparator2, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_ReverseComparator2)
-
-#define JavaUtilCollections_SingletonSet_serialVersionUID 3193687207550431679LL
-
-@interface JavaUtilCollections_SingletonSet : JavaUtilAbstractSet < JavaIoSerializable > {
- @public
-  id element_;
-}
-
-- (instancetype)initWithId:(id)object;
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (id<JavaUtilIterator>)iterator;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonSet)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_SingletonSet, element_, id)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SingletonSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonSet)
-
-@interface JavaUtilCollections_SingletonSet_$1 : NSObject < JavaUtilIterator > {
- @public
-  jboolean hasNext__;
-}
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilCollections_SingletonSet:(JavaUtilCollections_SingletonSet *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonSet_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonSet_$1)
-
-#define JavaUtilCollections_SingletonList_serialVersionUID 3093736618740652951LL
-
-@interface JavaUtilCollections_SingletonList : JavaUtilAbstractList < JavaIoSerializable > {
- @public
-  id element_;
-}
-
-- (instancetype)initWithId:(id)object;
-
-- (jboolean)containsWithId:(id)object;
-
-- (id)getWithInt:(jint)location;
-
-- (jint)size;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonList)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_SingletonList, element_, id)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SingletonList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonList)
-
-#define JavaUtilCollections_SingletonMap_serialVersionUID -6979724477215052911LL
-
-@interface JavaUtilCollections_SingletonMap : JavaUtilAbstractMap < JavaIoSerializable > {
- @public
-  id k_;
-  id v_;
-}
-
-- (instancetype)initWithId:(id)key
-                    withId:(id)value;
-
-- (jboolean)containsKeyWithId:(id)key;
-
-- (jboolean)containsValueWithId:(id)value;
-
-- (id)getWithId:(id)key;
-
-- (jint)size;
-
-- (id<JavaUtilSet>)entrySet;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonMap)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_SingletonMap, k_, id)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_SingletonMap, v_, id)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SingletonMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap)
-
-@interface JavaUtilCollections_SingletonMap_$1 : JavaUtilAbstractSet {
-}
-
-- (jboolean)containsWithId:(id)object;
-
-- (jint)size;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (instancetype)initWithJavaUtilCollections_SingletonMap:(JavaUtilCollections_SingletonMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonMap_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap_$1)
-
-@interface JavaUtilCollections_SingletonMap_$1_$1 : NSObject < JavaUtilIterator > {
- @public
-  jboolean hasNext__;
-}
-
-- (jboolean)hasNext;
-
-- (id<JavaUtilMap_Entry>)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilCollections_SingletonMap_$1:(JavaUtilCollections_SingletonMap_$1 *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonMap_$1_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap_$1_$1)
-
-@interface JavaUtilCollections_SingletonMap_$1_$1_$1 : JavaUtilMapEntry {
-}
-
-- (id)setValueWithId:(id)value;
-
-- (instancetype)initWithId:(id)arg$0
-                    withId:(id)arg$1;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SingletonMap_$1_$1_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap_$1_$1_$1)
-
-#define JavaUtilCollections_SynchronizedCollection_serialVersionUID 3053995032091335093LL
+@class IOSObjectArray;
+@protocol JavaUtilIterator;
 
 @interface JavaUtilCollections_SynchronizedCollection : NSObject < JavaUtilCollection, JavaIoSerializable > {
  @public
@@ -661,10 +950,7 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap_$1_$1_$1)
   id mutex_;
 }
 
-- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection
-                                    withId:(id)mutex;
+#pragma mark Public
 
 - (jboolean)addWithId:(id)object;
 
@@ -690,10 +976,16 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SingletonMap_$1_$1_$1)
 
 - (IOSObjectArray *)toArray;
 
-- (NSString *)description;
-
 - (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)array;
 
+- (NSString *)description;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
+
+- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection
+                                    withId:(id)mutex;
 
 @end
 
@@ -702,24 +994,38 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedCollection)
 J2OBJC_FIELD_SETTER(JavaUtilCollections_SynchronizedCollection, c_, id<JavaUtilCollection>)
 J2OBJC_FIELD_SETTER(JavaUtilCollections_SynchronizedCollection, mutex_, id)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_(JavaUtilCollections_SynchronizedCollection *self, id<JavaUtilCollection> collection);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedCollection, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedCollection *new_JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_(id<JavaUtilCollection> collection) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedCollection *create_JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_(id<JavaUtilCollection> collection);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_withId_(JavaUtilCollections_SynchronizedCollection *self, id<JavaUtilCollection> collection, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedCollection *new_JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_withId_(id<JavaUtilCollection> collection, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedCollection *create_JavaUtilCollections_SynchronizedCollection_initWithJavaUtilCollection_withId_(id<JavaUtilCollection> collection, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedCollection)
 
-#define JavaUtilCollections_SynchronizedList_serialVersionUID -7754090372962971524LL
+#endif
+
+#if !defined (JavaUtilCollections_SynchronizedList_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedList))
+#define JavaUtilCollections_SynchronizedList_
+
+#define RESTRICT_JavaUtilList 1
+#define INCLUDE_JavaUtilList 1
+#include "java/util/List.h"
+
+@protocol JavaUtilCollection;
+@protocol JavaUtilListIterator;
 
 @interface JavaUtilCollections_SynchronizedList : JavaUtilCollections_SynchronizedCollection < JavaUtilList > {
  @public
   id<JavaUtilList> list_;
 }
 
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l;
-
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l
-                              withId:(id)mutex;
+#pragma mark Public
 
 - (void)addWithInt:(jint)location
             withId:(id)object;
@@ -749,6 +1055,12 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedCollection)
 - (id<JavaUtilList>)subListWithInt:(jint)start
                            withInt:(jint)end;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l;
+
+- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l
+                              withId:(id)mutex;
 
 @end
 
@@ -756,49 +1068,85 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedList)
 
 J2OBJC_FIELD_SETTER(JavaUtilCollections_SynchronizedList, list_, id<JavaUtilList>)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedList_initWithJavaUtilList_(JavaUtilCollections_SynchronizedList *self, id<JavaUtilList> l);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedList, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedList *new_JavaUtilCollections_SynchronizedList_initWithJavaUtilList_(id<JavaUtilList> l) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedList *create_JavaUtilCollections_SynchronizedList_initWithJavaUtilList_(id<JavaUtilList> l);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedList_initWithJavaUtilList_withId_(JavaUtilCollections_SynchronizedList *self, id<JavaUtilList> l, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedList *new_JavaUtilCollections_SynchronizedList_initWithJavaUtilList_withId_(id<JavaUtilList> l, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedList *create_JavaUtilCollections_SynchronizedList_initWithJavaUtilList_withId_(id<JavaUtilList> l, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedList)
 
-#define JavaUtilCollections_SynchronizedRandomAccessList_serialVersionUID 1530674583602358482LL
+#endif
 
-@interface JavaUtilCollections_SynchronizedRandomAccessList : JavaUtilCollections_SynchronizedList < JavaUtilRandomAccess > {
-}
+#if !defined (JavaUtilCollections_SynchronizedRandomAccessList_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedRandomAccessList))
+#define JavaUtilCollections_SynchronizedRandomAccessList_
+
+#define RESTRICT_JavaUtilRandomAccess 1
+#define INCLUDE_JavaUtilRandomAccess 1
+#include "java/util/RandomAccess.h"
+
+@protocol JavaUtilList;
+
+@interface JavaUtilCollections_SynchronizedRandomAccessList : JavaUtilCollections_SynchronizedList < JavaUtilRandomAccess >
+
+#pragma mark Public
+
+- (id<JavaUtilList>)subListWithInt:(jint)start
+                           withInt:(jint)end;
+
+#pragma mark Package-Private
 
 - (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l;
 
 - (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l
                               withId:(id)mutex;
 
-- (id<JavaUtilList>)subListWithInt:(jint)start
-                           withInt:(jint)end;
-
-
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedRandomAccessList)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_(JavaUtilCollections_SynchronizedRandomAccessList *self, id<JavaUtilList> l);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedRandomAccessList, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedRandomAccessList *new_JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_(id<JavaUtilList> l) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedRandomAccessList *create_JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_(id<JavaUtilList> l);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_withId_(JavaUtilCollections_SynchronizedRandomAccessList *self, id<JavaUtilList> l, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedRandomAccessList *new_JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_withId_(id<JavaUtilList> l, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedRandomAccessList *create_JavaUtilCollections_SynchronizedRandomAccessList_initWithJavaUtilList_withId_(id<JavaUtilList> l, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedRandomAccessList)
 
-#define JavaUtilCollections_SynchronizedMap_serialVersionUID 1978198479659022715LL
+#endif
+
+#if !defined (JavaUtilCollections_SynchronizedMap_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedMap))
+#define JavaUtilCollections_SynchronizedMap_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap 1
+#include "java/util/Map.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
+
+@protocol JavaUtilCollection;
+@protocol JavaUtilSet;
 
 @interface JavaUtilCollections_SynchronizedMap : NSObject < JavaUtilMap, JavaIoSerializable > {
  @public
   id mutex_;
 }
 
-- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map
-                             withId:(id)mutex;
+#pragma mark Public
 
 - (void)clear;
 
@@ -827,9 +1175,16 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedRandomAccessList)
 
 - (jint)size;
 
+- (NSString *)description;
+
 - (id<JavaUtilCollection>)values;
 
-- (NSString *)description;
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
+
+- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map
+                             withId:(id)mutex;
 
 @end
 
@@ -837,22 +1192,76 @@ J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedMap)
 
 J2OBJC_FIELD_SETTER(JavaUtilCollections_SynchronizedMap, mutex_, id)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_(JavaUtilCollections_SynchronizedMap *self, id<JavaUtilMap> map);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedMap *new_JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_(id<JavaUtilMap> map) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedMap *create_JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_(id<JavaUtilMap> map);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_withId_(JavaUtilCollections_SynchronizedMap *self, id<JavaUtilMap> map, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedMap *new_JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_withId_(id<JavaUtilMap> map, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedMap *create_JavaUtilCollections_SynchronizedMap_initWithJavaUtilMap_withId_(id<JavaUtilMap> map, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedMap)
 
-#define JavaUtilCollections_SynchronizedSortedMap_serialVersionUID -8798146769416483793LL
+#endif
 
-@interface JavaUtilCollections_SynchronizedSortedMap : JavaUtilCollections_SynchronizedMap < JavaUtilSortedMap > {
-}
+#if !defined (JavaUtilCollections_SynchronizedSet_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedSet))
+#define JavaUtilCollections_SynchronizedSet_
 
-- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
+#define RESTRICT_JavaUtilSet 1
+#define INCLUDE_JavaUtilSet 1
+#include "java/util/Set.h"
 
-- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map
-                                   withId:(id)mutex;
+@interface JavaUtilCollections_SynchronizedSet : JavaUtilCollections_SynchronizedCollection < JavaUtilSet >
+
+#pragma mark Public
+
+- (jboolean)isEqual:(id)object;
+
+- (NSUInteger)hash;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set;
+
+- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set
+                             withId:(id)mutex;
+
+@end
+
+J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedSet)
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_(JavaUtilCollections_SynchronizedSet *self, id<JavaUtilSet> set);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSet *new_JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_(id<JavaUtilSet> set) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSet *create_JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_(id<JavaUtilSet> set);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_withId_(JavaUtilCollections_SynchronizedSet *self, id<JavaUtilSet> set, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSet *new_JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_withId_(id<JavaUtilSet> set, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSet *create_JavaUtilCollections_SynchronizedSet_initWithJavaUtilSet_withId_(id<JavaUtilSet> set, id mutex);
+
+J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedSet)
+
+#endif
+
+#if !defined (JavaUtilCollections_SynchronizedSortedMap_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedSortedMap))
+#define JavaUtilCollections_SynchronizedSortedMap_
+
+#define RESTRICT_JavaUtilSortedMap 1
+#define INCLUDE_JavaUtilSortedMap 1
+#include "java/util/SortedMap.h"
+
+@protocol JavaUtilComparator;
+
+@interface JavaUtilCollections_SynchronizedSortedMap : JavaUtilCollections_SynchronizedMap < JavaUtilSortedMap >
+
+#pragma mark Public
 
 - (id<JavaUtilComparator>)comparator;
 
@@ -867,52 +1276,45 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedMap)
 
 - (id<JavaUtilSortedMap>)tailMapWithId:(id)startKey;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
+
+- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map
+                                   withId:(id)mutex;
+
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedSortedMap)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_(JavaUtilCollections_SynchronizedSortedMap *self, id<JavaUtilSortedMap> map);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedSortedMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedMap *new_JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_(id<JavaUtilSortedMap> map) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedMap *create_JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_(id<JavaUtilSortedMap> map);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_withId_(JavaUtilCollections_SynchronizedSortedMap *self, id<JavaUtilSortedMap> map, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedMap *new_JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_withId_(id<JavaUtilSortedMap> map, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedMap *create_JavaUtilCollections_SynchronizedSortedMap_initWithJavaUtilSortedMap_withId_(id<JavaUtilSortedMap> map, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedSortedMap)
 
-#define JavaUtilCollections_SynchronizedSet_serialVersionUID 487447009682186044LL
+#endif
 
-@interface JavaUtilCollections_SynchronizedSet : JavaUtilCollections_SynchronizedCollection < JavaUtilSet > {
-}
+#if !defined (JavaUtilCollections_SynchronizedSortedSet_) && (INCLUDE_ALL_JavaUtilCollections || defined(INCLUDE_JavaUtilCollections_SynchronizedSortedSet))
+#define JavaUtilCollections_SynchronizedSortedSet_
 
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set;
+#define RESTRICT_JavaUtilSortedSet 1
+#define INCLUDE_JavaUtilSortedSet 1
+#include "java/util/SortedSet.h"
 
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set
-                             withId:(id)mutex;
+@protocol JavaUtilComparator;
 
-- (jboolean)isEqual:(id)object;
+@interface JavaUtilCollections_SynchronizedSortedSet : JavaUtilCollections_SynchronizedSet < JavaUtilSortedSet >
 
-- (NSUInteger)hash;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedSet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedSet)
-
-#define JavaUtilCollections_SynchronizedSortedSet_serialVersionUID 8695801310862127406LL
-
-@interface JavaUtilCollections_SynchronizedSortedSet : JavaUtilCollections_SynchronizedSet < JavaUtilSortedSet > {
-}
-
-- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
-
-- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set
-                                   withId:(id)mutex;
+#pragma mark Public
 
 - (id<JavaUtilComparator>)comparator;
 
@@ -927,995 +1329,33 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedSet)
 
 - (id<JavaUtilSortedSet>)tailSetWithId:(id)start;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
+
+- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set
+                                   withId:(id)mutex;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SynchronizedSortedSet)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_(JavaUtilCollections_SynchronizedSortedSet *self, id<JavaUtilSortedSet> set);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SynchronizedSortedSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedSet *new_JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_(id<JavaUtilSortedSet> set) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedSet *create_JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_(id<JavaUtilSortedSet> set);
+
+FOUNDATION_EXPORT void JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_withId_(JavaUtilCollections_SynchronizedSortedSet *self, id<JavaUtilSortedSet> set, id mutex);
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedSet *new_JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_withId_(id<JavaUtilSortedSet> set, id mutex) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilCollections_SynchronizedSortedSet *create_JavaUtilCollections_SynchronizedSortedSet_initWithJavaUtilSortedSet_withId_(id<JavaUtilSortedSet> set, id mutex);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SynchronizedSortedSet)
 
-@interface JavaUtilCollections_UnmodifiableCollection_$1 : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilIterator> iterator_;
-}
+#endif
 
-- (jboolean)hasNext;
 
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilCollections_UnmodifiableCollection:(JavaUtilCollections_UnmodifiableCollection *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableCollection_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableCollection_$1, iterator_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableCollection_$1)
-
-#define JavaUtilCollections_UnmodifiableCollection_serialVersionUID 1820017752578914078LL
-
-@interface JavaUtilCollections_UnmodifiableCollection : NSObject < JavaUtilCollection, JavaIoSerializable > {
- @public
-  id<JavaUtilCollection> c_;
-}
-
-- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)addWithId:(id)object;
-
-- (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (void)clear;
-
-- (jboolean)containsWithId:(id)object;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEmpty;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jboolean)removeWithId:(id)object;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jint)size;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)array;
-
-- (NSString *)description;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableCollection)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableCollection, c_, id<JavaUtilCollection>)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableCollection, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableCollection)
-
-#define JavaUtilCollections_UnmodifiableList_serialVersionUID -283967356065247728LL
-
-@interface JavaUtilCollections_UnmodifiableList : JavaUtilCollections_UnmodifiableCollection < JavaUtilList > {
- @public
-  id<JavaUtilList> list_;
-}
-
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l;
-
-- (void)addWithInt:(jint)location
-            withId:(id)object;
-
-- (jboolean)addAllWithInt:(jint)location
-   withJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEqual:(id)object;
-
-- (id)getWithInt:(jint)location;
-
-- (NSUInteger)hash;
-
-- (jint)indexOfWithId:(id)object;
-
-- (jint)lastIndexOfWithId:(id)object;
-
-- (id<JavaUtilListIterator>)listIterator;
-
-- (id<JavaUtilListIterator>)listIteratorWithInt:(jint)location;
-
-- (id)removeWithInt:(jint)location;
-
-- (id)setWithInt:(jint)location
-          withId:(id)object;
-
-- (id<JavaUtilList>)subListWithInt:(jint)start
-                           withInt:(jint)end;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableList)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableList, list_, id<JavaUtilList>)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableList)
-
-#define JavaUtilCollections_UnmodifiableRandomAccessList_serialVersionUID -2542308836966382001LL
-
-@interface JavaUtilCollections_UnmodifiableRandomAccessList : JavaUtilCollections_UnmodifiableList < JavaUtilRandomAccess > {
-}
-
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l;
-
-- (id<JavaUtilList>)subListWithInt:(jint)start
-                           withInt:(jint)end;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableRandomAccessList)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableRandomAccessList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableRandomAccessList)
-
-@interface JavaUtilCollections_UnmodifiableList_$1 : NSObject < JavaUtilListIterator > {
- @public
-  id<JavaUtilListIterator> iterator_;
-}
-
-- (void)addWithId:(id)object;
-
-- (jboolean)hasNext;
-
-- (jboolean)hasPrevious;
-
-- (id)next;
-
-- (jint)nextIndex;
-
-- (id)previous;
-
-- (jint)previousIndex;
-
-- (void)remove;
-
-- (void)setWithId:(id)object;
-
-- (instancetype)initWithJavaUtilCollections_UnmodifiableList:(JavaUtilCollections_UnmodifiableList *)outer$
-                                                     withInt:(jint)capture$0;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableList_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableList_$1, iterator_, id<JavaUtilListIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableList_$1)
-
-#define JavaUtilCollections_UnmodifiableSet_serialVersionUID -9215047833775013803LL
-
-@interface JavaUtilCollections_UnmodifiableSet : JavaUtilCollections_UnmodifiableCollection < JavaUtilSet > {
-}
-
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set;
-
-- (jboolean)isEqual:(id)object;
-
-- (NSUInteger)hash;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableSet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableSet)
-
-#define JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_serialVersionUID 7854390611657943733LL
-
-@interface JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet : JavaUtilCollections_UnmodifiableSet {
-}
-
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)set;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)contents;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet)
-
-@interface JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_UnmodifiableMapEntry : NSObject < JavaUtilMap_Entry > {
- @public
-  id<JavaUtilMap_Entry> mapEntry_;
-}
-
-- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)entry_;
-
-- (jboolean)isEqual:(id)object;
-
-- (id)getKey;
-
-- (id)getValue;
-
-- (NSUInteger)hash;
-
-- (id)setValueWithId:(id)object;
-
-- (NSString *)description;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_UnmodifiableMapEntry)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_UnmodifiableMapEntry, mapEntry_, id<JavaUtilMap_Entry>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_UnmodifiableMapEntry)
-
-@interface JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_$1 : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilIterator> iterator_;
-}
-
-- (jboolean)hasNext;
-
-- (id<JavaUtilMap_Entry>)next;
-
-- (void)remove;
-
-- (instancetype)initWithJavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet:(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_$1)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_$1, iterator_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableMap_UnmodifiableEntrySet_$1)
-
-#define JavaUtilCollections_UnmodifiableMap_serialVersionUID -1034234728574286014LL
-
-@interface JavaUtilCollections_UnmodifiableMap : NSObject < JavaUtilMap, JavaIoSerializable > {
-}
-
-- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (void)clear;
-
-- (jboolean)containsKeyWithId:(id)key;
-
-- (jboolean)containsValueWithId:(id)value;
-
-- (id<JavaUtilSet>)entrySet;
-
-- (jboolean)isEqual:(id)object;
-
-- (id)getWithId:(id)key;
-
-- (NSUInteger)hash;
-
-- (jboolean)isEmpty;
-
-- (id<JavaUtilSet>)keySet;
-
-- (id)putWithId:(id)key
-         withId:(id)value;
-
-- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (id)removeWithId:(id)key;
-
-- (jint)size;
-
-- (id<JavaUtilCollection>)values;
-
-- (NSString *)description;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableMap)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableMap)
-
-#define JavaUtilCollections_UnmodifiableSortedMap_serialVersionUID -8806743815996713206LL
-
-@interface JavaUtilCollections_UnmodifiableSortedMap : JavaUtilCollections_UnmodifiableMap < JavaUtilSortedMap > {
-}
-
-- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)map;
-
-- (id<JavaUtilComparator>)comparator;
-
-- (id)firstKey;
-
-- (id<JavaUtilSortedMap>)headMapWithId:(id)before;
-
-- (id)lastKey;
-
-- (id<JavaUtilSortedMap>)subMapWithId:(id)start
-                               withId:(id)end;
-
-- (id<JavaUtilSortedMap>)tailMapWithId:(id)after;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableSortedMap)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableSortedMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableSortedMap)
-
-#define JavaUtilCollections_UnmodifiableSortedSet_serialVersionUID -4929149591599911165LL
-
-@interface JavaUtilCollections_UnmodifiableSortedSet : JavaUtilCollections_UnmodifiableSet < JavaUtilSortedSet > {
-}
-
-- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)set;
-
-- (id<JavaUtilComparator>)comparator;
-
-- (id)first;
-
-- (id<JavaUtilSortedSet>)headSetWithId:(id)before;
-
-- (id)last;
-
-- (id<JavaUtilSortedSet>)subSetWithId:(id)start
-                               withId:(id)end;
-
-- (id<JavaUtilSortedSet>)tailSetWithId:(id)after;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_UnmodifiableSortedSet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_UnmodifiableSortedSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_UnmodifiableSortedSet)
-
-#define JavaUtilCollections_SetFromMap_serialVersionUID 2454657854757543876LL
-
-@interface JavaUtilCollections_SetFromMap : JavaUtilAbstractSet < JavaIoSerializable > {
-}
-
-- (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (jboolean)isEqual:(id)object;
-
-- (NSUInteger)hash;
-
-- (jboolean)addWithId:(id)object;
-
-- (void)clear;
-
-- (NSString *)description;
-
-- (jboolean)containsWithId:(id)object;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEmpty;
-
-- (jboolean)removeWithId:(id)object;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)contents;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_SetFromMap)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_SetFromMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_SetFromMap)
-
-#define JavaUtilCollections_AsLIFOQueue_serialVersionUID 1802017725587941708LL
-
-@interface JavaUtilCollections_AsLIFOQueue : JavaUtilAbstractQueue < JavaIoSerializable > {
-}
-
-- (instancetype)initWithJavaUtilDeque:(id<JavaUtilDeque>)deque;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (jboolean)offerWithId:(id)o;
-
-- (id)peek;
-
-- (id)poll;
-
-- (jboolean)addWithId:(id)o;
-
-- (void)clear;
-
-- (id)element;
-
-- (id)remove;
-
-- (jboolean)containsWithId:(id)object;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)isEmpty;
-
-- (jboolean)removeWithId:(id)object;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)contents;
-
-- (NSString *)description;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_AsLIFOQueue)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_AsLIFOQueue, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_AsLIFOQueue)
-
-@interface JavaUtilCollections_CheckedListIterator : NSObject < JavaUtilListIterator > {
-}
-
-- (instancetype)initWithJavaUtilListIterator:(id<JavaUtilListIterator>)i
-                                withIOSClass:(IOSClass *)type;
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-- (jboolean)hasPrevious;
-
-- (id)previous;
-
-- (jint)nextIndex;
-
-- (jint)previousIndex;
-
-- (void)setWithId:(id)obj;
-
-- (void)addWithId:(id)obj;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedListIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedListIterator)
-
-#define JavaUtilCollections_CheckedCollection_serialVersionUID 1578914078182001775LL
-
-@interface JavaUtilCollections_CheckedCollection : NSObject < JavaUtilCollection, JavaIoSerializable > {
- @public
-  id<JavaUtilCollection> c_;
-  IOSClass *type_;
-}
-
-- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)c
-                              withIOSClass:(IOSClass *)type;
-
-- (jint)size;
-
-- (jboolean)isEmpty;
-
-- (jboolean)containsWithId:(id)obj;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)arr;
-
-- (jboolean)addWithId:(id)obj;
-
-- (jboolean)removeWithId:(id)obj;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)c1;
-
-- (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)c1;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)c1;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)c1;
-
-- (void)clear;
-
-- (NSString *)description;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedCollection)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedCollection, c_, id<JavaUtilCollection>)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedCollection, type_, IOSClass *)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedCollection, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedCollection)
-
-#define JavaUtilCollections_CheckedList_serialVersionUID 65247728283967356LL
-
-@interface JavaUtilCollections_CheckedList : JavaUtilCollections_CheckedCollection < JavaUtilList > {
- @public
-  id<JavaUtilList> l_;
-}
-
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l
-                        withIOSClass:(IOSClass *)type;
-
-- (jboolean)addAllWithInt:(jint)index
-   withJavaUtilCollection:(id<JavaUtilCollection>)c1;
-
-- (id)getWithInt:(jint)index;
-
-- (id)setWithInt:(jint)index
-          withId:(id)obj;
-
-- (void)addWithInt:(jint)index
-            withId:(id)obj;
-
-- (id)removeWithInt:(jint)index;
-
-- (jint)indexOfWithId:(id)obj;
-
-- (jint)lastIndexOfWithId:(id)obj;
-
-- (id<JavaUtilListIterator>)listIterator;
-
-- (id<JavaUtilListIterator>)listIteratorWithInt:(jint)index;
-
-- (id<JavaUtilList>)subListWithInt:(jint)fromIndex
-                           withInt:(jint)toIndex;
-
-- (jboolean)isEqual:(id)obj;
-
-- (NSUInteger)hash;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedList)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedList, l_, id<JavaUtilList>)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedList)
-
-#define JavaUtilCollections_CheckedRandomAccessList_serialVersionUID 1638200125423088369LL
-
-@interface JavaUtilCollections_CheckedRandomAccessList : JavaUtilCollections_CheckedList < JavaUtilRandomAccess > {
-}
-
-- (instancetype)initWithJavaUtilList:(id<JavaUtilList>)l
-                        withIOSClass:(IOSClass *)type;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedRandomAccessList)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedRandomAccessList, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedRandomAccessList)
-
-@interface JavaUtilCollections_CheckedMap_CheckedEntry : NSObject < JavaUtilMap_Entry > {
- @public
-  id<JavaUtilMap_Entry> e_;
-  IOSClass *valueType_;
-}
-
-- (instancetype)initWithJavaUtilMap_Entry:(id<JavaUtilMap_Entry>)e
-                             withIOSClass:(IOSClass *)valueType;
-
-- (id)getKey;
-
-- (id)getValue;
-
-- (id)setValueWithId:(id)obj;
-
-- (jboolean)isEqual:(id)obj;
-
-- (NSUInteger)hash;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedMap_CheckedEntry)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntry, e_, id<JavaUtilMap_Entry>)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntry, valueType_, IOSClass *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedMap_CheckedEntry)
-
-@interface JavaUtilCollections_CheckedMap_CheckedEntrySet : NSObject < JavaUtilSet > {
- @public
-  id<JavaUtilSet> s_;
-  IOSClass *valueType_;
-}
-
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)s
-                       withIOSClass:(IOSClass *)valueType;
-
-- (id<JavaUtilIterator>)iterator;
-
-- (IOSObjectArray *)toArray;
-
-- (IOSObjectArray *)toArrayWithNSObjectArray:(IOSObjectArray *)array;
-
-- (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)c;
-
-- (jboolean)removeAllWithJavaUtilCollection:(id<JavaUtilCollection>)c;
-
-- (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)c;
-
-- (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)c;
-
-- (jboolean)removeWithId:(id)o;
-
-- (jboolean)containsWithId:(id)o;
-
-- (jboolean)addWithId:(id<JavaUtilMap_Entry>)o;
-
-- (jboolean)isEmpty;
-
-- (void)clear;
-
-- (jint)size;
-
-- (NSUInteger)hash;
-
-- (jboolean)isEqual:(id)object;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedMap_CheckedEntrySet)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntrySet, s_, id<JavaUtilSet>)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntrySet, valueType_, IOSClass *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedMap_CheckedEntrySet)
-
-@interface JavaUtilCollections_CheckedMap_CheckedEntrySet_CheckedEntryIterator : NSObject < JavaUtilIterator > {
- @public
-  id<JavaUtilIterator> i_;
-  IOSClass *valueType_;
-}
-
-- (instancetype)initWithJavaUtilIterator:(id<JavaUtilIterator>)i
-                            withIOSClass:(IOSClass *)valueType;
-
-- (jboolean)hasNext;
-
-- (void)remove;
-
-- (id<JavaUtilMap_Entry>)next;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedMap_CheckedEntrySet_CheckedEntryIterator)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntrySet_CheckedEntryIterator, i_, id<JavaUtilIterator>)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap_CheckedEntrySet_CheckedEntryIterator, valueType_, IOSClass *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedMap_CheckedEntrySet_CheckedEntryIterator)
-
-#define JavaUtilCollections_CheckedSet_serialVersionUID 4694047833775013803LL
-
-@interface JavaUtilCollections_CheckedSet : JavaUtilCollections_CheckedCollection < JavaUtilSet > {
-}
-
-- (instancetype)initWithJavaUtilSet:(id<JavaUtilSet>)s
-                       withIOSClass:(IOSClass *)type;
-
-- (jboolean)isEqual:(id)obj;
-
-- (NSUInteger)hash;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedSet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedSet)
-
-#define JavaUtilCollections_CheckedSortedSet_serialVersionUID 1599911165492914959LL
-
-@interface JavaUtilCollections_CheckedSortedSet : JavaUtilCollections_CheckedSet < JavaUtilSortedSet > {
-}
-
-- (instancetype)initWithJavaUtilSortedSet:(id<JavaUtilSortedSet>)s
-                             withIOSClass:(IOSClass *)type;
-
-- (id<JavaUtilComparator>)comparator;
-
-- (id<JavaUtilSortedSet>)subSetWithId:(id)fromElement
-                               withId:(id)toElement;
-
-- (id<JavaUtilSortedSet>)headSetWithId:(id)toElement;
-
-- (id<JavaUtilSortedSet>)tailSetWithId:(id)fromElement;
-
-- (id)first;
-
-- (id)last;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedSortedSet)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedSortedSet, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedSortedSet)
-
-#define JavaUtilCollections_CheckedMap_serialVersionUID 5742860141034234728LL
-
-@interface JavaUtilCollections_CheckedMap : NSObject < JavaUtilMap, JavaIoSerializable > {
- @public
-  id<JavaUtilMap> m_;
-  IOSClass *keyType_;
-  IOSClass *valueType_;
-}
-
-- (jint)size;
-
-- (jboolean)isEmpty;
-
-- (jboolean)containsKeyWithId:(id)key;
-
-- (jboolean)containsValueWithId:(id)value;
-
-- (id)getWithId:(id)key;
-
-- (id)putWithId:(id)key
-         withId:(id)value;
-
-- (id)removeWithId:(id)key;
-
-- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
-
-- (void)clear;
-
-- (id<JavaUtilSet>)keySet;
-
-- (id<JavaUtilCollection>)values;
-
-- (id<JavaUtilSet>)entrySet;
-
-- (jboolean)isEqual:(id)obj;
-
-- (NSUInteger)hash;
-
-- (NSString *)description;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedMap)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap, m_, id<JavaUtilMap>)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap, keyType_, IOSClass *)
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedMap, valueType_, IOSClass *)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedMap)
-
-#define JavaUtilCollections_CheckedSortedMap_serialVersionUID 1599671320688067438LL
-
-@interface JavaUtilCollections_CheckedSortedMap : JavaUtilCollections_CheckedMap < JavaUtilSortedMap > {
- @public
-  id<JavaUtilSortedMap> sm_;
-}
-
-- (instancetype)initWithJavaUtilSortedMap:(id<JavaUtilSortedMap>)m
-                             withIOSClass:(IOSClass *)keyType
-                             withIOSClass:(IOSClass *)valueType;
-
-- (id<JavaUtilComparator>)comparator;
-
-- (id<JavaUtilSortedMap>)subMapWithId:(id)fromKey
-                               withId:(id)toKey;
-
-- (id<JavaUtilSortedMap>)headMapWithId:(id)toKey;
-
-- (id<JavaUtilSortedMap>)tailMapWithId:(id)fromKey;
-
-- (id)firstKey;
-
-- (id)lastKey;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_CheckedSortedMap)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_CheckedSortedMap, sm_, id<JavaUtilSortedMap>)
-
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilCollections_CheckedSortedMap, serialVersionUID, jlong)
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_CheckedSortedMap)
-
-@interface JavaUtilCollections_$1 : NSObject < JavaUtilIterator > {
-}
-
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_$1)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_$1)
-
-@interface JavaUtilCollections_$2 : NSObject < JavaUtilEnumeration > {
-}
-
-- (jboolean)hasMoreElements;
-
-- (id)nextElement;
-
-- (instancetype)init;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_$2)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_$2)
-
-@interface JavaUtilCollections_$3 : NSObject < JavaUtilEnumeration > {
- @public
-  id<JavaUtilIterator> it_;
-}
-
-- (jboolean)hasMoreElements;
-
-- (id)nextElement;
-
-- (instancetype)initWithJavaUtilCollection:(id<JavaUtilCollection>)capture$0;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilCollections_$3)
-
-J2OBJC_FIELD_SETTER(JavaUtilCollections_$3, it_, id<JavaUtilIterator>)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilCollections_$3)
-
-#endif // _JavaUtilCollections_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilCollections")

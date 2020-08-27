@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/AsynchronousCloseException.java
 //
 
-#ifndef _JavaNioChannelsAsynchronousCloseException_H_
-#define _JavaNioChannelsAsynchronousCloseException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsAsynchronousCloseException")
+#ifdef RESTRICT_JavaNioChannelsAsynchronousCloseException
+#define INCLUDE_ALL_JavaNioChannelsAsynchronousCloseException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsAsynchronousCloseException 1
+#endif
+#undef RESTRICT_JavaNioChannelsAsynchronousCloseException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsAsynchronousCloseException_) && (INCLUDE_ALL_JavaNioChannelsAsynchronousCloseException || defined(INCLUDE_JavaNioChannelsAsynchronousCloseException))
+#define JavaNioChannelsAsynchronousCloseException_
+
+#define RESTRICT_JavaNioChannelsClosedChannelException 1
+#define INCLUDE_JavaNioChannelsClosedChannelException 1
 #include "java/nio/channels/ClosedChannelException.h"
 
-#define JavaNioChannelsAsynchronousCloseException_serialVersionUID 6891178312432313966LL
+/*!
+ @brief An <code>AsynchronousCloseException</code> is thrown when the underlying channel
+ for an I/O operation is closed by another thread.
+ */
+@interface JavaNioChannelsAsynchronousCloseException : JavaNioChannelsClosedChannelException
 
-@interface JavaNioChannelsAsynchronousCloseException : JavaNioChannelsClosedChannelException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>AsynchronousCloseException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsAsynchronousCloseException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsAsynchronousCloseException_init(JavaNioChannelsAsynchronousCloseException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsAsynchronousCloseException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsAsynchronousCloseException *new_JavaNioChannelsAsynchronousCloseException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsAsynchronousCloseException *create_JavaNioChannelsAsynchronousCloseException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsAsynchronousCloseException)
 
-#endif // _JavaNioChannelsAsynchronousCloseException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsAsynchronousCloseException")

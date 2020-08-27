@@ -30,8 +30,10 @@ package org.oss.pdfreporter.engine.util;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.ResourceBundle;
+
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
+import org.oss.pdfreporter.text.bundle.TextBundle;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -40,7 +42,7 @@ import java.util.ResourceBundle;
 public class ResourceBundleMessageProvider implements MessageProvider
 {
 	private final String baseName;
-	private final HashMap<Locale, ResourceBundle> bundles = new HashMap<Locale, ResourceBundle>();
+	private final HashMap<StringLocale, ITextBundle> bundles = new HashMap<StringLocale, ITextBundle>();
 	
 	/**
 	 *
@@ -53,7 +55,7 @@ public class ResourceBundleMessageProvider implements MessageProvider
 	/**
 	 *
 	 */
-	public String getMessage(String code, Object[] args, Locale locale)
+	public String getMessage(String code, Object[] args, StringLocale locale)
 	{
 		String pattern = getMessage(code, locale);
 		
@@ -64,12 +66,12 @@ public class ResourceBundleMessageProvider implements MessageProvider
 	/**
 	 *
 	 */
-	public String getMessage(String code, Locale locale)
+	public String getMessage(String code, StringLocale locale)
 	{
-		ResourceBundle bundle = bundles.get(locale);
+		ITextBundle bundle = bundles.get(locale);
 		if (bundle == null)
 		{
-			bundle = ResourceBundle.getBundle(baseName, locale);
+			bundle = TextBundle.getInstance(baseName, locale);
 			bundles.put(locale, bundle);
 		}
 		

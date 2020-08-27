@@ -13,7 +13,7 @@
 #ifndef _JavaLangAbstractStringBuilder_H_
 #define _JavaLangAbstractStringBuilder_H_
 
-#import "JreEmulation.h"
+#import "J2ObjC_header.h"
 
 @class IOSCharArray;
 
@@ -68,8 +68,8 @@ typedef struct JreStringBuilder {
 
 - (NSString *)description;
 
-- (id<JavaLangCharSequence>)subSequenceWithInt:(jint)start
-                                       withInt:(jint)end;
+- (id<JavaLangCharSequence>)subSequenceFrom:(jint)start
+                                         to:(jint)end;
 
 - (jint)indexOfWithNSString:(NSString *)string;
 
@@ -96,6 +96,12 @@ typedef struct JreStringBuilder {
 @end
 
 CF_EXTERN_C_BEGIN
+
+void JavaLangAbstractStringBuilder_init(JavaLangAbstractStringBuilder *self);
+void JavaLangAbstractStringBuilder_initWithInt_(
+    JavaLangAbstractStringBuilder *self, jint capacity);
+void JavaLangAbstractStringBuilder_initWithNSString_(
+    JavaLangAbstractStringBuilder *self, NSString *string);
 
 void JreStringBuilder_initWithCapacity(JreStringBuilder *sb, jint capacity);
 

@@ -7,11 +7,11 @@
 //
 
 #import "XmlParserFactory.h"
-#import "org/oss/pdfreporter/xml/parsers/InputSource.h"
-#import "org/oss/pdfreporter/registry/IRegistry.h"
+#include "org/oss/pdfreporter/xml/parsers/InputSource.h"
+#include "org/oss/pdfreporter/registry/IRegistry.h"
 #import "LibXmlReaderParser.h"
 #import "XmlParser.h"
-#import "org/oss/pdfreporter/xml/parsers/impl/DocumentBuilderFactory.h"
+#include "org/oss/pdfreporter/xml/parsers/impl/DocumentBuilderFactory.h"
 
 @interface OrgOssPdfreporterXmlParsersFactoryXmlParserFactory ()
 @property (nonatomic) BOOL validating;
@@ -69,15 +69,15 @@
     return parser;
 }
 
-- (void)setNamespaceAwareWithBoolean:(BOOL)aware
+- (void)setNamespaceAwareWithBoolean:(jboolean)aware
 {
     self.namespaceAware = aware;
 }
-- (void)setXIncludeAwareWithBoolean:(BOOL)aware
+- (void)setXIncludeAwareWithBoolean:(jboolean)aware
 {
     self.xincludeAware = aware;
 }
-- (void)setValidatingWithBoolean:(BOOL)validating
+- (void)setValidatingWithBoolean:(jboolean)validating
 {
     self.validating = validating;
 }

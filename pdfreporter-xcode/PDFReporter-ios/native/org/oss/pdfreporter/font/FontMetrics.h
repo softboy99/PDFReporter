@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/font/IFontMetric.h"
+#include "org/oss/pdfreporter/font/IFontMetric.h"
 #import "Font.h"
-#import "hpdf.h"
-#import "org/oss/pdfreporter/font/AbstractFontMetric.h"
+#import <libHaru/libHaru.h>
+#include "org/oss/pdfreporter/font/AbstractFontMetric.h"
 
 @interface FontMetrics : OrgOssPdfreporterFontAbstractFontMetric {
     Font *mFont;

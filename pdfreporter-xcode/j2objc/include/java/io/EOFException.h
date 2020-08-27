@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/io/EOFException.java
 //
 
-#ifndef _JavaIoEOFException_H_
-#define _JavaIoEOFException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoEOFException")
+#ifdef RESTRICT_JavaIoEOFException
+#define INCLUDE_ALL_JavaIoEOFException 0
+#else
+#define INCLUDE_ALL_JavaIoEOFException 1
+#endif
+#undef RESTRICT_JavaIoEOFException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoEOFException_) && (INCLUDE_ALL_JavaIoEOFException || defined(INCLUDE_JavaIoEOFException))
+#define JavaIoEOFException_
+
+#define RESTRICT_JavaIoIOException 1
+#define INCLUDE_JavaIoIOException 1
 #include "java/io/IOException.h"
 
-#define JavaIoEOFException_serialVersionUID 6433858223774886977LL
+/*!
+ @brief Thrown when a program encounters the end of a file or stream during an input
+ operation.
+ */
+@interface JavaIoEOFException : JavaIoIOException
 
-@interface JavaIoEOFException : JavaIoIOException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>EOFException</code> with its stack trace filled in.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>EOFException</code> with its stack trace and detail
+ message filled in.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoEOFException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoEOFException_init(JavaIoEOFException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoEOFException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoEOFException *new_JavaIoEOFException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoEOFException *create_JavaIoEOFException_init();
+
+FOUNDATION_EXPORT void JavaIoEOFException_initWithNSString_(JavaIoEOFException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaIoEOFException *new_JavaIoEOFException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoEOFException *create_JavaIoEOFException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoEOFException)
 
-#endif // _JavaIoEOFException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoEOFException")

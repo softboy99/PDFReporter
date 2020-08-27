@@ -23,8 +23,6 @@
  */
 package org.oss.pdfreporter.engine.component;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import org.oss.pdfreporter.engine.JRComponentElement;
@@ -38,6 +36,8 @@ import org.oss.pdfreporter.engine.fill.FillContainerContext;
 import org.oss.pdfreporter.engine.fill.IJRBaseFiller;
 import org.oss.pdfreporter.engine.fill.IJRFillExpressionEvaluator;
 import org.oss.pdfreporter.engine.type.EvaluationTimeEnum;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 /**
@@ -131,7 +131,7 @@ public interface FillContext extends IJRFillExpressionEvaluator
 	 * @see net.sf.jasperreports.engine.JRReport#getResourceBundle()
 	 * @see net.sf.jasperreports.engine.JRParameter#REPORT_RESOURCE_BUNDLE
 	 */
-	ResourceBundle getReportResourceBundle();
+	ITextBundle getReportResourceBundle();
 
 	/**
 	 * Returns the locale used to fill the current report.
@@ -139,7 +139,7 @@ public interface FillContext extends IJRFillExpressionEvaluator
 	 * @return the report locale
 	 * @see org.oss.pdfreporter.engine.JRParameter#REPORT_LOCALE
 	 */
-	Locale getReportLocale();
+	StringLocale getReportLocale();
 
 	/**
 	 * Returns the time zone used to fill the current report.

@@ -3,131 +3,386 @@
 //  source: android/libcore/luni/src/main/java/java/util/HashMap.java
 //
 
-#ifndef _JavaUtilHashMap_H_
-#define _JavaUtilHashMap_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilHashMap")
+#ifdef RESTRICT_JavaUtilHashMap
+#define INCLUDE_ALL_JavaUtilHashMap 0
+#else
+#define INCLUDE_ALL_JavaUtilHashMap 1
+#endif
+#undef RESTRICT_JavaUtilHashMap
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilHashMap_) && (INCLUDE_ALL_JavaUtilHashMap || defined(INCLUDE_JavaUtilHashMap))
+#define JavaUtilHashMap_
+
+#define RESTRICT_JavaUtilAbstractMap 1
+#define INCLUDE_JavaUtilAbstractMap 1
+#include "java/util/AbstractMap.h"
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSObjectArray;
-@class JavaIoObjectInputStream;
-@class JavaIoObjectOutputStream;
 @class JavaUtilHashMap_HashMapEntry;
 @protocol JavaUtilCollection;
+@protocol JavaUtilIterator;
 @protocol JavaUtilMap;
 @protocol JavaUtilSet;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
-#include "java/util/AbstractCollection.h"
-#include "java/util/AbstractMap.h"
-#include "java/util/AbstractSet.h"
-#include "java/util/Iterator.h"
-#include "java/util/Map.h"
-
-#define JavaUtilHashMap_DEFAULT_LOAD_FACTOR 0.75f
-#define JavaUtilHashMap_MAXIMUM_CAPACITY 1073741824
-#define JavaUtilHashMap_MINIMUM_CAPACITY 4
-#define JavaUtilHashMap_serialVersionUID 362498820763181265LL
-
+/*!
+ @brief HashMap is an implementation of <code>Map</code>.
+ All optional operations are supported.
+ <p>All elements are permitted as keys or values, including null.
+ <p>Note that the iteration order for HashMap is non-deterministic. If you want
+ deterministic iteration, use <code>LinkedHashMap</code>.
+ <p>Note: the implementation of <code>HashMap</code> is not synchronized.
+ If one thread of several threads accessing an instance modifies the map
+ structurally, access to the map needs to be synchronized. A structural
+ modification is an operation that adds or removes an entry. Changes in
+ the value of an entry are not structural changes.
+ <p>The <code>Iterator</code> created by calling the <code>iterator</code> method
+ may throw a <code>ConcurrentModificationException</code> if the map is structurally
+ changed while an iterator is used to iterate over the elements. Only the
+ <code>remove</code> method that is provided by the iterator allows for removal of
+ elements during iteration. It is not possible to guarantee that this
+ mechanism works in all cases of unsynchronized concurrent modification. It
+ should only be used for debugging purposes.
+ */
 @interface JavaUtilHashMap : JavaUtilAbstractMap < NSCopying, JavaIoSerializable > {
  @public
+  /*!
+   @brief The hash table.
+   If this hash map contains a mapping for null, it is
+ not represented this hash table.
+   */
   IOSObjectArray *table_;
+  /*!
+   @brief The entry representing the null key, or null if there's no such mapping.
+   */
   JavaUtilHashMap_HashMapEntry *entryForNullKey_;
-  jint size__;
+  /*!
+   @brief The number of mappings in this hash map.
+   */
+  jint size_;
+  /*!
+   @brief Incremented by "structural modifications" to allow (best effort)
+ detection of concurrent modification.
+   */
   jint modCount_;
 }
 
++ (jfloat)DEFAULT_LOAD_FACTOR;
+
+#pragma mark Public
+
+/*!
+ @brief Constructs a new empty <code>HashMap</code> instance.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>HashMap</code> instance with the specified capacity.
+ @param capacity
+ the initial capacity of this hash map.
+ @throws IllegalArgumentException
+ when the capacity is less than zero.
+ */
 - (instancetype)initWithInt:(jint)capacity;
 
+/*!
+ @brief Constructs a new <code>HashMap</code> instance with the specified capacity and
+ load factor.
+ @param capacity
+ the initial capacity of this hash map.
+ @param loadFactor
+ the initial load factor.
+ @throws IllegalArgumentException
+ when the capacity is less than zero or the load factor is
+ less or equal to zero or NaN.
+ */
 - (instancetype)initWithInt:(jint)capacity
                   withFloat:(jfloat)loadFactor;
 
+/*!
+ @brief Constructs a new <code>HashMap</code> instance containing the mappings from
+ the specified map.
+ @param map
+ the mappings to add.
+ */
 - (instancetype)initWithJavaUtilMap:(id<JavaUtilMap>)map;
 
-- (void)constructorPutAllWithJavaUtilMap:(id<JavaUtilMap>)map;
+/*!
+ @brief Removes all mappings from this hash map, leaving it empty.
+ - seealso: #isEmpty
+ - seealso: #size
+ */
+- (void)clear;
 
-+ (jint)capacityForInitSizeWithInt:(jint)size;
-
+/*!
+ @brief Returns a shallow copy of this map.
+ @return a shallow copy of this map.
+ */
 - (id)clone;
 
-- (void)init__ OBJC_METHOD_FAMILY_NONE;
-
-- (jboolean)isEmpty;
-
-- (jint)size;
-
-- (id)getWithId:(id)key;
-
+/*!
+ @brief Returns whether this map contains the specified key.
+ @param key
+ the key to search for.
+ @return <code>true</code> if this map contains the specified key,
+ <code>false</code> otherwise.
+ */
 - (jboolean)containsKeyWithId:(id)key;
 
+/*!
+ @brief Returns whether this map contains the specified value.
+ @param value
+ the value to search for.
+ @return <code>true</code> if this map contains the specified value,
+ <code>false</code> otherwise.
+ */
 - (jboolean)containsValueWithId:(id)value;
 
+/*!
+ @brief Returns a set containing all of the mappings in this map.
+ Each mapping is
+ an instance of <code>Map.Entry</code>. As the set is backed by this map,
+ changes in one will be reflected in the other.
+ @return a set of the mappings.
+ */
+- (id<JavaUtilSet>)entrySet;
+
+/*!
+ @brief Returns the value of the mapping with the specified key.
+ @param key
+ the key.
+ @return the value of the mapping with the specified key, or <code>null</code>
+ if no mapping for the specified key is found.
+ */
+- (id)getWithId:(id)key;
+
+/*!
+ @brief Returns whether this map is empty.
+ @return <code>true</code> if this map has no elements, <code>false</code>
+ otherwise.
+ - seealso: #size()
+ */
+- (jboolean)isEmpty;
+
+/*!
+ @brief Returns a set of the keys contained in this map.
+ The set is backed by
+ this map so changes to one are reflected by the other. The set does not
+ support adding.
+ @return a set of the keys.
+ */
+- (id<JavaUtilSet>)keySet;
+
+/*!
+ @brief Maps the specified key to the specified value.
+ @param key
+ the key.
+ @param value
+ the value.
+ @return the value of any previous mapping with the specified key or
+ <code>null</code> if there was no such mapping.
+ */
 - (id)putWithId:(id)key
          withId:(id)value;
 
-- (void)preModifyWithJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)e;
+/*!
+ @brief Copies all the mappings in the specified map to this map.
+ These mappings
+ will replace all mappings that this map had for any of the keys currently
+ in the given map.
+ @param map
+ the map to copy mappings from.
+ */
+- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
 
+/*!
+ @brief Removes the mapping with the specified key from this map.
+ This native version is modified to avoid extra retain/autorelease calls.
+ @param key
+ the key of the mapping to remove.
+ @return the value of the removed mapping or <code>null</code> if no mapping
+ for the specified key was found.
+ */
+- (id)removeWithId:(id)key;
+
+/*!
+ @brief Returns the number of elements in this map.
+ @return the number of elements in this map.
+ */
+- (jint)size;
+
+/*!
+ @brief Returns a collection of the values contained in this map.
+ The collection
+ is backed by this map so changes to one are reflected by the other. The
+ collection supports remove, removeAll, retainAll and clear operations,
+ and it does not support add or addAll operations.
+ <p>
+ This method returns a collection which is the subclass of
+ AbstractCollection. The iterator method of this subclass returns a
+ "wrapper object" over the iterator of map's entrySet(). The <code>size</code>
+ method wraps the map's size method and the <code>contains</code> method wraps
+ the map's containsValue method.
+ </p>
+ <p>
+ The collection is created when this method is called for the first time
+ and returned in response to all subsequent calls. This method may return
+ different collections when multiple concurrent calls occur, since no
+ synchronization is performed.
+ </p>
+ @return a collection of the values contained in this map.
+ */
+- (id<JavaUtilCollection>)values;
+
+#pragma mark Package-Private
+
+/*!
+ @brief Creates a new entry for the given key, value, hash, and index and
+ inserts it into the hash table.
+ This method is called by put
+ (and indirectly, putAll), and overridden by LinkedHashMap. The hash
+ must incorporate the secondary hash function.
+ Native code modified to avoid calling retain/autorelease on the displaced
+ entry already in the table.
+ */
 - (void)addNewEntryWithId:(id)key
                    withId:(id)value
                   withInt:(jint)hash_
                   withInt:(jint)index;
 
+/*!
+ @brief Creates a new entry for the null key, and the given value and
+ inserts it into the hash table.
+ This method is called by put
+ (and indirectly, putAll), and overridden by LinkedHashMap.
+ */
 - (void)addNewEntryForNullKeyWithId:(id)value;
 
+/*!
+ @brief Returns an appropriate capacity for the specified initial size.
+ Does
+ not round the result up to a power of two; the caller must do this!
+ The returned value will be between 0 and MAXIMUM_CAPACITY (inclusive).
+ */
++ (jint)capacityForInitSizeWithInt:(jint)size;
+
+/*!
+ @brief Like newEntry, but does not perform any activity that would be
+ unnecessary or inappropriate for constructors.
+ In this class, the
+ two methods behave identically; in LinkedHashMap, they differ.
+ This native method has a modified contract from the original version.
+ It must return a retained entry object. And it must avoid retaining the
+ "first" parameter when setting it to the "next" field of the new entry.
+ */
 - (JavaUtilHashMap_HashMapEntry *)constructorNewRetainedEntryWithId:(id)key
                                                              withId:(id)value
                                                             withInt:(jint)hash_
                                    withJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)first;
 
-- (void)putAllWithJavaUtilMap:(id<JavaUtilMap>)map;
+/*!
+ @brief Inserts all of the elements of map into this HashMap in a manner
+ suitable for use by constructors and pseudo-constructors (i.e., clone,
+ readObject).
+ Also used by LinkedHashMap.
+ */
+- (void)constructorPutAllWithJavaUtilMap:(id<JavaUtilMap>)map;
 
-- (id)removeWithId:(id)key;
+/*!
+ @brief This method is called from the pseudo-constructors (clone and readObject)
+ prior to invoking constructorPut/constructorPutAll, which invoke the
+ overridden constructorNewEntry method.
+ Normally it is a VERY bad idea to
+ invoke an overridden method from a pseudo-constructor (Effective Java
+ Item 17). In this case it is unavoidable, and the init method provides a
+ workaround.
+ */
+- (void)init__ OBJC_METHOD_FAMILY_NONE;
 
-- (void)postRemoveWithJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)e;
-
-- (void)clear;
-
-- (id<JavaUtilSet>)keySet;
-
-- (id<JavaUtilCollection>)values;
-
-- (id<JavaUtilSet>)entrySet;
+- (id<JavaUtilIterator>)newEntryIterator OBJC_METHOD_FAMILY_NONE;
 
 - (id<JavaUtilIterator>)newKeyIterator OBJC_METHOD_FAMILY_NONE;
 
 - (id<JavaUtilIterator>)newValueIterator OBJC_METHOD_FAMILY_NONE;
 
-- (id<JavaUtilIterator>)newEntryIterator OBJC_METHOD_FAMILY_NONE;
+/*!
+ @brief Subclass overrides this method to unlink entry.
+ */
+- (void)postRemoveWithJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)e;
 
+/*!
+ @brief Give LinkedHashMap a chance to take action when we modify an existing
+ entry.
+ @param e the entry we're about to modify.
+ */
+- (void)preModifyWithJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)e;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaUtilHashMap_initialized;
 J2OBJC_STATIC_INIT(JavaUtilHashMap)
 
 J2OBJC_FIELD_SETTER(JavaUtilHashMap, table_, IOSObjectArray *)
 J2OBJC_FIELD_SETTER(JavaUtilHashMap, entryForNullKey_, JavaUtilHashMap_HashMapEntry *)
 
-CF_EXTERN_C_BEGIN
+/*!
+ @brief The default load factor.
+ Note that this implementation ignores the
+ load factor, but cannot do away with it entirely because it's
+ mentioned in the API.
+ <p>Note that this constant has no impact on the behavior of the program,
+ but it is emitted as part of the serialized form. The load factor of
+ .75 is hardwired into the program, which uses cheap shifts in place of
+ expensive division.
+ */
+inline jfloat JavaUtilHashMap_get_DEFAULT_LOAD_FACTOR();
+#define JavaUtilHashMap_DEFAULT_LOAD_FACTOR 0.75f
+J2OBJC_STATIC_FIELD_CONSTANT(JavaUtilHashMap, DEFAULT_LOAD_FACTOR, jfloat)
+
+FOUNDATION_EXPORT void JavaUtilHashMap_init(JavaUtilHashMap *self);
+
+FOUNDATION_EXPORT JavaUtilHashMap *new_JavaUtilHashMap_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashMap *create_JavaUtilHashMap_init();
+
+FOUNDATION_EXPORT void JavaUtilHashMap_initWithInt_(JavaUtilHashMap *self, jint capacity);
+
+FOUNDATION_EXPORT JavaUtilHashMap *new_JavaUtilHashMap_initWithInt_(jint capacity) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashMap *create_JavaUtilHashMap_initWithInt_(jint capacity);
+
+FOUNDATION_EXPORT void JavaUtilHashMap_initWithInt_withFloat_(JavaUtilHashMap *self, jint capacity, jfloat loadFactor);
+
+FOUNDATION_EXPORT JavaUtilHashMap *new_JavaUtilHashMap_initWithInt_withFloat_(jint capacity, jfloat loadFactor) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashMap *create_JavaUtilHashMap_initWithInt_withFloat_(jint capacity, jfloat loadFactor);
+
+FOUNDATION_EXPORT void JavaUtilHashMap_initWithJavaUtilMap_(JavaUtilHashMap *self, id<JavaUtilMap> map);
+
+FOUNDATION_EXPORT JavaUtilHashMap *new_JavaUtilHashMap_initWithJavaUtilMap_(id<JavaUtilMap> map) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashMap *create_JavaUtilHashMap_initWithJavaUtilMap_(id<JavaUtilMap> map);
 
 FOUNDATION_EXPORT jint JavaUtilHashMap_capacityForInitSizeWithInt_(jint size);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, MINIMUM_CAPACITY, jint)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, MAXIMUM_CAPACITY, jint)
-
-FOUNDATION_EXPORT IOSObjectArray *JavaUtilHashMap_EMPTY_TABLE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, EMPTY_TABLE_, IOSObjectArray *)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, DEFAULT_LOAD_FACTOR, jfloat)
-
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, serialVersionUID, jlong)
-
-FOUNDATION_EXPORT IOSObjectArray *JavaUtilHashMap_serialPersistentFields_;
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHashMap, serialPersistentFields_, IOSObjectArray *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap)
+
+#endif
+
+#if !defined (JavaUtilHashMap_HashMapEntry_) && (INCLUDE_ALL_JavaUtilHashMap || defined(INCLUDE_JavaUtilHashMap_HashMapEntry))
+#define JavaUtilHashMap_HashMapEntry_
+
+#define RESTRICT_JavaUtilMap 1
+#define INCLUDE_JavaUtilMap_Entry 1
+#include "java/util/Map.h"
 
 @interface JavaUtilHashMap_HashMapEntry : NSObject < JavaUtilMap_Entry > {
  @public
@@ -137,22 +392,26 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap)
   JavaUtilHashMap_HashMapEntry *next_;
 }
 
-- (instancetype)initWithId:(id)key
-                    withId:(id)value
-                   withInt:(jint)hash_
-withJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)next;
+#pragma mark Public
+
+- (jboolean)isEqual:(id)o;
 
 - (id)getKey;
 
 - (id)getValue;
 
-- (id)setValueWithId:(id)value;
-
-- (jboolean)isEqual:(id)o;
-
 - (NSUInteger)hash;
 
+- (id)setValueWithId:(id)value;
+
 - (NSString *)description;
+
+#pragma mark Package-Private
+
+- (instancetype)initWithId:(id)key
+                    withId:(id)value
+                   withInt:(jint)hash_
+withJavaUtilHashMap_HashMapEntry:(JavaUtilHashMap_HashMapEntry *)next;
 
 @end
 
@@ -162,164 +421,16 @@ J2OBJC_FIELD_SETTER(JavaUtilHashMap_HashMapEntry, key_, id)
 J2OBJC_FIELD_SETTER(JavaUtilHashMap_HashMapEntry, value_, id)
 J2OBJC_FIELD_SETTER(JavaUtilHashMap_HashMapEntry, next_, JavaUtilHashMap_HashMapEntry *)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaUtilHashMap_HashMapEntry_initWithId_withId_withInt_withJavaUtilHashMap_HashMapEntry_(JavaUtilHashMap_HashMapEntry *self, id key, id value, jint hash_, JavaUtilHashMap_HashMapEntry *next);
+
+FOUNDATION_EXPORT JavaUtilHashMap_HashMapEntry *new_JavaUtilHashMap_HashMapEntry_initWithId_withId_withInt_withJavaUtilHashMap_HashMapEntry_(id key, id value, jint hash_, JavaUtilHashMap_HashMapEntry *next) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHashMap_HashMapEntry *create_JavaUtilHashMap_HashMapEntry_initWithId_withId_withInt_withJavaUtilHashMap_HashMapEntry_(id key, id value, jint hash_, JavaUtilHashMap_HashMapEntry *next);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_HashMapEntry)
 
-@interface JavaUtilHashMap_HashIterator : NSObject {
- @public
-  jint nextIndex_;
-  JavaUtilHashMap_HashMapEntry *nextEntry__;
-  JavaUtilHashMap_HashMapEntry *lastEntryReturned_;
-  jint expectedModCount_;
-}
+#endif
 
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
 
-- (jboolean)hasNext;
-
-- (JavaUtilHashMap_HashMapEntry *)nextEntry;
-
-- (void)remove;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_HashIterator)
-
-J2OBJC_FIELD_SETTER(JavaUtilHashMap_HashIterator, nextEntry__, JavaUtilHashMap_HashMapEntry *)
-J2OBJC_FIELD_SETTER(JavaUtilHashMap_HashIterator, lastEntryReturned_, JavaUtilHashMap_HashMapEntry *)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_HashIterator)
-
-@interface JavaUtilHashMap_KeyIterator : JavaUtilHashMap_HashIterator < JavaUtilIterator > {
-}
-
-- (id)next;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_KeyIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_KeyIterator)
-
-@interface JavaUtilHashMap_ValueIterator : JavaUtilHashMap_HashIterator < JavaUtilIterator > {
-}
-
-- (id)next;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_ValueIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_ValueIterator)
-
-@interface JavaUtilHashMap_EntryIterator : JavaUtilHashMap_HashIterator < JavaUtilIterator > {
-}
-
-- (id<JavaUtilMap_Entry>)next;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_EntryIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_EntryIterator)
-
-@interface JavaUtilHashMap_KeySet : JavaUtilAbstractSet {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (jboolean)isEmpty;
-
-- (jboolean)containsWithId:(id)o;
-
-- (jboolean)removeWithId:(id)o;
-
-- (void)clear;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_KeySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_KeySet)
-
-@interface JavaUtilHashMap_Values : JavaUtilAbstractCollection {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jint)size;
-
-- (jboolean)isEmpty;
-
-- (jboolean)containsWithId:(id)o;
-
-- (void)clear;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_Values)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_Values)
-
-@interface JavaUtilHashMap_EntrySet : JavaUtilAbstractSet {
-}
-
-- (id<JavaUtilIterator>)iterator;
-
-- (jboolean)containsWithId:(id)o;
-
-- (jboolean)removeWithId:(id)o;
-
-- (jint)size;
-
-- (jboolean)isEmpty;
-
-- (void)clear;
-
-- (instancetype)initWithJavaUtilHashMap:(JavaUtilHashMap *)outer$;
-
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHashMap_EntrySet)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHashMap_EntrySet)
-
-#endif // _JavaUtilHashMap_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilHashMap")

@@ -27,10 +27,14 @@ import java.util.Map;
 
 import org.oss.pdfreporter.engine.JRDataSource;
 import org.oss.pdfreporter.engine.JRException;
+import org.oss.pdfreporter.engine.JRParameter;
 import org.oss.pdfreporter.engine.JasperPrint;
 import org.oss.pdfreporter.engine.JasperReport;
 import org.oss.pdfreporter.engine.JasperReportsContext;
 import org.oss.pdfreporter.sql.IConnection;
+import org.oss.pdfreporter.text.bundle.ITextBundle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
+import org.oss.pdfreporter.text.bundle.TextBundle;
 
 
 
@@ -59,6 +63,7 @@ public final class JRFiller
 		
 		try
 		{
+			translateLanguageToLocaleAndTextBundle(parameters);
 			jasperPrint = filler.fill(parameters, conn);
 		}
 		catch(JRFillInterruptedException e)
@@ -86,6 +91,7 @@ public final class JRFiller
 		
 		try
 		{
+			translateLanguageToLocaleAndTextBundle(parameters);
 			jasperPrint = filler.fill(parameters, dataSource);
 		}
 		catch(JRFillInterruptedException e)
@@ -124,6 +130,7 @@ public final class JRFiller
 
 		try
 		{
+			translateLanguageToLocaleAndTextBundle(parameters);
 			JasperPrint jasperPrint = filler.fill(parameters);
 
 			return jasperPrint;
@@ -134,6 +141,23 @@ public final class JRFiller
 		}
 	}
 
+	private static void translateLanguageToLocaleAndTextBundle(Map<String,Object> parameters) {
+		if (parameters.containsKey(JRParameter.REPORT_LANGUAGE)) {
+			String language = (String) parameters.get(JRParameter.REPORT_LANGUAGE);
+			StringLocale locale = StringLocale.fromLocaleString(language);
+			parameters.put(JRParameter.REPORT_LOCALE, locale);
+			
+			ITextBundle bundle;
+			if (parameters.containsKey(JRParameter.REPORT_ENCODING)) {
+				String charset = (String) parameters.get(JRParameter.REPORT_ENCODING);
+				bundle = TextBundle.getInstance("translation", locale, charset);
+			} else {
+				
+				bundle = TextBundle.getInstance("translation", locale);
+			}
+			parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
+		}
+	}
 
 	/**
 	 *

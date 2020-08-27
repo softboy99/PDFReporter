@@ -10,13 +10,14 @@
 #import "Image.h"
 #import "ImageBox.h"
 #import "FontBox.h"
-#import "org/oss/pdfreporter/geometry/IAffineTransformMatrix.h"
-#import "org/oss/pdfreporter/pdf/PdfFactory.h"
+#include "org/oss/pdfreporter/geometry/IAffineTransformMatrix.h"
+#include "org/oss/pdfreporter/pdf/PdfFactory.h"
 #import "Document.h"
 #import "HpdfDocBox.h"
-#import "org/oss/pdfreporter/registry/ApiRegistry.h"
-#import "org/oss/pdfreporter/geometry/Color.h"
-#import "IOSPrimitiveArray.h"
+#include "org/oss/pdfreporter/registry/ApiRegistry.h"
+#include "org/oss/pdfreporter/geometry/Color.h"
+#include "org/oss/pdfreporter/pdf/IDocument.h"
+#include "IOSPrimitiveArray.h"
 
 @implementation Page
 
@@ -37,14 +38,14 @@
     return self;
 }
 
-- (id)initWithWidth:(int)width height:(int)height orientation:(OrgOssPdfreporterPdfIDocument_PageOrientationEnum *)orientation document:(OrgOssPdfreporterPdfDocument*)document{
+- (id)initWithWidth:(int)width height:(int)height orientation:(OrgOssPdfreporterPdfIDocument_PageOrientation *)orientation document:(OrgOssPdfreporterPdfDocument*)document{
     self = [super init];
     if(self) {
         hpdf_doc = [[HpdfDocBox GetDocBoxFromSession:[[OrgOssPdfreporterRegistryApiRegistry getPdfFactory] getSession]] getHpdfDoc];
         if (HPDF_HasDoc(hpdf_doc)) {
             hpdf_page = HPDF_AddPage(hpdf_doc);
             int ori = HPDF_PAGE_PORTRAIT;
-            if(orientation == OrgOssPdfreporterPdfIDocument_PageOrientationEnum_LANDSCAPE) {
+            if(orientation == OrgOssPdfreporterPdfIDocument_PageOrientation_get_LANDSCAPE()) {
                 ori = HPDF_PAGE_LANDSCAPE;
                 int tmp = width;
                 width = height;
@@ -63,11 +64,11 @@
     return hpdf_doc;
 }
 
-- (void)setLineCapWithOrgOssPdfreporterPdfIPage_LineCapEnum:(OrgOssPdfreporterPdfIPage_LineCapEnum *)lineCap {
+- (void)setLineCapWithOrgOssPdfreporterPdfIPage_LineCap:(OrgOssPdfreporterPdfIPage_LineCap *)lineCap {
     HPDF_Page_SetLineCap(hpdf_page, lineCap.ordinal);
 }
 
-- (void)setLineJoinWithOrgOssPdfreporterPdfIPage_LineJoinEnum:(OrgOssPdfreporterPdfIPage_LineJoinEnum *)lineJoin {
+- (void)setLineJoinWithOrgOssPdfreporterPdfIPage_LineJoin:(OrgOssPdfreporterPdfIPage_LineJoin *)lineJoin {
     HPDF_Page_SetLineJoin(hpdf_page, lineJoin.ordinal);
 }
 
@@ -204,16 +205,16 @@
     HPDF_Page_SetCharSpace(hpdf_page, spacing);
 }
 
-- (void)drawWithOrgOssPdfreporterImageIImage:(id<OrgOssPdfreporterImageIImage>)image withFloat:(float)x withFloat:(float)y withFloat:(float)width withFloat:(float)height withOrgOssPdfreporterPdfIPage_ScaleModeEnum:(OrgOssPdfreporterPdfIPage_ScaleModeEnum *)mode {
+- (void)drawWithOrgOssPdfreporterImageIImage:(id<OrgOssPdfreporterImageIImage>)image withFloat:(float)x withFloat:(float)y withFloat:(float)width withFloat:(float)height withOrgOssPdfreporterPdfIPage_ScaleMode:(OrgOssPdfreporterPdfIPage_ScaleMode *)mode {
     if (!HPDF_HasDoc(hpdf_doc)) @throw [NSException exceptionWithName:@"HPDF_NEW" reason:@"!has doc" userInfo:nil];
     ImageBox *box = [image getPeer];
-    if(mode == OrgOssPdfreporterPdfIPage_ScaleModeEnum_NONE) {
+    if(mode == OrgOssPdfreporterPdfIPage_ScaleMode_get_NONE()) {
         [self drawCroppedWithOrgOssPdfreporterImageIImage:image withFloat:0 withFloat:0 withFloat:x withFloat:y withFloat:width withFloat:height];
     }
-    else if(mode == OrgOssPdfreporterPdfIPage_ScaleModeEnum_SCALE) {
+    else if(mode == OrgOssPdfreporterPdfIPage_ScaleMode_get_SCALE()) {
         HPDF_Page_DrawImage(hpdf_page, [box getHpdfImage], x, y, width, height);
     }
-    else if(mode == OrgOssPdfreporterPdfIPage_ScaleModeEnum_SIZE) {
+    else if(mode == OrgOssPdfreporterPdfIPage_ScaleMode_get_SIZE()) {
         float dWidth = (float)width / [image getWidth];
         float dHeight = (float)height / [image getHeight];
         float scale = dHeight;

@@ -3,44 +3,84 @@
 //  source: android/libcore/luni/src/main/java/java/net/CookieHandler.java
 //
 
-#ifndef _JavaNetCookieHandler_H_
-#define _JavaNetCookieHandler_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetCookieHandler")
+#ifdef RESTRICT_JavaNetCookieHandler
+#define INCLUDE_ALL_JavaNetCookieHandler 0
+#else
+#define INCLUDE_ALL_JavaNetCookieHandler 1
+#endif
+#undef RESTRICT_JavaNetCookieHandler
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetCookieHandler_) && (INCLUDE_ALL_JavaNetCookieHandler || defined(INCLUDE_JavaNetCookieHandler))
+#define JavaNetCookieHandler_
 
 @class JavaNetURI;
 @protocol JavaUtilMap;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief This class provides a way to manage cookies with a HTTP protocol handler.
+ */
+@interface JavaNetCookieHandler : NSObject
 
-@interface JavaNetCookieHandler : NSObject {
-}
+#pragma mark Public
 
-+ (JavaNetCookieHandler *)getDefault;
+- (instancetype)init;
 
-+ (void)setDefaultWithJavaNetCookieHandler:(JavaNetCookieHandler *)cHandler;
-
+/*!
+ @brief Gets all cookies for a specific URI from the cookie cache.
+ @param uri
+ a URI to search for applicable cookies.
+ @param requestHeaders
+ a list of request headers.
+ @return an unchangeable map of all appropriate cookies.
+ @throws IOException
+ if an error occurs during the I/O operation.
+ */
 - (id<JavaUtilMap>)getWithJavaNetURI:(JavaNetURI *)uri
                      withJavaUtilMap:(id<JavaUtilMap>)requestHeaders;
 
+/*!
+ @brief Returns the system-wide cookie handler or <code>null</code> if not set.
+ */
++ (JavaNetCookieHandler *)getDefault;
+
+/*!
+ @brief Sets all cookies of a specific URI in the <code>responseHeaders</code> into
+ the cookie cache.
+ @param uri
+ the origin URI of the cookies.
+ @param responseHeaders
+ a list of request headers.
+ @throws IOException
+ if an error occurs during the I/O operation.
+ */
 - (void)putWithJavaNetURI:(JavaNetURI *)uri
           withJavaUtilMap:(id<JavaUtilMap>)responseHeaders;
 
-- (instancetype)init;
+/*!
+ @brief Sets the system-wide cookie handler.
+ */
++ (void)setDefaultWithJavaNetCookieHandler:(JavaNetCookieHandler *)cHandler;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetCookieHandler)
 
-CF_EXTERN_C_BEGIN
-
 FOUNDATION_EXPORT JavaNetCookieHandler *JavaNetCookieHandler_getDefault();
 
 FOUNDATION_EXPORT void JavaNetCookieHandler_setDefaultWithJavaNetCookieHandler_(JavaNetCookieHandler *cHandler);
 
-FOUNDATION_EXPORT JavaNetCookieHandler *JavaNetCookieHandler_systemWideCookieHandler_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetCookieHandler, systemWideCookieHandler_, JavaNetCookieHandler *)
-J2OBJC_STATIC_FIELD_SETTER(JavaNetCookieHandler, systemWideCookieHandler_, JavaNetCookieHandler *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaNetCookieHandler_init(JavaNetCookieHandler *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetCookieHandler)
 
-#endif // _JavaNetCookieHandler_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetCookieHandler")

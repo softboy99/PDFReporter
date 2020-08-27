@@ -5,13 +5,13 @@
 	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="OrderCountStyle" isDefault="false" style="Sans_Normal">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)$V{OrderCount} > 0 && $V{OrderCount} % 10 == 0]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{OrderCount} > 0 && $V{OrderCount} % 10 == 0]]></conditionExpression>
 			<style forecolor="#FF0000" isBold="true"/>
 		</conditionalStyle>
 	</style>
 	<style name="CellStyle" isDefault="false" mode="Opaque">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
+			<conditionExpression><![CDATA[$V{ROW_COUNT} % 2 == 0]]></conditionExpression>
 			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
@@ -90,7 +90,7 @@ Countries are ordered by number of orders.]]></text>
 							<textField>
 								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression class="java.lang.String"><![CDATA[intString($V{FreightColumn} * 100) + '-' + intString(($V{FreightColumn} + 1) * 100)]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[intString((int)($V{FreightColumn} * 100)) + '-' + intString((int)(($V{FreightColumn} + 1) * 100))]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabColumnHeader>

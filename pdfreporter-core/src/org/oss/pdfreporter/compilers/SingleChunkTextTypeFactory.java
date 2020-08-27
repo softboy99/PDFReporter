@@ -10,8 +10,9 @@
  ******************************************************************************/
 package org.oss.pdfreporter.compilers;
 
-import org.oss.pdfreporter.compilers.jeval.NumberConstant;
-import org.oss.pdfreporter.compilers.jeval.TextConstant;
+import org.oss.pdfreporter.compilers.util.EmptyCollection;
+import org.oss.pdfreporter.compilers.util.NumberConstant;
+import org.oss.pdfreporter.compilers.util.TextConstant;
 
 public class SingleChunkTextTypeFactory {
 
@@ -22,6 +23,10 @@ public class SingleChunkTextTypeFactory {
 
 		if (TextConstant.isText(text)) {
 			return TextConstant.parseText(text);
+		}
+		
+		if (EmptyCollection.isCollection(text)) {
+			return EmptyCollection.parseCollection(text);
 		}
 		return null;
 	}

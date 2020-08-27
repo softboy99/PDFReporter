@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/xml/parsers/IAttributes.h"
+#include "org/oss/pdfreporter/xml/parsers/IAttributes.h"
 
 @interface Attributes : NSObject <OrgOssPdfreporterXmlParsersIAttributes>
 -(id)initWithDictionary:(NSDictionary *)dict;

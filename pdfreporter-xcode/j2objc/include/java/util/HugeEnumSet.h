@@ -3,40 +3,48 @@
 //  source: android/libcore/luni/src/main/java/java/util/HugeEnumSet.java
 //
 
-#ifndef _JavaUtilHugeEnumSet_H_
-#define _JavaUtilHugeEnumSet_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilHugeEnumSet")
+#ifdef RESTRICT_JavaUtilHugeEnumSet
+#define INCLUDE_ALL_JavaUtilHugeEnumSet 0
+#else
+#define INCLUDE_ALL_JavaUtilHugeEnumSet 1
+#endif
+#undef RESTRICT_JavaUtilHugeEnumSet
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilHugeEnumSet_) && (INCLUDE_ALL_JavaUtilHugeEnumSet || defined(INCLUDE_JavaUtilHugeEnumSet))
+#define JavaUtilHugeEnumSet_
+
+#define RESTRICT_JavaUtilEnumSet 1
+#define INCLUDE_JavaUtilEnumSet 1
+#include "java/util/EnumSet.h"
 
 @class IOSClass;
-@class IOSLongArray;
 @class IOSObjectArray;
 @class JavaLangEnum;
 @protocol JavaUtilCollection;
+@protocol JavaUtilIterator;
 
-#include "J2ObjC_header.h"
-#include "java/util/EnumSet.h"
-#include "java/util/Iterator.h"
+/*!
+ @brief A concrete EnumSet for enums with more than 64 elements.
+ */
+@interface JavaUtilHugeEnumSet : JavaUtilEnumSet
 
-#define JavaUtilHugeEnumSet_BIT_IN_LONG 64
-
-@interface JavaUtilHugeEnumSet : JavaUtilEnumSet {
-}
-
-- (instancetype)initWithIOSClass:(IOSClass *)elementType
-           withJavaLangEnumArray:(IOSObjectArray *)enums;
+#pragma mark Public
 
 - (jboolean)addWithId:(JavaLangEnum *)element;
 
 - (jboolean)addAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
-- (jint)size;
-
 - (void)clear;
 
-- (void)complement;
+- (JavaUtilHugeEnumSet *)clone;
 
 - (jboolean)containsWithId:(id)object;
-
-- (JavaUtilHugeEnumSet *)clone;
 
 - (jboolean)containsAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
@@ -50,39 +58,40 @@
 
 - (jboolean)retainAllWithJavaUtilCollection:(id<JavaUtilCollection>)collection;
 
+- (jint)size;
+
+#pragma mark Protected
+
+- (void)complement;
+
+#pragma mark Package-Private
+
+/*!
+ @brief Constructs an instance.
+ @param elementType non-null; type of the elements
+ @param enums non-null; pre-populated array of constants in ordinal
+ order
+ */
+- (instancetype)initWithIOSClass:(IOSClass *)elementType
+           withJavaLangEnumArray:(IOSObjectArray *)enums;
+
 - (void)setRangeWithJavaLangEnum:(JavaLangEnum *)start
                 withJavaLangEnum:(JavaLangEnum *)end;
-
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilHugeEnumSet)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilHugeEnumSet_initWithIOSClass_withJavaLangEnumArray_(JavaUtilHugeEnumSet *self, IOSClass *elementType, IOSObjectArray *enums);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilHugeEnumSet, BIT_IN_LONG, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilHugeEnumSet *new_JavaUtilHugeEnumSet_initWithIOSClass_withJavaLangEnumArray_(IOSClass *elementType, IOSObjectArray *enums) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilHugeEnumSet *create_JavaUtilHugeEnumSet_initWithIOSClass_withJavaLangEnumArray_(IOSClass *elementType, IOSObjectArray *enums);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHugeEnumSet)
 
-@interface JavaUtilHugeEnumSet_HugeEnumSetIterator : NSObject < JavaUtilIterator > {
-}
+#endif
 
-- (void)computeNextElement;
 
-- (jboolean)hasNext;
-
-- (id)next;
-
-- (void)remove;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaUtilHugeEnumSet_HugeEnumSetIterator)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaUtilHugeEnumSet_HugeEnumSetIterator)
-
-#endif // _JavaUtilHugeEnumSet_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilHugeEnumSet")

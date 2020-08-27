@@ -3,39 +3,56 @@
 //  source: android/libcore/luni/src/main/java/java/io/SerializationHandleMap.java
 //
 
-#ifndef _JavaIoSerializationHandleMap_H_
-#define _JavaIoSerializationHandleMap_H_
-
-@class IOSIntArray;
-@class IOSObjectArray;
-
 #include "J2ObjC_header.h"
 
-#define JavaIoSerializationHandleMap_LOAD_FACTOR 7500
+#pragma push_macro("INCLUDE_ALL_JavaIoSerializationHandleMap")
+#ifdef RESTRICT_JavaIoSerializationHandleMap
+#define INCLUDE_ALL_JavaIoSerializationHandleMap 0
+#else
+#define INCLUDE_ALL_JavaIoSerializationHandleMap 1
+#endif
+#undef RESTRICT_JavaIoSerializationHandleMap
 
-@interface JavaIoSerializationHandleMap : NSObject {
-}
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoSerializationHandleMap_) && (INCLUDE_ALL_JavaIoSerializationHandleMap || defined(INCLUDE_JavaIoSerializationHandleMap))
+#define JavaIoSerializationHandleMap_
+
+/*!
+ @brief A specialization of IdentityHashMap<Object, int> for use when serializing objects.
+ We need to assign each object we write an int 'handle' (densely packed but not starting
+ at zero), and use the same handle any time we write the same object again.
+ */
+@interface JavaIoSerializationHandleMap : NSObject
+
+#pragma mark Public
 
 - (instancetype)init;
 
 - (jint)getWithId:(id)key;
+
+- (jboolean)isEmpty;
 
 - (jint)putWithId:(id)key
           withInt:(jint)value;
 
 - (jint)removeWithId:(id)key;
 
-- (jboolean)isEmpty;
-
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaIoSerializationHandleMap)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoSerializationHandleMap_init(JavaIoSerializationHandleMap *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoSerializationHandleMap, LOAD_FACTOR, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoSerializationHandleMap *new_JavaIoSerializationHandleMap_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoSerializationHandleMap *create_JavaIoSerializationHandleMap_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoSerializationHandleMap)
 
-#endif // _JavaIoSerializationHandleMap_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoSerializationHandleMap")

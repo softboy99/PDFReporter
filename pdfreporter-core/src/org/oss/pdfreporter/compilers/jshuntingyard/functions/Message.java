@@ -17,13 +17,13 @@ import java.util.List;
 import org.oss.pdfreporter.registry.ApiRegistry;
 import org.oss.pdfreporter.text.format.IMessageFormat;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory.FormatType;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.AbstractFunctionElement;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
-import org.oss.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.AbstractFunctionElement;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionArgumentFactory;
+import org.oss.pdfreporter.uses.org.oss.jshuntingyard.evaluator.FunctionElementArgument;
 
 /**
- * Date to String
- *
+ * java.util.Formatter style Messages
+ * @author donatmuller, 2015, last change 15:02:42
  */
 public class Message extends AbstractFunctionElement  {
 
@@ -51,6 +51,7 @@ public class Message extends AbstractFunctionElement  {
 					String stringArg = (String) args[i].getValue();
 					if (stringArg.startsWith(DATE_CONVERTER)) {
 						// TODO fix after jshuntingyard supports Date types (@see DateStringConverter)
+						// TODO just messageArgs.add(args[i].getValue()); for i>0 the (date) thing is never used !!! 
 						messageArgs.add(new Date(Long.parseLong(stringArg.substring(6))));
 					} else {					
 						messageArgs.add(stringArg);

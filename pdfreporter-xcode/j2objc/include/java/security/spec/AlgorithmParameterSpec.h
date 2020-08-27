@@ -3,11 +3,27 @@
 //  source: android/libcore/luni/src/main/java/java/security/spec/AlgorithmParameterSpec.java
 //
 
-#ifndef _JavaSecuritySpecAlgorithmParameterSpec_H_
-#define _JavaSecuritySpecAlgorithmParameterSpec_H_
-
 #include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySpecAlgorithmParameterSpec")
+#ifdef RESTRICT_JavaSecuritySpecAlgorithmParameterSpec
+#define INCLUDE_ALL_JavaSecuritySpecAlgorithmParameterSpec 0
+#else
+#define INCLUDE_ALL_JavaSecuritySpecAlgorithmParameterSpec 1
+#endif
+#undef RESTRICT_JavaSecuritySpecAlgorithmParameterSpec
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySpecAlgorithmParameterSpec_) && (INCLUDE_ALL_JavaSecuritySpecAlgorithmParameterSpec || defined(INCLUDE_JavaSecuritySpecAlgorithmParameterSpec))
+#define JavaSecuritySpecAlgorithmParameterSpec_
+
+/*!
+ @brief The marker interface for algorithm parameter specifications.
+ The purpose is
+ to group parameter specifications for algorithms.
+ */
 @protocol JavaSecuritySpecAlgorithmParameterSpec < NSObject, JavaObject >
 
 @end
@@ -16,4 +32,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySpecAlgorithmParameterSpec)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySpecAlgorithmParameterSpec)
 
-#endif // _JavaSecuritySpecAlgorithmParameterSpec_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySpecAlgorithmParameterSpec")

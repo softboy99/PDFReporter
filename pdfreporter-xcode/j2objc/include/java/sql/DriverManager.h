@@ -3,61 +3,196 @@
 //  source: android/libcore/luni/src/main/java/java/sql/DriverManager.java
 //
 
-#ifndef _JavaSqlDriverManager_H_
-#define _JavaSqlDriverManager_H_
+#include "J2ObjC_header.h"
 
+#pragma push_macro("INCLUDE_ALL_JavaSqlDriverManager")
+#ifdef RESTRICT_JavaSqlDriverManager
+#define INCLUDE_ALL_JavaSqlDriverManager 0
+#else
+#define INCLUDE_ALL_JavaSqlDriverManager 1
+#endif
+#undef RESTRICT_JavaSqlDriverManager
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSqlDriverManager_) && (INCLUDE_ALL_JavaSqlDriverManager || defined(INCLUDE_JavaSqlDriverManager))
+#define JavaSqlDriverManager_
+
+@class IOSObjectArray;
 @class JavaIoPrintStream;
 @class JavaIoPrintWriter;
-@class JavaLangClassLoader;
-@class JavaSqlSQLPermission;
 @class JavaUtilProperties;
 @protocol JavaSqlConnection;
 @protocol JavaSqlDriver;
 @protocol JavaUtilEnumeration;
-@protocol JavaUtilList;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief Provides facilities for managing JDBC drivers.
+ The <code>android.database</code> and
+ <code>android.database.sqlite</code> packages offer a higher-performance alternative for new
+ code.
+ <p>Note that Android does not include any JDBC drivers by default; you must provide your own.
+ <p>The <code>DriverManager</code> class loads JDBC drivers during its initialization,
+ from the list of drivers referenced by the system property <code>"jdbc.drivers"</code>
+ .
+ */
+@interface JavaSqlDriverManager : NSObject
 
-@interface JavaSqlDriverManager : NSObject {
-}
+#pragma mark Public
 
+/*!
+ @brief Removes a driver from the <code>DriverManager</code>'s registered driver list.
+ This will only succeed when the caller's class loader loaded the driver
+ that is to be removed. If the driver was loaded by a different class
+ loader, the removal of the driver fails silently.
+ <p>
+ If the removal succeeds, the <code>DriverManager</code> will not use this
+ driver in the future when asked to get a <code>Connection</code>.
+ @param driver
+ the JDBC driver to remove.
+ @throws SQLException
+ if there is a problem interfering with accessing the
+ database.
+ */
 + (void)deregisterDriverWithJavaSqlDriver:(id<JavaSqlDriver>)driver;
 
+/*!
+ @brief Attempts to establish a connection to the given database URL.
+ @param url
+ a URL string representing the database target to connect with.
+ @return a <code>Connection</code> to the database identified by the URL.
+ <code>null</code> if no connection can be established.
+ @throws SQLException
+ if there is an error while attempting to connect to the
+ database identified by the URL.
+ */
 + (id<JavaSqlConnection>)getConnectionWithNSString:(NSString *)url;
 
+/*!
+ @brief Attempts to establish a connection to the given database URL.
+ @param url
+ a URL string representing the database target to connect with
+ @param info
+ a set of properties to use as arguments to set up the
+ connection. Properties are arbitrary string/value pairs.
+ Normally, at least the properties <code>"user"</code> and <code>"password"</code>
+  should be passed, with appropriate settings for
+ the user ID and its corresponding password to get access to
+ the corresponding database.
+ @return a <code>Connection</code> to the database identified by the URL.
+ <code>null</code> if no connection can be established.
+ @throws SQLException
+ if there is an error while attempting to connect to the
+ database identified by the URL.
+ */
 + (id<JavaSqlConnection>)getConnectionWithNSString:(NSString *)url
                             withJavaUtilProperties:(JavaUtilProperties *)info;
 
+/*!
+ @brief Attempts to establish a connection to the given database URL.
+ @param url
+ a URL string representing the database target to connect with.
+ @param user
+ a user ID used to login to the database.
+ @param password
+ a password for the user ID to login to the database.
+ @return a <code>Connection</code> to the database identified by the URL.
+ <code>null</code> if no connection can be established.
+ @throws SQLException
+ if there is an error while attempting to connect to the
+ database identified by the URL.
+ */
 + (id<JavaSqlConnection>)getConnectionWithNSString:(NSString *)url
                                       withNSString:(NSString *)user
                                       withNSString:(NSString *)password;
 
+/*!
+ @brief Tries to find a driver that can interpret the supplied URL.
+ @param url
+ the URL of a database.
+ @return a <code>Driver</code> that matches the provided URL. <code>null</code> if
+ no <code>Driver</code> understands the URL
+ @throws SQLException
+ if there is any kind of problem accessing the database.
+ */
 + (id<JavaSqlDriver>)getDriverWithNSString:(NSString *)url;
 
+/*!
+ @brief Returns an <code>Enumeration</code> that contains all of the loaded JDBC
+ drivers that the current caller can access.
+ @return An <code>Enumeration</code> containing all the currently loaded JDBC
+ <code>Drivers</code>.
+ */
 + (id<JavaUtilEnumeration>)getDrivers;
 
+/*!
+ @brief Returns the login timeout when connecting to a database in seconds.
+ @return the login timeout in seconds.
+ */
 + (jint)getLoginTimeout;
 
-+ (JavaIoPrintStream *)getLogStream;
+/*!
+ @brief Gets the log <code>PrintStream</code> used by the <code>DriverManager</code> and
+ all the JDBC Drivers.
+ @return the <code>PrintStream</code> used for logging activities.
+ */
++ (JavaIoPrintStream *)getLogStream __attribute__((deprecated));
 
+/*!
+ @brief Retrieves the log writer.
+ @return A <code>PrintWriter</code> object used as the log writer. <code>null</code>
+ if no log writer is set.
+ */
 + (JavaIoPrintWriter *)getLogWriter;
 
+/*!
+ @brief Prints a message to the current JDBC log stream.
+ This is either the
+ <code>PrintWriter</code> or (deprecated) the <code>PrintStream</code>, if set.
+ @param message
+ the message to print to the JDBC log stream.
+ */
 + (void)printlnWithNSString:(NSString *)message;
 
+/*!
+ @brief Registers a given JDBC driver with the <code>DriverManager</code>.
+ <p>
+ A newly loaded JDBC driver class should register itself with the
+ <code>DriverManager</code> by calling this method.
+ @param driver
+ the <code>Driver</code> to register with the <code>DriverManager</code>.
+ @throws SQLException
+ if a database access error occurs.
+ */
 + (void)registerDriverWithJavaSqlDriver:(id<JavaSqlDriver>)driver;
 
+/*!
+ @brief Sets the login timeout when connecting to a database in seconds.
+ @param seconds
+ seconds until timeout. 0 indicates wait forever.
+ */
 + (void)setLoginTimeoutWithInt:(jint)seconds;
 
-+ (void)setLogStreamWithJavaIoPrintStream:(JavaIoPrintStream *)outArg;
+/*!
+ @brief Sets the print stream to use for logging data from the <code>DriverManager</code>
+  and the JDBC drivers.
+ @param outArg
+ the <code>PrintStream</code> to use for logging.
+ */
++ (void)setLogStreamWithJavaIoPrintStream:(JavaIoPrintStream *)outArg __attribute__((deprecated));
 
+/*!
+ @brief Sets the <code>PrintWriter</code> that is used by all loaded drivers, and also
+ the <code>DriverManager</code>.
+ @param outArg
+ the <code>PrintWriter</code> to be used.
+ */
 + (void)setLogWriterWithJavaIoPrintWriter:(JavaIoPrintWriter *)outArg;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaSqlDriverManager_initialized;
 J2OBJC_STATIC_INIT(JavaSqlDriverManager)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT void JavaSqlDriverManager_deregisterDriverWithJavaSqlDriver_(id<JavaSqlDriver> driver);
 
@@ -87,25 +222,10 @@ FOUNDATION_EXPORT void JavaSqlDriverManager_setLogStreamWithJavaIoPrintStream_(J
 
 FOUNDATION_EXPORT void JavaSqlDriverManager_setLogWriterWithJavaIoPrintWriter_(JavaIoPrintWriter *outArg);
 
-FOUNDATION_EXPORT JavaIoPrintStream *JavaSqlDriverManager_thePrintStream_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSqlDriverManager, thePrintStream_, JavaIoPrintStream *)
-J2OBJC_STATIC_FIELD_SETTER(JavaSqlDriverManager, thePrintStream_, JavaIoPrintStream *)
-
-FOUNDATION_EXPORT JavaIoPrintWriter *JavaSqlDriverManager_thePrintWriter_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSqlDriverManager, thePrintWriter_, JavaIoPrintWriter *)
-J2OBJC_STATIC_FIELD_SETTER(JavaSqlDriverManager, thePrintWriter_, JavaIoPrintWriter *)
-
-FOUNDATION_EXPORT jint JavaSqlDriverManager_loginTimeout_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSqlDriverManager, loginTimeout_, jint)
-J2OBJC_STATIC_FIELD_REF_GETTER(JavaSqlDriverManager, loginTimeout_, jint)
-
-FOUNDATION_EXPORT id<JavaUtilList> JavaSqlDriverManager_theDrivers_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSqlDriverManager, theDrivers_, id<JavaUtilList>)
-
-FOUNDATION_EXPORT JavaSqlSQLPermission *JavaSqlDriverManager_logPermission_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSqlDriverManager, logPermission_, JavaSqlSQLPermission *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaSqlDriverManager)
 
-#endif // _JavaSqlDriverManager_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSqlDriverManager")

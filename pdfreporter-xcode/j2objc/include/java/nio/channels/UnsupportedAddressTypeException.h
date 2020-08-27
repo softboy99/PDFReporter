@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/UnsupportedAddressTypeException.java
 //
 
-#ifndef _JavaNioChannelsUnsupportedAddressTypeException_H_
-#define _JavaNioChannelsUnsupportedAddressTypeException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsUnsupportedAddressTypeException")
+#ifdef RESTRICT_JavaNioChannelsUnsupportedAddressTypeException
+#define INCLUDE_ALL_JavaNioChannelsUnsupportedAddressTypeException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsUnsupportedAddressTypeException 1
+#endif
+#undef RESTRICT_JavaNioChannelsUnsupportedAddressTypeException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsUnsupportedAddressTypeException_) && (INCLUDE_ALL_JavaNioChannelsUnsupportedAddressTypeException || defined(INCLUDE_JavaNioChannelsUnsupportedAddressTypeException))
+#define JavaNioChannelsUnsupportedAddressTypeException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaNioChannelsUnsupportedAddressTypeException_serialVersionUID -2964323842829700493LL
+/*!
+ @brief An <code>UnsupportedAddressTypeException</code> is thrown when connecting or
+ binding to an unsupported address type.
+ */
+@interface JavaNioChannelsUnsupportedAddressTypeException : JavaLangIllegalArgumentException
 
-@interface JavaNioChannelsUnsupportedAddressTypeException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>UnsupportedAddressTypeException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsUnsupportedAddressTypeException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsUnsupportedAddressTypeException_init(JavaNioChannelsUnsupportedAddressTypeException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsUnsupportedAddressTypeException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsUnsupportedAddressTypeException *new_JavaNioChannelsUnsupportedAddressTypeException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsUnsupportedAddressTypeException *create_JavaNioChannelsUnsupportedAddressTypeException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsUnsupportedAddressTypeException)
 
-#endif // _JavaNioChannelsUnsupportedAddressTypeException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsUnsupportedAddressTypeException")

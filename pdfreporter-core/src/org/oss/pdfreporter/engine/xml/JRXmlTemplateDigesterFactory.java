@@ -148,11 +148,12 @@ public class JRXmlTemplateDigesterFactory implements XMLErrorHandler
 	
 	protected void configureDigester(JasperReportsContext jasperReportsContext, IDigester digester) throws XMLParseException 
 	{
-		boolean validating = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JasperReportsContext.COMPILER_XML_VALIDATION);
-		
-		digester.setErrorHandler(this);
-		digester.setValidating(validating);
-		digester.setFeature("http://xml.org/sax/features/validation", validating);
+// HACK (24.02.2016, Donat, Open Software Solutions): Ignore validation to enable template support	
+//		boolean validating = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JasperReportsContext.COMPILER_XML_VALIDATION);
+//		
+//		digester.setErrorHandler(this);
+//		digester.setValidating(validating);
+//		digester.setFeature("http://xml.org/sax/features/validation", validating);
 
 		digester.addRuleSet(rules);
 	}

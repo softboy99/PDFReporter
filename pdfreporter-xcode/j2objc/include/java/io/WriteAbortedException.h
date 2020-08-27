@@ -3,28 +3,75 @@
 //  source: android/libcore/luni/src/main/java/java/io/WriteAbortedException.java
 //
 
-#ifndef _JavaIoWriteAbortedException_H_
-#define _JavaIoWriteAbortedException_H_
-
-@class JavaLangException;
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaIoWriteAbortedException")
+#ifdef RESTRICT_JavaIoWriteAbortedException
+#define INCLUDE_ALL_JavaIoWriteAbortedException 0
+#else
+#define INCLUDE_ALL_JavaIoWriteAbortedException 1
+#endif
+#undef RESTRICT_JavaIoWriteAbortedException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaIoWriteAbortedException_) && (INCLUDE_ALL_JavaIoWriteAbortedException || defined(INCLUDE_JavaIoWriteAbortedException))
+#define JavaIoWriteAbortedException_
+
+#define RESTRICT_JavaIoObjectStreamException 1
+#define INCLUDE_JavaIoObjectStreamException 1
 #include "java/io/ObjectStreamException.h"
 
-#define JavaIoWriteAbortedException_serialVersionUID -3326426625597282442LL
+@class JavaLangException;
 
+/*!
+ @brief Signals that the <code>ObjectInputStream.readObject()</code> method has detected
+ an exception marker in the input stream.
+ This marker indicates that exception
+ occurred when the object was serialized, and this marker was inserted instead
+ of the original object. It is a way to "propagate" an exception from the code
+ that attempted to write the object to the code that is attempting to read the
+ object.
+ - seealso: ObjectInputStream#readObject()
+ */
 @interface JavaIoWriteAbortedException : JavaIoObjectStreamException {
  @public
+  /*!
+   @brief The exception that occured when writeObject() was attempting to serialize
+ the object.
+   */
   JavaLangException *detail_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs a new <code>WriteAbortedException</code> with its stack trace,
+ detail message and the exception which caused the underlying problem when
+ serializing the object filled in.
+ @param detailMessage
+ the detail message for this exception.
+ @param rootCause
+ the exception that was thrown when serializing the object.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage
            withJavaLangException:(JavaLangException *)rootCause;
 
-- (NSString *)getMessage;
+/*!
+ @brief Gets the cause of this exception or <code>null</code> if there is no cause.
+ @return the exception cause.
+ */
+- (NSException *)getCause;
 
-- (JavaLangThrowable *)getCause;
+/*!
+ @brief Gets the extra information message which was provided when this exception
+ was created.
+ Returns <code>null</code> if no message was provided at creation
+ time.
+ @return the exception message.
+ */
+- (NSString *)getMessage;
 
 @end
 
@@ -32,11 +79,16 @@ J2OBJC_EMPTY_STATIC_INIT(JavaIoWriteAbortedException)
 
 J2OBJC_FIELD_SETTER(JavaIoWriteAbortedException, detail_, JavaLangException *)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaIoWriteAbortedException_initWithNSString_withJavaLangException_(JavaIoWriteAbortedException *self, NSString *detailMessage, JavaLangException *rootCause);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaIoWriteAbortedException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaIoWriteAbortedException *new_JavaIoWriteAbortedException_initWithNSString_withJavaLangException_(NSString *detailMessage, JavaLangException *rootCause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaIoWriteAbortedException *create_JavaIoWriteAbortedException_initWithNSString_withJavaLangException_(NSString *detailMessage, JavaLangException *rootCause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaIoWriteAbortedException)
 
-#endif // _JavaIoWriteAbortedException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaIoWriteAbortedException")

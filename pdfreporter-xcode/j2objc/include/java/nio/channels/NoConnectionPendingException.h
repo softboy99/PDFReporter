@@ -3,28 +3,56 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/NoConnectionPendingException.java
 //
 
-#ifndef _JavaNioChannelsNoConnectionPendingException_H_
-#define _JavaNioChannelsNoConnectionPendingException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsNoConnectionPendingException")
+#ifdef RESTRICT_JavaNioChannelsNoConnectionPendingException
+#define INCLUDE_ALL_JavaNioChannelsNoConnectionPendingException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsNoConnectionPendingException 1
+#endif
+#undef RESTRICT_JavaNioChannelsNoConnectionPendingException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsNoConnectionPendingException_) && (INCLUDE_ALL_JavaNioChannelsNoConnectionPendingException || defined(INCLUDE_JavaNioChannelsNoConnectionPendingException))
+#define JavaNioChannelsNoConnectionPendingException_
+
+#define RESTRICT_JavaLangIllegalStateException 1
+#define INCLUDE_JavaLangIllegalStateException 1
 #include "java/lang/IllegalStateException.h"
 
-#define JavaNioChannelsNoConnectionPendingException_serialVersionUID -8296561183633134743LL
+/*!
+ @brief A <code>NoConnectionPendingException</code> is thrown if <code>SocketChannel</code>'s
+ <code>finishConnect</code> method is called before
+ the <code>SocketChannel</code>'s <code>SocketChannel.connect(java.net.SocketAddress)</code>
+  connect} method completed
+ without error.
+ */
+@interface JavaNioChannelsNoConnectionPendingException : JavaLangIllegalStateException
 
-@interface JavaNioChannelsNoConnectionPendingException : JavaLangIllegalStateException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a <code>NoConnectionPendingException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsNoConnectionPendingException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsNoConnectionPendingException_init(JavaNioChannelsNoConnectionPendingException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsNoConnectionPendingException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsNoConnectionPendingException *new_JavaNioChannelsNoConnectionPendingException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsNoConnectionPendingException *create_JavaNioChannelsNoConnectionPendingException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsNoConnectionPendingException)
 
-#endif // _JavaNioChannelsNoConnectionPendingException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsNoConnectionPendingException")

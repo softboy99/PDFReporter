@@ -3,19 +3,47 @@
 //  source: android/libcore/luni/src/main/java/java/util/UnknownFormatFlagsException.java
 //
 
-#ifndef _JavaUtilUnknownFormatFlagsException_H_
-#define _JavaUtilUnknownFormatFlagsException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilUnknownFormatFlagsException")
+#ifdef RESTRICT_JavaUtilUnknownFormatFlagsException
+#define INCLUDE_ALL_JavaUtilUnknownFormatFlagsException 0
+#else
+#define INCLUDE_ALL_JavaUtilUnknownFormatFlagsException 1
+#endif
+#undef RESTRICT_JavaUtilUnknownFormatFlagsException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilUnknownFormatFlagsException_) && (INCLUDE_ALL_JavaUtilUnknownFormatFlagsException || defined(INCLUDE_JavaUtilUnknownFormatFlagsException))
+#define JavaUtilUnknownFormatFlagsException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilUnknownFormatFlagsException_serialVersionUID 19370506LL
+/*!
+ @brief An <code>UnknownFormatFlagsException</code> will be thrown if there is
+ an unknown flag.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilUnknownFormatFlagsException : JavaUtilIllegalFormatException
 
-@interface JavaUtilUnknownFormatFlagsException : JavaUtilIllegalFormatException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>UnknownFormatFlagsException</code> with the specified
+ flags.
+ @param f
+ the specified flags.
+ */
 - (instancetype)initWithNSString:(NSString *)f;
 
+/*!
+ @brief Returns the flags associated with the exception.
+ @return the flags associated with the exception.
+ */
 - (NSString *)getFlags;
 
 - (NSString *)getMessage;
@@ -24,11 +52,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilUnknownFormatFlagsException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilUnknownFormatFlagsException_initWithNSString_(JavaUtilUnknownFormatFlagsException *self, NSString *f);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilUnknownFormatFlagsException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilUnknownFormatFlagsException *new_JavaUtilUnknownFormatFlagsException_initWithNSString_(NSString *f) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilUnknownFormatFlagsException *create_JavaUtilUnknownFormatFlagsException_initWithNSString_(NSString *f);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilUnknownFormatFlagsException)
 
-#endif // _JavaUtilUnknownFormatFlagsException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilUnknownFormatFlagsException")

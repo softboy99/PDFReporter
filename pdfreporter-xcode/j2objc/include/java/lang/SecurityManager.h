@@ -3,8 +3,21 @@
 //  source: android/libcore/luni/src/main/java/java/lang/SecurityManager.java
 //
 
-#ifndef _JavaLangSecurityManager_H_
-#define _JavaLangSecurityManager_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangSecurityManager")
+#ifdef RESTRICT_JavaLangSecurityManager
+#define INCLUDE_ALL_JavaLangSecurityManager 0
+#else
+#define INCLUDE_ALL_JavaLangSecurityManager 1
+#endif
+#undef RESTRICT_JavaLangSecurityManager
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangSecurityManager_) && (INCLUDE_ALL_JavaLangSecurityManager || defined(INCLUDE_JavaLangSecurityManager))
+#define JavaLangSecurityManager_
 
 @class IOSClass;
 @class IOSObjectArray;
@@ -14,12 +27,20 @@
 @class JavaLangThreadGroup;
 @class JavaSecurityPermission;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Legacy security code; do not use.
+ <p>Security managers do <strong>not</strong> provide a
+ secure environment for executing untrusted code. Untrusted code cannot be
+ safely isolated within the Dalvik VM.
+ */
 @interface JavaLangSecurityManager : NSObject {
  @public
+  /*!
+   */
   jboolean inCheck_;
 }
+
+#pragma mark Public
 
 - (instancetype)init;
 
@@ -29,6 +50,8 @@
 - (void)checkAccessWithJavaLangThread:(JavaLangThread *)thread;
 
 - (void)checkAccessWithJavaLangThreadGroup:(JavaLangThreadGroup *)group;
+
+- (void)checkAwtEventQueueAccess;
 
 - (void)checkConnectWithNSString:(NSString *)host
                          withInt:(jint)port;
@@ -56,6 +79,13 @@
 
 - (void)checkPackageDefinitionWithNSString:(NSString *)packageName;
 
+- (void)checkPermissionWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
+
+- (void)checkPermissionWithJavaSecurityPermission:(JavaSecurityPermission *)permission
+                                           withId:(id)context;
+
+- (void)checkPrintJobAccess;
+
 - (void)checkPropertiesAccess;
 
 - (void)checkPropertyAccessWithNSString:(NSString *)key;
@@ -71,50 +101,67 @@
 
 - (void)checkSetFactory;
 
-- (jboolean)checkTopLevelWindowWithId:(id)window;
-
 - (void)checkSystemClipboardAccess;
 
-- (void)checkAwtEventQueueAccess;
-
-- (void)checkPrintJobAccess;
+- (jboolean)checkTopLevelWindowWithId:(id)window;
 
 - (void)checkWriteWithJavaIoFileDescriptor:(JavaIoFileDescriptor *)fd;
 
 - (void)checkWriteWithNSString:(NSString *)file;
 
-- (jboolean)getInCheck;
-
-- (IOSObjectArray *)getClassContext;
-
-- (JavaLangClassLoader *)currentClassLoader;
-
-- (jint)classLoaderDepth;
-
-- (IOSClass *)currentLoadedClass;
-
-- (jint)classDepthWithNSString:(NSString *)name;
-
-- (jboolean)inClassWithNSString:(NSString *)name;
-
-- (jboolean)inClassLoader;
-
-- (JavaLangThreadGroup *)getThreadGroup;
+/*!
+ */
+- (jboolean)getInCheck __attribute__((deprecated));
 
 - (id)getSecurityContext;
 
-- (void)checkPermissionWithJavaSecurityPermission:(JavaSecurityPermission *)permission;
+/*!
+ @brief Returns the current thread's thread group.
+ */
+- (JavaLangThreadGroup *)getThreadGroup;
 
-- (void)checkPermissionWithJavaSecurityPermission:(JavaSecurityPermission *)permission
-                                           withId:(id)context;
+#pragma mark Protected
+
+/*!
+ */
+- (jint)classDepthWithNSString:(NSString *)name __attribute__((deprecated));
+
+/*!
+ */
+- (jint)classLoaderDepth __attribute__((deprecated));
+
+/*!
+ */
+- (JavaLangClassLoader *)currentClassLoader __attribute__((deprecated));
+
+/*!
+ */
+- (IOSClass *)currentLoadedClass __attribute__((deprecated));
+
+- (IOSObjectArray *)getClassContext;
+
+/*!
+ */
+- (jboolean)inClassWithNSString:(NSString *)name __attribute__((deprecated));
+
+/*!
+ */
+- (jboolean)inClassLoader __attribute__((deprecated));
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangSecurityManager)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaLangSecurityManager_init(JavaLangSecurityManager *self);
+
+FOUNDATION_EXPORT JavaLangSecurityManager *new_JavaLangSecurityManager_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangSecurityManager *create_JavaLangSecurityManager_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangSecurityManager)
 
-#endif // _JavaLangSecurityManager_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangSecurityManager")

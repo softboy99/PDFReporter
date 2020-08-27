@@ -14,8 +14,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+
+//import com.lowagie.text.Font;
+//import com.lowagie.text.FontFactory;
 
 public class FontManager extends AbstractFontManager  {
 

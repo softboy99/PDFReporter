@@ -3,36 +3,77 @@
 //  source: android/libcore/luni/src/main/java/java/security/KeyPair.java
 //
 
-#ifndef _JavaSecurityKeyPair_H_
-#define _JavaSecurityKeyPair_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityKeyPair")
+#ifdef RESTRICT_JavaSecurityKeyPair
+#define INCLUDE_ALL_JavaSecurityKeyPair 0
+#else
+#define INCLUDE_ALL_JavaSecurityKeyPair 1
+#endif
+#undef RESTRICT_JavaSecurityKeyPair
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityKeyPair_) && (INCLUDE_ALL_JavaSecurityKeyPair || defined(INCLUDE_JavaSecurityKeyPair))
+#define JavaSecurityKeyPair_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @protocol JavaSecurityPrivateKey;
 @protocol JavaSecurityPublicKey;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+/*!
+ @brief <code>KeyPair</code> is a container for a public key and a private key.
+ Since the
+ private key can be accessed, instances must be treated like a private key.
+ - seealso: PrivateKey
+ - seealso: PublicKey
+ */
+@interface JavaSecurityKeyPair : NSObject < JavaIoSerializable >
 
-#define JavaSecurityKeyPair_serialVersionUID -7565189502268009837LL
+#pragma mark Public
 
-@interface JavaSecurityKeyPair : NSObject < JavaIoSerializable > {
-}
-
+/*!
+ @brief Constructs a new instance of <code>KeyPair</code> with a public key and the
+ corresponding private key.
+ @param publicKey
+ the public key.
+ @param privateKey
+ the private key.
+ */
 - (instancetype)initWithJavaSecurityPublicKey:(id<JavaSecurityPublicKey>)publicKey
                    withJavaSecurityPrivateKey:(id<JavaSecurityPrivateKey>)privateKey;
 
+/*!
+ @brief Returns the private key.
+ @return the private key.
+ */
 - (id<JavaSecurityPrivateKey>)getPrivate;
 
+/*!
+ @brief Returns the public key.
+ @return the public key.
+ */
 - (id<JavaSecurityPublicKey>)getPublic;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityKeyPair)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityKeyPair_initWithJavaSecurityPublicKey_withJavaSecurityPrivateKey_(JavaSecurityKeyPair *self, id<JavaSecurityPublicKey> publicKey, id<JavaSecurityPrivateKey> privateKey);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityKeyPair, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityKeyPair *new_JavaSecurityKeyPair_initWithJavaSecurityPublicKey_withJavaSecurityPrivateKey_(id<JavaSecurityPublicKey> publicKey, id<JavaSecurityPrivateKey> privateKey) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityKeyPair *create_JavaSecurityKeyPair_initWithJavaSecurityPublicKey_withJavaSecurityPrivateKey_(id<JavaSecurityPublicKey> publicKey, id<JavaSecurityPrivateKey> privateKey);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityKeyPair)
 
-#endif // _JavaSecurityKeyPair_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityKeyPair")

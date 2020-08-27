@@ -25,7 +25,6 @@ package org.oss.pdfreporter.engine.fill;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +35,7 @@ import org.oss.pdfreporter.engine.JRParameter;
 import org.oss.pdfreporter.engine.JRRuntimeException;
 import org.oss.pdfreporter.engine.type.WhenResourceMissingTypeEnum;
 import org.oss.pdfreporter.registry.ApiRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 import org.oss.pdfreporter.text.format.IMessageFormat;
 import org.oss.pdfreporter.text.format.factory.IFormatFactory.FormatType;
 
@@ -79,11 +79,12 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @param resourceMissingType the resource missing type
 	 * @throws JRException
 	 */
+	@Override
 	public void init(
-			Map<String, IJRFillParameter> parametersMap,
-			Map<String, JRFillField> fieldsMap,
-			Map<String, JRFillVariable> variablesMap,
-			WhenResourceMissingTypeEnum resourceMissingType
+			final Map<String, IJRFillParameter> parametersMap,
+			final Map<String, JRFillField> fieldsMap,
+			final Map<String, JRFillVariable> variablesMap,
+			final WhenResourceMissingTypeEnum resourceMissingType
 			) throws JRException
 	{
 		this.whenResourceMissingType = resourceMissingType;
@@ -103,7 +104,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @return the constructed message
 	 * @see IMessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
-	public String msg(String pattern, Object arg0)
+	public String msg(final String pattern, final Object arg0)
 	{
 		return getMessageFormat(pattern).format(new Object[] { arg0 });
 	}
@@ -117,7 +118,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @return the constructed message
 	 * @see IMessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
-	public String msg(String pattern, Object arg0, Object arg1)
+	public String msg(final String pattern, final Object arg0, final Object arg1)
 	{
 		return getMessageFormat(pattern).format(new Object[] { arg0, arg1 });
 	}
@@ -133,7 +134,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @return the constructed message
 	 * @see IMessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
-	public String msg(String pattern, Object arg0, Object arg1, Object arg2)
+	public String msg(final String pattern, final Object arg0, final Object arg1, final Object arg2)
 	{
 		return getMessageFormat(pattern).format(new Object[] { arg0, arg1, arg2 });
 	}
@@ -146,7 +147,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @return the constructed message
 	 * @see IMessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
-	public String msg(String pattern, Object[] args)
+	public String msg(final String pattern, final Object[] args)
 	{
 		return getMessageFormat(pattern).format(args);
 	}
@@ -155,8 +156,9 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 *
 	 */
+	@Override
 	@AutoreleasePool
-	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
+	public Object evaluate(final JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 
@@ -166,18 +168,17 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			{
 				value = evaluate(expression.getId());
 				if (logger.isLoggable(Level.FINEST)) {
-					String msg = value.toString();
+					String msg = value==null ? null : value.toString();
 					if (value instanceof Date) {
-						Calendar cal = Calendar.getInstance();
+						final Calendar cal = Calendar.getInstance();
 						cal.setTime((Date)value);
 						msg = String.format("%04d-%02d-%02d %02d:%02d:%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
-						//msg = String.format("%1$tF %1$tT", value);
 					}
 					logger.finest("evaluate: " + expression.getId() + " = " + msg);
 				}
 			}
 			// TODO (30.04.2013, Donat, Open Software Solutions): Very bad style eating exceptions keep it for compatibility (catch for OutOfMemory is not supported by j2objc)
-			catch (NullPointerException e) //NOPMD
+			catch (final NullPointerException e) //NOPMD
 			{
 			}
 //			catch (OutOfMemoryError e)
@@ -186,7 +187,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 //			}
 			// we have to catch Throwable because there is no way we could modify the signature
 			// of the evaluate method, without breaking backward compatibility of compiled report templates
-			catch (Throwable e) //NOPMD
+			catch (final Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
@@ -199,7 +200,8 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 *
 	 */
-	public Object evaluateOld(JRExpression expression) throws JRExpressionEvalException
+	@Override
+	public Object evaluateOld(final JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 
@@ -211,7 +213,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 				logger.finest("evaluateOld: " + expression.getId() + " = " + value);
 			}
 			// TODO (30.04.2013, Donat, Open Software Solutions): Very bad style eating exceptions keep it for compatibility (catch for OutOfMemory is not supported by j2objc)
-			catch (NullPointerException e) //NOPMD
+			catch (final NullPointerException e) //NOPMD
 			{
 			}
 //			catch (OutOfMemoryError e)
@@ -220,7 +222,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 //			}
 			// we have to catch Throwable because there is no way we could modify the signature
 			// of the evaluate method, without breaking backward compatibility of compiled report templates
-			catch (Throwable e) //NOPMD
+			catch (final Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
@@ -233,7 +235,8 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 *
 	 */
-	public Object evaluateEstimated(JRExpression expression) throws JRExpressionEvalException
+	@Override
+	public Object evaluateEstimated(final JRExpression expression) throws JRExpressionEvalException
 	{
 		Object value = null;
 
@@ -245,7 +248,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 				logger.finest("evaluateEstimated: " + expression.getId() + " = " + value);
 			}
 			// TODO (30.04.2013, Donat, Open Software Solutions): Very bad style eating exceptions keep it for compatibility (catch for OutOfMemory is not supported by j2objc)
-			catch (NullPointerException e) //NOPMD
+			catch (final NullPointerException e) //NOPMD
 			{
 			}
 //			catch (OutOfMemoryError e)
@@ -254,7 +257,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 //			}
 			// we have to catch Throwable because there is no way we could modify the signature
 			// of the evaluate method, without breaking backward compatibility of compiled report templates
-			catch (Throwable e) //NOPMD
+			catch (final Throwable e) //NOPMD
 			{
 				throw new JRExpressionEvalException(expression, e);
 			}
@@ -275,7 +278,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @throws JRRuntimeException
 	 *             when the resource missing handling type is Error
 	 */
-	protected String handleMissingResource(String key, Exception e) throws JRRuntimeException
+	protected String handleMissingResource(final String key, final Exception e) throws JRRuntimeException
 	{
 		String str;
 		switch (whenResourceMissingType)
@@ -362,9 +365,9 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 *
 	 */
-	private IMessageFormat getMessageFormat(String pattern)
+	private IMessageFormat getMessageFormat(final String pattern)
 	{
-		return ApiRegistry.getIFormatFactory(FormatType.DEFAULT).newMessageFormat(pattern, (Locale)locale.getValue());
+		return ApiRegistry.getIFormatFactory(FormatType.DEFAULT).newMessageFormat(pattern, ((StringLocale)locale.getValue()).toLocale());
 	}
 
 }

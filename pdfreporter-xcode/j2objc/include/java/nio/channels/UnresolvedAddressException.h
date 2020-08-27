@@ -3,28 +3,53 @@
 //  source: android/libcore/luni/src/main/java/java/nio/channels/UnresolvedAddressException.java
 //
 
-#ifndef _JavaNioChannelsUnresolvedAddressException_H_
-#define _JavaNioChannelsUnresolvedAddressException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNioChannelsUnresolvedAddressException")
+#ifdef RESTRICT_JavaNioChannelsUnresolvedAddressException
+#define INCLUDE_ALL_JavaNioChannelsUnresolvedAddressException 0
+#else
+#define INCLUDE_ALL_JavaNioChannelsUnresolvedAddressException 1
+#endif
+#undef RESTRICT_JavaNioChannelsUnresolvedAddressException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNioChannelsUnresolvedAddressException_) && (INCLUDE_ALL_JavaNioChannelsUnresolvedAddressException || defined(INCLUDE_JavaNioChannelsUnresolvedAddressException))
+#define JavaNioChannelsUnresolvedAddressException_
+
+#define RESTRICT_JavaLangIllegalArgumentException 1
+#define INCLUDE_JavaLangIllegalArgumentException 1
 #include "java/lang/IllegalArgumentException.h"
 
-#define JavaNioChannelsUnresolvedAddressException_serialVersionUID 6136959093620794148LL
+/*!
+ @brief An <code>UnresolvedAddressException</code> is thrown when trying to use an
+ unresolved network address in a network operation.
+ */
+@interface JavaNioChannelsUnresolvedAddressException : JavaLangIllegalArgumentException
 
-@interface JavaNioChannelsUnresolvedAddressException : JavaLangIllegalArgumentException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs an <code>UnresolvedAddressException</code>.
+ */
 - (instancetype)init;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNioChannelsUnresolvedAddressException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNioChannelsUnresolvedAddressException_init(JavaNioChannelsUnresolvedAddressException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaNioChannelsUnresolvedAddressException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNioChannelsUnresolvedAddressException *new_JavaNioChannelsUnresolvedAddressException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNioChannelsUnresolvedAddressException *create_JavaNioChannelsUnresolvedAddressException_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNioChannelsUnresolvedAddressException)
 
-#endif // _JavaNioChannelsUnresolvedAddressException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNioChannelsUnresolvedAddressException")

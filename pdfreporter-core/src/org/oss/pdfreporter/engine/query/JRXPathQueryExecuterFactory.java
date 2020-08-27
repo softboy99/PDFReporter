@@ -100,7 +100,7 @@ public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 		XML_SOURCE, "java.lang.String",
 		XML_DATE_PATTERN, "java.lang.String",
 		XML_NUMBER_PATTERN, "java.lang.String",
-		XML_LOCALE, "java.util.Locale",
+		XML_LOCALE, "org.oss.pdfreporter.text.bundle.StringLocale",
 		XML_TIME_ZONE, "java.util.TimeZone",
 		};
 

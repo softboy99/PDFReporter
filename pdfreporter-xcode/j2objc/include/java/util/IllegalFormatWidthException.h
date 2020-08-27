@@ -3,32 +3,66 @@
 //  source: android/libcore/luni/src/main/java/java/util/IllegalFormatWidthException.java
 //
 
-#ifndef _JavaUtilIllegalFormatWidthException_H_
-#define _JavaUtilIllegalFormatWidthException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilIllegalFormatWidthException")
+#ifdef RESTRICT_JavaUtilIllegalFormatWidthException
+#define INCLUDE_ALL_JavaUtilIllegalFormatWidthException 0
+#else
+#define INCLUDE_ALL_JavaUtilIllegalFormatWidthException 1
+#endif
+#undef RESTRICT_JavaUtilIllegalFormatWidthException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilIllegalFormatWidthException_) && (INCLUDE_ALL_JavaUtilIllegalFormatWidthException || defined(INCLUDE_JavaUtilIllegalFormatWidthException))
+#define JavaUtilIllegalFormatWidthException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilIllegalFormatWidthException_serialVersionUID 16660902LL
+/*!
+ @brief An <code>IllegalFormatWidthException</code> will be thrown if the width is a
+ negative value other than -1 or in other cases where a width is not
+ supported.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilIllegalFormatWidthException : JavaUtilIllegalFormatException
 
-@interface JavaUtilIllegalFormatWidthException : JavaUtilIllegalFormatException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>IllegalFormatWidthException</code> with specified
+ width.
+ @param w
+ the width.
+ */
 - (instancetype)initWithInt:(jint)w;
 
-- (jint)getWidth;
-
 - (NSString *)getMessage;
+
+/*!
+ @brief Returns the width associated with the exception.
+ @return the width.
+ */
+- (jint)getWidth;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilIllegalFormatWidthException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilIllegalFormatWidthException_initWithInt_(JavaUtilIllegalFormatWidthException *self, jint w);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilIllegalFormatWidthException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilIllegalFormatWidthException *new_JavaUtilIllegalFormatWidthException_initWithInt_(jint w) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilIllegalFormatWidthException *create_JavaUtilIllegalFormatWidthException_initWithInt_(jint w);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilIllegalFormatWidthException)
 
-#endif // _JavaUtilIllegalFormatWidthException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilIllegalFormatWidthException")

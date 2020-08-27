@@ -7,7 +7,7 @@
 //
 
 #import "ResultMetaData.h"
-#import "org/oss/pdfreporter/sql/SqlType.h"
+#include "org/oss/pdfreporter/sql/SqlType.h"
 
 @implementation ResultMetaData
 
@@ -51,14 +51,14 @@
     }
 }
 
-- (OrgOssPdfreporterSqlSqlTypeEnum *)getColumnTypeWithInt:(int)columnIndex
+- (OrgOssPdfreporterSqlSqlType *)getColumnTypeWithInt:(int)columnIndex
 {
     int type = sqlite3_column_type(mStmt, columnIndex-1);
     switch (type) {
-        case SQLITE_INTEGER: return OrgOssPdfreporterSqlSqlTypeEnum_INTEGER;
-        case SQLITE_FLOAT: return OrgOssPdfreporterSqlSqlTypeEnum_FLOAT;
-        case SQLITE_TEXT: return OrgOssPdfreporterSqlSqlTypeEnum_VARCHAR;
-        case SQLITE_BLOB: return OrgOssPdfreporterSqlSqlTypeEnum_BLOB;
+        case SQLITE_INTEGER: return OrgOssPdfreporterSqlSqlType_get_INTEGER();
+        case SQLITE_FLOAT: return OrgOssPdfreporterSqlSqlType_get_FLOAT();
+        case SQLITE_TEXT: return OrgOssPdfreporterSqlSqlType_get_VARCHAR();
+        case SQLITE_BLOB: return OrgOssPdfreporterSqlSqlType_get_BLOB();
         case SQLITE_NULL: return NULL;
         default:
             return NULL;

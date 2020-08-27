@@ -3,19 +3,47 @@
 //  source: android/libcore/luni/src/main/java/java/util/MissingFormatWidthException.java
 //
 
-#ifndef _JavaUtilMissingFormatWidthException_H_
-#define _JavaUtilMissingFormatWidthException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilMissingFormatWidthException")
+#ifdef RESTRICT_JavaUtilMissingFormatWidthException
+#define INCLUDE_ALL_JavaUtilMissingFormatWidthException 0
+#else
+#define INCLUDE_ALL_JavaUtilMissingFormatWidthException 1
+#endif
+#undef RESTRICT_JavaUtilMissingFormatWidthException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilMissingFormatWidthException_) && (INCLUDE_ALL_JavaUtilMissingFormatWidthException || defined(INCLUDE_JavaUtilMissingFormatWidthException))
+#define JavaUtilMissingFormatWidthException_
+
+#define RESTRICT_JavaUtilIllegalFormatException 1
+#define INCLUDE_JavaUtilIllegalFormatException 1
 #include "java/util/IllegalFormatException.h"
 
-#define JavaUtilMissingFormatWidthException_serialVersionUID 15560123LL
+/*!
+ @brief A <code>MissingFormatWidthException</code> will be thrown if the format width is
+ missing but is required.
+ - seealso: java.lang.RuntimeException
+ */
+@interface JavaUtilMissingFormatWidthException : JavaUtilIllegalFormatException
 
-@interface JavaUtilMissingFormatWidthException : JavaUtilIllegalFormatException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>MissingFormatWidthException</code> with the specified
+ format specifier.
+ @param s
+ the specified format specifier.
+ */
 - (instancetype)initWithNSString:(NSString *)s;
 
+/*!
+ @brief Returns the format specifier associated with the exception.
+ @return the format specifier associated with the exception.
+ */
 - (NSString *)getFormatSpecifier;
 
 - (NSString *)getMessage;
@@ -24,11 +52,16 @@
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilMissingFormatWidthException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilMissingFormatWidthException_initWithNSString_(JavaUtilMissingFormatWidthException *self, NSString *s);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilMissingFormatWidthException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilMissingFormatWidthException *new_JavaUtilMissingFormatWidthException_initWithNSString_(NSString *s) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilMissingFormatWidthException *create_JavaUtilMissingFormatWidthException_initWithNSString_(NSString *s);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilMissingFormatWidthException)
 
-#endif // _JavaUtilMissingFormatWidthException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilMissingFormatWidthException")

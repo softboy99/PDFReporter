@@ -10,7 +10,7 @@
 	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="OrderIdStyle" style="Sans_Normal">
 		<conditionalStyle>
-			<conditionExpression><![CDATA[(boolean)$F{OrderID} % 10 == 0]]></conditionExpression>
+			<conditionExpression><![CDATA[$F{OrderID} % 10 == 0]]></conditionExpression>
 			<style forecolor="#FF0000" isBold="true"/>
 		</conditionalStyle>
 	</style>
@@ -64,7 +64,7 @@
 		<fieldDescription><![CDATA[Freight]]></fieldDescription>
 	</field>
 	<variable name="FirstLetter" class="java.lang.String" resetType="None">
-		<variableExpression><![CDATA[toUpperCase(substring($F{ShipCountry},0, 1))]]></variableExpression>
+		<variableExpression><![CDATA[toUpperCase(substr($F{ShipCountry},0, 1))]]></variableExpression>
 	</variable>
 	<variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" resetGroup="FirstLetterGroup" calculation="Sum">
 		<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
@@ -114,7 +114,7 @@
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="200" y="14" width="30" height="11" forecolor="#FF0000" backcolor="#FFDDDD"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[ifelse($V{FirstLetterGroup_COUNT} == 0 , 1 : $V{PAGE_NUMBER} - $V{FirstLetterStartPageNumber} + 1)]]></textFieldExpression>
+					<textFieldExpression><![CDATA[ifelse($V{FirstLetterGroup_COUNT} == 0 , 1 , $V{PAGE_NUMBER} - ifelse(isNull($V{FirstLetterStartPageNumber}),0,$V{FirstLetterStartPageNumber}) + 1)]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Sans_Bold" mode="Opaque" x="230" y="14" width="10" height="11" forecolor="#FF0000" backcolor="#FFDDDD"/>
@@ -212,7 +212,7 @@
 		</groupFooter>
 	</group>
 	<group name="BreakGroup">
-		<groupExpression><![CDATA[ifelse($V{BreakGroup_COUNT} > 5,'TRUE','FALSE')]]></groupExpression>
+		<groupExpression><![CDATA[ifelse($V{BreakGroup_COUNT} > 5,true,false)]]></groupExpression>
 		<groupHeader>
 			<band height="5"/>
 		</groupHeader>
@@ -305,7 +305,7 @@
 		<band height="13">
 			<rectangle>
 				<reportElement x="0" y="4" width="1" height="1" forecolor="#FF0000" backcolor="#FF0000">
-					<printWhenExpression><![CDATA[ifelse($F{OrderID} % 10 == 0,'TRUE','FALSE')]]></printWhenExpression>
+					<printWhenExpression><![CDATA[ifelse($F{OrderID} % 10 == 0,true,false)]]></printWhenExpression>
 				</reportElement>
 			</rectangle>
 			<textField>
@@ -340,7 +340,7 @@
 					<property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
 				</reportElement>
 				<textElement/>
-				<textFieldExpression><![CDATA[(date)$F{OrderDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="0.00">
 				<reportElement x="235" y="0" width="35" height="11">

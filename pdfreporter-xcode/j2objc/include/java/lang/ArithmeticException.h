@@ -3,30 +3,67 @@
 //  source: android/libcore/luni/src/main/java/java/lang/ArithmeticException.java
 //
 
-#ifndef _JavaLangArithmeticException_H_
-#define _JavaLangArithmeticException_H_
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangArithmeticException")
+#ifdef RESTRICT_JavaLangArithmeticException
+#define INCLUDE_ALL_JavaLangArithmeticException 0
+#else
+#define INCLUDE_ALL_JavaLangArithmeticException 1
+#endif
+#undef RESTRICT_JavaLangArithmeticException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangArithmeticException_) && (INCLUDE_ALL_JavaLangArithmeticException || defined(INCLUDE_JavaLangArithmeticException))
+#define JavaLangArithmeticException_
+
+#define RESTRICT_JavaLangRuntimeException 1
+#define INCLUDE_JavaLangRuntimeException 1
 #include "java/lang/RuntimeException.h"
 
-#define JavaLangArithmeticException_serialVersionUID 2256477558314496007LL
+/*!
+ @brief Thrown when the an invalid arithmetic operation is attempted.
+ */
+@interface JavaLangArithmeticException : JavaLangRuntimeException
 
-@interface JavaLangArithmeticException : JavaLangRuntimeException {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>ArithmeticException</code> that includes the current
+ stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>ArithmeticException</code> with the current stack trace
+ and the specified detail message.
+ @param detailMessage
+ the detail message for this exception.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangArithmeticException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangArithmeticException_init(JavaLangArithmeticException *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangArithmeticException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangArithmeticException *new_JavaLangArithmeticException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangArithmeticException *create_JavaLangArithmeticException_init();
+
+FOUNDATION_EXPORT void JavaLangArithmeticException_initWithNSString_(JavaLangArithmeticException *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangArithmeticException *new_JavaLangArithmeticException_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangArithmeticException *create_JavaLangArithmeticException_initWithNSString_(NSString *detailMessage);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangArithmeticException)
 
-#endif // _JavaLangArithmeticException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangArithmeticException")

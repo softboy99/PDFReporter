@@ -23,7 +23,6 @@
  */
 package org.oss.pdfreporter.engine.fonts;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +30,7 @@ import org.oss.pdfreporter.engine.DefaultJasperReportsContext;
 import org.oss.pdfreporter.engine.JasperReportsContext;
 import org.oss.pdfreporter.engine.util.JRDataUtils;
 import org.oss.pdfreporter.font.IFont.FontStyle;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 
 
@@ -46,7 +46,6 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	private JasperReportsContext jasperReportsContext;
 	private String name;
 	private FontFace normalFace;
 	private FontFace boldFace;
@@ -75,7 +74,6 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public SimpleFontFamily(JasperReportsContext jasperReportsContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
 	}
 	
 	/**
@@ -314,7 +312,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public boolean supportsLocale(Locale locale)
+	public boolean supportsLocale(StringLocale locale)
 	{
 		return locales == null || locales.isEmpty() || locales.contains(JRDataUtils.getLocaleCode(locale));
 	}

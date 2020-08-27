@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "org/oss/pdfreporter/xml/parsers/factory/IXmlParserFactory.h"
+#include "org/oss/pdfreporter/xml/parsers/factory/IXmlParserFactory.h"
 
 @interface OrgOssPdfreporterXmlParsersFactoryXmlParserFactory : NSObject <OrgOssPdfreporterXmlParsersFactoryIXmlParserFactory>
 +(void)registerFactory;

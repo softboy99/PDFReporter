@@ -3,57 +3,209 @@
 //  source: android/libcore/luni/src/main/java/java/text/AttributedString.java
 //
 
-#ifndef _JavaTextAttributedString_H_
-#define _JavaTextAttributedString_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaTextAttributedString")
+#ifdef RESTRICT_JavaTextAttributedString
+#define INCLUDE_ALL_JavaTextAttributedString 0
+#else
+#define INCLUDE_ALL_JavaTextAttributedString 1
+#endif
+#undef RESTRICT_JavaTextAttributedString
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaTextAttributedString_) && (INCLUDE_ALL_JavaTextAttributedString || defined(INCLUDE_JavaTextAttributedString))
+#define JavaTextAttributedString_
 
 @class IOSObjectArray;
 @class JavaTextAttributedCharacterIterator_Attribute;
-@class JavaUtilHashSet;
-@protocol JavaUtilList;
+@protocol JavaTextAttributedCharacterIterator;
 @protocol JavaUtilMap;
-@protocol JavaUtilSet;
 
-#include "J2ObjC_header.h"
-#include "java/text/AttributedCharacterIterator.h"
-
+/*!
+ @brief Holds a string with attributes describing the characters of
+ this string.
+ */
 @interface JavaTextAttributedString : NSObject {
  @public
   NSString *text_;
   id<JavaUtilMap> attributeMap_;
 }
 
+#pragma mark Public
+
+/*!
+ @brief Constructs an <code>AttributedString</code> from an <code>AttributedCharacterIterator</code>
+ , which represents attributed text.
+ @param iterator
+ the <code>AttributedCharacterIterator</code> that contains the text
+ for this attributed string.
+ */
 - (instancetype)initWithJavaTextAttributedCharacterIterator:(id<JavaTextAttributedCharacterIterator>)iterator;
 
+/*!
+ @brief Constructs an <code>AttributedString</code> from a range of the text contained
+ in the specified <code>AttributedCharacterIterator</code>, starting at <code>start</code>
+  and ending at <code>end</code>.
+ All attributes will be copied to this
+ attributed string.
+ @param iterator
+ the <code>AttributedCharacterIterator</code> that contains the text
+ for this attributed string.
+ @param start
+ the start index of the range of the copied text.
+ @param end
+ the end index of the range of the copied text.
+ @throws IllegalArgumentException
+ if <code>start</code> is less than first index of
+ <code>iterator</code>, <code>end</code> is greater than the last
+ index + 1 in <code>iterator</code> or if <code>start > end</code>.
+ */
 - (instancetype)initWithJavaTextAttributedCharacterIterator:(id<JavaTextAttributedCharacterIterator>)iterator
                                                     withInt:(jint)start
                                                     withInt:(jint)end;
 
+/*!
+ @brief Constructs an <code>AttributedString</code> from a range of the text contained
+ in the specified <code>AttributedCharacterIterator</code>, starting at <code>start</code>
+ , ending at <code>end</code> and it will copy the attributes defined in
+ the specified set.
+ If the set is <code>null</code> then all attributes are
+ copied.
+ @param iterator
+ the <code>AttributedCharacterIterator</code> that contains the text
+ for this attributed string.
+ @param start
+ the start index of the range of the copied text.
+ @param end
+ the end index of the range of the copied text.
+ @param attributes
+ the set of attributes that will be copied, or all if it is
+ <code>null</code>.
+ @throws IllegalArgumentException
+ if <code>start</code> is less than first index of
+ <code>iterator</code>, <code>end</code> is greater than the last index +
+ 1 in <code>iterator</code> or if <code>start > end</code>.
+ */
 - (instancetype)initWithJavaTextAttributedCharacterIterator:(id<JavaTextAttributedCharacterIterator>)iterator
                                                     withInt:(jint)start
                                                     withInt:(jint)end
      withJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attributes;
 
+/*!
+ @brief Creates an <code>AttributedString</code> from the given text.
+ @param value
+ the text to take as base for this attributed string.
+ */
 - (instancetype)initWithNSString:(NSString *)value;
 
+/*!
+ @brief Creates an <code>AttributedString</code> from the given text and the
+ attributes.
+ The whole text has the given attributes applied.
+ @param value
+ the text to take as base for this attributed string.
+ @param attributes
+ the attributes that the text is associated with.
+ @throws IllegalArgumentException
+ if the length of <code>value</code> is 0 but the size of <code>attributes</code>
+  is greater than 0.
+ @throws NullPointerException
+ if <code>value</code> is <code>null</code>.
+ */
 - (instancetype)initWithNSString:(NSString *)value
                  withJavaUtilMap:(id<JavaUtilMap>)attributes;
 
+/*!
+ @brief Applies a given attribute to this string.
+ @param attribute
+ the attribute that will be applied to this string.
+ @param value
+ the value of the attribute that will be applied to this
+ string.
+ @throws IllegalArgumentException
+ if the length of this attributed string is 0.
+ @throws NullPointerException
+ if <code>attribute</code> is <code>null</code>.
+ */
 - (void)addAttributeWithJavaTextAttributedCharacterIterator_Attribute:(JavaTextAttributedCharacterIterator_Attribute *)attribute
                                                                withId:(id)value;
 
+/*!
+ @brief Applies a given attribute to the given range of this string.
+ @param attribute
+ the attribute that will be applied to this string.
+ @param value
+ the value of the attribute that will be applied to this
+ string.
+ @param start
+ the start of the range where the attribute will be applied.
+ @param end
+ the end of the range where the attribute will be applied.
+ @throws IllegalArgumentException
+ if <code>start < 0</code>, <code>end</code> is greater than the length
+ of this string, or if <code>start >= end</code>.
+ @throws NullPointerException
+ if <code>attribute</code> is <code>null</code>.
+ */
 - (void)addAttributeWithJavaTextAttributedCharacterIterator_Attribute:(JavaTextAttributedCharacterIterator_Attribute *)attribute
                                                                withId:(id)value
                                                               withInt:(jint)start
                                                               withInt:(jint)end;
 
+/*!
+ @brief Applies a given set of attributes to the given range of the string.
+ @param attributes
+ the set of attributes that will be applied to this string.
+ @param start
+ the start of the range where the attribute will be applied.
+ @param end
+ the end of the range where the attribute will be applied.
+ @throws IllegalArgumentException
+ if <code>start < 0</code>, <code>end</code> is greater than the length
+ of this string, or if <code>start >= end</code>.
+ */
 - (void)addAttributesWithJavaUtilMap:(id<JavaUtilMap>)attributes
                              withInt:(jint)start
                              withInt:(jint)end;
 
+/*!
+ @brief Returns an <code>AttributedCharacterIterator</code> that gives access to the
+ complete content of this attributed string.
+ @return the newly created <code>AttributedCharacterIterator</code>.
+ */
 - (id<JavaTextAttributedCharacterIterator>)getIterator;
 
+/*!
+ @brief Returns an <code>AttributedCharacterIterator</code> that gives access to the
+ complete content of this attributed string.
+ Only attributes contained in
+ <code>attributes</code> are available from this iterator if they are defined
+ for this text.
+ @param attributes
+ the array containing attributes that will be in the new
+ iterator if they are defined for this text.
+ @return the newly created <code>AttributedCharacterIterator</code>.
+ */
 - (id<JavaTextAttributedCharacterIterator>)getIteratorWithJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attributes;
 
+/*!
+ @brief Returns an <code>AttributedCharacterIterator</code> that gives access to the
+ contents of this attributed string starting at index <code>start</code> up to
+ index <code>end</code>.
+ Only attributes contained in <code>attributes</code> are
+ available from this iterator if they are defined for this text.
+ @param attributes
+ the array containing attributes that will be in the new
+ iterator if they are defined for this text.
+ @param start
+ the start index of the iterator on the underlying text.
+ @param end
+ the end index of the iterator on the underlying text.
+ @return the newly created <code>AttributedCharacterIterator</code>.
+ */
 - (id<JavaTextAttributedCharacterIterator>)getIteratorWithJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attributes
                                                                                                      withInt:(jint)start
                                                                                                      withInt:(jint)end;
@@ -65,10 +217,42 @@ J2OBJC_EMPTY_STATIC_INIT(JavaTextAttributedString)
 J2OBJC_FIELD_SETTER(JavaTextAttributedString, text_, NSString *)
 J2OBJC_FIELD_SETTER(JavaTextAttributedString, attributeMap_, id<JavaUtilMap>)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_(JavaTextAttributedString *self, id<JavaTextAttributedCharacterIterator> iterator);
+
+FOUNDATION_EXPORT JavaTextAttributedString *new_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_(id<JavaTextAttributedCharacterIterator> iterator) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString *create_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_(id<JavaTextAttributedCharacterIterator> iterator);
+
+FOUNDATION_EXPORT void JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_(JavaTextAttributedString *self, id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end);
+
+FOUNDATION_EXPORT JavaTextAttributedString *new_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_(id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString *create_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_(id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end);
+
+FOUNDATION_EXPORT void JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_withJavaTextAttributedCharacterIterator_AttributeArray_(JavaTextAttributedString *self, id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end, IOSObjectArray *attributes);
+
+FOUNDATION_EXPORT JavaTextAttributedString *new_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_withJavaTextAttributedCharacterIterator_AttributeArray_(id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end, IOSObjectArray *attributes) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString *create_JavaTextAttributedString_initWithJavaTextAttributedCharacterIterator_withInt_withInt_withJavaTextAttributedCharacterIterator_AttributeArray_(id<JavaTextAttributedCharacterIterator> iterator, jint start, jint end, IOSObjectArray *attributes);
+
+FOUNDATION_EXPORT void JavaTextAttributedString_initWithNSString_(JavaTextAttributedString *self, NSString *value);
+
+FOUNDATION_EXPORT JavaTextAttributedString *new_JavaTextAttributedString_initWithNSString_(NSString *value) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString *create_JavaTextAttributedString_initWithNSString_(NSString *value);
+
+FOUNDATION_EXPORT void JavaTextAttributedString_initWithNSString_withJavaUtilMap_(JavaTextAttributedString *self, NSString *value, id<JavaUtilMap> attributes);
+
+FOUNDATION_EXPORT JavaTextAttributedString *new_JavaTextAttributedString_initWithNSString_withJavaUtilMap_(NSString *value, id<JavaUtilMap> attributes) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString *create_JavaTextAttributedString_initWithNSString_withJavaUtilMap_(NSString *value, id<JavaUtilMap> attributes);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaTextAttributedString)
+
+#endif
+
+#if !defined (JavaTextAttributedString_Range_) && (INCLUDE_ALL_JavaTextAttributedString || defined(INCLUDE_JavaTextAttributedString_Range))
+#define JavaTextAttributedString_Range_
 
 @interface JavaTextAttributedString_Range : NSObject {
  @public
@@ -76,6 +260,8 @@ J2OBJC_TYPE_LITERAL_HEADER(JavaTextAttributedString)
   jint end_;
   id value_;
 }
+
+#pragma mark Package-Private
 
 - (instancetype)initWithInt:(jint)s
                     withInt:(jint)e
@@ -87,38 +273,73 @@ J2OBJC_EMPTY_STATIC_INIT(JavaTextAttributedString_Range)
 
 J2OBJC_FIELD_SETTER(JavaTextAttributedString_Range, value_, id)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaTextAttributedString_Range_initWithInt_withInt_withId_(JavaTextAttributedString_Range *self, jint s, jint e, id v);
+
+FOUNDATION_EXPORT JavaTextAttributedString_Range *new_JavaTextAttributedString_Range_initWithInt_withInt_withId_(jint s, jint e, id v) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString_Range *create_JavaTextAttributedString_Range_initWithInt_withInt_withId_(jint s, jint e, id v);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaTextAttributedString_Range)
 
-@interface JavaTextAttributedString_AttributedIterator : NSObject < JavaTextAttributedCharacterIterator > {
-}
+#endif
 
-- (instancetype)initWithJavaTextAttributedString:(JavaTextAttributedString *)attrString;
+#if !defined (JavaTextAttributedString_AttributedIterator_) && (INCLUDE_ALL_JavaTextAttributedString || defined(INCLUDE_JavaTextAttributedString_AttributedIterator))
+#define JavaTextAttributedString_AttributedIterator_
 
-- (instancetype)initWithJavaTextAttributedString:(JavaTextAttributedString *)attrString
-withJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attributes
-                                         withInt:(jint)begin
-                                         withInt:(jint)end;
+#define RESTRICT_JavaTextAttributedCharacterIterator 1
+#define INCLUDE_JavaTextAttributedCharacterIterator 1
+#include "java/text/AttributedCharacterIterator.h"
 
+@class IOSObjectArray;
+@class JavaTextAttributedCharacterIterator_Attribute;
+@class JavaTextAttributedString;
+@protocol JavaUtilMap;
+@protocol JavaUtilSet;
+
+@interface JavaTextAttributedString_AttributedIterator : NSObject < JavaTextAttributedCharacterIterator >
+
+#pragma mark Public
+
+/*!
+ @brief Returns a new <code>AttributedIterator</code> with the same source string,
+ begin, end, and current index as this attributed iterator.
+ @return a shallow copy of this attributed iterator.
+ - seealso: java.lang.Cloneable
+ */
 - (id)clone;
 
 - (jchar)current;
 
 - (jchar)first;
 
-- (jint)getBeginIndex;
-
-- (jint)getEndIndex;
-
-- (jint)getIndex;
-
+/*!
+ @brief Returns a set of attributes present in the <code>AttributedString</code>.
+ An empty set returned indicates that no attributes where defined.
+ @return a set of attribute keys that may be empty.
+ */
 - (id<JavaUtilSet>)getAllAttributeKeys;
 
 - (id)getAttributeWithJavaTextAttributedCharacterIterator_Attribute:(JavaTextAttributedCharacterIterator_Attribute *)attribute;
 
 - (id<JavaUtilMap>)getAttributes;
+
+/*!
+ @brief Returns the begin index in the source string.
+ @return the index of the first character to iterate.
+ */
+- (jint)getBeginIndex;
+
+/*!
+ @brief Returns the end index in the source String.
+ @return the index one past the last character to iterate.
+ */
+- (jint)getEndIndex;
+
+/*!
+ @brief Returns the current index in the source String.
+ @return the current index.
+ */
+- (jint)getIndex;
 
 - (jint)getRunLimit;
 
@@ -140,13 +361,35 @@ withJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attribu
 
 - (jchar)setIndexWithInt:(jint)location;
 
+#pragma mark Package-Private
+
+- (instancetype)initWithJavaTextAttributedString:(JavaTextAttributedString *)attrString;
+
+- (instancetype)initWithJavaTextAttributedString:(JavaTextAttributedString *)attrString
+withJavaTextAttributedCharacterIterator_AttributeArray:(IOSObjectArray *)attributes
+                                         withInt:(jint)begin
+                                         withInt:(jint)end;
+
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaTextAttributedString_AttributedIterator)
 
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_(JavaTextAttributedString_AttributedIterator *self, JavaTextAttributedString *attrString);
+
+FOUNDATION_EXPORT JavaTextAttributedString_AttributedIterator *new_JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_(JavaTextAttributedString *attrString) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString_AttributedIterator *create_JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_(JavaTextAttributedString *attrString);
+
+FOUNDATION_EXPORT void JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_withJavaTextAttributedCharacterIterator_AttributeArray_withInt_withInt_(JavaTextAttributedString_AttributedIterator *self, JavaTextAttributedString *attrString, IOSObjectArray *attributes, jint begin, jint end);
+
+FOUNDATION_EXPORT JavaTextAttributedString_AttributedIterator *new_JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_withJavaTextAttributedCharacterIterator_AttributeArray_withInt_withInt_(JavaTextAttributedString *attrString, IOSObjectArray *attributes, jint begin, jint end) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaTextAttributedString_AttributedIterator *create_JavaTextAttributedString_AttributedIterator_initWithJavaTextAttributedString_withJavaTextAttributedCharacterIterator_AttributeArray_withInt_withInt_(JavaTextAttributedString *attrString, IOSObjectArray *attributes, jint begin, jint end);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaTextAttributedString_AttributedIterator)
 
-#endif // _JavaTextAttributedString_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaTextAttributedString")

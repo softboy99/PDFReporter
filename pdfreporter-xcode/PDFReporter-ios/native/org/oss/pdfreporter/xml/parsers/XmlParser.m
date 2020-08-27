@@ -8,12 +8,12 @@
 
 #import "XmlParser.h"
 #import "InputStreamMarshaller.h"
-#import "org/oss/pdfreporter/xml/parsers/IInputSource.h"
-#import "org/oss/pdfreporter/xml/parsers/IContentHandler.h"
+#include "org/oss/pdfreporter/xml/parsers/IInputSource.h"
+#include "org/oss/pdfreporter/xml/parsers/IContentHandler.h"
 #import "Attributes.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLErrorHandler.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLParseException.h"
-#import "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLErrorHandler.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLParseException.h"
+#include "org/oss/pdfreporter/xml/parsers/XMLEntityResolver.h"
 #import "NSString+JavaString.h"
 
 @implementation XmlParser

@@ -54,12 +54,13 @@ public class JSHuntingYardExpressionFactory {
 				switch (designChunk.getType()) {
 					case JRExpressionChunk.TYPE_TEXT: {
 						rawExpression.append(chunkText);
-						if (JSHuntingYardResultCast.isCast(chunkText)) {
-							result = JSHuntingYardResultCast.parseCast(chunkText);
-							expressionBuilder.addText(JSHuntingYardResultCast.getNext(chunkText));
-						} else {
-							expressionBuilder.addText(chunkText);
-						}
+//						if (JSHuntingYardResultCast.isCast(chunkText)) {
+//							result = JSHuntingYardResultCast.parseCast(chunkText);
+//							expressionBuilder.addText(JSHuntingYardResultCast.getNext(chunkText));
+//						} else {
+//							expressionBuilder.addText(chunkText);
+//						}
+						expressionBuilder.addText(chunkText);
 						break;
 					}
 					case JRExpressionChunk.TYPE_PARAMETER: {

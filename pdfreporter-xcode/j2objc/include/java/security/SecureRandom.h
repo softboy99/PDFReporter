@@ -3,59 +3,227 @@
 //  source: android/libcore/luni/src/main/java/java/security/SecureRandom.java
 //
 
-#ifndef _JavaSecuritySecureRandom_H_
-#define _JavaSecuritySecureRandom_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySecureRandom")
+#ifdef RESTRICT_JavaSecuritySecureRandom
+#define INCLUDE_ALL_JavaSecuritySecureRandom 0
+#else
+#define INCLUDE_ALL_JavaSecuritySecureRandom 1
+#endif
+#undef RESTRICT_JavaSecuritySecureRandom
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySecureRandom_) && (INCLUDE_ALL_JavaSecuritySecureRandom || defined(INCLUDE_JavaSecuritySecureRandom))
+#define JavaSecuritySecureRandom_
+
+#define RESTRICT_JavaUtilRandom 1
+#define INCLUDE_JavaUtilRandom 1
+#include "java/util/Random.h"
 
 @class IOSByteArray;
 @class JavaSecurityProvider;
 @class JavaSecuritySecureRandomSpi;
-@class OrgApacheHarmonySecurityFortressEngine;
 
-#include "J2ObjC_header.h"
-#include "java/util/Random.h"
+/*!
+ @brief This class generates cryptographically secure pseudo-random numbers.
+ It is best to invoke <code>SecureRandom</code> using the default constructor.
+ This will provide an instance of the most cryptographically strong
+ provider available:
+ @code
+SecureRandom sr = new SecureRandom();
+  byte[] output = new byte[16];
+  
+@endcode
+ <p>The default algorithm is defined by the first <code>SecureRandomSpi</code>
+ provider found in the installed security providers. Use <code>Security</code>
+ to install custom <code>SecureRandomSpi</code> providers.
+ <p>Note that the output of a <code>SecureRandom</code> instance should never
+ be relied upon to be deterministic. For deterministic output from a given
+ input, see <code>MessageDigest</code> which provides one-way hash functions.
+ <h3><a name="insecure_seed">Seeding <code>SecureRandom</code> may be
+ insecure</a></h3>
+ A seed is an array of bytes used to bootstrap random number generation.
+ To produce cryptographically secure random numbers, both the seed and the
+ algorithm must be secure.
+ <p>By default, instances of this class will generate an initial seed using
+ an internal entropy source, such as <code>/dev/urandom</code>. This seed is
+ unpredictable and appropriate for secure use.
+ <p>Using the <code>seeded constructor</code> or calling
+ <code>setSeed</code> may completely replace the cryptographically strong
+ default seed causing the instance to return a predictable sequence of
+ numbers unfit for secure use. Due to variations between implementations
+ it is not recommended to use <code>setSeed</code> at all.
+ */
+@interface JavaSecuritySecureRandom : JavaUtilRandom
 
-#define JavaSecuritySecureRandom_serialVersionUID 4940670005562187LL
+#pragma mark Public
 
-@interface JavaSecuritySecureRandom : JavaUtilRandom {
-}
-
+/*!
+ @brief Constructs a new <code>SecureRandom</code> that uses the default algorithm.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new seeded <code>SecureRandom</code> that uses the default
+ algorithm.
+ <a href="#insecure_seed">Seeding <code>SecureRandom</code> may be
+ insecure</a>.
+ */
 - (instancetype)initWithByteArray:(IOSByteArray *)seed;
 
-- (instancetype)initWithJavaSecuritySecureRandomSpi:(JavaSecuritySecureRandomSpi *)secureRandomSpi
-                           withJavaSecurityProvider:(JavaSecurityProvider *)provider;
+/*!
+ @brief Generates and returns the specified number of seed bytes, computed using
+ the seed generation algorithm used by this <code>SecureRandom</code>.
+ @param numBytes
+ the number of seed bytes.
+ @return the seed bytes.
+ */
+- (IOSByteArray *)generateSeedWithInt:(jint)numBytes;
 
+/*!
+ @brief Returns the name of the algorithm of this <code>SecureRandom</code>.
+ @return the name of the algorithm of this <code>SecureRandom</code>.
+ */
+- (NSString *)getAlgorithm;
+
+/*!
+ @brief Returns a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm.
+ @param algorithm
+ the name of the algorithm to use.
+ @return a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ */
 + (JavaSecuritySecureRandom *)getInstanceWithNSString:(NSString *)algorithm;
 
-+ (JavaSecuritySecureRandom *)getInstanceWithNSString:(NSString *)algorithm
-                                         withNSString:(NSString *)provider;
-
+/*!
+ @brief Returns a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm from the specified provider.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ the security provider.
+ @return a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm from the specified provider.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ @throws IllegalArgumentException if <code>provider == null</code>
+ */
 + (JavaSecuritySecureRandom *)getInstanceWithNSString:(NSString *)algorithm
                              withJavaSecurityProvider:(JavaSecurityProvider *)provider;
 
+/*!
+ @brief Returns a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm from the specified provider.
+ @param algorithm
+ the name of the algorithm to use.
+ @param provider
+ the name of the provider.
+ @return a new instance of <code>SecureRandom</code> that utilizes the
+ specified algorithm from the specified provider.
+ @throws NoSuchAlgorithmException
+ if the specified algorithm is not available.
+ @throws NoSuchProviderException
+ if the specified provider is not available.
+ @throws NullPointerException
+ if <code>algorithm</code> is <code>null</code>.
+ @throws IllegalArgumentException if <code>provider == null || provider.isEmpty()</code>
+ */
++ (JavaSecuritySecureRandom *)getInstanceWithNSString:(NSString *)algorithm
+                                         withNSString:(NSString *)provider;
+
+/*!
+ @brief Returns the provider associated with this <code>SecureRandom</code>.
+ @return the provider associated with this <code>SecureRandom</code>.
+ */
 - (JavaSecurityProvider *)getProvider;
 
-- (NSString *)getAlgorithm;
-
-- (void)setSeedWithByteArray:(IOSByteArray *)seed;
-
-- (void)setSeedWithLong:(jlong)seed;
-
-- (void)nextBytesWithByteArray:(IOSByteArray *)bytes;
-
-- (jint)nextWithInt:(jint)numBits;
-
+/*!
+ @brief Generates and returns the specified number of seed bytes, computed using
+ the seed generation algorithm used by this <code>SecureRandom</code>.
+ @param numBytes
+ the number of seed bytes.
+ @return the seed bytes
+ */
 + (IOSByteArray *)getSeedWithInt:(jint)numBytes;
 
-- (IOSByteArray *)generateSeedWithInt:(jint)numBytes;
+/*!
+ @brief Generates and stores random bytes in the given <code>byte[]</code> for each
+ array element.
+ @param bytes
+ the <code>byte[]</code> to be filled with random bytes.
+ */
+- (void)nextBytesWithByteArray:(IOSByteArray *)bytes;
+
+/*!
+ @brief Seeds this <code>SecureRandom</code> instance with the specified <code>seed</code>
+ .
+ <a href="#insecure_seed">Seeding <code>SecureRandom</code> may be
+ insecure</a>.
+ */
+- (void)setSeedWithByteArray:(IOSByteArray *)seed;
+
+/*!
+ @brief Seeds this <code>SecureRandom</code> instance with the specified eight-byte
+ <code>seed</code>.
+ <a href="#insecure_seed">Seeding <code>SecureRandom</code> may
+ be insecure</a>.
+ */
+- (void)setSeedWithLong:(jlong)seed;
+
+#pragma mark Protected
+
+/*!
+ @brief Constructs a new instance of <code>SecureRandom</code> using the given
+ implementation from the specified provider.
+ @param secureRandomSpi
+ the implementation.
+ @param provider
+ the security provider.
+ */
+- (instancetype)initWithJavaSecuritySecureRandomSpi:(JavaSecuritySecureRandomSpi *)secureRandomSpi
+                           withJavaSecurityProvider:(JavaSecurityProvider *)provider;
+
+/*!
+ @brief Generates and returns an <code>int</code> containing the specified number of
+ random bits (right justified, with leading zeros).
+ @param numBits
+ number of bits to be generated. An input value should be in
+ the range [0, 32].
+ @return an <code>int</code> containing the specified number of random bits.
+ */
+- (jint)nextWithInt:(jint)numBits;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaSecuritySecureRandom_initialized;
 J2OBJC_STATIC_INIT(JavaSecuritySecureRandom)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecuritySecureRandom_init(JavaSecuritySecureRandom *self);
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *new_JavaSecuritySecureRandom_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *create_JavaSecuritySecureRandom_init();
+
+FOUNDATION_EXPORT void JavaSecuritySecureRandom_initWithByteArray_(JavaSecuritySecureRandom *self, IOSByteArray *seed);
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *new_JavaSecuritySecureRandom_initWithByteArray_(IOSByteArray *seed) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *create_JavaSecuritySecureRandom_initWithByteArray_(IOSByteArray *seed);
+
+FOUNDATION_EXPORT void JavaSecuritySecureRandom_initWithJavaSecuritySecureRandomSpi_withJavaSecurityProvider_(JavaSecuritySecureRandom *self, JavaSecuritySecureRandomSpi *secureRandomSpi, JavaSecurityProvider *provider);
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *new_JavaSecuritySecureRandom_initWithJavaSecuritySecureRandomSpi_withJavaSecurityProvider_(JavaSecuritySecureRandomSpi *secureRandomSpi, JavaSecurityProvider *provider) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecuritySecureRandom *create_JavaSecuritySecureRandom_initWithJavaSecuritySecureRandomSpi_withJavaSecurityProvider_(JavaSecuritySecureRandomSpi *secureRandomSpi, JavaSecurityProvider *provider);
 
 FOUNDATION_EXPORT JavaSecuritySecureRandom *JavaSecuritySecureRandom_getInstanceWithNSString_(NSString *algorithm);
 
@@ -65,19 +233,10 @@ FOUNDATION_EXPORT JavaSecuritySecureRandom *JavaSecuritySecureRandom_getInstance
 
 FOUNDATION_EXPORT IOSByteArray *JavaSecuritySecureRandom_getSeedWithInt_(jint numBytes);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySecureRandom, serialVersionUID, jlong)
-
-FOUNDATION_EXPORT NSString *JavaSecuritySecureRandom_SERVICE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySecureRandom, SERVICE_, NSString *)
-
-FOUNDATION_EXPORT OrgApacheHarmonySecurityFortressEngine *JavaSecuritySecureRandom_ENGINE_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySecureRandom, ENGINE_, OrgApacheHarmonySecurityFortressEngine *)
-
-FOUNDATION_EXPORT JavaSecuritySecureRandom *JavaSecuritySecureRandom_internalSecureRandom_;
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySecureRandom, internalSecureRandom_, JavaSecuritySecureRandom *)
-J2OBJC_STATIC_FIELD_SETTER(JavaSecuritySecureRandom, internalSecureRandom_, JavaSecuritySecureRandom *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySecureRandom)
 
-#endif // _JavaSecuritySecureRandom_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySecureRandom")

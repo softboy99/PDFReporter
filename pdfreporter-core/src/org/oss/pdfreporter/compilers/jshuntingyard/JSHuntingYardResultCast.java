@@ -12,14 +12,11 @@ package org.oss.pdfreporter.compilers.jshuntingyard;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.oss.pdfreporter.compilers.ExpressionEvaluationException;
-import org.oss.pdfreporter.compilers.ExpressionParseException;
 import org.oss.pdfreporter.compilers.IExpressionElement;
 import org.oss.pdfreporter.compilers.expressionelements.ExpressionType;
-import org.oss.pdfreporter.compilers.util.ResultUtil;
 
 
 public class JSHuntingYardResultCast implements IExpressionElement{
@@ -36,9 +33,9 @@ public class JSHuntingYardResultCast implements IExpressionElement{
 		this.expression = expression;
 	}
 
-	private JSHuntingYardResultCast(ExpressionType type) {
-		this(type,null);
-	}
+//	private JSHuntingYardResultCast(ExpressionType type) {
+//		this(type,null);
+//	}
 
 	public JSHuntingYardResultCast() {
 		this(ExpressionType.STRING,null);
@@ -48,66 +45,67 @@ public class JSHuntingYardResultCast implements IExpressionElement{
 		return text.matches(CAST_MATCH);
 	}
 
-	public static String getNext(String text) throws ExpressionParseException {
-		Matcher m = CAST_SPLIT.matcher(text);
-		if (m.find()) {
-			return text.substring(m.end() + 1);
-		}
-		throw new ExpressionParseException("Pattern: " + CAST_SPLIT + " does not match: " + text);
-	}
+//	public static String getNext(String text) throws ExpressionParseException {
+//		Matcher m = CAST_SPLIT.matcher(text);
+//		if (m.find()) {
+//			return text.substring(m.end() + 1);
+//		}
+//		throw new ExpressionParseException("Pattern: " + CAST_SPLIT + " does not match: " + text);
+//	}
 
 	// TODO (27.08.2015, Donat, Open Software Solutions): Add case for void / object / null
-	public static JSHuntingYardResultCast parseCast(String s) throws ExpressionParseException {
-		if (s.matches(CAST_MATCH)) {
-			String cast = extract(CAST_SPLIT, s);
-			if (cast.equalsIgnoreCase("boolean")) {
-				return new JSHuntingYardResultCast(ExpressionType.BOOLEAN);
-			} else if (cast.equalsIgnoreCase("integer") || cast.equalsIgnoreCase("int")) {
-				return new JSHuntingYardResultCast(ExpressionType.INTEGER);
-			} else if (cast.equalsIgnoreCase("double")) {
-				return new JSHuntingYardResultCast(ExpressionType.DOUBLE);
-			} else if (cast.equalsIgnoreCase("float")) {
-				return new JSHuntingYardResultCast(ExpressionType.FLOAT);
-			} else if (cast.equalsIgnoreCase("string")) {
-				return new JSHuntingYardResultCast(ExpressionType.STRING);
-			} else if (cast.equalsIgnoreCase("long")) {
-				return new JSHuntingYardResultCast(ExpressionType.LONG);
-			} else if (cast.equalsIgnoreCase("date")) {
-				return new JSHuntingYardResultCast(ExpressionType.DATE);
-			}
-		}
-		throw new ExpressionParseException("Unsupported cast operator: " + s);
-	}
+//	public static JSHuntingYardResultCast parseCast(String s) throws ExpressionParseException {
+//		if (s.matches(CAST_MATCH)) {
+//			String cast = extract(CAST_SPLIT, s);
+//			if (cast.equalsIgnoreCase("boolean")) {
+//				return new JSHuntingYardResultCast(ExpressionType.BOOLEAN);
+//			} else if (cast.equalsIgnoreCase("integer") || cast.equalsIgnoreCase("int")) {
+//				return new JSHuntingYardResultCast(ExpressionType.INTEGER);
+//			} else if (cast.equalsIgnoreCase("double")) {
+//				return new JSHuntingYardResultCast(ExpressionType.DOUBLE);
+//			} else if (cast.equalsIgnoreCase("float")) {
+//				return new JSHuntingYardResultCast(ExpressionType.FLOAT);
+//			} else if (cast.equalsIgnoreCase("string")) {
+//				return new JSHuntingYardResultCast(ExpressionType.STRING);
+//			} else if (cast.equalsIgnoreCase("long")) {
+//				return new JSHuntingYardResultCast(ExpressionType.LONG);
+//			} else if (cast.equalsIgnoreCase("date")) {
+//				return new JSHuntingYardResultCast(ExpressionType.DATE);
+//			}
+//		}
+//		throw new ExpressionParseException("Unsupported cast operator: " + s);
+//	}
 
-	private static String extract(Pattern p, String text) throws ExpressionParseException {
-		Matcher m = p.matcher(text);
-		if (m.find()) {
-			return m.group();
-		}
-		throw new ExpressionParseException("Pattern: " + p + " does not match: " + text);
-	}
-
-
+//	private static String extract(Pattern p, String text) throws ExpressionParseException {
+//		Matcher m = p.matcher(text);
+//		if (m.find()) {
+//			return m.group();
+//		}
+//		throw new ExpressionParseException("Pattern: " + p + " does not match: " + text);
+//	}
+//
+//
 	public void setExpression(JSHuntingYardExpression expression) {
 		this.expression = expression;
 	}
 	
-	private Object doCast(Object result) throws ExpressionEvaluationException {
-		if (result == null) {
-			return null;
-		}
-		if (result instanceof Number) {
-			result = ResultUtil.numberCast(type, (Number) result);
-		}
-		ResultUtil.assertResultType(type, result);
-		return result;
-	}
+//	private Object doCast(Object result) throws ExpressionEvaluationException {
+//		if (result == null) {
+//			return null;
+//		}
+//		if (result instanceof Number) {
+//			result = ResultUtil.numberCast(type, (Number) result);
+//		}
+//		ResultUtil.assertResultType(type, result);
+//		return result;
+//	}
 	
 
 	@Override
 	public Object getValue() throws ExpressionEvaluationException {
 		try {
-			return doCast(this.expression.evaluateValue());
+			return this.expression.evaluateValue();
+//			return doCast(this.expression.evaluateValue());
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error evaluating expression: " + expression.getExpression(), e);
 			throw new ExpressionEvaluationException(e);
@@ -117,10 +115,18 @@ public class JSHuntingYardResultCast implements IExpressionElement{
 	@Override
 	public Object getOldValue() throws ExpressionEvaluationException {
 		try {
-			return doCast(this.expression.evaluateOldValue());
+			return this.expression.evaluateOldValue();
+//			return doCast(this.expression.evaluateOldValue());
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error evaluating expression: " + expression.getExpression(), e);
 			throw new ExpressionEvaluationException(e);
 		}
 	}
+
+	@Override
+	public Object getEsimatedValue() throws ExpressionEvaluationException {
+		return getValue();
+	}
+	
+	
 }

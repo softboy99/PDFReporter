@@ -3,36 +3,78 @@
 //  source: android/libcore/luni/src/main/java/java/security/SecureRandomSpi.java
 //
 
-#ifndef _JavaSecuritySecureRandomSpi_H_
-#define _JavaSecuritySecureRandomSpi_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecuritySecureRandomSpi")
+#ifdef RESTRICT_JavaSecuritySecureRandomSpi
+#define INCLUDE_ALL_JavaSecuritySecureRandomSpi 0
+#else
+#define INCLUDE_ALL_JavaSecuritySecureRandomSpi 1
+#endif
+#undef RESTRICT_JavaSecuritySecureRandomSpi
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecuritySecureRandomSpi_) && (INCLUDE_ALL_JavaSecuritySecureRandomSpi || defined(INCLUDE_JavaSecuritySecureRandomSpi))
+#define JavaSecuritySecureRandomSpi_
+
+#define RESTRICT_JavaIoSerializable 1
+#define INCLUDE_JavaIoSerializable 1
+#include "java/io/Serializable.h"
 
 @class IOSByteArray;
 
-#include "J2ObjC_header.h"
-#include "java/io/Serializable.h"
+/*!
+ @brief <code>SecureRandomSpi</code> is the <i>Service Provider Interface</i> (<b>SPI</b>) definition
+ for <code>SecureRandom</code>.
+ - seealso: SecureRandom
+ */
+@interface JavaSecuritySecureRandomSpi : NSObject < JavaIoSerializable >
 
-#define JavaSecuritySecureRandomSpi_serialVersionUID -2991854161009191830LL
-
-@interface JavaSecuritySecureRandomSpi : NSObject < JavaIoSerializable > {
-}
-
-- (void)engineSetSeedWithByteArray:(IOSByteArray *)seed;
-
-- (void)engineNextBytesWithByteArray:(IOSByteArray *)bytes;
-
-- (IOSByteArray *)engineGenerateSeedWithInt:(jint)numBytes;
+#pragma mark Public
 
 - (instancetype)init;
+
+#pragma mark Protected
+
+/*!
+ @brief Generates and returns the specified number of seed bytes, computed using
+ the seed generation algorithm used by this <code>SecureRandomSpi</code>.
+ @param numBytes
+ the number of seed bytes.
+ @return the seed bytes
+ */
+- (IOSByteArray *)engineGenerateSeedWithInt:(jint)numBytes;
+
+/*!
+ @brief Generates and stores random bytes in the given <code>byte[]</code> for each
+ array element.
+ @param bytes
+ the <code>byte[]</code> to be filled with random bytes.
+ */
+- (void)engineNextBytesWithByteArray:(IOSByteArray *)bytes;
+
+/*!
+ @brief Reseeds this <code>SecureRandomSpi</code> instance with the specified <code>seed</code>
+ .
+ The seed of this <code>SecureRandomSpi</code> instance is supplemented,
+ not replaced.
+ @param seed
+ the new seed.
+ */
+- (void)engineSetSeedWithByteArray:(IOSByteArray *)seed;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecuritySecureRandomSpi)
 
-CF_EXTERN_C_BEGIN
-
-J2OBJC_STATIC_FIELD_GETTER(JavaSecuritySecureRandomSpi, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT void JavaSecuritySecureRandomSpi_init(JavaSecuritySecureRandomSpi *self);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecuritySecureRandomSpi)
 
-#endif // _JavaSecuritySecureRandomSpi_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecuritySecureRandomSpi")

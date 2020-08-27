@@ -3,27 +3,46 @@
 //  source: src/main/java/org/mockito/internal/creation/ClassNameFinder.java
 //
 
-#ifndef _OrgMockitoInternalCreationClassNameFinder_H_
-#define _OrgMockitoInternalCreationClassNameFinder_H_
-
 #include "J2ObjC_header.h"
 
-@interface OrgMockitoInternalCreationClassNameFinder : NSObject {
-}
+#pragma push_macro("INCLUDE_ALL_OrgMockitoInternalCreationClassNameFinder")
+#ifdef RESTRICT_OrgMockitoInternalCreationClassNameFinder
+#define INCLUDE_ALL_OrgMockitoInternalCreationClassNameFinder 0
+#else
+#define INCLUDE_ALL_OrgMockitoInternalCreationClassNameFinder 1
+#endif
+#undef RESTRICT_OrgMockitoInternalCreationClassNameFinder
 
-+ (NSString *)classNameForMockWithId:(id)mock;
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (OrgMockitoInternalCreationClassNameFinder_) && (INCLUDE_ALL_OrgMockitoInternalCreationClassNameFinder || defined(INCLUDE_OrgMockitoInternalCreationClassNameFinder))
+#define OrgMockitoInternalCreationClassNameFinder_
+
+@interface OrgMockitoInternalCreationClassNameFinder : NSObject
+
+#pragma mark Public
 
 - (instancetype)init;
+
++ (NSString *)classNameForMockWithId:(id)mock;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(OrgMockitoInternalCreationClassNameFinder)
 
-CF_EXTERN_C_BEGIN
-
 FOUNDATION_EXPORT NSString *OrgMockitoInternalCreationClassNameFinder_classNameForMockWithId_(id mock);
-CF_EXTERN_C_END
+
+FOUNDATION_EXPORT void OrgMockitoInternalCreationClassNameFinder_init(OrgMockitoInternalCreationClassNameFinder *self);
+
+FOUNDATION_EXPORT OrgMockitoInternalCreationClassNameFinder *new_OrgMockitoInternalCreationClassNameFinder_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT OrgMockitoInternalCreationClassNameFinder *create_OrgMockitoInternalCreationClassNameFinder_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(OrgMockitoInternalCreationClassNameFinder)
 
-#endif // _OrgMockitoInternalCreationClassNameFinder_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_OrgMockitoInternalCreationClassNameFinder")

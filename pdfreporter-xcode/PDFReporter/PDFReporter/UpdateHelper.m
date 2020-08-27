@@ -11,6 +11,13 @@
 #import "FileInZipInfo.h"
 #import "ZipReadStream.h"
 #import "ReportExporter.h"
+#include "java/net/URL.h"
+
+#ifdef PDFREPORTERKIT
+#	import <PDFReporterKit/PDFReporterKit.h>
+#else
+#	include "FileUrl.h"
+#endif
 
 #define BUFFER_SIZE 131072
 #define DOWNLOAD_URL @"http://pdfreporting.com/update-samples/reports.zip"
@@ -22,8 +29,11 @@
 #define XPATH_KEY @"xpath"
 #define SQLITE3_KEY @"sqlite3"
 #define EXTRA_KEY @"extra"
+#define LANGUAGE_KEY @"lang"
 
 static NSArray *plistList = nil;
+
+NSString * const __nonnull kDebugKey = @"debug";
 
 @implementation UpdateHelper
 
@@ -67,7 +77,12 @@ static NSArray *plistList = nil;
     NSString *xml = [plist objectForKey:XML_KEY];
     NSString *xpath = [plist objectForKey:XPATH_KEY];
     NSString *sqlite3 = [plist objectForKey:SQLITE3_KEY];
-    if(sqlite3) sqlite3 = [reportsDir stringByAppendingPathComponent:sqlite3];
+    NSString *language = [plist objectForKey:LANGUAGE_KEY];
+
+    if (sqlite3)
+    {
+        sqlite3 = [reportsDir stringByAppendingPathComponent:sqlite3];
+    }
     
     NSString *pdfPath = [documentdir stringByAppendingPathComponent:@"output.pdf"];
     
@@ -76,15 +91,33 @@ static NSArray *plistList = nil;
 
     if(xml != nil)
     {
-        [ReportExporter exportReportToPdf:pdfPath withJrxml:jrxmlPath withResourceFolders:resourceArray withXml:xml andXPath:xpath withParameters:nil withSubreports:nil];
+        [ReportExporter exportReportToPdf:pdfPath
+                                withJrxml:jrxmlPath
+                      withResourceFolders:resourceArray
+                                  withXml:xml
+                                 andXPath:xpath
+                           withParameters:nil
+                           withSubreports:nil
+                                 language:language];
     }
     else if(sqlite3 != nil)
     {
-        [ReportExporter exportReportToPdf:pdfPath withJrxml:jrxmlPath withResourceFolders:resourceArray andSqlite3:sqlite3 withParameters:nil withSubreports:nil];
+        [ReportExporter exportReportToPdf:pdfPath
+                                withJrxml:jrxmlPath
+                      withResourceFolders:resourceArray
+                               andSqlite3:sqlite3
+                           withParameters:nil
+                           withSubreports:nil
+                                 language:language];
     }
     else
     {
-        [ReportExporter exportReportToPdf:pdfPath withJrxml:jrxmlPath withResourceFolders:resourceArray withParameters:nil withSubreports:nil];
+        [ReportExporter exportReportToPdf:pdfPath
+                                withJrxml:jrxmlPath
+                      withResourceFolders:resourceArray
+                           withParameters:nil
+                           withSubreports:nil
+                                 language:language];
     }
 }
 
@@ -126,19 +159,38 @@ static NSArray *plistList = nil;
     NSString *xml = [plist objectForKey:XML_KEY];
     NSString *xpath = [plist objectForKey:XPATH_KEY];
     NSString *sqlite3 = [plist objectForKey:SQLITE3_KEY];
+
+    BOOL isDebug = [[plist objectForKey:kDebugKey] boolValue];
+    NSString *language = [plist objectForKey:LANGUAGE_KEY];
+
     if(sqlite3) sqlite3 = [reportsDir stringByAppendingPathComponent:sqlite3];
-    
+
+    if (isDebug)
+    {
+        NSString *parametersName = [plist objectForKey:@"parameters"];
+        SEL paramsSelector = NSSelectorFromString(parametersName);
+        IMP paramsImplementation = [self methodForSelector:paramsSelector];
+        NSDictionary *parameters = paramsImplementation(self, paramsSelector);
+        [ReportExporter phaseExportReportToPdf:pdfPath fillWithParameters:parameters language:language];
+        return;
+    }
     if(xml != nil)
     {
-        [ReportExporter phaseExportReportToPdf:pdfPath withXml:xml andXPath:xpath];
+        [ReportExporter phaseExportReportToPdf:pdfPath
+                                       withXml:xml
+                                      andXPath:xpath
+                                      language:language];
     }
     else if(sqlite3 != nil)
     {
-        [ReportExporter phaseExportReportToPdf:pdfPath andSqlite3:sqlite3];
+        [ReportExporter phaseExportReportToPdf:pdfPath
+                                    andSqlite3:sqlite3
+                                      language:language];
     }
     else
     {
-        [ReportExporter phaseExportReportToPdf:pdfPath];
+        [ReportExporter phaseExportReportToPdf:pdfPath
+                                      language:language];
     }
     
     
@@ -155,10 +207,9 @@ static NSArray *plistList = nil;
         NSArray *rawFileList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:reportsPath error:nil];
         for(NSString *file in rawFileList)
         {
-            NSArray *components = [file componentsSeparatedByString:@"."];
-            if(components.count == 2 && [[components objectAtIndex:1] isEqualToString:@"plist"])
+            if ([[file pathExtension] isEqualToString:@"plist"])
             {
-                [fileList addObject:[components objectAtIndex:0]];
+                [fileList addObject:[[file lastPathComponent] stringByDeletingPathExtension]];
             }
         }
         plistList = [NSArray arrayWithArray:fileList];
@@ -216,7 +267,7 @@ static NSArray *plistList = nil;
         for(;;)
         {
             [buffer setLength:BUFFER_SIZE];
-            int bytesRead= [read readDataWithBuffer:buffer];
+            int bytesRead= (int)[read readDataWithBuffer:buffer];
             if (bytesRead > 0)
             {
                 [buffer setLength:bytesRead];
@@ -230,6 +281,56 @@ static NSArray *plistList = nil;
     }
         
     return YES;
+}
+
++ (NSDictionary *)URLParameter
+{
+    NSString *documentdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dukesignPath = [documentdir stringByAppendingPathComponent:@"reports/jrxml/images/dukesign.jpg"];
+
+    OrgOssPdfreporterNetFileUrl *url = new_OrgOssPdfreporterNetFileUrl_initWithNSString_(dukesignPath);
+
+    return @{ @"DukesignUrl" : url };
+}
+
++ (NSDictionary *)streamedImages
+{
+    NSString *documentdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *imagePath = [documentdir stringByAppendingPathComponent:@"reports/jrxml/images/dukesign.jpg"];
+
+	OrgOssPdfreporterNetFileUrl *url = new_OrgOssPdfreporterNetFileUrl_initWithNSString_(imagePath);
+
+    return @{
+        @"Dukesign"  : [url openStream],
+        @"Dukesign1" : [url openStream],
+        @"Dukesign2" : [url openStream],
+        @"Dukesign3" : url,
+        @"Dukesign4" : [url openStream],
+        @"Dukesign5" : [url openStream],
+        @"Dukesign6" : [url openStream],
+        @"Dukesign7" : [url openStream],
+        @"Dukesign8" : [url openStream],
+        @"Dukesing9" : [url openStream],
+        @"Dukesing10": [url openStream],
+        @"Dukesing11": [url openStream],
+        @"Dukesing12": [url openStream],
+        @"Dukesing13": [url openStream]
+    };
+}
+
++ (NSDictionary *)rawImages
+{
+    NSString *documentdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *imagePath = [documentdir stringByAppendingPathComponent:@"reports/jrxml/raw_images/dukesign.jpg"];
+
+    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    NSData *base64Data = [imageData base64EncodedDataWithOptions:0];
+
+    return @{
+     @"duke_bytes" :  [IOSByteArray arrayWithNSData: imageData],
+     @"duke_base64Bytes": [IOSByteArray arrayWithNSData: base64Data]
+   };
 }
 
 @end

@@ -25,7 +25,6 @@ package org.oss.pdfreporter.engine.query;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -40,6 +39,7 @@ import org.oss.pdfreporter.engine.JasperReportsContext;
 import org.oss.pdfreporter.json.IJsonDataSource;
 import org.oss.pdfreporter.json.factory.IJsonDataSourceFactory;
 import org.oss.pdfreporter.registry.ApiRegistry;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 /**
  * JSON query executer implementation.
@@ -115,7 +115,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 				datasource.setNumberPattern(numberFormatPattern);
 			}
 
-			Locale jsonLocale = (Locale) getParameterValue(JsonQueryExecuterFactory.JSON_LOCALE, true);
+			StringLocale jsonLocale = (StringLocale) getParameterValue(JsonQueryExecuterFactory.JSON_LOCALE, true);
 			if (jsonLocale != null) {
 				datasource.setLocale(jsonLocale);
 			} else {

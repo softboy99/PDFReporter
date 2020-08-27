@@ -3,57 +3,86 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/xpath/XPathFactoryFinder.java
 //
 
-#ifndef _JavaxXmlXpathXPathFactoryFinder_H_
-#define _JavaxXmlXpathXPathFactoryFinder_H_
-
-@class IOSClass;
-@class JavaIoInputStream;
-@class JavaLangClassLoader;
-@class JavaUtilProperties;
-@class JavaxXmlXpathXPathFactory;
-@protocol JavaLangIterable;
-
 #include "J2ObjC_header.h"
 
-#define JavaxXmlXpathXPathFactoryFinder_DEFAULT_LINE_LENGTH 80
+#pragma push_macro("INCLUDE_ALL_JavaxXmlXpathXPathFactoryFinder")
+#ifdef RESTRICT_JavaxXmlXpathXPathFactoryFinder
+#define INCLUDE_ALL_JavaxXmlXpathXPathFactoryFinder 0
+#else
+#define INCLUDE_ALL_JavaxXmlXpathXPathFactoryFinder 1
+#endif
+#undef RESTRICT_JavaxXmlXpathXPathFactoryFinder
 
-@interface JavaxXmlXpathXPathFactoryFinder : NSObject {
-}
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
+#if !defined (JavaxXmlXpathXPathFactoryFinder_) && (INCLUDE_ALL_JavaxXmlXpathXPathFactoryFinder || defined(INCLUDE_JavaxXmlXpathXPathFactoryFinder))
+#define JavaxXmlXpathXPathFactoryFinder_
+
+@class JavaLangClassLoader;
+@class JavaxXmlXpathXPathFactory;
+
+/*!
+ @brief Implementation of <code>XPathFactory.newInstance(String)</code>.
+ @author <a href="Kohsuke.Kawaguchi@@Sun.com">Kohsuke Kawaguchi</a>
+ @version $Revision: 670432 $, $Date: 2008-06-22 19:02:08 -0700 (Sun, 22 Jun 2008) $
+ @since 1.5
+ */
+@interface JavaxXmlXpathXPathFactoryFinder : NSObject
+
+#pragma mark Public
+
+/*!
+ @brief <p>Constructor that specifies <code>ClassLoader</code> to use
+ to find <code>SchemaFactory</code>.
+ </p>
+ @param loader
+ to be used to load resource, <code>SchemaFactory</code>, and
+ <code>SchemaFactoryLoader</code> implementations during
+ the resolution process.
+ If this parameter is null, the default system class loader
+ will be used.
+ */
 - (instancetype)initWithJavaLangClassLoader:(JavaLangClassLoader *)loader;
 
+/*!
+ @brief <p>Creates a new <code>XPathFactory</code> object for the specified
+ schema language.
+ </p>
+ @param uri
+ Identifies the underlying object model.
+ @return <code>null</code> if the callee fails to create one.
+ @throws NullPointerException
+ If the parameter is null.
+ */
 - (JavaxXmlXpathXPathFactory *)newFactoryWithNSString:(NSString *)uri OBJC_METHOD_FAMILY_NONE;
 
+#pragma mark Package-Private
+
+/*!
+ @brief <p>Creates an instance of the specified and returns it.
+ </p>
+ @param className_
+ fully qualified class name to be instantiated.
+ @return null
+ if it fails. Error messages will be printed by this method.
+ */
 - (JavaxXmlXpathXPathFactory *)createInstanceWithNSString:(NSString *)className_;
 
 @end
 
-FOUNDATION_EXPORT BOOL JavaxXmlXpathXPathFactoryFinder_initialized;
 J2OBJC_STATIC_INIT(JavaxXmlXpathXPathFactoryFinder)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaxXmlXpathXPathFactoryFinder_initWithJavaLangClassLoader_(JavaxXmlXpathXPathFactoryFinder *self, JavaLangClassLoader *loader);
 
-FOUNDATION_EXPORT jboolean JavaxXmlXpathXPathFactoryFinder_debug_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, debug_, jboolean)
-J2OBJC_STATIC_FIELD_REF_GETTER(JavaxXmlXpathXPathFactoryFinder, debug_, jboolean)
+FOUNDATION_EXPORT JavaxXmlXpathXPathFactoryFinder *new_JavaxXmlXpathXPathFactoryFinder_initWithJavaLangClassLoader_(JavaLangClassLoader *loader) NS_RETURNS_RETAINED;
 
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, DEFAULT_LINE_LENGTH, jint)
-
-FOUNDATION_EXPORT JavaUtilProperties *JavaxXmlXpathXPathFactoryFinder_cacheProps_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, cacheProps_, JavaUtilProperties *)
-J2OBJC_STATIC_FIELD_SETTER(JavaxXmlXpathXPathFactoryFinder, cacheProps_, JavaUtilProperties *)
-
-FOUNDATION_EXPORT jboolean JavaxXmlXpathXPathFactoryFinder_firstTime_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, firstTime_, jboolean)
-J2OBJC_STATIC_FIELD_REF_GETTER(JavaxXmlXpathXPathFactoryFinder, firstTime_, jboolean)
-
-FOUNDATION_EXPORT IOSClass *JavaxXmlXpathXPathFactoryFinder_SERVICE_CLASS_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, SERVICE_CLASS_, IOSClass *)
-
-FOUNDATION_EXPORT NSString *JavaxXmlXpathXPathFactoryFinder_SERVICE_ID_;
-J2OBJC_STATIC_FIELD_GETTER(JavaxXmlXpathXPathFactoryFinder, SERVICE_ID_, NSString *)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaxXmlXpathXPathFactoryFinder *create_JavaxXmlXpathXPathFactoryFinder_initWithJavaLangClassLoader_(JavaLangClassLoader *loader);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlXpathXPathFactoryFinder)
 
-#endif // _JavaxXmlXpathXPathFactoryFinder_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlXpathXPathFactoryFinder")

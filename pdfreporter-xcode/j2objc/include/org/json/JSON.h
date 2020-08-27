@@ -3,8 +3,21 @@
 //  source: android/libcore/json/src/main/java/org/json/JSON.java
 //
 
-#ifndef _OrgJsonJSON_H_
-#define _OrgJsonJSON_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_OrgJsonJSON")
+#ifdef RESTRICT_OrgJsonJSON
+#define INCLUDE_ALL_OrgJsonJSON 0
+#else
+#define INCLUDE_ALL_OrgJsonJSON 1
+#endif
+#undef RESTRICT_OrgJsonJSON
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (OrgJsonJSON_) && (INCLUDE_ALL_OrgJsonJSON || defined(INCLUDE_OrgJsonJSON))
+#define OrgJsonJSON_
 
 @class JavaLangBoolean;
 @class JavaLangDouble;
@@ -12,11 +25,24 @@
 @class JavaLangLong;
 @class OrgJsonJSONException;
 
-#include "J2ObjC_header.h"
+@interface OrgJsonJSON : NSObject
 
-@interface OrgJsonJSON : NSObject {
-}
+#pragma mark Public
 
++ (OrgJsonJSONException *)typeMismatchWithId:(id)indexOrName
+                                      withId:(id)actual
+                                withNSString:(NSString *)requiredType;
+
++ (OrgJsonJSONException *)typeMismatchWithId:(id)actual
+                                withNSString:(NSString *)requiredType;
+
+#pragma mark Package-Private
+
+- (instancetype)init;
+
+/*!
+ @brief Returns the input if it is a JSON-permissible value; throws otherwise.
+ */
 + (jdouble)checkDoubleWithDouble:(jdouble)d;
 
 + (JavaLangBoolean *)toBooleanWithId:(id)value;
@@ -29,20 +55,9 @@
 
 + (NSString *)toStringWithId:(id)value;
 
-+ (OrgJsonJSONException *)typeMismatchWithId:(id)indexOrName
-                                      withId:(id)actual
-                                withNSString:(NSString *)requiredType;
-
-+ (OrgJsonJSONException *)typeMismatchWithId:(id)actual
-                                withNSString:(NSString *)requiredType;
-
-- (instancetype)init;
-
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(OrgJsonJSON)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT jdouble OrgJsonJSON_checkDoubleWithDouble_(jdouble d);
 
@@ -59,8 +74,17 @@ FOUNDATION_EXPORT NSString *OrgJsonJSON_toStringWithId_(id value);
 FOUNDATION_EXPORT OrgJsonJSONException *OrgJsonJSON_typeMismatchWithId_withId_withNSString_(id indexOrName, id actual, NSString *requiredType);
 
 FOUNDATION_EXPORT OrgJsonJSONException *OrgJsonJSON_typeMismatchWithId_withNSString_(id actual, NSString *requiredType);
-CF_EXTERN_C_END
+
+FOUNDATION_EXPORT void OrgJsonJSON_init(OrgJsonJSON *self);
+
+FOUNDATION_EXPORT OrgJsonJSON *new_OrgJsonJSON_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT OrgJsonJSON *create_OrgJsonJSON_init();
 
 J2OBJC_TYPE_LITERAL_HEADER(OrgJsonJSON)
 
-#endif // _OrgJsonJSON_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_OrgJsonJSON")

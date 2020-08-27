@@ -3,42 +3,69 @@
 //  source: android/libcore/luni/src/main/java/java/net/PlainSocketImpl.java
 //
 
-#ifndef _JavaNetPlainSocketImpl_H_
-#define _JavaNetPlainSocketImpl_H_
+#include "J2ObjC_header.h"
 
-@class DalvikSystemCloseGuard;
-@class IOSByteArray;
+#pragma push_macro("INCLUDE_ALL_JavaNetPlainSocketImpl")
+#ifdef RESTRICT_JavaNetPlainSocketImpl
+#define INCLUDE_ALL_JavaNetPlainSocketImpl 0
+#else
+#define INCLUDE_ALL_JavaNetPlainSocketImpl 1
+#endif
+#undef RESTRICT_JavaNetPlainSocketImpl
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetPlainSocketImpl_) && (INCLUDE_ALL_JavaNetPlainSocketImpl || defined(INCLUDE_JavaNetPlainSocketImpl))
+#define JavaNetPlainSocketImpl_
+
+#define RESTRICT_JavaNetSocketImpl 1
+#define INCLUDE_JavaNetSocketImpl 1
+#include "java/net/SocketImpl.h"
+
 @class JavaIoFileDescriptor;
+@class JavaIoInputStream;
+@class JavaIoOutputStream;
 @class JavaNetInetAddress;
 @class JavaNetProxy;
 @class JavaNetSocketAddress;
-@class JavaNetSocks4Message;
 
-#include "J2ObjC_header.h"
-#include "java/io/InputStream.h"
-#include "java/io/OutputStream.h"
-#include "java/net/SocketImpl.h"
+/*!
+  used in java.nio.
+ */
+@interface JavaNetPlainSocketImpl : JavaNetSocketImpl
 
-@interface JavaNetPlainSocketImpl : JavaNetSocketImpl {
-}
-
-- (instancetype)initWithJavaIoFileDescriptor:(JavaIoFileDescriptor *)fd;
-
-- (instancetype)initWithJavaNetProxy:(JavaNetProxy *)proxy;
+#pragma mark Public
 
 - (instancetype)init;
+
+- (instancetype)initWithJavaIoFileDescriptor:(JavaIoFileDescriptor *)fd;
 
 - (instancetype)initWithJavaIoFileDescriptor:(JavaIoFileDescriptor *)fd
                                      withInt:(jint)localport
                       withJavaNetInetAddress:(JavaNetInetAddress *)addr
                                      withInt:(jint)port;
 
-- (void)acceptWithJavaNetSocketImpl:(JavaNetSocketImpl *)newImpl;
+- (instancetype)initWithJavaNetProxy:(JavaNetProxy *)proxy;
+
+- (id)getOptionWithInt:(jint)option;
 
 - (void)initLocalPortWithInt:(jint)localPort OBJC_METHOD_FAMILY_NONE;
 
 - (void)initRemoteAddressAndPortWithJavaNetInetAddress:(JavaNetInetAddress *)remoteAddress
                                                withInt:(jint)remotePort OBJC_METHOD_FAMILY_NONE;
+
+- (void)setOptionWithInt:(jint)option
+                  withId:(id)value;
+
+/*!
+ @brief Perform an accept for a SOCKS bind.
+ */
+- (void)socksAccept;
+
+#pragma mark Protected
+
+- (void)acceptWithJavaNetSocketImpl:(JavaNetSocketImpl *)newImpl;
 
 - (jint)available;
 
@@ -47,101 +74,71 @@
 
 - (void)close;
 
-- (void)connectWithNSString:(NSString *)aHost
-                    withInt:(jint)aPort;
-
 - (void)connectWithJavaNetInetAddress:(JavaNetInetAddress *)anAddr
                               withInt:(jint)aPort;
 
+- (void)connectWithJavaNetSocketAddress:(JavaNetSocketAddress *)remoteAddr
+                                withInt:(jint)timeout;
+
+- (void)connectWithNSString:(NSString *)aHost
+                    withInt:(jint)aPort;
+
 - (void)createWithBoolean:(jboolean)streaming;
 
-- (void)dealloc;
+- (void)javaFinalize;
 
 - (JavaIoInputStream *)getInputStream;
-
-- (id)getOptionWithInt:(jint)option;
 
 - (JavaIoOutputStream *)getOutputStream;
 
 - (void)listenWithInt:(jint)backlog;
 
-- (void)setOptionWithInt:(jint)option
-                  withId:(id)value;
+- (void)sendUrgentDataWithInt:(jint)value;
 
-- (void)socksAccept;
-
+/*!
+ @brief Shutdown the input portion of the socket.
+ */
 - (void)shutdownInput;
 
+/*!
+ @brief Shutdown the output portion of the socket.
+ */
 - (void)shutdownOutput;
 
-- (void)connectWithJavaNetSocketAddress:(JavaNetSocketAddress *)remoteAddr
-                                withInt:(jint)timeout;
-
 - (jboolean)supportsUrgentData;
-
-- (void)sendUrgentDataWithInt:(jint)value;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaNetPlainSocketImpl)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_(JavaNetPlainSocketImpl *self, JavaIoFileDescriptor *fd);
 
-FOUNDATION_EXPORT JavaNetInetAddress *JavaNetPlainSocketImpl_lastConnectedAddress_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetPlainSocketImpl, lastConnectedAddress_, JavaNetInetAddress *)
-J2OBJC_STATIC_FIELD_SETTER(JavaNetPlainSocketImpl, lastConnectedAddress_, JavaNetInetAddress *)
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *new_JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_(JavaIoFileDescriptor *fd) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT jint JavaNetPlainSocketImpl_lastConnectedPort_;
-J2OBJC_STATIC_FIELD_GETTER(JavaNetPlainSocketImpl, lastConnectedPort_, jint)
-J2OBJC_STATIC_FIELD_REF_GETTER(JavaNetPlainSocketImpl, lastConnectedPort_, jint)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *create_JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_(JavaIoFileDescriptor *fd);
+
+FOUNDATION_EXPORT void JavaNetPlainSocketImpl_initWithJavaNetProxy_(JavaNetPlainSocketImpl *self, JavaNetProxy *proxy);
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *new_JavaNetPlainSocketImpl_initWithJavaNetProxy_(JavaNetProxy *proxy) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *create_JavaNetPlainSocketImpl_initWithJavaNetProxy_(JavaNetProxy *proxy);
+
+FOUNDATION_EXPORT void JavaNetPlainSocketImpl_init(JavaNetPlainSocketImpl *self);
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *new_JavaNetPlainSocketImpl_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *create_JavaNetPlainSocketImpl_init();
+
+FOUNDATION_EXPORT void JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_withInt_withJavaNetInetAddress_withInt_(JavaNetPlainSocketImpl *self, JavaIoFileDescriptor *fd, jint localport, JavaNetInetAddress *addr, jint port);
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *new_JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_withInt_withJavaNetInetAddress_withInt_(JavaIoFileDescriptor *fd, jint localport, JavaNetInetAddress *addr, jint port) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaNetPlainSocketImpl *create_JavaNetPlainSocketImpl_initWithJavaIoFileDescriptor_withInt_withJavaNetInetAddress_withInt_(JavaIoFileDescriptor *fd, jint localport, JavaNetInetAddress *addr, jint port);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetPlainSocketImpl)
 
-@interface JavaNetPlainSocketImpl_PlainSocketInputStream : JavaIoInputStream {
-}
+#endif
 
-- (instancetype)initWithJavaNetPlainSocketImpl:(JavaNetPlainSocketImpl *)socketImpl;
 
-- (jint)available;
-
-- (void)close;
-
-- (jint)read;
-
-- (jint)readWithByteArray:(IOSByteArray *)buffer
-                  withInt:(jint)byteOffset
-                  withInt:(jint)byteCount;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNetPlainSocketImpl_PlainSocketInputStream)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNetPlainSocketImpl_PlainSocketInputStream)
-
-@interface JavaNetPlainSocketImpl_PlainSocketOutputStream : JavaIoOutputStream {
-}
-
-- (instancetype)initWithJavaNetPlainSocketImpl:(JavaNetPlainSocketImpl *)socketImpl;
-
-- (void)close;
-
-- (void)writeWithInt:(jint)oneByte;
-
-- (void)writeWithByteArray:(IOSByteArray *)buffer
-                   withInt:(jint)offset
-                   withInt:(jint)byteCount;
-
-@end
-
-J2OBJC_EMPTY_STATIC_INIT(JavaNetPlainSocketImpl_PlainSocketOutputStream)
-
-CF_EXTERN_C_BEGIN
-CF_EXTERN_C_END
-
-J2OBJC_TYPE_LITERAL_HEADER(JavaNetPlainSocketImpl_PlainSocketOutputStream)
-
-#endif // _JavaNetPlainSocketImpl_H_
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetPlainSocketImpl")

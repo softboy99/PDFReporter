@@ -3,37 +3,97 @@
 //  source: android/libcore/luni/src/main/java/java/security/DigestException.java
 //
 
-#ifndef _JavaSecurityDigestException_H_
-#define _JavaSecurityDigestException_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityDigestException")
+#ifdef RESTRICT_JavaSecurityDigestException
+#define INCLUDE_ALL_JavaSecurityDigestException 0
+#else
+#define INCLUDE_ALL_JavaSecurityDigestException 1
+#endif
+#undef RESTRICT_JavaSecurityDigestException
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityDigestException_) && (INCLUDE_ALL_JavaSecurityDigestException || defined(INCLUDE_JavaSecurityDigestException))
+#define JavaSecurityDigestException_
+
+#define RESTRICT_JavaSecurityGeneralSecurityException 1
+#define INCLUDE_JavaSecurityGeneralSecurityException 1
 #include "java/security/GeneralSecurityException.h"
 
-#define JavaSecurityDigestException_serialVersionUID 5821450303093652515LL
+/*!
+ @brief <code>DigestException</code> is a general message digest exception.
+ */
+@interface JavaSecurityDigestException : JavaSecurityGeneralSecurityException
 
-@interface JavaSecurityDigestException : JavaSecurityGeneralSecurityException {
-}
+#pragma mark Public
 
-- (instancetype)initWithNSString:(NSString *)msg;
-
+/*!
+ @brief Constructs a new instance of <code>DigestException</code>.
+ */
 - (instancetype)init;
 
-- (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>DigestException</code> with the
+ given message.
+ @param msg
+ the detail message for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)msg;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)cause;
+/*!
+ @brief Constructs a new instance of <code>DigestException</code> with the
+ given message and the cause.
+ @param message
+ the detail message for this exception.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSString:(NSString *)message
+                 withNSException:(NSException *)cause;
+
+/*!
+ @brief Constructs a new instance of <code>DigestException</code> with the
+ cause.
+ @param cause
+ the exception which is the cause for this exception.
+ */
+- (instancetype)initWithNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaSecurityDigestException)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaSecurityDigestException_initWithNSString_(JavaSecurityDigestException *self, NSString *msg);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaSecurityDigestException, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaSecurityDigestException *new_JavaSecurityDigestException_initWithNSString_(NSString *msg) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityDigestException *create_JavaSecurityDigestException_initWithNSString_(NSString *msg);
+
+FOUNDATION_EXPORT void JavaSecurityDigestException_init(JavaSecurityDigestException *self);
+
+FOUNDATION_EXPORT JavaSecurityDigestException *new_JavaSecurityDigestException_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityDigestException *create_JavaSecurityDigestException_init();
+
+FOUNDATION_EXPORT void JavaSecurityDigestException_initWithNSString_withNSException_(JavaSecurityDigestException *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityDigestException *new_JavaSecurityDigestException_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityDigestException *create_JavaSecurityDigestException_initWithNSString_withNSException_(NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT void JavaSecurityDigestException_initWithNSException_(JavaSecurityDigestException *self, NSException *cause);
+
+FOUNDATION_EXPORT JavaSecurityDigestException *new_JavaSecurityDigestException_initWithNSException_(NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaSecurityDigestException *create_JavaSecurityDigestException_initWithNSException_(NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityDigestException)
 
-#endif // _JavaSecurityDigestException_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityDigestException")

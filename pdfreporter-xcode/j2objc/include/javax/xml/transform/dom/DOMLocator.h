@@ -3,15 +3,43 @@
 //  source: android/libcore/luni/src/main/java/javax/xml/transform/dom/DOMLocator.java
 //
 
-#ifndef _JavaxXmlTransformDomDOMLocator_H_
-#define _JavaxXmlTransformDomDOMLocator_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaxXmlTransformDomDOMLocator")
+#ifdef RESTRICT_JavaxXmlTransformDomDOMLocator
+#define INCLUDE_ALL_JavaxXmlTransformDomDOMLocator 0
+#else
+#define INCLUDE_ALL_JavaxXmlTransformDomDOMLocator 1
+#endif
+#undef RESTRICT_JavaxXmlTransformDomDOMLocator
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaxXmlTransformDomDOMLocator_) && (INCLUDE_ALL_JavaxXmlTransformDomDOMLocator || defined(INCLUDE_JavaxXmlTransformDomDOMLocator))
+#define JavaxXmlTransformDomDOMLocator_
+
+#define RESTRICT_JavaxXmlTransformSourceLocator 1
+#define INCLUDE_JavaxXmlTransformSourceLocator 1
+#include "javax/xml/transform/SourceLocator.h"
 
 @protocol OrgW3cDomNode;
 
-#include "J2ObjC_header.h"
-#include "javax/xml/transform/SourceLocator.h"
-
+/*!
+ @brief Indicates the position of a node in a source DOM, intended
+ primarily for error reporting.
+ To use a DOMLocator, the receiver of an
+ error must downcast the <code>javax.xml.transform.SourceLocator</code>
+ object returned by an exception. A <code>javax.xml.transform.Transformer</code>
+ may use this object for purposes other than error reporting, for instance,
+ to indicate the source node that originated a result node.
+ */
 @protocol JavaxXmlTransformDomDOMLocator < JavaxXmlTransformSourceLocator, NSObject, JavaObject >
+
+/*!
+ @brief Return the node where the event occurred.
+ @return The node that is the location for the event.
+ */
 - (id<OrgW3cDomNode>)getOriginatingNode;
 
 @end
@@ -20,4 +48,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaxXmlTransformDomDOMLocator)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaxXmlTransformDomDOMLocator)
 
-#endif // _JavaxXmlTransformDomDOMLocator_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaxXmlTransformDomDOMLocator")

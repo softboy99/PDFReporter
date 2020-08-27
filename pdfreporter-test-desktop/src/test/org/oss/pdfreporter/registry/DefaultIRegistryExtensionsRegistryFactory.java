@@ -10,6 +10,8 @@
  ******************************************************************************/
 package test.org.oss.pdfreporter.registry;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,8 +74,18 @@ public class DefaultIRegistryExtensionsRegistryFactory implements ExtensionsRegi
 			GeometryFactory.registerFactory();
 			PdfFactory.registerFactory();
 			isInitialized = true;
+			logClassPath();
 			logger.info("Initialized IRegistry");
 		}
 	}
+	private static void logClassPath() {
+	     ClassLoader cl = ClassLoader.getSystemClassLoader();
 
+	        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+	        for(URL url: urls){
+	        	logger.info(url.getFile());
+	        }
+
+	}
 }

@@ -25,20 +25,15 @@ public class Connection implements IConnection {
 
 	/**
 	 * used by pre-defined JDBC-URL definition of specific database driver and JDBC-Url
-	 * @param driverClass
-	 * @param connectionPrefix
 	 * @param url
 	 * @param user
 	 * @param password
 	 * @throws SQLException
 	 */
-	Connection(String driverClass, String connectionPrefix, String url, String user, String password) throws SQLException {
+	Connection(String url, String user, String password) throws SQLException {
 		super();
 		try {
-			Class.forName(driverClass);
-			this.delegate = DriverManager.getConnection(connectionPrefix + url, user, password);
-		} catch (ClassNotFoundException e) {
-			throw new SQLException("Driver: " + driverClass + " not found.");
+			this.delegate = DriverManager.getConnection(url, user, password);
 		} catch (java.sql.SQLException e) {
 			throw new SQLException("Error connecting to " + url,e);
 		}

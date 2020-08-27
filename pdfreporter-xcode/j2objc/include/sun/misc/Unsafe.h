@@ -3,140 +3,643 @@
 //  source: Classes/sun/misc/Unsafe.java
 //
 
-#ifndef _SunMiscUnsafe_H_
-#define _SunMiscUnsafe_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_SunMiscUnsafe")
+#ifdef RESTRICT_SunMiscUnsafe
+#define INCLUDE_ALL_SunMiscUnsafe 0
+#else
+#define INCLUDE_ALL_SunMiscUnsafe 1
+#endif
+#undef RESTRICT_SunMiscUnsafe
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (SunMiscUnsafe_) && (INCLUDE_ALL_SunMiscUnsafe || defined(INCLUDE_SunMiscUnsafe))
+#define SunMiscUnsafe_
 
 @class IOSClass;
 @class JavaLangReflectField;
 
-#include "J2ObjC_header.h"
+/*!
+ @brief The package name notwithstanding, this class is the quasi-standard
+ way for Java code to gain access to and use functionality which,
+ when unsupervised, would allow one to break the pointer/type safety
+ of Java.
+ */
+@interface SunMiscUnsafe : NSObject
 
-@interface SunMiscUnsafe : NSObject {
-}
+#pragma mark Public
 
-+ (SunMiscUnsafe *)getUnsafe;
+/*!
+ @brief Allocates an instance of the given class without running the constructor.
+ The class' <clinit> will be run, if necessary.
+ */
+- (id)allocateInstanceWithIOSClass:(IOSClass *)c OBJC_METHOD_FAMILY_NONE;
 
-- (jlong)objectFieldOffsetWithJavaLangReflectField:(JavaLangReflectField *)field;
-
+/*!
+ @brief Gets the offset from the start of an array object's memory to
+ the memory used to store its initial (zeroeth) element.
+ @param clazz non-null; class in question; must be an array class
+ @return the offset to the initial element
+ */
 - (jint)arrayBaseOffsetWithIOSClass:(IOSClass *)clazz;
 
+/*!
+ @brief Gets the size of each element of the given array class.
+ @param clazz non-null; class in question; must be an array class
+ @return &gt; 0; the size of each element of the array
+ */
 - (jint)arrayIndexScaleWithIOSClass:(IOSClass *)clazz;
 
+/*!
+ @brief Performs a compare-and-set operation on an <code>int</code>
+ field within the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param expectedValue expected value of the field
+ @param newValue new value to store in the field if the contents are
+ as expected
+ @return <code>true</code> if the new value was in fact stored, and
+ <code>false</code> if not
+ */
 - (jboolean)compareAndSwapIntWithId:(id)obj
                            withLong:(jlong)offset
                             withInt:(jint)expectedValue
                             withInt:(jint)newValue;
 
+/*!
+ @brief Performs a compare-and-set operation on a <code>long</code>
+ field within the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param expectedValue expected value of the field
+ @param newValue new value to store in the field if the contents are
+ as expected
+ @return <code>true</code> if the new value was in fact stored, and
+ <code>false</code> if not
+ */
 - (jboolean)compareAndSwapLongWithId:(id)obj
                             withLong:(jlong)offset
                             withLong:(jlong)expectedValue
                             withLong:(jlong)newValue;
 
+/*!
+ @brief Performs a compare-and-set operation on an <code>Object</code>
+ field (that is, a reference field) within the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param expectedValue expected value of the field
+ @param newValue new value to store in the field if the contents are
+ as expected
+ @return <code>true</code> if the new value was in fact stored, and
+ <code>false</code> if not
+ */
 - (jboolean)compareAndSwapObjectWithId:(id)obj
                               withLong:(jlong)offset
                                 withId:(id)expectedValue
                                 withId:(id)newValue;
 
-- (jint)getIntVolatileWithId:(id)obj
+/*!
+ @brief Gets a <code>boolean</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jboolean)getBooleanWithId:(id)obj
                     withLong:(jlong)offset;
 
-- (void)putIntVolatileWithId:(id)obj
-                    withLong:(jlong)offset
-                     withInt:(jint)newValue;
+/*!
+ @brief Gets a <code>boolean</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jboolean)getBooleanVolatileWithId:(id)obj
+                            withLong:(jlong)offset;
 
-- (jlong)getLongVolatileWithId:(id)obj
+/*!
+ @brief Gets a <code>byte</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jbyte)getByteWithLong:(jlong)address;
+
+/*!
+ @brief Gets a <code>byte</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jbyte)getByteWithId:(id)obj
+              withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>byte</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jbyte)getByteVolatileWithId:(id)obj
                       withLong:(jlong)offset;
 
-- (void)putLongVolatileWithId:(id)obj
-                     withLong:(jlong)offset
-                     withLong:(jlong)newValue;
+/*!
+ @brief Gets a <code>char</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jchar)getCharWithLong:(jlong)address;
 
-- (id)getObjectVolatileWithId:(id)obj
-                     withLong:(jlong)offset;
+/*!
+ @brief Gets a <code>char</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jchar)getCharWithId:(id)obj
+              withLong:(jlong)offset;
 
-- (void)putObjectVolatileWithId:(id)obj
-                       withLong:(jlong)offset
-                         withId:(id)newValue;
+/*!
+ @brief Gets a <code>char</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jchar)getCharVolatileWithId:(id)obj
+                      withLong:(jlong)offset;
 
+/*!
+ @brief Gets a <code>double</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jdouble)getDoubleWithLong:(jlong)address;
+
+/*!
+ @brief Gets a <code>double</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jdouble)getDoubleWithId:(id)obj
+                  withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>double</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jdouble)getDoubleVolatileWithId:(id)obj
+                          withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>float</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jfloat)getFloatWithLong:(jlong)address;
+
+/*!
+ @brief Gets a <code>float</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jfloat)getFloatWithId:(id)obj
+                withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>float</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jfloat)getFloatVolatileWithId:(id)obj
+                        withLong:(jlong)offset;
+
+/*!
+ @brief Gets an <code>int</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jint)getIntWithLong:(jlong)address;
+
+/*!
+ @brief Gets an <code>int</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
 - (jint)getIntWithId:(id)obj
             withLong:(jlong)offset;
 
+/*!
+ @brief Gets an <code>int</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jint)getIntVolatileWithId:(id)obj
+                    withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>long</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jlong)getLongWithLong:(jlong)address;
+
+/*!
+ @brief Gets a <code>long</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jlong)getLongWithId:(id)obj
+              withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>long</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jlong)getLongVolatileWithId:(id)obj
+                      withLong:(jlong)offset;
+
+/*!
+ @brief Gets an <code>Object</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (id)getObjectWithId:(id)obj
+             withLong:(jlong)offset;
+
+/*!
+ @brief Gets an <code>Object</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (id)getObjectVolatileWithId:(id)obj
+                     withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>short</code> field from the given address.
+ @param address the pointer address of the field
+ @return the retrieved value
+ */
+- (jshort)getShortWithLong:(jlong)address;
+
+/*!
+ @brief Gets a <code>short</code> field from the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jshort)getShortWithId:(id)obj
+                withLong:(jlong)offset;
+
+/*!
+ @brief Gets a <code>short</code> field from the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @return the retrieved value
+ */
+- (jshort)getShortVolatileWithId:(id)obj
+                        withLong:(jlong)offset;
+
+/*!
+ @brief Gets the unique instance of this class.
+ This is only allowed in
+ very limited situations.
+ */
++ (SunMiscUnsafe *)getUnsafe;
+
+/*!
+ @brief Gets the raw byte offset from the start of an object's memory to
+ the memory used to store the indicated instance field.
+ @param field non-null; the field in question, which must be an
+ instance field
+ @return the offset to the field
+ */
+- (jlong)objectFieldOffsetWithJavaLangReflectField:(JavaLangReflectField *)field;
+
+/*!
+ @brief Parks the calling thread for the specified amount of time,
+ unless the "permit" for the thread is already available (due to
+ a previous call to <code>unpark</code>.
+ This method may also return
+ spuriously (that is, without the thread being told to unpark
+ and without the indicated amount of time elapsing).
+ <p>See <code>java.util.concurrent.locks.LockSupport</code> for more
+ in-depth information of the behavior of this method.</p>
+ @param absolute whether the given time value is absolute
+ milliseconds-since-the-epoch (<code>true</code>) or relative
+ nanoseconds-from-now (<code>false</code>)
+ @param time the (absolute millis or relative nanos) time value
+ */
+- (void)parkWithBoolean:(jboolean)absolute
+               withLong:(jlong)time;
+
+/*!
+ @brief Stores a <code>boolean</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putBooleanWithId:(id)obj
+                withLong:(jlong)offset
+             withBoolean:(jboolean)newValue;
+
+/*!
+ @brief Stores a <code>boolean</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putBooleanVolatileWithId:(id)obj
+                        withLong:(jlong)offset
+                     withBoolean:(jboolean)newValue;
+
+/*!
+ @brief Stores a <code>byte</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putByteWithLong:(jlong)address
+               withByte:(jbyte)newValue;
+
+/*!
+ @brief Stores a <code>byte</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putByteWithId:(id)obj
+             withLong:(jlong)offset
+             withByte:(jbyte)newValue;
+
+/*!
+ @brief Stores a <code>byte</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putByteVolatileWithId:(id)obj
+                     withLong:(jlong)offset
+                     withByte:(jbyte)newValue;
+
+/*!
+ @brief Stores a <code>char</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putCharWithLong:(jlong)address
+               withChar:(jchar)newValue;
+
+/*!
+ @brief Stores a <code>char</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putCharWithId:(id)obj
+             withLong:(jlong)offset
+             withChar:(jchar)newValue;
+
+/*!
+ @brief Stores a <code>char</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putCharVolatileWithId:(id)obj
+                     withLong:(jlong)offset
+                     withChar:(jchar)newValue;
+
+/*!
+ @brief Stores a <code>double</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putDoubleWithLong:(jlong)address
+               withDouble:(jdouble)newValue;
+
+/*!
+ @brief Stores a <code>double</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putDoubleWithId:(id)obj
+               withLong:(jlong)offset
+             withDouble:(jdouble)newValue;
+
+/*!
+ @brief Stores a <code>double</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putDoubleVolatileWithId:(id)obj
+                       withLong:(jlong)offset
+                     withDouble:(jdouble)newValue;
+
+/*!
+ @brief Stores a <code>float</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putFloatWithLong:(jlong)address
+               withFloat:(jfloat)newValue;
+
+/*!
+ @brief Stores a <code>float</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putFloatWithId:(id)obj
+              withLong:(jlong)offset
+             withFloat:(jfloat)newValue;
+
+/*!
+ @brief Stores a <code>float</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putFloatVolatileWithId:(id)obj
+                      withLong:(jlong)offset
+                     withFloat:(jfloat)newValue;
+
+/*!
+ @brief Stores an <code>int</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putIntWithLong:(jlong)address
+               withInt:(jint)newValue;
+
+/*!
+ @brief Stores an <code>int</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
 - (void)putIntWithId:(id)obj
             withLong:(jlong)offset
              withInt:(jint)newValue;
 
-- (void)putOrderedIntWithId:(id)obj
-                   withLong:(jlong)offset
-                    withInt:(jint)newValue;
+/*!
+ @brief Stores an <code>int</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putIntVolatileWithId:(id)obj
+                    withLong:(jlong)offset
+                     withInt:(jint)newValue;
 
-- (jlong)getLongWithId:(id)obj
-              withLong:(jlong)offset;
+/*!
+ @brief Stores a <code>long</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putLongWithLong:(jlong)address
+               withLong:(jlong)newValue;
 
+/*!
+ @brief Stores a <code>long</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
 - (void)putLongWithId:(id)obj
              withLong:(jlong)offset
              withLong:(jlong)newValue;
 
-- (void)putOrderedLongWithId:(id)obj
-                    withLong:(jlong)offset
-                    withLong:(jlong)newValue;
+/*!
+ @brief Stores a <code>long</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putLongVolatileWithId:(id)obj
+                     withLong:(jlong)offset
+                     withLong:(jlong)newValue;
 
-- (id)getObjectWithId:(id)obj
-             withLong:(jlong)offset;
-
+/*!
+ @brief Stores an <code>Object</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
 - (void)putObjectWithId:(id)obj
                withLong:(jlong)offset
                  withId:(id)newValue;
 
+/*!
+ @brief Stores an <code>Object</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putObjectVolatileWithId:(id)obj
+                       withLong:(jlong)offset
+                         withId:(id)newValue;
+
+/*!
+ @brief Lazy set an int field.
+ */
+- (void)putOrderedIntWithId:(id)obj
+                   withLong:(jlong)offset
+                    withInt:(jint)newValue;
+
+/*!
+ @brief Lazy set a long field.
+ */
+- (void)putOrderedLongWithId:(id)obj
+                    withLong:(jlong)offset
+                    withLong:(jlong)newValue;
+
+/*!
+ @brief Lazy set an object field.
+ */
 - (void)putOrderedObjectWithId:(id)obj
                       withLong:(jlong)offset
                         withId:(id)newValue;
 
-- (void)parkWithBoolean:(jboolean)absolute
-               withLong:(jlong)time;
+/*!
+ @brief Stores a <code>short</code> field into the given address.
+ @param address the pointer address of the field
+ @param newValue the value to store
+ */
+- (void)putShortWithLong:(jlong)address
+               withShort:(jshort)newValue;
 
+/*!
+ @brief Stores a <code>short</code> field into the given object.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putShortWithId:(id)obj
+              withLong:(jlong)offset
+             withShort:(jshort)newValue;
+
+/*!
+ @brief Stores a <code>short</code> field into the given object,
+ using <code>volatile</code> semantics.
+ @param obj non-null; object containing the field
+ @param offset offset to the field within <code>obj</code>
+ @param newValue the value to store
+ */
+- (void)putShortVolatileWithId:(id)obj
+                      withLong:(jlong)offset
+                     withShort:(jshort)newValue;
+
+/*!
+ @brief Unparks the given object, which must be a <code>Thread</code>.
+ <p>See <code>java.util.concurrent.locks.LockSupport</code> for more
+ in-depth information of the behavior of this method.</p>
+ @param obj non-null; the object to unpark
+ */
 - (void)unparkWithId:(id)obj;
 
-- (id)allocateInstanceWithIOSClass:(IOSClass *)c OBJC_METHOD_FAMILY_NONE;
-
-- (id)getArrayObjectWithId:(id)array
-                   withInt:(jint)index;
-
-- (id)getArrayObjectVolatileWithId:(id)array
-                           withInt:(jint)index;
-
-- (void)putArrayObjectWithId:(id)array
-                     withInt:(jint)index
-                      withId:(id)newValue;
-
-- (void)putArrayOrderedObjectWithId:(id)array
-                            withInt:(jint)index
-                             withId:(id)newValue;
-
-- (void)putArrayObjectVolatileWithId:(id)array
-                             withInt:(jint)index
-                              withId:(id)newValue;
-
-- (jboolean)compareAndSwapArrayObjectWithId:(id)array
-                                    withInt:(jint)index
-                                     withId:(id)expectedValue
-                                     withId:(id)newValue;
+#pragma mark Package-Private
 
 @end
 
-FOUNDATION_EXPORT BOOL SunMiscUnsafe_initialized;
 J2OBJC_STATIC_INIT(SunMiscUnsafe)
-
-CF_EXTERN_C_BEGIN
 
 FOUNDATION_EXPORT SunMiscUnsafe *SunMiscUnsafe_getUnsafe();
 
-FOUNDATION_EXPORT SunMiscUnsafe *SunMiscUnsafe_THE_ONE_;
-J2OBJC_STATIC_FIELD_GETTER(SunMiscUnsafe, THE_ONE_, SunMiscUnsafe *)
-
-FOUNDATION_EXPORT SunMiscUnsafe *SunMiscUnsafe_theUnsafe_;
-J2OBJC_STATIC_FIELD_GETTER(SunMiscUnsafe, theUnsafe_, SunMiscUnsafe *)
-CF_EXTERN_C_END
-
 J2OBJC_TYPE_LITERAL_HEADER(SunMiscUnsafe)
 
-#endif // _SunMiscUnsafe_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_SunMiscUnsafe")

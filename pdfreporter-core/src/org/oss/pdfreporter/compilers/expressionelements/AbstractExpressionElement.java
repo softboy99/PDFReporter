@@ -21,4 +21,9 @@ public abstract class AbstractExpressionElement implements IExpressionElement {
 		return getValue();
 	}
 
+	@Override
+	public Object getEsimatedValue() throws ExpressionEvaluationException {
+		return getValue();
+	}
+
 }

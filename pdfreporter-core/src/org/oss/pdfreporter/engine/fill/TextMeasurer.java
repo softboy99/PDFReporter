@@ -26,6 +26,7 @@ package org.oss.pdfreporter.engine.fill;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.oss.pdfreporter.engine.DefaultJasperReportsContext;
@@ -56,13 +57,14 @@ public class TextMeasurer implements JRTextMeasurer
 	private final static Logger logger = Logger.getLogger(TextMeasurer.class.getName());
 	//FIXME remove this after measureSimpleText() is proven to be stable
 	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text";
+	public static final String PROPERTY_IGNORE_MAX_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "measure.ignore.height";
 
 	protected JasperReportsContext jasperReportsContext;
 	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
 	
 //	private SimpleTextLineWrapper simpleLineWrapper;
-	private ComplexTextLineWrapper complextLineWrapper;
+	private final ComplexTextLineWrapper complextLineWrapper;
 	
 	protected int width;
 	private int height;
@@ -76,10 +78,31 @@ public class TextMeasurer implements JRTextMeasurer
 	protected int maxHeight;
 	private boolean canOverflow;
 	private boolean ignoreMissingFont;
+	private boolean ignoreMaxHeight;
 	
 	protected TextMeasuredState measuredState;
 	protected TextMeasuredState prevMeasuredState;
 	
+	
+
+
+
+
+	@Override
+	public String toString() {
+		return "TextMeasurer [textElement=" + textElement + ", width=" + width
+				+ ", height=" + height + ", topPadding=" + topPadding
+				+ ", leftPadding=" + leftPadding + ", bottomPadding="
+				+ bottomPadding + ", rightPadding=" + rightPadding
+				+ ", jrParagraph=" + jrParagraph + ", formatWidth="
+				+ formatWidth + ", maxHeight=" + maxHeight + ", canOverflow="
+				+ canOverflow + ", ignoreMissingFont=" + ignoreMissingFont
+				+ "]";
+	}
+
+
+
+
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
 		private final boolean saveLineBreakOffsets;
@@ -97,26 +120,30 @@ public class TextMeasurer implements JRTextMeasurer
 		protected int lastOffset;
 		protected ArrayList<Integer> lineBreakOffsets;
 		
-		public TextMeasuredState(boolean saveLineBreakOffsets)
+		public TextMeasuredState(final boolean saveLineBreakOffsets)
 		{
 			this.saveLineBreakOffsets = saveLineBreakOffsets;
 		}
 		
+		@Override
 		public boolean isLeftToRight()
 		{
 			return isLeftToRight;
 		}
 		
+		@Override
 		public int getTextOffset()
 		{
 			return textOffset;
 		}
 		
+		@Override
 		public float getTextHeight()
 		{
 			return textHeight;
 		}
 		
+		@Override
 		public float getLineSpacingFactor()
 		{
 			if (lines > 0 && fontSizeSum > 0)
@@ -126,11 +153,13 @@ public class TextMeasurer implements JRTextMeasurer
 			return 0;
 		}
 		
+		@Override
 		public float getLeadingOffset()
 		{
 			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
 		}
 
+		@Override
 		public String getTextSuffix()
 		{
 			return textSuffix;
@@ -140,7 +169,7 @@ public class TextMeasurer implements JRTextMeasurer
 		{
 			try
 			{
-				TextMeasuredState clone = (TextMeasuredState) super.clone();
+				final TextMeasuredState clone = (TextMeasuredState) super.clone();
 				
 				//clone the list of offsets
 				//might be a performance problem on very large texts
@@ -151,7 +180,7 @@ public class TextMeasurer implements JRTextMeasurer
 				
 				return clone;
 			}
-			catch (CloneNotSupportedException e)
+			catch (final CloneNotSupportedException e)
 			{
 				//never
 				throw new JRRuntimeException(e);
@@ -167,12 +196,13 @@ public class TextMeasurer implements JRTextMeasurer
 					lineBreakOffsets = new ArrayList<Integer>();
 				}
 
-				int breakOffset = textOffset - lastOffset;
+				final int breakOffset = textOffset - lastOffset;
 				lineBreakOffsets.add(Integer.valueOf(breakOffset));
 				lastOffset = textOffset;
 			}
 		}
 		
+		@Override
 		public short[] getLineBreakOffsets()
 		{
 			if (!saveLineBreakOffsets)
@@ -183,7 +213,7 @@ public class TextMeasurer implements JRTextMeasurer
 			
 			//if the last line break occurred at the truncation position
 			//exclude the last break offset
-			int exclude = lastOffset == textOffset ? 1 : 0;
+			final int exclude = lastOffset == textOffset ? 1 : 0;
 			if (lineBreakOffsets == null 
 					|| lineBreakOffsets.size() <= exclude)
 			{
@@ -191,11 +221,11 @@ public class TextMeasurer implements JRTextMeasurer
 				return JRPrintText.ZERO_LINE_BREAK_OFFSETS;
 			}
 			
-			short[] offsets = new short[lineBreakOffsets.size() - exclude];
+			final short[] offsets = new short[lineBreakOffsets.size() - exclude];
 			boolean overflow = false;
 			for (int i = 0; i < offsets.length; i++)
 			{
-				int offset = lineBreakOffsets.get(i).intValue();
+				final int offset = lineBreakOffsets.get(i).intValue();
 				if (offset > Short.MAX_VALUE)
 				{
 					
@@ -214,12 +244,28 @@ public class TextMeasurer implements JRTextMeasurer
 			
 			return offsets;
 		}
+
+		@Override
+		public String toString() {
+			return "TextMeasuredState [saveLineBreakOffsets="
+					+ saveLineBreakOffsets + ", textOffset=" + textOffset
+					+ ", lines=" + lines + ", fontSizeSum=" + fontSizeSum
+					+ ", firstLineMaxFontSize=" + firstLineMaxFontSize
+					+ ", paragraphStartLine=" + paragraphStartLine
+					+ ", textHeight=" + textHeight + ", firstLineLeading="
+					+ firstLineLeading + ", isLeftToRight=" + isLeftToRight
+					+ ", textSuffix=" + textSuffix + ", lastOffset="
+					+ lastOffset + ", lineBreakOffsets=" + lineBreakOffsets
+					+ "]";
+		}
+		
+		
 	}
 	
 	/**
 	 * 
 	 */
-	public TextMeasurer(JasperReportsContext jasperReportsContext, JRCommonText textElement)
+	public TextMeasurer(final JasperReportsContext jasperReportsContext, final JRCommonText textElement)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.textElement = textElement;
@@ -233,7 +279,7 @@ public class TextMeasurer implements JRTextMeasurer
 					);
 		}
 		
-		Context measureContext = new Context();
+		final Context measureContext = new Context();
 		// TODO (28.06.2013, Donat, Open Software Solutions): Implement a really simple and fast textline wrapper for single short phrases fitting in one line with no attribute changes
 //		simpleLineWrapper = new SimpleTextLineWrapper();
 //		simpleLineWrapper.init(measureContext);
@@ -245,7 +291,8 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * @deprecated Replaced by {@link #TextMeasurer(JasperReportsContext, JRCommonText)}.
 	 */
-	public TextMeasurer(JRCommonText textElement)
+	@Deprecated
+	public TextMeasurer(final JRCommonText textElement)
 	{
 		this(DefaultJasperReportsContext.getInstance(), textElement);
 	}
@@ -254,10 +301,10 @@ public class TextMeasurer implements JRTextMeasurer
 	 * 
 	 */
 	protected void initialize(
-		JRStyledText styledText,
-		int remainingTextStart,
-		int availableStretchHeight, 
-		boolean canOverflow
+		final JRStyledText styledText,
+		final int remainingTextStart,
+		final int availableStretchHeight, 
+		final boolean canOverflow
 		)
 	{
 		width = textElement.getWidth();
@@ -276,7 +323,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				width = textElement.getHeight();
 				height = textElement.getWidth();
-				int tmpPadding = topPadding;
+				final int tmpPadding = topPadding;
 				topPadding = leftPadding;
 				leftPadding = bottomPadding;
 				bottomPadding = rightPadding;
@@ -287,7 +334,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				width = textElement.getHeight();
 				height = textElement.getWidth();
-				int tmpPadding = topPadding;
+				final int tmpPadding = topPadding;
 				topPadding = rightPadding;
 				rightPadding = bottomPadding;
 				bottomPadding = leftPadding;
@@ -318,8 +365,11 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		ignoreMissingFont = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false);
+
+		ignoreMaxHeight = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
+				TextMeasurer.PROPERTY_IGNORE_MAX_HEIGHT, false);
 		
-		boolean saveLineBreakOffsets = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
+		final boolean saveLineBreakOffsets = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
 		
 		measuredState = new TextMeasuredState(saveLineBreakOffsets);
@@ -331,17 +381,18 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
+	@Override
 	public JRMeasuredText measure(
-		JRStyledText styledText,
-		int remainingTextStart,
-		int availableStretchHeight,
-		boolean canOverflow
+		final JRStyledText styledText,
+		final int remainingTextStart,
+		final int availableStretchHeight,
+		final boolean canOverflow
 		)
 	{
 		/*   */
 		initialize(styledText, remainingTextStart, availableStretchHeight, canOverflow);
 
-		TextLineWrapper lineWrapper = complextLineWrapper;
+		final TextLineWrapper lineWrapper = complextLineWrapper;
 		lineWrapper.start(styledText);
 		// check if the simple wrapper would handle the text
 //		if (!lineWrapper.start(styledText))
@@ -354,14 +405,14 @@ public class TextMeasurer implements JRTextMeasurer
 		int lastParagraphStart = remainingTextStart;
 		String lastParagraphText = null;
 
-		String remainingText = styledText.getText().substring(remainingTextStart);
-		StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
+		final String remainingText = styledText.getText().substring(remainingTextStart);
+		final StringTokenizer tkzer = new StringTokenizer(remainingText, "\n", true);
 
 		boolean rendered = true;
 		// text is split into paragraphs, using the newline character as delimiter
 		while(tkzer.hasMoreTokens() && rendered) 
 		{
-			String token = tkzer.nextToken();
+			final String token = tkzer.nextToken();
 
 			if ("\n".equals(token))
 			{
@@ -389,19 +440,19 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected boolean hasParagraphIndents()
 	{
-		Integer firstLineIndent = jrParagraph.getFirstLineIndent();
+		final Integer firstLineIndent = jrParagraph.getFirstLineIndent();
 		if (firstLineIndent != null && firstLineIndent.intValue() > 0)
 		{
 			return true;
 		}
 		
-		Integer leftIndent = jrParagraph.getLeftIndent();
+		final Integer leftIndent = jrParagraph.getLeftIndent();
 		if (leftIndent != null && leftIndent.intValue() > 0)
 		{
 			return true;
 		}
 		
-		Integer rightIndent = jrParagraph.getRightIndent();
+		final Integer rightIndent = jrParagraph.getRightIndent();
 		return rightIndent != null && rightIndent.intValue() > 0;
 	}
 
@@ -409,9 +460,9 @@ public class TextMeasurer implements JRTextMeasurer
 	 * 
 	 */
 	protected boolean renderParagraph(
-		TextLineWrapper lineWrapper,
-		int lastParagraphStart,
-		String lastParagraphText
+		final TextLineWrapper lineWrapper,
+		final int lastParagraphStart,
+		final String lastParagraphText
 		)
 	{
 		if (lastParagraphText == null)
@@ -425,11 +476,11 @@ public class TextMeasurer implements JRTextMeasurer
 					false);
 		}
 
-		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
+		final List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
 		
-		int[] currentTabHolder = new int[]{0};
-		TabStop[] nextTabStopHolder = new TabStop[]{null};
-		boolean[] requireNextWordHolder = new boolean[]{false};
+		final int[] currentTabHolder = new int[]{0};
+		final TabStop[] nextTabStopHolder = new TabStop[]{null};
+		final boolean[] requireNextWordHolder = new boolean[]{false};
 		
 		measuredState.paragraphStartLine = measuredState.lines;
 		measuredState.textOffset = lastParagraphStart;
@@ -461,11 +512,11 @@ public class TextMeasurer implements JRTextMeasurer
 
 	
 
-	protected boolean renderNextLine(TextLineWrapper lineWrapper, List<Integer> tabIndexes, int[] currentTabHolder, TabStop[] nextTabStopHolder, boolean[] requireNextWordHolder)
+	protected boolean renderNextLine(final TextLineWrapper lineWrapper, final List<Integer> tabIndexes, final int[] currentTabHolder, final TabStop[] nextTabStopHolder, final boolean[] requireNextWordHolder)
 	{
 		boolean lineComplete = false;
 
-		int lineStartPosition = lineWrapper.paragraphPosition();
+		final int lineStartPosition = lineWrapper.paragraphPosition();
 		
 		float maxAscent = 0;
 		float maxDescent = 0;
@@ -474,7 +525,7 @@ public class TextMeasurer implements JRTextMeasurer
 		boolean isLeftToRight = true;
 		
 		// each line is split into segments, using the tab character as delimiter
-		List<TabSegment> segments = new ArrayList<TabSegment>(1);
+		final List<TabSegment> segments = new ArrayList<TabSegment>(1);
 
 		TabSegment oldSegment = null;
 		TabSegment crtSegment = null;
@@ -483,15 +534,15 @@ public class TextMeasurer implements JRTextMeasurer
 		while (!lineComplete)
 		{
 			// the current segment limit is either the next tab character or the paragraph end 
-			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? lineWrapper.paragraphEnd() : tabIndexes.get(currentTabHolder[0]) + 1);
+			final int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? lineWrapper.paragraphEnd() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
-			float startX = (lineWrapper.paragraphPosition() == 0 ? textElement.getParagraph().getFirstLineIndent() : 0) + leftPadding;
+			final float startX = (lineWrapper.paragraphPosition() == 0 ? textElement.getParagraph().getFirstLineIndent() : 0) + leftPadding;
 			float endX = width - textElement.getParagraph().getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;
 			//formatWidth = endX;
 
-			int startIndex = lineWrapper.paragraphPosition();
+			final int startIndex = lineWrapper.paragraphPosition();
 
 			float rightX = 0;
 
@@ -507,10 +558,10 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 
 			//float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
-			float availableWidth = endX - textElement.getParagraph().getLeftIndent() - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
+			final float availableWidth = endX - textElement.getParagraph().getLeftIndent() - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX); // nextTabStop can be null here; and that's OK
 			
 			// creating a text layout object for each tab segment 
-			TextLine textLine = 
+			final TextLine textLine = 
 				lineWrapper.nextLine(
 					availableWidth,
 					tabIndexOrEndIndex,
@@ -528,7 +579,7 @@ public class TextMeasurer implements JRTextMeasurer
 				crtSegment = new TabSegment();
 				crtSegment.textLine = textLine;
 
-				float leftX = ParagraphUtil.getLeftX(nextTabStopHolder[0], textLine.getAdvance()); // nextTabStop can be null here; and that's OK
+				final float leftX = ParagraphUtil.getLeftX(nextTabStopHolder[0], textLine.getAdvance()); // nextTabStop can be null here; and that's OK
 				if (rightX > leftX)
 				{
 					crtSegment.leftX = rightX;
@@ -590,7 +641,7 @@ public class TextMeasurer implements JRTextMeasurer
 							requireNextWordHolder[0] = false;
 							
 							//provide dummy maxFontSize because it is used for the line height of this empty line when attempting drawing below
-							TextLine baseLine = lineWrapper.baseTextLine(startIndex);
+							final TextLine baseLine = lineWrapper.baseTextLine(startIndex);
 							maxAscent = baseLine.getAscent();
 							maxDescent = baseLine.getDescent();
 							maxLeading = baseLine.getLeading();
@@ -620,9 +671,12 @@ public class TextMeasurer implements JRTextMeasurer
 			lineHeight += jrParagraph.getSpacingBefore().intValue();
 		}
 		
-		float newTextHeight = measuredState.textHeight + lineHeight;
-		boolean fits = newTextHeight + maxDescent <= maxHeight;
-		if (fits)
+		final float newTextHeight = measuredState.textHeight + lineHeight;
+		final boolean fits = newTextHeight + maxDescent <= maxHeight;
+		if (logger.isLoggable(Level.FINEST)) {
+			logger.finest(String.format("fits: %s, newTextHeight: %s, maxDescent: %s, maxHeight: %s", fits,newTextHeight,maxDescent, maxHeight));
+		}
+	if (fits || ignoreMaxHeight)
 		{
 			prevMeasuredState = measuredState.cloneState();
 			
@@ -661,8 +715,15 @@ public class TextMeasurer implements JRTextMeasurer
 //			{
 //				measuredState.textHeight += jrParagraph.getSpacingAfter().intValue();
 //			}
+		} else {
+			if (logger.isLoggable(Level.WARNING)) {				
+				logger.warning(String.format("Text '%s' does not fit into textframe: textHeight: %s, maxHeight: %s",textElement, newTextHeight + maxDescent, maxHeight));
+			}
 		}
-		
+		if (logger.isLoggable(Level.FINEST)) {
+			logger.finest(toString());
+			logger.finest(measuredState.toString());
+		}
 		return fits;
 	}
 	

@@ -16,8 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.oss.pdfreporter.font.IFont.FontDecoration;
@@ -38,14 +37,14 @@ public abstract class AbstractFontManager implements IFontManager {
 	}
 
 	private void registerPdfInternalFonts() {
-		List<IFont> base14Fonts = Base14Font.getList(this);
-		for (IFont font : base14Fonts) {
+		final List<IFont> base14Fonts = Base14Font.getList(this);
+		for (final IFont font : base14Fonts) {
 			addFont(new FontKey(font),font);
 		}
-		Map<String, String> fontsByName = Base14Font.getLogicalFontNames();
-		for (Map.Entry<String, String> logicalFontEntry : fontsByName.entrySet()) {
-			String fontName = logicalFontEntry.getValue();
-			String alias = logicalFontEntry.getKey();
+		final Map<String, String> fontsByName = Base14Font.getLogicalFontNames();
+		for (final Map.Entry<String, String> logicalFontEntry : fontsByName.entrySet()) {
+			final String fontName = logicalFontEntry.getValue();
+			final String alias = logicalFontEntry.getKey();
 			addFontAlias(fontName, alias, FontStyle.PLAIN);
 			addFontAlias(fontName, alias, FontStyle.BOLD);
 			addFontAlias(fontName, alias, FontStyle.OBLIQUE);
@@ -53,12 +52,12 @@ public abstract class AbstractFontManager implements IFontManager {
 		}
 	}
 	
-	private void addFontAlias(String fontName, String alias, FontStyle style) {
-		IFont font = getFont(fontName,style);
+	private void addFontAlias(final String fontName, final String alias, final FontStyle style) {
+		final IFont font = getFont(fontName,style);
 		addFont(new FontKey(alias,style),font);
 	}
 	
-	protected void addFont(FontKey key, IFont font) {
+	protected void addFont(final FontKey key, final IFont font) {
 		fontCache.put(key, font);
 		if (!familyNames.contains(key.getName())) {
 			familyNames.add(key.getName());
@@ -76,8 +75,8 @@ public abstract class AbstractFontManager implements IFontManager {
 	}
 
 	@Override
-	public IFont loadFont(String filePath, String encoding, boolean embed, String asName, FontStyle asStyle) {
-		FontKey key = new FontKey(asName, asStyle);
+	public IFont loadFont(final String filePath, final String encoding, final boolean embed, final String asName, final FontStyle asStyle) {
+		final FontKey key = new FontKey(asName, asStyle);
 		if (!fontCache.containsKey(key)) {
 			addFont(key, new FontProxy(this,filePath,encoding, embed,asName,asStyle));
 			logger.finest("Caching font: " + filePath + ", Style: " + asStyle);
@@ -88,13 +87,16 @@ public abstract class AbstractFontManager implements IFontManager {
 	}
 
 	@Override
-	public IFont getFont(String name, FontStyle style) {
-		FontKey key = new FontKey(name, style);
+	public IFont getFont(final String name, final FontStyle style) {
+		if (logger.isLoggable(Level.FINEST)) {			
+			logger.finest(String.format("name: %s, style: %s", name, style));
+		}
+		final FontKey key = new FontKey(name, style);
 		return fontCache.get(key);
 	}
 
 	@Override
-	public IFont findFont(String name, FontStyle style) {
+	public IFont findFont(final String name, final FontStyle style) {
 		IFont found = getFont(name,style);
 		if (found==null) {
 			found = Base14Font.findFont(this, name, style);
@@ -103,8 +105,8 @@ public abstract class AbstractFontManager implements IFontManager {
 	}
 
 	@Override
-	public IFont getModifiedFont(IFont baseFont, float size,
-			FontDecoration decoration) {
+	public IFont getModifiedFont(final IFont baseFont, final float size,
+			final FontDecoration decoration) {
 		return new DecoratedFont(baseFont, size, decoration);
 	}
 
@@ -117,15 +119,15 @@ public abstract class AbstractFontManager implements IFontManager {
 	}
 	
 	@Override
-	public void get(String key) {
+	public void get(final String key) {
 	}
 
 	@Override
-	public void put(String key, ISessionObject value) {
+	public void put(final String key, final ISessionObject value) {
 	}
 
 	@Override
-	public void remove(String key) {
+	public void remove(final String key) {
 	}
 
 
@@ -164,13 +166,13 @@ public abstract class AbstractFontManager implements IFontManager {
 		private final FontStyle style;
 		
 
-		private FontKey(String name, FontStyle style) {
+		private FontKey(final String name, final FontStyle style) {
 			super();
 			this.name = name.toLowerCase();
 			this.style = style;
 		}
 		
-		private FontKey(IFont font) {
+		private FontKey(final IFont font) {
 			this(font.getName(),font.getStyle());
 		}
 		
@@ -189,14 +191,14 @@ public abstract class AbstractFontManager implements IFontManager {
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			FontKey other = (FontKey) obj;
+			final FontKey other = (FontKey) obj;
 			if (name == null) {
 				if (other.name != null)
 					return false;

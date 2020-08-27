@@ -26,6 +26,11 @@
 
 __attribute__((unused)) static void TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_initializeIRegistry(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory *self);
 
+J2OBJC_INITIALIZED_DEFN(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory)
+
+inline JavaUtilLoggingLogger *TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_getlogger_();
+
+
 @interface TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory () {
 }
 
@@ -36,11 +41,9 @@ __attribute__((unused)) static void TestOrgOssPdfreporterRegistryDefaultIRegistr
 - (instancetype)init;
 @end
 
-BOOL TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_initialized = NO;
-
 @implementation TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory
 
-JavaUtilLoggingLogger * TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_logger_;
+JavaUtilLoggingLogger * TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactorylogger_;
 jboolean TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_isInitialized_ = NO;
 
 - (id<OrgOssPdfreporterExtensionsExtensionsRegistry>)createRegistryWithNSString:(NSString *)registryId
@@ -54,12 +57,13 @@ jboolean TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_
 }
 
 - (instancetype)init {
-    return [super init];
+    self = [super init];
+    return self;
 }
 
 + (void)initialize {
     if (self == [TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory class]) {
-        TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_logger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_class_() getName]);
+        TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactorylogger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_class_() getName]);
         J2OBJC_SET_INITIALIZED(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory)
     }
 }
@@ -71,7 +75,7 @@ jboolean TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_
         { "init", NULL, NULL, 0x1, NULL },
     };
     static const J2ObjcFieldInfo fields[] = {
-        { "logger_", NULL, 0x1a, "Ljava.util.logging.Logger;", &TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_logger_,  },
+        { "logger_", NULL, 0x1a, "Ljava.util.logging.Logger;", &TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactorylogger_,  },
         { "isInitialized_", NULL, 0xa, "Z", &TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_isInitialized_,  },
     };
     static const J2ObjcClassInfo _TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory = { 1, "DefaultIRegistryExtensionsRegistryFactory", "test.org.oss.pdfreporter.registry", NULL, 0x1, 3, methods, 2, fields, 0, NULL};
@@ -83,7 +87,7 @@ jboolean TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_
 void TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_initializeIRegistry(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory *self) {
     @synchronized(self) {
         if (!TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_isInitialized_) {
-            [((JavaUtilLoggingLogger *) nil_chk(JavaUtilLoggingLogger_getLoggerWithNSString_(@""))) setLevelWithJavaUtilLoggingLevel:JavaUtilLoggingLevel_get_OFF_()];
+            [((JavaUtilLoggingLogger *) nil_chk(JavaUtilLoggingLogger_getLoggerWithNSString_(@""))) setLevelWithJavaUtilLoggingLevel:[JavaUtilLoggingLevel OFF]];
             OrgOssPdfreporterXmlParsersFactoryXmlParserFactory_registerFactory();
             OrgOssPdfreporterNetFactoryNetFactory_registerFactory();
             OrgOssPdfreporterTextFormatFactorySimpleFormatFactory_registerFactory();
@@ -96,7 +100,7 @@ void TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_init
             OrgOssPdfreporterGeometryGeometryFactory_registerFactory();
             OrgOssPdfreporterPdfPdfFactory_registerFactory();
             TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_isInitialized_ = YES;
-            [((JavaUtilLoggingLogger *) nil_chk(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactory_logger_)) infoWithNSString:@"Initialized IRegistry"];
+            [((JavaUtilLoggingLogger *) nil_chk(TestOrgOssPdfreporterRegistryDefaultIRegistryExtensionsRegistryFactorylogger_)) infoWithNSString:@"Initialized IRegistry"];
         }
     }
 }
@@ -110,7 +114,8 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(TestOrgOssPdfreporterRegistryDefaultIRegistryEx
 }
 
 - (instancetype)init {
-    return [super init];
+    self = [super init];
+    return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {

@@ -66,20 +66,20 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
-	private JasperReportsContext jasperReportsContext;
-	private IResultSet resultSet;
-	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
+	private final JasperReportsContext jasperReportsContext;
+	private final IResultSet resultSet;
+	private final Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
 
 	// TODO (20.06.2013, Donat, Open Software Solutions): No time zone support for now
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
-	private Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
+	private final Map<JRField, Calendar> fieldCalendars = new HashMap<JRField, Calendar>();
 
 
 	/**
 	 *
 	 */
-	public JRResultSetDataSource(JasperReportsContext jasperReportsContext, IResultSet resultSet)
+	public JRResultSetDataSource(final JasperReportsContext jasperReportsContext, final IResultSet resultSet)
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.resultSet = resultSet;
@@ -89,7 +89,7 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 * @see #JRResultSetDataSource(JasperReportsContext, IResultSet)
 	 */
-	public JRResultSetDataSource(IResultSet resultSet)
+	public JRResultSetDataSource(final IResultSet resultSet)
 	{
 		this(DefaultJasperReportsContext.getInstance(), resultSet);
 	}
@@ -98,6 +98,7 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
+	@Override
 	public boolean next() throws JRException
 	{
 		boolean hasNext = false;
@@ -108,7 +109,7 @@ public class JRResultSetDataSource implements JRDataSource
 			{
 				hasNext = resultSet.next();
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				throw new JRException("Unable to get next record.", e);
 			}
@@ -122,14 +123,15 @@ public class JRResultSetDataSource implements JRDataSource
 	 *
 	 */
 	// TODO (19.07.2013, Donat, Open Software Solutions): Added support for sql datatypes better to convert datatypes while loading jrxml
-	public Object getFieldValue(JRField field) throws JRException
+	@Override
+	public Object getFieldValue(final JRField field) throws JRException
 	{
 		Object objValue = null;
 
 		if (field != null && resultSet != null)
 		{
-			Integer columnIndex = getColumnIndex(field.getName());
-			Class<?> clazz = field.getValueClass();
+			final Integer columnIndex = getColumnIndex(field.getName());
+			final Class<?> clazz = field.getValueClass();
 
 			try
 			{
@@ -187,7 +189,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.io.InputStream.class))
 				{
-					byte[] bytes = readBytes(columnIndex);
+					final byte[] bytes = readBytes(columnIndex);
 					
 					if(bytes == null)
 					{
@@ -224,7 +226,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(java.lang.String.class))
 				{
-					SqlType columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+					final SqlType columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
 					switch (columnType)
 					{
 						// no clob support
@@ -247,7 +249,7 @@ public class JRResultSetDataSource implements JRDataSource
 				}
 				else if (clazz.equals(IImage.class))
 				{
-					byte[] bytes = readBytes(columnIndex);
+					final byte[] bytes = readBytes(columnIndex);
 					
 					if(bytes == null)
 					{
@@ -265,7 +267,7 @@ public class JRResultSetDataSource implements JRDataSource
 					objValue = resultSet.getObject(columnIndex.intValue());
 				}
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				throw new JRException("Unable to get value for field '" + field.getName() + "' of class '" + clazz.getName() + "'", e);
 			}
@@ -275,12 +277,12 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Object readDate(Integer columnIndex, JRField field) throws SQLException
+	protected Object readDate(final Integer columnIndex, final JRField field) throws SQLException
 	{
 		// NOTICE (20.06.2013, Donat, Open Software Solutions): No time zone support for now Calendar calendar = getFieldCalendar(field);		
 		Object objValue = null;
-		IDate value =  resultSet.getDate(columnIndex.intValue());
-		if(!resultSet.wasNull())
+		final IDate value =  resultSet.getDate(columnIndex.intValue());
+		if(!resultSet.wasNull() && value!=null)
 		{
 			// TODO (20.06.2013, Donat, Open Software Solutions): Add support to IDate or IDateTime instead of java.util.date	
 			objValue = value.getDate();
@@ -289,11 +291,11 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Object readTimestamp(Integer columnIndex, JRField field) throws SQLException
+	protected Object readTimestamp(final Integer columnIndex, final JRField field) throws SQLException
 	{
 		// NOTICE (20.06.2013, Donat, Open Software Solutions): No time zone support for now Calendar calendar = getFieldCalendar(field);		
 		Object objValue = null;
-		ITimestamp value = resultSet.getTimestamp(columnIndex.intValue());
+		final ITimestamp value = resultSet.getTimestamp(columnIndex.intValue());
 		if(!resultSet.wasNull())
 		{
 			// TODO (20.06.2013, Donat, Open Software Solutions): Add support to ITimestamp instead of java.util.date	
@@ -303,11 +305,11 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Object readTime(Integer columnIndex, JRField field) throws SQLException
+	protected Object readTime(final Integer columnIndex, final JRField field) throws SQLException
 	{
 		// NOTICE (20.06.2013, Donat, Open Software Solutions): No time zone support for now Calendar calendar = getFieldCalendar(field);		
 		Object objValue = null;
-		ITime value = resultSet.getTime(columnIndex.intValue());
+		final ITime value = resultSet.getTime(columnIndex.intValue());
 		if(!resultSet.wasNull())
 		{
 			// TODO (20.06.2013, Donat, Open Software Solutions): Add support to use ITime instead of java.util.date	
@@ -323,7 +325,7 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
-	private Integer getColumnIndex(String fieldName) throws JRException
+	private Integer getColumnIndex(final String fieldName) throws JRException
 	{
 		Integer columnIndex = columnIndexMap.get(fieldName);
 		if (columnIndex == null)
@@ -354,7 +356,7 @@ public class JRResultSetDataSource implements JRDataSource
 					throw new JRException("Unknown column name : " + fieldName);
 				}
 			}
-			catch (SQLException e)
+			catch (final SQLException e)
 			{
 				throw new JRException("Unable to retrieve result set metadata.", e);
 			}
@@ -366,13 +368,13 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Integer searchColumnByName(String fieldName) throws SQLException
+	protected Integer searchColumnByName(final String fieldName) throws SQLException
 	{
 		Integer columnIndex = null;
-		IResultMetaData metadata = resultSet.getMetaData();
+		final IResultMetaData metadata = resultSet.getMetaData();
 		for(int i = 1; i <= metadata.getColumnCount(); i++)
 		{
-			String columnName = metadata.getColumnName(i);
+			final String columnName = metadata.getColumnName(i);
 			if (fieldName.equalsIgnoreCase(columnName))
 			{
 				columnIndex = Integer.valueOf(i);
@@ -383,13 +385,13 @@ public class JRResultSetDataSource implements JRDataSource
 	}
 
 
-	protected Integer searchColumnByLabel(String fieldName) throws SQLException
+	protected Integer searchColumnByLabel(final String fieldName) throws SQLException
 	{
 		Integer columnIndex = null;
-		IResultMetaData metadata = resultSet.getMetaData();
+		final IResultMetaData metadata = resultSet.getMetaData();
 		for(int i = 1; i <= metadata.getColumnCount(); i++)
 		{
-			String columnLabel = metadata.getColumnLabel(i);
+			final String columnLabel = metadata.getColumnLabel(i);
 			if (columnLabel != null && fieldName.equalsIgnoreCase(columnLabel))
 			{
 				columnIndex = Integer.valueOf(i);
@@ -402,16 +404,16 @@ public class JRResultSetDataSource implements JRDataSource
 
 
 
-	protected byte[] readBytes(Integer columnIndex) throws SQLException, IOException
+	protected byte[] readBytes(final Integer columnIndex) throws SQLException, IOException
 	{
 		byte[] bytes = null;
 		
-		SqlType columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
+		final SqlType columnType = resultSet.getMetaData().getColumnType(columnIndex.intValue());
 		switch (columnType)
 		{
 			case BLOB:
 			{
-				IBlob blob = resultSet.getBlob(columnIndex.intValue());
+				final IBlob blob = resultSet.getBlob(columnIndex.intValue());
 				if (!resultSet.wasNull())
 				{
 					bytes = blob.getBytes();
@@ -440,25 +442,25 @@ public class JRResultSetDataSource implements JRDataSource
 	 * as field-level properties
 	 * @see JRJdbcQueryExecuterFactory#PROPERTY_TIME_ZONE
 	 */
-	public void setTimeZone(TimeZone timeZone, boolean override)
+	public void setTimeZone(final TimeZone timeZone, final boolean override)
 	{
 		this.timeZone = timeZone;
 		this.timeZoneOverride = override;
 	}
 	
-	protected Calendar getFieldCalendar(JRField field)
+	protected Calendar getFieldCalendar(final JRField field)
 	{
 		if (fieldCalendars.containsKey(field))
 		{
 			return fieldCalendars.get(field);
 		}
 		
-		Calendar calendar = createFieldCalendar(field);
+		final Calendar calendar = createFieldCalendar(field);
 		fieldCalendars.put(field, calendar);
 		return calendar;
 	}
 
-	protected Calendar createFieldCalendar(JRField field)
+	protected Calendar createFieldCalendar(final JRField field)
 	{
 		TimeZone tz;
 		if (timeZoneOverride)
@@ -472,7 +474,7 @@ public class JRResultSetDataSource implements JRDataSource
 					JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE))
 			{
 				// read the field level property
-				String timezoneId = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(field, 
+				final String timezoneId = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(field, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
 						: TimeZone.getTimeZone(timezoneId);
@@ -485,7 +487,7 @@ public class JRResultSetDataSource implements JRDataSource
 		}
 
 		// using default JVM locale for the calendar
-		Calendar cal = tz == null ? null : Calendar.getInstance(tz);
+		final Calendar cal = tz == null ? null : Calendar.getInstance(tz);
 		return cal;
 	}
 }

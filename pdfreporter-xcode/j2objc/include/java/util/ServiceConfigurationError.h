@@ -3,33 +3,68 @@
 //  source: android/libcore/luni/src/main/java/java/util/ServiceConfigurationError.java
 //
 
-#ifndef _JavaUtilServiceConfigurationError_H_
-#define _JavaUtilServiceConfigurationError_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaUtilServiceConfigurationError")
+#ifdef RESTRICT_JavaUtilServiceConfigurationError
+#define INCLUDE_ALL_JavaUtilServiceConfigurationError 0
+#else
+#define INCLUDE_ALL_JavaUtilServiceConfigurationError 1
+#endif
+#undef RESTRICT_JavaUtilServiceConfigurationError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaUtilServiceConfigurationError_) && (INCLUDE_ALL_JavaUtilServiceConfigurationError || defined(INCLUDE_JavaUtilServiceConfigurationError))
+#define JavaUtilServiceConfigurationError_
+
+#define RESTRICT_JavaLangError 1
+#define INCLUDE_JavaLangError 1
 #include "java/lang/Error.h"
 
-#define JavaUtilServiceConfigurationError_serialVersionUID 74132770414881LL
+/*!
+ @brief Thrown when a service provider can't be loaded by <code>ServiceLoader</code>.
+ @since 1.6
+ */
+@interface JavaUtilServiceConfigurationError : JavaLangError
 
-@interface JavaUtilServiceConfigurationError : JavaLangError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new error with the given detail message.
+ @param message the detail message, or null
+ */
 - (instancetype)initWithNSString:(NSString *)message;
 
+/*!
+ @brief Constructs a new error with the given detail message and cause.
+ @param message the detail message, or null
+ @param cause the cause, null
+ */
 - (instancetype)initWithNSString:(NSString *)message
-           withJavaLangThrowable:(JavaLangThrowable *)cause;
+                 withNSException:(NSException *)cause;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaUtilServiceConfigurationError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaUtilServiceConfigurationError_initWithNSString_(JavaUtilServiceConfigurationError *self, NSString *message);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaUtilServiceConfigurationError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaUtilServiceConfigurationError *new_JavaUtilServiceConfigurationError_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilServiceConfigurationError *create_JavaUtilServiceConfigurationError_initWithNSString_(NSString *message);
+
+FOUNDATION_EXPORT void JavaUtilServiceConfigurationError_initWithNSString_withNSException_(JavaUtilServiceConfigurationError *self, NSString *message, NSException *cause);
+
+FOUNDATION_EXPORT JavaUtilServiceConfigurationError *new_JavaUtilServiceConfigurationError_initWithNSString_withNSException_(NSString *message, NSException *cause) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaUtilServiceConfigurationError *create_JavaUtilServiceConfigurationError_initWithNSString_withNSException_(NSString *message, NSException *cause);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaUtilServiceConfigurationError)
 
-#endif // _JavaUtilServiceConfigurationError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaUtilServiceConfigurationError")

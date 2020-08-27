@@ -3,15 +3,41 @@
 //  source: android/libcore/luni/src/main/java/java/security/DomainCombiner.java
 //
 
-#ifndef _JavaSecurityDomainCombiner_H_
-#define _JavaSecurityDomainCombiner_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaSecurityDomainCombiner")
+#ifdef RESTRICT_JavaSecurityDomainCombiner
+#define INCLUDE_ALL_JavaSecurityDomainCombiner 0
+#else
+#define INCLUDE_ALL_JavaSecurityDomainCombiner 1
+#endif
+#undef RESTRICT_JavaSecurityDomainCombiner
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaSecurityDomainCombiner_) && (INCLUDE_ALL_JavaSecurityDomainCombiner || defined(INCLUDE_JavaSecurityDomainCombiner))
+#define JavaSecurityDomainCombiner_
 
 @class IOSObjectArray;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief Legacy security code; do not use.
+ */
 @protocol JavaSecurityDomainCombiner < NSObject, JavaObject >
 
+/*!
+ @brief Returns a combination of the two provided <code>ProtectionDomain</code>
+ arrays.
+ Implementers can simply merge the two arrays into one, remove
+ duplicates and perform other optimizations.
+ @param current
+ the protection domains of the current execution thread
+ @param assigned
+ the protection domains of the parent thread, may be <code>null</code>.
+ @return a single <code>ProtectionDomain</code> array computed from the two
+ provided arrays.
+ */
 - (IOSObjectArray *)combineWithJavaSecurityProtectionDomainArray:(IOSObjectArray *)current
                            withJavaSecurityProtectionDomainArray:(IOSObjectArray *)assigned;
 
@@ -21,4 +47,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaSecurityDomainCombiner)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaSecurityDomainCombiner)
 
-#endif // _JavaSecurityDomainCombiner_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaSecurityDomainCombiner")

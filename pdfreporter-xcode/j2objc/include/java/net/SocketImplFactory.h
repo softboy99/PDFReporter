@@ -3,15 +3,33 @@
 //  source: android/libcore/luni/src/main/java/java/net/SocketImplFactory.java
 //
 
-#ifndef _JavaNetSocketImplFactory_H_
-#define _JavaNetSocketImplFactory_H_
+#include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaNetSocketImplFactory")
+#ifdef RESTRICT_JavaNetSocketImplFactory
+#define INCLUDE_ALL_JavaNetSocketImplFactory 0
+#else
+#define INCLUDE_ALL_JavaNetSocketImplFactory 1
+#endif
+#undef RESTRICT_JavaNetSocketImplFactory
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaNetSocketImplFactory_) && (INCLUDE_ALL_JavaNetSocketImplFactory || defined(INCLUDE_JavaNetSocketImplFactory))
+#define JavaNetSocketImplFactory_
 
 @class JavaNetSocketImpl;
 
-#include "J2ObjC_header.h"
-
+/*!
+ @brief This interface defines a factory for socket implementations.
+ */
 @protocol JavaNetSocketImplFactory < NSObject, JavaObject >
 
+/*!
+ @brief Creates a new <code>SocketImpl</code> instance.
+ @return the created <code>SocketImpl</code> instance.
+ */
 - (JavaNetSocketImpl *)createSocketImpl;
 
 @end
@@ -20,4 +38,8 @@ J2OBJC_EMPTY_STATIC_INIT(JavaNetSocketImplFactory)
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaNetSocketImplFactory)
 
-#endif // _JavaNetSocketImplFactory_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaNetSocketImplFactory")

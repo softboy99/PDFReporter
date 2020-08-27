@@ -28,7 +28,7 @@
  */
 package org.oss.pdfreporter.engine.util;
 
-import java.util.Locale;
+import org.oss.pdfreporter.text.bundle.StringLocale;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -40,6 +40,6 @@ public interface MessageProvider
 	/**
 	 *
 	 */
-	public String getMessage(String code, Object[] args, Locale locale);
+	public String getMessage(String code, Object[] args, StringLocale locale);
 
 }

@@ -3,38 +3,95 @@
 //  source: android/libcore/luni/src/main/java/java/lang/ExceptionInInitializerError.java
 //
 
-#ifndef _JavaLangExceptionInInitializerError_H_
-#define _JavaLangExceptionInInitializerError_H_
-
-@class JavaLangThrowable;
-
 #include "J2ObjC_header.h"
+
+#pragma push_macro("INCLUDE_ALL_JavaLangExceptionInInitializerError")
+#ifdef RESTRICT_JavaLangExceptionInInitializerError
+#define INCLUDE_ALL_JavaLangExceptionInInitializerError 0
+#else
+#define INCLUDE_ALL_JavaLangExceptionInInitializerError 1
+#endif
+#undef RESTRICT_JavaLangExceptionInInitializerError
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#if !defined (JavaLangExceptionInInitializerError_) && (INCLUDE_ALL_JavaLangExceptionInInitializerError || defined(INCLUDE_JavaLangExceptionInInitializerError))
+#define JavaLangExceptionInInitializerError_
+
+#define RESTRICT_JavaLangLinkageError 1
+#define INCLUDE_JavaLangLinkageError 1
 #include "java/lang/LinkageError.h"
 
-#define JavaLangExceptionInInitializerError_serialVersionUID 1521711792217232256LL
+/*!
+ @brief Thrown when an exception occurs during class initialization.
+ */
+@interface JavaLangExceptionInInitializerError : JavaLangLinkageError
 
-@interface JavaLangExceptionInInitializerError : JavaLangLinkageError {
-}
+#pragma mark Public
 
+/*!
+ @brief Constructs a new <code>ExceptionInInitializerError</code> that includes the
+ current stack trace.
+ */
 - (instancetype)init;
 
+/*!
+ @brief Constructs a new <code>ExceptionInInitializerError</code> with the current
+ stack trace and the specified detail message.
+ @param detailMessage
+ the detail message for this error.
+ */
 - (instancetype)initWithNSString:(NSString *)detailMessage;
 
-- (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)exception;
+/*!
+ @brief Constructs a new <code>ExceptionInInitializerError</code> with the current
+ stack trace and the specified cause.
+ The exception should be the one
+ which originally occurred in the class initialization code.
+ @param exception
+ the exception that caused this error.
+ */
+- (instancetype)initWithNSException:(NSException *)exception;
 
-- (JavaLangThrowable *)getException;
+/*!
+ @brief Returns the cause of this error, or <code>null</code> if there is no cause.
+ @return the exception that caused this error.
+ */
+- (NSException *)getCause;
 
-- (JavaLangThrowable *)getCause;
+/*!
+ @brief Returns the exception that is the cause of this error.
+ @return the exception that caused this error.
+ */
+- (NSException *)getException;
 
 @end
 
 J2OBJC_EMPTY_STATIC_INIT(JavaLangExceptionInInitializerError)
 
-CF_EXTERN_C_BEGIN
+FOUNDATION_EXPORT void JavaLangExceptionInInitializerError_init(JavaLangExceptionInInitializerError *self);
 
-J2OBJC_STATIC_FIELD_GETTER(JavaLangExceptionInInitializerError, serialVersionUID, jlong)
-CF_EXTERN_C_END
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *new_JavaLangExceptionInInitializerError_init() NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *create_JavaLangExceptionInInitializerError_init();
+
+FOUNDATION_EXPORT void JavaLangExceptionInInitializerError_initWithNSString_(JavaLangExceptionInInitializerError *self, NSString *detailMessage);
+
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *new_JavaLangExceptionInInitializerError_initWithNSString_(NSString *detailMessage) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *create_JavaLangExceptionInInitializerError_initWithNSString_(NSString *detailMessage);
+
+FOUNDATION_EXPORT void JavaLangExceptionInInitializerError_initWithNSException_(JavaLangExceptionInInitializerError *self, NSException *exception);
+
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *new_JavaLangExceptionInInitializerError_initWithNSException_(NSException *exception) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT JavaLangExceptionInInitializerError *create_JavaLangExceptionInInitializerError_initWithNSException_(NSException *exception);
 
 J2OBJC_TYPE_LITERAL_HEADER(JavaLangExceptionInInitializerError)
 
-#endif // _JavaLangExceptionInInitializerError_H_
+#endif
+
+
+#pragma clang diagnostic pop
+#pragma pop_macro("INCLUDE_ALL_JavaLangExceptionInInitializerError")

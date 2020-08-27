@@ -7,12 +7,13 @@
 //
 
 #import "InputStreamMarshaller.h"
-#import "IOSPrimitiveArray.h"
-#import "java/io/ByteArrayOutputStream.h"
-#import "java/io/FileInputStream.h"
-#import "java/io/InputStream.h"
-#import "java/lang/Exception.h"
-#import "NSString+JavaString.h"
+#include "IOSPrimitiveArray.h"
+#include "java/io/ByteArrayOutputStream.h"
+#include "java/io/FileInputStream.h"
+#include "java/io/InputStream.h"
+#include "java/lang/Exception.h"
+#include "NSString+JavaString.h"
+
 @interface InputStreamMarshaller()
 +(NSData *)convertJavaIoInputStreamToNSData:(JavaIoInputStream *)is;
 +(NSData *)convertJavaIoReaderToNSData:(JavaIoReader *)is;
